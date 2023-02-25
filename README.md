@@ -11,7 +11,7 @@ GitLab board: [Board](https://gitlab.oit.duke.edu/yc557/ece651-sp23-group13-risc
 
 ## UML Diagram
 
-Here is an intial draft of the UML diagram for the project: [UML Diagram](https://link-url-here.org)
+Here is an intial draft of the UML diagram for the project: [UML Diagram](https://drive.google.com/file/d/1JpOCZlAWN01cRub0nu00rUbWBVIAo0vw/view?usp=sharing)
 
 - Wenting Yang (wy77)
 - Koushik Annareddy Sreenath (ka266)
