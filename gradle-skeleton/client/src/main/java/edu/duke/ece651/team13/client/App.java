@@ -3,7 +3,7 @@
  */
 package edu.duke.ece651.team13.client;
 
-import edu.duke.ece651.teamX.shared.MyName;
+import edu.duke.ece651.team13.shared.MyName;
 
 
 public class App {
