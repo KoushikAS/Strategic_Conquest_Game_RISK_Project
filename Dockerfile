@@ -1,7 +1,5 @@
 FROM ubuntu:20.04
 
-MAINTAINER Drew Hilton "adhilton@ee.duke.edu"
-
 USER root
 
 ENV DEBIAN_FRONTEND noninteractive
