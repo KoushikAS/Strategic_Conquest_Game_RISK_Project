@@ -6,5 +6,4 @@
 ./gradlew cloverAggregateReport || exit 1
 scripts/coverage_summary.sh
 # Change 2: remove "app/" from this path
-mkdir /coverage-out/
 cp -r build/reports/clover/html/* /coverage-out/ || exit 1

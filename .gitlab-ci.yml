@@ -22,8 +22,6 @@ test:
      - ece651
   stage: test
   script:
-    - chmod +x ./scripts/run-tests-in-docker.sh
-    - chmod +x ./scripts/test.sh
     - scripts/run-tests-in-docker.sh
   artifacts:
     paths:
