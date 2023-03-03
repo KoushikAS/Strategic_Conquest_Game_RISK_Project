@@ -60,3 +60,5 @@ deploy:
 #    - deploy
 #  script: ./scripts/test-deployment.sh
 
+=======
+>>>>>>> test
