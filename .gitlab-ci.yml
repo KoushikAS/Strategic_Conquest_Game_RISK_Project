@@ -59,6 +59,3 @@ deploy:
 #  dependencies:
 #    - deploy
 #  script: ./scripts/test-deployment.sh
-
-=======
->>>>>>> test
