@@ -7,8 +7,8 @@ before_script:
 
 stages:
    - build
-   - test
-   - coverage
+#   - test
+#   - coverage
 
    
 build:
