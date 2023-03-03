@@ -1,7 +1,7 @@
 # ece651-sp23-group13-risc
 
-![pipeline](https://gitlab.oit.duke.edu/yc557/ece651-sp23-group13-risc/badges/master/pipeline.svg)
-![coverage](https://gitlab.oit.duke.edu/yc557/ece651-sp23-group13-risc/badges/master/coverage.svg?job=test)
+![pipeline](https://gitlab.oit.duke.edu/yc557/ece651-sp23-group13-risc/badges/main/pipeline.svg)
+![coverage](https://gitlab.oit.duke.edu/yc557/ece651-sp23-group13-risc/badges/main/coverage.svg?job=test)
 
 [Detailed coverage](https://yc557.pages.oit.duke.edu/PROJECT/dashboard.html)
 
