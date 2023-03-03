@@ -9,6 +9,7 @@ stages:
    - build
    - test
    - coverage
+   - deploy
 
    
 build:
@@ -39,4 +40,10 @@ pages:
  artifacts:
    paths:
      - public
+
+deploy:
+  tags:
+    - ece651
+  stage: deploy
+  script: ./scripts/redeploy.sh
 
