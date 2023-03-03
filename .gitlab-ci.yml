@@ -7,9 +7,37 @@ before_script:
 
 stages:
    - build
+   - test
+   - coverage
+
    
 build:
   tags:
      - ece651
   stage: build
   script: docker build --build-arg LOCAL_USER_ID=`id -u`  --tag citest .
+
+test:
+  tags:
+     - ece651
+  stage: test
+  script:
+    - chmod +x ./scripts/run-tests-in-docker.sh
+    - chmod +x ./scripts/test.sh
+    - scripts/run-tests-in-docker.sh
+  artifacts:
+    paths:
+      - coverage
+      
+pages:
+ stage: coverage
+ tags:
+     - ece651
+ dependencies:
+   - test
+ script:
+   - mv coverage public/
+ artifacts:
+   paths:
+     - public
+
