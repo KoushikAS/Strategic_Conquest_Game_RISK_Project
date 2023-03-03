@@ -1,0 +1,15 @@
+before_script:
+  - hostname
+  - whoami
+  - pwd
+  - ls -la
+  - docker --version
+
+stages:
+   - build
+   
+build:
+  tags:
+     - ece651
+  stage: build
+  script: docker build --build-arg LOCAL_USER_ID=`id -u`  --tag citest .
