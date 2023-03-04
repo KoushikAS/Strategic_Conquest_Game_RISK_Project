@@ -3,12 +3,13 @@ package edu.duke.ece651.team13.server;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.Serializable;
 
 /**
  * This class handles the owner, neighbors, unit numbers
  * and current attackers of the territory
  */
-public class GameTerritory implements Territory{
+public class GameTerritory implements Territory, Serializable{
     private final int id;
     private final String name;
     private Player owner;
