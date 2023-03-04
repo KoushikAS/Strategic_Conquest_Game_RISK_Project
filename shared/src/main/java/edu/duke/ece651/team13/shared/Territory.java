@@ -1,4 +1,4 @@
-package edu.duke.ece651.team13.server;
+package edu.duke.ece651.team13.shared;
 
 import java.util.ArrayList;
 import java.util.Map;

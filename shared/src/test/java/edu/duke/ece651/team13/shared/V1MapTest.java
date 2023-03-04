@@ -1,5 +1,7 @@
-package edu.duke.ece651.team13.server;
+package edu.duke.ece651.team13.shared;
 
+import edu.duke.ece651.team13.shared.Map;
+import edu.duke.ece651.team13.shared.V1Map;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
