@@ -1,8 +1,9 @@
 package edu.duke.ece651.team13.server;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class V1Map implements Map {
+public class V1Map implements Map, Serializable{
     private ArrayList<Territory> territories;
     private final int initialUnit;
 
@@ -31,6 +32,16 @@ public class V1Map implements Map {
         t2.addNeighbor(t1);
         this.territories.add(t1);
         this.territories.add(t2);
+    }
+
+    @Override
+    //todo: More conditions are needed to determine that two maps are equal
+    public boolean equals(Object other){
+        if(other !=null && other.getClass().equals(getClass())){
+            V1Map otherV1Map = (V1Map) other;
+            return otherV1Map.getInitialUnit() == this.getInitialUnit();
+        }
+        return false;
     }
 
 //    @Override

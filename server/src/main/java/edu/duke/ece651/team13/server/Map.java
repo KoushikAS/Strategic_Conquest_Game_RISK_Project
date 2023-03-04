@@ -1,9 +1,10 @@
 package edu.duke.ece651.team13.server;
 
+
 /**
  * This interface handles the graph structure in the map
  */
-public interface Map {
+public interface Map{
     /**
      * Get the initial unit number that each player could have
      */
