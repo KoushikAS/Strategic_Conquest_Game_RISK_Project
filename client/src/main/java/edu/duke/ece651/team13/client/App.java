@@ -17,8 +17,7 @@ public class App {
 
     // display a basic V1 map and exit
     V1Map map = new V1Map(1);
-    int initialUnit = map.getInitialUnit();
-    System.out.println(initialUnit + " units in Territory1 (next to: Territory2)");
-    System.out.println(initialUnit + " units in Territory2 (next to: Territory2)");
+    BoardTextView view = new BoardTextView(map);
+    System.out.println(view.display());
   }
 }

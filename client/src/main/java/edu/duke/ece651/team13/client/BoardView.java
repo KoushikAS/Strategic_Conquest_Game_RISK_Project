@@ -7,5 +7,5 @@ public interface BoardView {
     /**
      * This method displays the board
      */
-    void display();
+    String display();
 }
