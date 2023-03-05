@@ -1,9 +1,8 @@
 package edu.duke.ece651.team13.shared;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.Serializable;
 
 /**
  * This class handles the owner, neighbors, unit numbers
@@ -15,7 +14,7 @@ public class GameTerritory implements Territory, Serializable{
     private Player owner;
     private int unitNum;
     private int tempUnitNum;
-    private ArrayList<Territory> neighbors;
+    // TODO: Add neighbors
     private Map<Player, Integer> attackers;
 
     public GameTerritory(int id, String name){
@@ -24,7 +23,6 @@ public class GameTerritory implements Territory, Serializable{
         this.owner = null;
         this.unitNum = 0;
         this.tempUnitNum = 0;
-        this.neighbors = new ArrayList<>();
         this.attackers = new HashMap<>();
     }
 
@@ -72,23 +70,6 @@ public class GameTerritory implements Territory, Serializable{
     @Override
     public int getTempUnitNum() {
         return this.tempUnitNum;
-    }
-
-    /**
-     * Add a neighbor to the territory
-     */
-    @Override
-    public void addNeighbor(Territory toAdd){
-        this.neighbors.add(toAdd);
-    }
-
-    /**
-     * Get the neighbors of the territory
-     * @return the arraylist of neighboring territories
-     */
-    @Override
-    public ArrayList<Territory> getNeighbors() {
-        return this.neighbors;
     }
 
     /**

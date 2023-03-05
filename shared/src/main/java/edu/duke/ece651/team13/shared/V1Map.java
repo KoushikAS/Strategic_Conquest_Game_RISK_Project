@@ -22,16 +22,7 @@ public class V1Map implements Map, Serializable{
         if(initialUnit <= 0) throw new IllegalArgumentException("The initialUnit must be >0");
         this.territories = new ArrayList<>();
         this.initialUnit = initialUnit;
-
-        //Init Map
-        // TODO: Change the graph
-        // Two territories neighboring to each other
-        Territory t1 = new GameTerritory(0, "t1");
-        Territory t2 = new GameTerritory(1, "t2");
-        t1.addNeighbor(t2);
-        t2.addNeighbor(t1);
-        this.territories.add(t1);
-        this.territories.add(t2);
+        initMap();
     }
 
     @Override
@@ -49,7 +40,22 @@ public class V1Map implements Map, Serializable{
 //
 //    }
 
-//    @Override
-//    public void initMap() {
-//    }
+    /**
+     * Helper function to initialize the map structure
+     * - all the territories and proper neighboring relationship
+     */
+    private void initMap() {
+        // TODO: Change the graph
+        // Two territories neighboring to each other
+        Territory t1 = new GameTerritory(0, "t1");
+        Territory t2 = new GameTerritory(1, "t2");
+        // TODO: Add neighbors
+        tryAddTerritory(t1);
+        tryAddTerritory(t2);
+    }
+
+    private void tryAddTerritory(Territory toAdd){
+        // TODO: Add a verification of connected graph here?
+        territories.add(toAdd);
+    }
 }
