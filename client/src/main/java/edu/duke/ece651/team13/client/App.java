@@ -4,6 +4,7 @@
 package edu.duke.ece651.team13.client;
 
 import edu.duke.ece651.team13.shared.MyName;
+import edu.duke.ece651.team13.shared.V1Map;
 
 
 public class App {
@@ -13,5 +14,10 @@ public class App {
   public static void main(String[] args) {
     App a = new App();
     System.out.println(a.getMessage());
+
+    // display a basic V1 map and exit
+    V1Map map = new V1Map(1);
+    BoardTextView view = new BoardTextView(map);
+    System.out.println(view.display());
   }
 }

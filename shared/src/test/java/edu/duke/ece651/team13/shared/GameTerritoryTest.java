@@ -1,5 +1,9 @@
-package edu.duke.ece651.team13.server;
+package edu.duke.ece651.team13.shared;
 
+import edu.duke.ece651.team13.shared.GameTerritory;
+import edu.duke.ece651.team13.shared.HumanPlayer;
+import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.Territory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
