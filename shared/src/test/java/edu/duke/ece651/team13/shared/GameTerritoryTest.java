@@ -1,12 +1,11 @@
 package edu.duke.ece651.team13.shared;
 
-import edu.duke.ece651.team13.shared.GameTerritory;
-import edu.duke.ece651.team13.shared.HumanPlayer;
-import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.Territory;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameTerritoryTest {
 
@@ -69,17 +68,6 @@ class GameTerritoryTest {
         assertEquals(10, t.getTempUnitNum());
         t.rollbackTempUnitNum();
         assertEquals(5, t.getTempUnitNum());
-    }
-
-    @Test
-    void test_add_getNeighbors() {
-        String name = "testTerritory";
-        Territory t = new GameTerritory(1, name);
-        assertTrue(t.getNeighbors().isEmpty());
-
-        Territory neighbor = new GameTerritory(2, name);
-        t.addNeighbor(neighbor);
-        assertTrue(t.getNeighbors().contains(neighbor));
     }
 
     @Test

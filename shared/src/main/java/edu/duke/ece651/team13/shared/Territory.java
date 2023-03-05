@@ -1,6 +1,5 @@
 package edu.duke.ece651.team13.shared;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -38,16 +37,7 @@ public interface Territory {
      */
     int getTempUnitNum();
 
-    /**
-     * Add a neighbor to the territory
-     */
-    void addNeighbor(Territory toAdd);
-
-    /**
-     * Get the neighbors of the territory
-     * @return the arraylist of neighboring territories
-     */
-    ArrayList<Territory> getNeighbors();
+    // TODO: getNeighbors and addNeighbor
 
     /**
      * Set the owner

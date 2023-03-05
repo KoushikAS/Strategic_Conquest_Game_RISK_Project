@@ -1,10 +1,10 @@
 package edu.duke.ece651.team13.shared;
 
-import edu.duke.ece651.team13.shared.Map;
-import edu.duke.ece651.team13.shared.V1Map;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class V1MapTest {
     @Test
@@ -17,5 +17,14 @@ class V1MapTest {
     void test_getInitialUnit() {
         Map m = new V1Map(1);
         assertEquals(1, m.getInitialUnit());
+    }
+
+    @Test
+    void test_equals(){
+        // TODO: Refactor this after refactoring V1Map.equals()
+        Map m1 = new V1Map(1);
+        Map m2 = new V1Map(2);
+        assertNotEquals(m1, m2);
+        assertNotEquals(m1, "map");
     }
 }
