@@ -1,7 +1,4 @@
-package edu.duke.ece651.team13.client;
-
-import edu.duke.ece651.team13.shared.MyName;
-import edu.duke.ece651.team13.shared.V1Map;
+package edu.duke.ece651.team13.shared;
 
 /**
  * This class is a text view representation of the RISC game board

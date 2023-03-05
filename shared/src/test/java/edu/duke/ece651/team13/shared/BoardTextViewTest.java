@@ -1,6 +1,5 @@
-package edu.duke.ece651.team13.client;
+package edu.duke.ece651.team13.shared;
 
-import edu.duke.ece651.team13.shared.V1Map;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
