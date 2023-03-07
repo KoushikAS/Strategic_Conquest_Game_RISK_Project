@@ -84,4 +84,9 @@ public interface Territory {
      * @return the map of attacking players to the attacking unit numbers
      */
     Map<Player, Integer> getAttackers();
+
+    /**
+     * Set the static nextId field back to zero
+     */
+    void setNextIdToZero();
 }

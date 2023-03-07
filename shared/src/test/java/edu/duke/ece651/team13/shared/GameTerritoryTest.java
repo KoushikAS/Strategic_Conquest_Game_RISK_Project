@@ -1,31 +1,43 @@
 package edu.duke.ece651.team13.shared;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 class GameTerritoryTest {
+    private final Socket mockedSocket = mock(Socket.class);
+    private final String testName = "testTerritory";
 
-    @Test
-    void testGetId() {
-        Territory t = new GameTerritory(1, "testTerritory");
-        assertEquals(1, t.getId());
+    @BeforeEach
+    void initEach(){
+        Territory t = new GameTerritory(testName);
+        t.setNextIdToZero();
     }
 
     @Test
-    void testGetName() {
-        String name = "testTerritory";
-        Territory t = new GameTerritory(1, name);
-        assertEquals(name, t.getName());
+    void test_getId() {
+        Territory t = new GameTerritory(testName);
+        assertEquals(0, t.getId());
+        Territory t2 = new GameTerritory(testName);
+        assertEquals(1, t2.getId());
+    }
+
+    @Test
+    void test_getName() {
+        Territory t = new GameTerritory(testName);
+        assertEquals(testName, t.getName());
     }
 
     @Test
     void test_get_setUnitNum() {
-        String name = "testTerritory";
-        Territory t = new GameTerritory(1, name);
+        Territory t = new GameTerritory(testName);
         assertEquals(0, t.getUnitNum());
         t.setUnitNum(5);
         assertEquals(5, t.getUnitNum());
@@ -33,15 +45,13 @@ class GameTerritoryTest {
 
     @Test
     void test_setUnitNum_illegal(){
-        String name = "testTerritory";
-        Territory t = new GameTerritory(1, name);
+        Territory t = new GameTerritory(testName);
         assertThrows(IllegalArgumentException.class, () -> t.setUnitNum(-1));
     }
 
     @Test
     void test_get_setTempUnitNum() {
-        String name = "testTerritory";
-        Territory t = new GameTerritory(1, name);
+        Territory t = new GameTerritory(testName);
         assertEquals(0, t.getTempUnitNum());
         t.setTempUnitNum(5);
         assertEquals(5, t.getTempUnitNum());
@@ -50,15 +60,13 @@ class GameTerritoryTest {
 
     @Test
     void test_setTempUnitNum_illegal(){
-        String name = "testTerritory";
-        Territory t = new GameTerritory(1, name);
+        Territory t = new GameTerritory(testName);
         assertThrows(IllegalArgumentException.class, () -> t.setTempUnitNum(-1));
     }
 
     @Test
     void test_rollback_commitTempUnitNum() {
-        String name = "testTerritory";
-        Territory t = new GameTerritory(1, name);
+        Territory t = new GameTerritory(testName);
         t.setTempUnitNum(5);
         assertEquals(5, t.getTempUnitNum());
         assertEquals(0, t.getUnitNum());
@@ -72,9 +80,8 @@ class GameTerritoryTest {
 
     @Test
     void test_get_setOwner() {
-        Player player = new HumanPlayer(1, "testPlayer");
-        String name = "testTerritory";
-        Territory t = new GameTerritory(1, name);
+        Player player = new HumanPlayer("testPlayer", mockedSocket);
+        Territory t = new GameTerritory(testName);
         assertNull(t.getOwner());
         t.setOwner(player);
         assertEquals(player, t.getOwner());
@@ -82,12 +89,11 @@ class GameTerritoryTest {
 
     @Test
     void test_get_add_clearAttacker() {
-        String name = "testTerritory";
-        Territory t = new GameTerritory(1, name);
+        Territory t = new GameTerritory(testName);
         assertTrue(t.getAttackers().isEmpty());
 
-        Player attacker1 = new HumanPlayer(1, "attacker1");
-        Player attacker2 = new HumanPlayer(2, "attacker2");
+        Player attacker1 = new HumanPlayer("attacker1", mockedSocket);
+        Player attacker2 = new HumanPlayer("attacker2", mockedSocket);
         t.addAttacker(attacker1, 10);
         t.addAttacker(attacker2, 8);
         assertEquals(10, t.getAttackers().get(attacker1));

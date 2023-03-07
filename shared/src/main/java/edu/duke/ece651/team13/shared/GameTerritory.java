@@ -9,6 +9,7 @@ import java.util.Map;
  * and current attackers of the territory
  */
 public class GameTerritory implements Territory, Serializable{
+    private static int nextId = 0;
     private final int id;
     private final String name;
     private Player owner;
@@ -17,8 +18,8 @@ public class GameTerritory implements Territory, Serializable{
     // TODO: Add neighbors
     private Map<Player, Integer> attackers;
 
-    public GameTerritory(int id, String name){
-        this.id = id;
+    public GameTerritory(String name){
+        this.id = nextId++;
         this.name = name;
         this.owner = null;
         this.unitNum = 0;
@@ -146,5 +147,10 @@ public class GameTerritory implements Territory, Serializable{
     @Override
     public Map<Player, Integer> getAttackers() {
         return this.attackers;
+    }
+
+    @Override
+    public void setNextIdToZero() {
+        nextId = 0;
     }
 }
