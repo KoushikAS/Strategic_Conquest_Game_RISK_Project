@@ -3,6 +3,7 @@
  */
 package edu.duke.ece651.team13.client;
 
+import edu.duke.ece651.team13.shared.BoardTextView;
 import edu.duke.ece651.team13.shared.MyName;
 import edu.duke.ece651.team13.shared.V1Map;
 
