@@ -3,7 +3,7 @@
 ![pipeline](https://gitlab.oit.duke.edu/yc557/ece651-sp23-group13-risc/badges/main/pipeline.svg)
 ![coverage](https://gitlab.oit.duke.edu/yc557/ece651-sp23-group13-risc/badges/main/coverage.svg?job=test)
 
-[Detailed coverage](https://yc557.pages.oit.duke.edu/PROJECT/dashboard.html)
+[Detailed coverage](https://yc557.pages.oit.duke.edu/ece651-sp23-group13-risc/dashboard.html)
 
 ## Project Management / Task Breakdown
 
