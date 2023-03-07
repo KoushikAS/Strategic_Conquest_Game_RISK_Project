@@ -47,8 +47,8 @@ public class V1Map implements Map, Serializable{
     private void initMap() {
         // TODO: Change the graph
         // Two territories neighboring to each other
-        Territory t1 = new GameTerritory(0, "t1");
-        Territory t2 = new GameTerritory(1, "t2");
+        Territory t1 = new GameTerritory("t1");
+        Territory t2 = new GameTerritory("t2");
         // TODO: Add neighbors
         tryAddTerritory(t1);
         tryAddTerritory(t2);
