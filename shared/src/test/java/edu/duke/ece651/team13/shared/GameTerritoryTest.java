@@ -1,15 +1,17 @@
 package edu.duke.ece651.team13.shared;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.net.Socket;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+
+import java.net.Socket;
+import java.util.Iterator;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class GameTerritoryTest {
     private final Socket mockedSocket = mock(Socket.class);
@@ -102,4 +104,22 @@ class GameTerritoryTest {
         t.clearAttackers();
         assertTrue(t.getAttackers().isEmpty());
     }
+
+  @Test
+  void test_get_and_addNeighbour(){
+    Territory t = new GameTerritory(testName);
+    Territory t2 = new GameTerritory("neighbour1");
+    
+    //Check if the neighbours are emepty
+    Iterator<Territory> neighbourIt = t.getNeighbourIterartor();
+    assertFalse(neighbourIt.hasNext());
+
+    //Add an element
+    t.addNeighbours(t2);
+    neighbourIt = t.getNeighbourIterartor();
+    assertTrue(neighbourIt.hasNext());
+    assertEquals(t2, neighbourIt.next());
+    assertFalse(neighbourIt.hasNext());  
+  }
+  
 }

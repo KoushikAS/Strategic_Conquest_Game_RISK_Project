@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.shared;
 
 import java.util.Map;
+import java.util.Iterator;
 
 /**
  * The interface of Territory
@@ -36,8 +37,6 @@ public interface Territory {
      * @return the integer tempUnitNum
      */
     int getTempUnitNum();
-
-    // TODO: getNeighbors and addNeighbor
 
     /**
      * Set the owner
@@ -89,4 +88,15 @@ public interface Territory {
      * Set the static nextId field back to zero
      */
     void setNextIdToZero();
+
+  /**
+   * get Neighbouring territories iterator
+   */
+  Iterator<Territory> getNeighbourIterartor();
+
+
+  /**
+   * add Neighbouring territores iterator.
+   */
+  void addNeighbours(Territory neighbour);
 }

@@ -1,7 +1,9 @@
 package edu.duke.ece651.team13.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -15,7 +17,7 @@ public class GameTerritory implements Territory, Serializable{
     private Player owner;
     private int unitNum;
     private int tempUnitNum;
-    // TODO: Add neighbors
+  private ArrayList<Territory> neighbours;
     private Map<Player, Integer> attackers;
 
     public GameTerritory(String name){
@@ -25,6 +27,7 @@ public class GameTerritory implements Territory, Serializable{
         this.unitNum = 0;
         this.tempUnitNum = 0;
         this.attackers = new HashMap<>();
+        this.neighbours = new ArrayList<>();
     }
 
     /**
@@ -153,4 +156,22 @@ public class GameTerritory implements Territory, Serializable{
     public void setNextIdToZero() {
         nextId = 0;
     }
+
+  /**
+   * Get the iterator of neighbours
+   *
+   */
+  @Override
+  public Iterator<Territory>  getNeighbourIterartor(){
+    return neighbours.iterator();
+  }
+  
+  /**
+   * Add Neighbouring terrtiory to the current Territory
+   *
+   */
+  @Override
+  public void addNeighbours(Territory neighbour){
+    neighbours.add(neighbour);
+  }
 }
