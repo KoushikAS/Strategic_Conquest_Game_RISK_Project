@@ -3,6 +3,9 @@ package edu.duke.ece651.team13.shared;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,5 +51,19 @@ class HumanPlayerTest {
         assertTrue(p.isValidStatus("PLAYING"));
         assertFalse(p.isValidStatus("1"));
         assertFalse(p.isValidStatus(""));
+    }
+
+    @Test
+    public void test_playOneTurn() throws IOException {
+        Player p = createHumanPlayer("M");
+        p.playOneTurn();
+        // TODO: record player output using PrintStream
+    }
+
+    private Player createHumanPlayer(String inputData) {
+        BufferedReader input = new BufferedReader(new StringReader(inputData));
+        HumanPlayer p = new HumanPlayer(testName, mockedSocket);
+        p.setInputReader(input);
+        return p;
     }
 }

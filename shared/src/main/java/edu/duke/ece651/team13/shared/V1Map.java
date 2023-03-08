@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.shared;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.io.Serializable;
 
@@ -7,9 +8,20 @@ public class V1Map implements Map, Serializable{
     private ArrayList<Territory> territories;
     private final int initialUnit;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getInitialUnit() {
         return initialUnit;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ArrayList<Territory> getTerritories() {
+        return territories;
     }
 
     /**
@@ -49,9 +61,11 @@ public class V1Map implements Map, Serializable{
         // Two territories neighboring to each other
         Territory t1 = new GameTerritory("t1");
         Territory t2 = new GameTerritory("t2");
+        Territory t3 = new GameTerritory("t3");
         // TODO: Add neighbors
         tryAddTerritory(t1);
         tryAddTerritory(t2);
+        tryAddTerritory(t3);
     }
 
     private void tryAddTerritory(Territory toAdd){

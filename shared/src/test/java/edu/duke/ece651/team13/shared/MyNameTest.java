@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class MyNameTest {
   @Test
   public void test_getName() {
-    assertEquals("teamX", MyName.getName());
+    assertEquals("team13", MyName.getName());
   }
 
 }
