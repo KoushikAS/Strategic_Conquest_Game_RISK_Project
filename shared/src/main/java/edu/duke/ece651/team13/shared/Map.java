@@ -1,6 +1,8 @@
 package edu.duke.ece651.team13.shared;
 
 
+import java.util.ArrayList;
+
 /**
  * This interface handles the graph structure in the map
  */
@@ -9,6 +11,12 @@ public interface Map{
      * Get the initial unit number that each player could have
      */
     int getInitialUnit();
+
+    /**
+     * Get all the territories on the map
+     * @return a list of territories
+     */
+    ArrayList<Territory> getTerritories();
 
 //    /**
 //     * Given all the players in the game, assign a group of territories to each player.

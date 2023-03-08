@@ -1,5 +1,7 @@
 package edu.duke.ece651.team13.shared;
 
+import java.io.IOException;
+
 /**
  * The interface of player
  */
@@ -44,4 +46,10 @@ public interface Player {
      * Set the static nextId field back to zero
      */
     void setNextIdToZero();
+
+    /**
+     * This method lets the player plays one turn of the game
+     * @throws IOException
+     */
+    void playOneTurn() throws IOException;
 }

@@ -3,9 +3,10 @@
  */
 package edu.duke.ece651.team13.client;
 
-import edu.duke.ece651.team13.shared.BoardTextView;
-import edu.duke.ece651.team13.shared.MyName;
-import edu.duke.ece651.team13.shared.V1Map;
+import edu.duke.ece651.team13.shared.*;
+
+import java.io.IOException;
+import java.net.Socket;
 
 
 public class App {
@@ -20,5 +21,15 @@ public class App {
     V1Map map = new V1Map(1);
     BoardTextView view = new BoardTextView(map);
     System.out.println(view.display());
+
+    // identifies which player and ask for action
+    Player player = new HumanPlayer("Green", new Socket());
+//    Client client = new Client("", 12345, player);
+    try {
+      player.playOneTurn();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
   }
 }
