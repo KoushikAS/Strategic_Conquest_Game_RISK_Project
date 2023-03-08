@@ -23,9 +23,10 @@ public class Client {
      * @param host the host IP address
      * @param portNum the port number to connect to
      */
-    public Client(String host, int portNum){
+    public Client(String host, int portNum, Player player){
         this.portNum = portNum;
         this.host = host;
+        this.player = player;
         buildClient();
     }
 

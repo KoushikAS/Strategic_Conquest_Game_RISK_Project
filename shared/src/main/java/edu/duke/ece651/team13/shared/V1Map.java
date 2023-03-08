@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.shared;
 
+import java.net.Socket;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,9 +15,10 @@ public class V1Map implements Map, Serializable {
   }
 
   @Override
-  public Iterator<Territory> getTerritoriesIterator(){
+  public Iterator<Territory> getTerritoriesIterator() {
     return territories.iterator();
   }
+
   /**
    * Construct the V1Map
    * Precondition: initialUnit > 0, or throw IllegalArgumentException
@@ -30,6 +32,7 @@ public class V1Map implements Map, Serializable {
     this.territories = new ArrayList<>();
     this.initialUnit = initialUnit;
     initMap();
+    // TODO: validate connected graph
   }
 
   @Override
@@ -41,11 +44,6 @@ public class V1Map implements Map, Serializable {
     }
     return false;
   }
-
-  // @Override
-  // public void assignTerritories(ArrayList<Player> players) {
-  //
-  // }
 
   /**
    * HelperFunction to add to neighbourlist of territory
@@ -64,7 +62,6 @@ public class V1Map implements Map, Serializable {
    * - all the territories and proper neighboring relationship
    */
   private void initMap() {
-
     // Creating Terrritores
     Territory narnia = new GameTerritory("Narnia");
     Territory midkemia = new GameTerritory("Midkemia");
@@ -100,8 +97,6 @@ public class V1Map implements Map, Serializable {
     territories.add(roshar);
     territories.add(hogwarts);
     territories.add(mordor);
-
-    // TODO: validate connected graph
   }
 
 }

@@ -1,5 +1,7 @@
 package edu.duke.ece651.team13.client;
 
+import edu.duke.ece651.team13.shared.HumanPlayer;
+import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.V1Map;
 import org.junit.jupiter.api.Test;
 
@@ -10,14 +12,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 public class ClientTest {
+
+    private final Player mockedPlayer = mock(Player.class);
 
     @Test
     public void testRecvMapFromServer() {
         try {
             ServerSocket serverSocket = new ServerSocket(12345);
-            Client client = new Client("", 12345);
+            Client client = new Client("", 12345, mockedPlayer);
             V1Map map = new V1Map(1);
             sendMesgTo(map, client.getClientSocket());
             V1Map expectedMap = client.recvMapFromServer(serverSocket);
