@@ -1,14 +1,21 @@
 package edu.duke.ece651.team13.shared;
 
+import java.util.Iterator;
 
 /**
  * This interface handles the graph structure in the map
  */
-public interface Map{
-    /**
-     * Get the initial unit number that each player could have
-     */
-    int getInitialUnit();
+public interface Map {
+  /**
+   * Get the initial unit number that each player could have
+   */
+  int getInitialUnit();
+
+
+  /**
+   * Get the iterator list of territories
+   */
+  Iterator<Territory> getTerritoriesIterator();
 
 //    /**
 //     * Given all the players in the game, assign a group of territories to each player.
