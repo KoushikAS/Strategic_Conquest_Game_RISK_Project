@@ -1,75 +1,102 @@
 package edu.duke.ece651.team13.shared;
 
 import java.net.Socket;
-import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-public class V1Map implements Map, Serializable{
-    private ArrayList<Territory> territories;
-    private final int initialUnit;
+public class V1Map implements Map, Serializable {
+  private ArrayList<Territory> territories;
+  private final int initialUnit;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getInitialUnit() {
-        return initialUnit;
+  @Override
+  public int getInitialUnit() {
+    return initialUnit;
+  }
+
+  @Override
+  public Iterator<Territory> getTerritoriesIterator() {
+    return territories.iterator();
+  }
+
+  /**
+   * Construct the V1Map
+   * Precondition: initialUnit > 0, or throw IllegalArgumentException
+   *
+   * @param initialUnit is the initial unit number that could be used by each
+   *                    player
+   */
+  public V1Map(int initialUnit) {
+    if (initialUnit <= 0)
+      throw new IllegalArgumentException("The initialUnit must be >0");
+    this.territories = new ArrayList<>();
+    this.initialUnit = initialUnit;
+    initMap();
+    // TODO: validate connected graph
+  }
+
+  @Override
+  // todo: More conditions are needed to determine that two maps are equal
+  public boolean equals(Object other) {
+    if (other != null && other.getClass().equals(getClass())) {
+      V1Map otherV1Map = (V1Map) other;
+      return otherV1Map.getInitialUnit() == this.getInitialUnit();
     }
+    return false;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ArrayList<Territory> getTerritories() {
-        return territories;
-    }
+  /**
+   * HelperFunction to add to neighbourlist of territory
+   * pre condition : Both territory cannot be same
+   * 
+   * @param territory t1
+   * @param territory t2
+   **/
+  private void addTerritoriesNeighbours(Territory t1, Territory t2) {
+    t1.addNeighbours(t2);
+    t2.addNeighbours(t1);
+  }
 
-    /**
-     * Construct the V1Map
-     * Precondition: initialUnit > 0, or throw IllegalArgumentException
-     *
-     * @param initialUnit is the initial unit number that could be used by each player
-     */
-    public V1Map(int initialUnit){
-        if(initialUnit <= 0) throw new IllegalArgumentException("The initialUnit must be >0");
-        this.territories = new ArrayList<>();
-        this.initialUnit = initialUnit;
-        initMap();
-    }
+  /**
+   * Helper function to initialize the map structure
+   * - all the territories and proper neighboring relationship
+   */
+  private void initMap() {
+    // Creating Terrritores
+    Territory narnia = new GameTerritory("Narnia");
+    Territory midkemia = new GameTerritory("Midkemia");
+    Territory oz = new GameTerritory("Oz");
+    Territory gondor = new GameTerritory("Gondor");
+    Territory elantris = new GameTerritory("Elantris");
+    Territory scadrial = new GameTerritory("Scadrial");
+    Territory roshar = new GameTerritory("Roshar");
+    Territory hogwarts = new GameTerritory("Hogwarts");
+    Territory mordor = new GameTerritory("Mordor");
 
-    @Override
-    //todo: More conditions are needed to determine that two maps are equal
-    public boolean equals(Object other){
-        if(other !=null && other.getClass().equals(getClass())){
-            V1Map otherV1Map = (V1Map) other;
-            return otherV1Map.getInitialUnit() == this.getInitialUnit();
-        }
-        return false;
-    }
+    addTerritoriesNeighbours(narnia, midkemia);
+    addTerritoriesNeighbours(narnia, elantris);
+    addTerritoriesNeighbours(midkemia, oz);
+    addTerritoriesNeighbours(midkemia, scadrial);
+    addTerritoriesNeighbours(oz, gondor);
+    addTerritoriesNeighbours(oz, mordor);
+    addTerritoriesNeighbours(gondor, mordor);
+    addTerritoriesNeighbours(elantris, scadrial);
+    addTerritoriesNeighbours(elantris, roshar);
+    addTerritoriesNeighbours(scadrial, roshar);
+    addTerritoriesNeighbours(scadrial, mordor);
+    addTerritoriesNeighbours(scadrial, hogwarts);
+    addTerritoriesNeighbours(roshar, hogwarts);
+    addTerritoriesNeighbours(mordor, hogwarts);
 
-//    @Override
-//    public void assignTerritories(ArrayList<Player> players) {
-//
-//    }
+    territories.add(narnia);
+    territories.add(midkemia);
+    territories.add(oz);
+    territories.add(gondor);
+    territories.add(elantris);
+    territories.add(scadrial);
+    territories.add(roshar);
+    territories.add(hogwarts);
+    territories.add(mordor);
+  }
 
-    /**
-     * Helper function to initialize the map structure
-     * - all the territories and proper neighboring relationship
-     */
-    private void initMap() {
-        // TODO: Change the graph
-        // Two territories neighboring to each other
-        Territory t1 = new GameTerritory("t1");
-        Territory t2 = new GameTerritory("t2");
-        Territory t3 = new GameTerritory("t3");
-        // TODO: Add neighbors
-        tryAddTerritory(t1);
-        tryAddTerritory(t2);
-        tryAddTerritory(t3);
-    }
-
-    private void tryAddTerritory(Territory toAdd){
-        // TODO: Add a verification of connected graph here?
-        territories.add(toAdd);
-    }
 }
