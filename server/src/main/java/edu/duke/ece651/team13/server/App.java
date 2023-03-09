@@ -4,6 +4,8 @@
 package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.MyName;
+import edu.duke.ece651.team13.shared.Game;
+import edu.duke.ece651.team13.shared.RiscGame;
 
 
 public class App {
@@ -13,5 +15,9 @@ public class App {
   public static void main(String[] args) {
     App a = new App();
     System.out.println(a.getMessage());
+
+//    Game game = new RiscGame(2);
+//    Server server = new Server(12345, game);
+//    server.connectToClients();
   }
 }
