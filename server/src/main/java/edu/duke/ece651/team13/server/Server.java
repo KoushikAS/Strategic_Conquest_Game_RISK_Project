@@ -1,8 +1,8 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.V1Map;
+import edu.duke.ece651.team13.shared.Game;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -10,36 +10,49 @@ public class Server{
     private final int portNum;
     private ServerSocket serverSocket;
 
-    public Server(int portNum){
+    private Game game;
+
+    public Server(int portNum, Game gameObj){
         this.portNum = portNum;
+        this.game = gameObj;
         buildServer();
     }
 
-    public void buildServer(){
+    /**
+     * Accept connection from multiple clients
+     */
+    public void connectToClients(){
+        for(int i=0; i<this.game.getMaxPlayers(); i++){
+            try{
+                Socket clientSocket = this.serverSocket.accept();
+                Thread clientThread = new Thread(new PlayerHandler(clientSocket, this.game));
+                clientThread.start();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Initialize serverSocket using port number to build server
+     */
+    private void buildServer(){
         try {
             this.serverSocket = new ServerSocket(portNum);
-        }catch (Exception e){
+        }catch (IOException e){
             e.printStackTrace();
         }
     }
 
-    public void sendMesgTo(Object mesg, Socket clientSocket){
+    /**
+     * Close serverSocket to end server
+     */
+    public void closeServer(){
         try {
-            BufferedOutputStream clientBufferedStream = new BufferedOutputStream(clientSocket.getOutputStream());
-            ObjectOutputStream clientObjectStream = new ObjectOutputStream(clientBufferedStream);
-            clientObjectStream.writeObject(mesg);
-            clientObjectStream.flush();
+            if(this.serverSocket!=null) {
+                this.serverSocket.close();
+            }
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void sendMapToClient(){
-        try{
-            Socket clientSocket = this.serverSocket.accept();
-            V1Map map = new V1Map(1);
-            sendMesgTo(map, clientSocket);
-        }catch (Exception e){
             e.printStackTrace();
         }
     }
