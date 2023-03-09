@@ -1,9 +1,12 @@
 package edu.duke.ece651.team13.shared;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTextViewTest {
   private V1Map map;
@@ -18,28 +21,16 @@ public class BoardTextViewTest {
   @Test
   public void testDisplayOneTerritory() {
     Territory t = new GameTerritory("Narnia");
-    String expected = "0 units in Narnia\n";
+    String expected = "0 units in Narnia (next to: )\n";
     String actual = view.displayOneTerritory(t);
     assertEquals(expected, actual);
   }
 
   @Test
-  public void testDisplay() {
-    String expected = "Blue player:\n" +
-        "-------------\n" +
-        "0 units in Narnia\n" +
-        "0 units in Gondor\n" +
-        "0 units in Roshar\n" +
-        "Green player:\n" +
-        "-------------\n" +
-        "0 units in Midkemia\n" +
-        "0 units in Elantris\n" +
-        "0 units in Hogwarts\n" +
-        "Red player:\n" +
-        "-------------\n" +
-        "0 units in Oz\n" +
-        "0 units in Scadrial\n" +
-        "0 units in Mordor\n";
+  public void testDisplay() throws IOException{
+    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("BoardDisplay-output.txt");
+    String expected = new String(expectedStream.readAllBytes());
+        
     assertEquals(expected, view.display());
   }
 }

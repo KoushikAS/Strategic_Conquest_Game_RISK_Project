@@ -73,7 +73,16 @@ public class BoardTextView implements BoardView {
     StringBuffer sb = new StringBuffer();
     int unitNum = t.getUnitNum();
     String name = t.getName();
-    sb.append(unitNum + " units in " + name + "\n");
+    sb.append(unitNum + " units in " + name + " (next to: ");
+    Iterator<Territory> it = t.getNeighbourIterartor();
+    while(it.hasNext()){
+      Territory neighbour = it.next();
+      sb.append(neighbour.getName());
+      if(it.hasNext()){
+        sb.append(", ");
+      }
+    }
+    sb.append(")\n");
     return sb.toString();
   }
 
