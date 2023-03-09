@@ -1,0 +1,15 @@
+Blue player:
+-------------
+0 units in Narnia (next to: Midkemia, Elantris)
+0 units in Gondor (next to: Oz, Mordor)
+0 units in Roshar (next to: Elantris, Scadrial, Hogwarts)
+Green player:
+-------------
+0 units in Midkemia (next to: Narnia, Oz, Scadrial)
+0 units in Elantris (next to: Narnia, Scadrial, Roshar)
+0 units in Hogwarts (next to: Scadrial, Roshar, Mordor)
+Red player:
+-------------
+0 units in Oz (next to: Midkemia, Gondor, Mordor)
+0 units in Scadrial (next to: Midkemia, Elantris, Roshar, Mordor, Hogwarts)
+0 units in Mordor (next to: Oz, Gondor, Scadrial, Hogwarts)
