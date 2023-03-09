@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class V1Map implements Map, Serializable {
-  private ArrayList<Territory> territories;
+  protected ArrayList<Territory> territories;
   private final int initialUnit;
 
   @Override
@@ -52,7 +52,7 @@ public class V1Map implements Map, Serializable {
    * @param territory t1
    * @param territory t2
    **/
-  private void addTerritoriesNeighbours(Territory t1, Territory t2) {
+  protected void addTerritoriesNeighbours(Territory t1, Territory t2) {
     t1.addNeighbours(t2);
     t2.addNeighbours(t1);
   }
@@ -61,7 +61,7 @@ public class V1Map implements Map, Serializable {
    * Helper function to initialize the map structure
    * - all the territories and proper neighboring relationship
    */
-  private void initMap() {
+  protected void initMap() {
     // Creating Terrritores
     Territory narnia = new GameTerritory("Narnia");
     Territory midkemia = new GameTerritory("Midkemia");
