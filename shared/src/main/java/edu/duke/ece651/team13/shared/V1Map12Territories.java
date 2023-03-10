@@ -15,7 +15,6 @@ public class V1Map12Territories extends V1Map {
      */
     public V1Map12Territories(int initialUnit) { super(initialUnit);}
 
-
     /**
      * Helper function to initialize the map structure
      * - all the territories and proper neighboring relationship

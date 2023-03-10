@@ -2,11 +2,12 @@ package edu.duke.ece651.team13.shared;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.Iterator;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class V1MapTest {
   @Test
@@ -101,6 +102,63 @@ class V1MapTest {
     assertEquals(scadrial, it.next());
     assertEquals(hogwarts, it.next());
     
+  }
+
+  /**
+   * Helper class that initializes an unconnected map for testing
+   */
+  static class UnconnectedV1Map extends V1Map{
+    public UnconnectedV1Map(int initialUnit) {
+      super(initialUnit);
+    }
+
+    @Override
+    protected void initMap(){
+      // Creating Terrritores
+      Territory narnia = new GameTerritory("Narnia");
+      Territory midkemia = new GameTerritory("Midkemia");
+      Territory oz = new GameTerritory("Oz");
+      Territory gondor = new GameTerritory("Gondor");
+      Territory elantris = new GameTerritory("Elantris");
+      Territory scadrial = new GameTerritory("Scadrial");
+      Territory roshar = new GameTerritory("Roshar");
+      Territory hogwarts = new GameTerritory("Hogwarts");
+      Territory mordor = new GameTerritory("Mordor");
+
+      // Narnia has no neighbors
+      addTerritoriesNeighbours(midkemia, oz);
+      addTerritoriesNeighbours(midkemia, scadrial);
+      addTerritoriesNeighbours(oz, gondor);
+      addTerritoriesNeighbours(oz, mordor);
+      addTerritoriesNeighbours(gondor, mordor);
+      addTerritoriesNeighbours(elantris, scadrial);
+      addTerritoriesNeighbours(elantris, roshar);
+      addTerritoriesNeighbours(scadrial, roshar);
+      addTerritoriesNeighbours(scadrial, mordor);
+      addTerritoriesNeighbours(scadrial, hogwarts);
+      addTerritoriesNeighbours(roshar, hogwarts);
+      addTerritoriesNeighbours(mordor, hogwarts);
+
+      territories.add(narnia);
+      territories.add(midkemia);
+      territories.add(oz);
+      territories.add(gondor);
+      territories.add(elantris);
+      territories.add(scadrial);
+      territories.add(roshar);
+      territories.add(hogwarts);
+      territories.add(mordor);
+    }
+  }
+
+  @Test
+  void test_isConnected(){
+    // Connected
+    Map m1 = new V1Map(5);
+    assertTrue(m1.isConnected());
+
+    // Not connected
+    assertThrows(AssertionError.class, ()-> new UnconnectedV1Map(5));
   }
 
 }

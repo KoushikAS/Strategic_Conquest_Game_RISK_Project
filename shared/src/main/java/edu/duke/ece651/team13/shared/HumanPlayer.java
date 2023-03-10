@@ -19,6 +19,7 @@ public class HumanPlayer implements Player, Serializable {
     private BufferedReader inputReader;
     public static final String LOSE_STATUS = "LOSE";
     public static final String PLAYING_STATUS = "PLAYING";
+    // WIN
 
     /**
      * Construct a new Player
