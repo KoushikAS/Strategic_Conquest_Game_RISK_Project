@@ -1,12 +1,12 @@
 package edu.duke.ece651.team13.shared;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTextViewTest {
   private V1Map map;
@@ -29,8 +29,7 @@ public class BoardTextViewTest {
   @Test
   public void testDisplay() throws IOException{
     InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("BoardDisplay-output.txt");
-    String expected = new String(expectedStream.readAllBytes());
-        
+    String expected = new String(expectedStream.readAllBytes()).replace("\r", "");
     assertEquals(expected, view.display());
   }
 }

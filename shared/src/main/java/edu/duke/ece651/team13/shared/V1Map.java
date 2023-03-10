@@ -1,8 +1,8 @@
 package edu.duke.ece651.team13.shared;
 
-import java.net.Socket;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class V1Map implements Map, Serializable {
@@ -19,6 +19,40 @@ public class V1Map implements Map, Serializable {
     return territories.iterator();
   }
 
+  @Override
+  public boolean isConnected() {
+    // Take a boolean visited array, boolean default to false
+    HashSet<Integer> visited = new HashSet<>();
+
+    // Start the DFS from vertex 0
+    DFS(territories.get(0), visited);
+
+    // Check if all the vertices are visited
+    for (Territory t: territories) {
+      if (!visited.contains(t.getId())) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Do a DFS from the source territory, mark each visited territory
+   * as true in the visited boolean array
+   *
+   * @param visited is the array to track the visited territories
+   */
+  private void DFS(Territory source, HashSet<Integer> visited){
+    visited.add(source.getId());
+    Iterator<Territory> it = source.getNeighbourIterartor();
+    while(it.hasNext()){
+      Territory neighbor = it.next();
+      if(!visited.contains(neighbor.getId())){
+        DFS(neighbor, visited);
+      }
+    }
+  }
+
   /**
    * Construct the V1Map
    * Precondition: initialUnit > 0, or throw IllegalArgumentException
@@ -32,7 +66,7 @@ public class V1Map implements Map, Serializable {
     this.territories = new ArrayList<>();
     this.initialUnit = initialUnit;
     initMap();
-    // TODO: validate connected graph
+    assert(isConnected());
   }
 
   @Override
@@ -49,8 +83,8 @@ public class V1Map implements Map, Serializable {
    * HelperFunction to add to neighbourlist of territory
    * pre condition : Both territory cannot be same
    * 
-   * @param territory t1
-   * @param territory t2
+   * @param t1: territory t1
+   * @param t2: territory t2
    **/
   protected void addTerritoriesNeighbours(Territory t1, Territory t2) {
     t1.addNeighbours(t2);
