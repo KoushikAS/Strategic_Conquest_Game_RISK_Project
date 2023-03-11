@@ -18,7 +18,7 @@ public class App {
     System.out.println(a.getMessage());
 
     // display a basic V1 map and exit
-    V1Map map = new V1Map(1);
+    V1Map map = new V1Map(100);
     BoardTextView view = new BoardTextView(map);
     System.out.println(view.display());
 
@@ -26,6 +26,7 @@ public class App {
     Player player = new HumanPlayer("Green", new Socket());
 //    Client client = new Client("", 12345, player);
     try {
+      player.placeUnits();  // send the placement orders to server
       player.playOneTurn();
     } catch (IOException e) {
       e.printStackTrace();

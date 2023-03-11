@@ -146,12 +146,61 @@ public class HumanPlayer implements Player, Serializable {
     /**
      * Set the input reader for the player
      * TODO: probably include in the constructor
+     *
      * @param reader
      */
     public void setInputReader(BufferedReader reader) {
         this.inputReader = reader;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void placeUnits() throws IOException {
+        System.out.println(name + " player, now it's the turn to place your units into your territories.");
+        String dest = chooseDestination("Which territory do you want to place units into?");
+        int unitNum = chooseUnitNum("How many units do you want to place into that territory");
+        RuleChecker checker = new PlacementChecker(null);
+        // TODO: need to discuss how to get Board/Map info including Territory and initialUnit here
+//        PlacementOrderAdapter order = new PlacementOrderAdapter(checker, this, dest, unitNum, 100);
+    }
+
+    private String chooseDestination(String prompt) throws IOException {
+        String dest;
+        while (true) {
+            dest = readDestination(prompt);
+            if (dest != null) break;
+        }
+        return dest;
+    }
+
+    private String readDestination(String prompt) throws IOException {
+        System.out.println(prompt);
+        String s = inputReader.readLine();
+        return s;
+    }
+
+    private int chooseUnitNum(String prompt) throws IOException {
+        int unitNum;
+        while (true) {
+            unitNum = readUnitNum(prompt);
+            if (unitNum != -1) break;
+        }
+        return unitNum;
+    }
+
+    private int readUnitNum(String prompt) throws IOException {
+        System.out.println(prompt);
+        String s = inputReader.readLine();
+        int unitNum;
+        try {
+            unitNum = Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+        return unitNum;
+    }
 
 
 }
