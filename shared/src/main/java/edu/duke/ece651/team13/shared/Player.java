@@ -57,5 +57,5 @@ public interface Player {
     /**
      * This method let the player do unit placements into their territories
      */
-    void placeUnits();
+    void placeUnits() throws IOException;
 }

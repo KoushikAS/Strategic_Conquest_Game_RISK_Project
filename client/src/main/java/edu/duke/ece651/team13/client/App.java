@@ -26,7 +26,7 @@ public class App {
     Player player = new HumanPlayer("Green", new Socket());
 //    Client client = new Client("", 12345, player);
     try {
-      player.placeUnits();
+      player.placeUnits();  // send the placement orders to server
       player.playOneTurn();
     } catch (IOException e) {
       e.printStackTrace();
