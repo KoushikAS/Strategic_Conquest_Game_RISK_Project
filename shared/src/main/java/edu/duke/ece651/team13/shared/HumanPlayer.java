@@ -146,12 +146,20 @@ public class HumanPlayer implements Player, Serializable {
     /**
      * Set the input reader for the player
      * TODO: probably include in the constructor
+     *
      * @param reader
      */
     public void setInputReader(BufferedReader reader) {
         this.inputReader = reader;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void placeUnits() {
+
+    }
 
 
 }

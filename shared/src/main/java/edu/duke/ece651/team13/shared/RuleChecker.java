@@ -9,8 +9,9 @@ public abstract class RuleChecker {
 
     /**
      * Use parameter polymorphism to check on different types of orders
+     * TODO: changed to pass in PlayerOrder, parametric polymorphism may not work here
      */
-    protected abstract String checkMyRule(MoveOrder order);
+    protected abstract String checkMyRule(PlayerOrder order);
 //    protected abstract String checkMyRule(AttackOrder order);
 
     /**
@@ -22,7 +23,7 @@ public abstract class RuleChecker {
      */
     public String checkOrder(PlayerOrder order){
         //if we fail our own rule: stop the placement is not legal
-        String res = checkMyRule((MoveOrder) order);
+        String res = checkMyRule(order);
         if (res != null) {
             return res;
         }

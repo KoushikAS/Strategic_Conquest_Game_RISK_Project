@@ -49,7 +49,13 @@ public interface Player {
 
     /**
      * This method lets the player plays one turn of the game
+     *
      * @throws IOException
      */
     void playOneTurn() throws IOException;
+
+    /**
+     * This method let the player do unit placements into their territories
+     */
+    void placeUnits();
 }

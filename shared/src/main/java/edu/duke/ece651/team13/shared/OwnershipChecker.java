@@ -10,11 +10,10 @@ public class OwnershipChecker extends RuleChecker{
     }
 
     @Override
-    protected String checkMyRule(MoveOrder order) {
-        if(order.getSource().getOwner() != order.player){
+    protected String checkMyRule(PlayerOrder order) {
+        if (order.getSource().getOwner() != order.player) {
             return "Invalid move order: The source territory is not owned by you.";
-        }
-        else if(order.getDestination().getOwner() != order.player){
+        } else if (order.getDestination().getOwner() != order.player) {
             return "Invalid move order: The destination territory is not owned by you.";
         }
         return null;
