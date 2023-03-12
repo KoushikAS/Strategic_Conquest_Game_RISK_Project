@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server;
 
+import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.order.PlayerOrder;
 
 import java.util.ArrayList;
@@ -36,4 +37,11 @@ public interface Game {
      *         description of error if invalid
      */
     String validateOrders(ArrayList<PlayerOrder> orders);
+
+    /**
+     * Get the player by the player's name
+     * @return the player with the corresponding name if found
+     *         null if such player is not found
+     */
+    Player getPlayerByName(String name);
 }

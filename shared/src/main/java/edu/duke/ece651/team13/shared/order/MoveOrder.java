@@ -3,6 +3,9 @@ package edu.duke.ece651.team13.shared.order;
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.Territory;
 import edu.duke.ece651.team13.shared.map.Map;
+import edu.duke.ece651.team13.shared.rulechecker.MoveOwnershipChecker;
+import edu.duke.ece651.team13.shared.rulechecker.MovePathChecker;
+import edu.duke.ece651.team13.shared.rulechecker.MoveUnitNumChecker;
 import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 
 /**
@@ -15,6 +18,27 @@ public class MoveOrder extends PlayerOrder {
                      Territory destination,
                      int units){
         super(ruleChecker, player, source, destination, units);
+    }
+
+    /**
+     * Construct a MoveOrder with default rulechecker
+     *    MoveOwnershipChecker -> MoveUnitNumChecker -> MovePathChecker
+     */
+    public MoveOrder(Player player,
+                     Territory source,
+                     Territory destination,
+                     int units){
+        this(getDefaultRuleChecker(), player, source, destination, units);
+    }
+
+    /**
+     * Get the default rule checker chain
+     *     MoveOwnershipChecker -> MoveUnitNumChecker -> MovePathChecker
+     */
+    private static RuleChecker getDefaultRuleChecker(){
+        RuleChecker pathChecker = new MovePathChecker(null);
+        RuleChecker unitnumChecker = new MoveUnitNumChecker(pathChecker);
+        return new MoveOwnershipChecker(unitnumChecker);
     }
 
     @Override
@@ -31,8 +55,8 @@ public class MoveOrder extends PlayerOrder {
     }
 
     private MoveOrder getOrderOnNewMap(Map map) {
-        Territory newSource = map.getTerritoryByID(source.getId());
-        Territory newDestination = map.getTerritoryByID(destination.getId());
+        Territory newSource = map.getTerritoryByName(source.getName());
+        Territory newDestination = map.getTerritoryByName(destination.getName());
         return new MoveOrder(this.orderRuleChecker, this.player, newSource, newDestination, this.units);
     }
 

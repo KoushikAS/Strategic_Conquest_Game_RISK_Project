@@ -25,15 +25,15 @@ public class MovePathChecker extends RuleChecker{
      *
      * @param visited is the HashSet to track the visited territories
      */
-    private boolean hasPath(Territory source, Territory destination, HashSet<Integer> visited){
+    private boolean hasPath(Territory source, Territory destination, HashSet<String> visited){
         if(source == destination) return true;
 
-        visited.add(source.getId());
+        visited.add(source.getName());
         Iterator<Territory> it = source.getNeighbourIterartor();
         while(it.hasNext()){
             Territory neighbor = it.next();
             if(neighbor.getOwner() == source.getOwner()
-                && !visited.contains(neighbor.getId())){
+                && !visited.contains(neighbor.getName())){
                 if(hasPath(neighbor, destination, visited))
                     return true;
             }

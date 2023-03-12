@@ -1,6 +1,5 @@
 package edu.duke.ece651.team13.shared;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -16,20 +15,6 @@ import static org.mockito.Mockito.mock;
 class GameTerritoryTest {
   private final BufferedReader mockedReader = mock(BufferedReader.class);
   private final String testName = "testTerritory";
-
-  @BeforeEach
-  void initEach() {
-    Territory t = new GameTerritory(testName);
-    t.setNextIdToZero();
-  }
-
-  @Test
-  void test_getId() {
-    Territory t = new GameTerritory(testName);
-    assertEquals(0, t.getId());
-    Territory t2 = new GameTerritory(testName);
-    assertEquals(1, t2.getId());
-  }
 
   @Test
   void test_getName() {

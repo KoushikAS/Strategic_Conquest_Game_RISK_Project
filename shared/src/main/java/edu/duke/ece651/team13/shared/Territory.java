@@ -8,13 +8,6 @@ import java.util.Iterator;
  */
 public interface Territory {
   /**
-   * Get the id of the territory
-   * 
-   * @return the integer id
-   */
-  int getId();
-
-  /**
    * Get the name of the territory
    * 
    * @return the String name
@@ -94,11 +87,6 @@ public interface Territory {
    * @return the map of attacking players to the attacking unit numbers
    */
   Map<Player, Integer> getAttackers();
-
-  /**
-   * Set the static nextId field back to zero
-   */
-  void setNextIdToZero();
 
   /**
    * get Neighbouring territories iterator
