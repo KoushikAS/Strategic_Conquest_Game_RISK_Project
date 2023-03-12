@@ -58,19 +58,10 @@ public class RiscGame implements Game{
         Map map = this.gameBoard.getMap();
         ArrayList<Iterator<Territory>> groupsIterator = map.getGroupsIterator();
         for(int i=0; i<this.players.size(); i++){
-            Territory t1 = groupsIterator.get(i).next();
-            Territory t2 = groupsIterator.get(i).next();
-            Territory t3 = groupsIterator.get(i).next();
-            Territory t4 = groupsIterator.get(i).next();
-            Territory t5 = groupsIterator.get(i).next();
-            Territory t6 = groupsIterator.get(i).next();
-
-            t1.setOwner(this.players.get(i));
-            t2.setOwner(this.players.get(i));
-            t3.setOwner(this.players.get(i));
-            t4.setOwner(this.players.get(i));
-            t5.setOwner(this.players.get(i));
-            t6.setOwner(this.players.get(i));
+            while(groupsIterator.get(i).hasNext()){
+                Territory t = groupsIterator.get(i).next();
+                t.setOwner(this.players.get(i));
+            }
         }
     }
 
