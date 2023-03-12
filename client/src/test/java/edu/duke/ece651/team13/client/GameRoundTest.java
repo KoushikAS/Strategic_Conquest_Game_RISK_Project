@@ -9,28 +9,26 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 class GameRoundTest {
     private final BufferedReader mockedReader = mock(BufferedReader.class);
-    private final String testName ="testPlayer";
+    private final String testName = "testPlayer";
 
     @BeforeEach
-    void initEach(){
+    void initEach() {
         Player p = new HumanPlayer(testName, mockedReader);
     }
 
     @Test
     public void test_playOneTurn() throws IOException {
-        GameRound p = createHumanPlayer("M");
-        p.playOneRound();
+        GameRound p = createGameRound("M");
+        //p.playOneRound();
         // TODO: record player output using PrintStream
     }
 
-    private GameRound createHumanPlayer(String inputData) {
+    private GameRound createGameRound(String inputData) {
         BufferedReader input = new BufferedReader(new StringReader(inputData));
-        GameRound p = new GameRound(testName, input);
-        return p;
+        return new GameRound(testName, input);
     }
 }

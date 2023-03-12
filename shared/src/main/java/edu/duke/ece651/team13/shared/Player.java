@@ -1,6 +1,8 @@
 package edu.duke.ece651.team13.shared;
 
 
+import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
+
 /**
  * The interface of player
  */

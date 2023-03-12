@@ -1,5 +1,7 @@
 package edu.duke.ece651.team13.shared;
 
+import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
+
 import java.io.BufferedReader;
 import java.io.Serializable;
 

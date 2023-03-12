@@ -1,4 +1,4 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.enums;
 
 
 /**

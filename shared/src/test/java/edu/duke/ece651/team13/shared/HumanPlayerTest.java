@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.shared;
 
+import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
