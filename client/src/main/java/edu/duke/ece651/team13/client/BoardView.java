@@ -1,4 +1,6 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.client;
+
+import edu.duke.ece651.team13.shared.Territory;
 
 /**
  * This interface handles a view of the board

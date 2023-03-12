@@ -1,4 +1,6 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.server;
+
+import edu.duke.ece651.team13.shared.Player;
 
 import java.util.ArrayList;
 

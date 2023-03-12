@@ -1,5 +1,8 @@
 package edu.duke.ece651.team13.shared;
 
+import edu.duke.ece651.team13.shared.order.PlayerOrder;
+import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
+
 public class PlacementOrderAdapter extends PlayerOrder implements PlacementOrder {
 
     private int totalUnits;

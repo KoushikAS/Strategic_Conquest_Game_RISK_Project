@@ -1,5 +1,8 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.map;
 
+import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.map.Map;
+import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;

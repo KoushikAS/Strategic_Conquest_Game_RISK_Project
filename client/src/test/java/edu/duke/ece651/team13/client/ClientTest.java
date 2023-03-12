@@ -1,8 +1,8 @@
 package edu.duke.ece651.team13.client;
 
-import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.V1Map;
+import edu.duke.ece651.team13.shared.map.V1Map;
+import edu.duke.ece651.team13.shared.map.V1Map9Territories;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedOutputStream;
@@ -23,7 +23,7 @@ public class ClientTest {
         try {
             ServerSocket serverSocket = new ServerSocket(12345);
             Client client = new Client("", 12345, mockedPlayer);
-            V1Map map = new V1Map(1);
+            V1Map map = new V1Map9Territories(1);
             sendMesgTo(map, client.getClientSocket());
             V1Map expectedMap = client.recvMapFromServer(serverSocket);
             assertEquals(expectedMap, map);

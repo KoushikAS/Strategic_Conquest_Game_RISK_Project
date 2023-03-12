@@ -10,13 +10,11 @@ import java.net.Socket;
 
 
 public class App {
-  public String getMessage() {
-    return "Hello from the client for "+ MyName.getName();
-  }
+
   public static void main(String[] args) {
     App a = new App();
-    System.out.println(a.getMessage());
 
+/**
     // display a basic V1 map and exit
     V1Map map = new V1Map(100);
     BoardTextView view = new BoardTextView(map);
@@ -31,6 +29,6 @@ public class App {
     } catch (IOException e) {
       e.printStackTrace();
     }
-
+**/
   }
 }

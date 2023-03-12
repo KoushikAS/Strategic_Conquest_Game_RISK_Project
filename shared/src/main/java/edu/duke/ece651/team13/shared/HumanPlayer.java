@@ -1,5 +1,8 @@
 package edu.duke.ece651.team13.shared;
 
+import edu.duke.ece651.team13.shared.rulechecker.PlacementChecker;
+import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.client;
 
 import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.V1Map;
+import edu.duke.ece651.team13.shared.map.V1Map;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

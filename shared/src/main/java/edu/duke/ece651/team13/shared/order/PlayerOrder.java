@@ -1,4 +1,8 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.order;
+
+import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 
 public abstract class PlayerOrder {
     protected final RuleChecker orderRuleChecker;
@@ -33,5 +37,9 @@ public abstract class PlayerOrder {
 
     public int getUnits() {
         return units;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
