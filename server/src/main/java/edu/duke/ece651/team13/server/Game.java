@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.order.PlayerOrder;
+import edu.duke.ece651.team13.shared.order.Order;
 
 import java.util.ArrayList;
 import java.net.Socket;
@@ -36,7 +36,7 @@ public interface Game {
      * @return null if the batch of order is valid,
      *         description of error if invalid
      */
-    String validateOrders(ArrayList<PlayerOrder> orders);
+    String validateOrders(ArrayList<Order> orders);
 
     /**
      * Get the player by the player's name

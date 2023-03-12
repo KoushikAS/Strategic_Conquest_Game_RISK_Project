@@ -4,7 +4,7 @@ import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
-import edu.duke.ece651.team13.shared.order.PlayerOrder;
+import edu.duke.ece651.team13.shared.order.Order;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,7 +74,7 @@ class RiscGameTest {
         assertEquals("Blue", boxer.getOwner().getName());
         boxer.setUnitNum(50);
 
-        ArrayList<PlayerOrder> orders = new ArrayList<>();
+        ArrayList<Order> orders = new ArrayList<>();
         Player green = game.getPlayerByName("Green");
         Player blue = game.getPlayerByName("Blue");
         orders.add(new MoveOrder(green, rottweiler, dachshund, 50));
