@@ -1,12 +1,11 @@
 package edu.duke.ece651.team13.shared.territory;
 
+import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * This class handles the owner, neighbors, unit numbers
@@ -17,13 +16,13 @@ public class GameTerritory implements Territory, Serializable {
   private Player owner;
   private int unitNum;
   private ArrayList<TerritoryRO> neighbours;
-  private Map<Player, Integer> attackers;
+  private ArrayList<AttackerInfo> attackers;
 
   public GameTerritory(String name) {
     this.name = name;
     this.owner = null;
     this.unitNum = 0;
-    this.attackers = new HashMap<>();
+    this.attackers = new ArrayList<>();
     this.neighbours = new ArrayList<>();
   }
 
@@ -37,7 +36,7 @@ public class GameTerritory implements Territory, Serializable {
     this.name = name;
     this.owner = owner;
     this.unitNum = unitNum;
-    this.attackers = new HashMap<>();
+    this.attackers = new ArrayList<>();
     this.neighbours = new ArrayList<>();
   }
 
@@ -104,7 +103,7 @@ public class GameTerritory implements Territory, Serializable {
    */
   @Override
   public void addAttacker(Player attacker, int attackUnitNum) {
-    this.attackers.put(attacker, attackUnitNum);
+    this.attackers.add(new AttackerInfo(attacker, attackUnitNum));
   }
 
   /**
@@ -112,7 +111,7 @@ public class GameTerritory implements Territory, Serializable {
    */
   @Override
   public void clearAttackers() {
-    this.attackers.clear();
+    attackers.clear();
   }
 
   /**
@@ -121,8 +120,8 @@ public class GameTerritory implements Territory, Serializable {
    * @return the map of attacking players to the attacking unit numbers
    */
   @Override
-  public Map<Player, Integer> getAttackers() {
-    return this.attackers;
+  public Iterator<AttackerInfo> getAttackerIterator() {
+    return attackers.iterator();
   }
 
   /**

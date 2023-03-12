@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server;
 import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
+import edu.duke.ece651.team13.shared.order.AttackOrder;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.PlayerOrder;
 import edu.duke.ece651.team13.shared.territory.Territory;
@@ -97,6 +98,14 @@ public class RiscGame implements Game{
            }
         }
         // Attack orders
+        for(PlayerOrder order: orders){
+            if(order.getClass().equals(AttackOrder.class)){
+                String checkResult = order.validateOnMap(tempMap);
+                if(checkResult!=null) return checkResult;
+                order.actOnMap(tempMap);
+            }
+        }
+
         // The orders are valid, return null
         return null;
     }

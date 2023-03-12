@@ -33,6 +33,8 @@ public abstract class PlayerOrder {
      * Execute the order on the specified source and destination, used in pre-validation
      */
     public void actOnMap(MapRO map) {
+        PlayerOrder newOrder = getOrderOnNewMap(map);
+        newOrder.act();
     }
 
     /**
@@ -41,12 +43,21 @@ public abstract class PlayerOrder {
     public abstract String validate();
 
     /**
+     * Helper function to get the order on a new map
+     *   (Match the source and destination territories by name)
+     */
+    protected PlayerOrder getOrderOnNewMap(MapRO map) {
+        return null;
+    }
+
+    /**
      * Validate the order on a specified map
      * (would try to get the src and dst territory by id in the specified map, if those ids don't exist,
      * throws IllegalArgumentException)
      */
     public String validateOnMap(MapRO map) {
-        return null;
+        PlayerOrder newOrder = getOrderOnNewMap(map);
+        return newOrder.validate();
     }
 
     public Territory getSource() {
