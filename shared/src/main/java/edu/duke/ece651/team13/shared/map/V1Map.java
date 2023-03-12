@@ -129,5 +129,5 @@ public abstract class V1Map implements MapRO, Serializable {
      * Get the list of iterators for all groups (2 groups, 3 groups or 4 groups)
      */
     @Override
-    public abstract ArrayList<Iterator<Territory>> getInitialGroupsIterator();
+    public abstract ArrayList<Iterator<Territory>> getInitialGroups();
 }

@@ -153,7 +153,7 @@ public class V1Map24Territories extends V1Map {
     }
 
     @Override
-    public ArrayList<Iterator<Territory>> getInitialGroupsIterator(){
+    public ArrayList<Iterator<Territory>> getInitialGroups(){
         ArrayList<ArrayList<Territory>> groups = new ArrayList<>();
 
         ArrayList<Territory> group1 = new ArrayList<>();

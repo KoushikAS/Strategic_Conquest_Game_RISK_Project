@@ -10,7 +10,6 @@ import edu.duke.ece651.team13.shared.territory.Territory;
 
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 
 public class RiscGame implements Game {
@@ -57,7 +56,7 @@ public class RiscGame implements Game {
      */
     private void assignGroups() {
         MapRO map = this.map;
-        ArrayList<Iterator<Territory>> groupsIterator = map.getInitialGroupsIterator();
+        ArrayList<Iterator<Territory>> groupsIterator = map.getInitialGroups();
         for (int i = 0; i < this.players.size(); i++) {
             while (groupsIterator.get(i).hasNext()) {
                 Territory t = groupsIterator.get(i).next();
