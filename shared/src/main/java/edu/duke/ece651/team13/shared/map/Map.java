@@ -24,4 +24,15 @@ public interface Map {
    * @return true if connected, false if not
    */
   boolean isConnected();
+
+  /**
+   * Get the territory by its id
+   */
+  Territory getTerritoryByID(int id);
+
+  /**
+   * Make a deep copy of the map
+   * @return the deep copy of the map
+   */
+  Map replicate();
 }

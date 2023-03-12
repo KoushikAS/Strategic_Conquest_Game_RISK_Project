@@ -20,6 +20,12 @@ public class V1Map18Territories extends V1Map {
         super(initialUnit);
     }
 
+    /**
+     * Copy constructor
+     */
+    private V1Map18Territories(V1Map18Territories toCopy){
+        super(toCopy);
+    }
 
     /**
      * Helper function to initialize the map structure
@@ -109,5 +115,10 @@ public class V1Map18Territories extends V1Map {
         territories.add(maltese);
         territories.add(mastiff);
         territories.add(collie);
+    }
+
+    @Override
+    public Map replicate() {
+        return new V1Map18Territories(this);
     }
 }

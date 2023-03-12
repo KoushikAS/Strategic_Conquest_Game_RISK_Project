@@ -12,10 +12,12 @@ public class MoveUnitNumChecker extends RuleChecker{
 
     @Override
     protected String checkMyRule(PlayerOrder order) {
-        if(order.getSource().getUnitNum() < order.getUnits()) {
+        int sourceUnitNum = order.getSource().getUnitNum();
+        int moveUnitNum = order.getUnits();
+        if(sourceUnitNum < moveUnitNum) {
             return "Invalid move order: Don't have sufficient unit number in the territory.";
         }
-        else if(order.getUnits() < 0){
+        else if(moveUnitNum < 0){
             return "Invalid move order: The unit number to move should be >= 0.";
         }
         return null;

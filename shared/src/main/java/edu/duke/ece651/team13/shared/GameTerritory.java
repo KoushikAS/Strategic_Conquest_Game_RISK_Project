@@ -30,6 +30,23 @@ public class GameTerritory implements Territory, Serializable {
     this.neighbours = new ArrayList<>();
   }
 
+  private GameTerritory(GameTerritory toCopy){
+    this(toCopy.id, toCopy.name, toCopy.owner, toCopy.unitNum);
+  }
+
+  private GameTerritory(int id,
+                        String name,
+                        Player owner,
+                        int unitNum){
+    this.id = id;
+    this.name = name;
+    this.owner = owner;
+    this.unitNum = unitNum;
+    this.tempUnitNum = 0;
+    this.attackers = new HashMap<>();
+    this.neighbours = new ArrayList<>();
+  }
+
   /**
    * Get the id of the territory
    * 
@@ -191,4 +208,8 @@ public class GameTerritory implements Territory, Serializable {
     }
   }
 
+  @Override
+  public Territory replicate() {
+    return new GameTerritory(this);
+  }
 }
