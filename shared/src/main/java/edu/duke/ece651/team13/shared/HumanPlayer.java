@@ -15,32 +15,24 @@ public class HumanPlayer implements Player, Serializable {
     static public int nextId = 0;
     private final String name;
     // TODO: Change the status to an enum
-    private String status;
+    private PlayerStatusEnum status;
     private BufferedReader inputReader;
-    public static final String LOSE_STATUS = "LOSE";
-    public static final String PLAYING_STATUS = "PLAYING";
+
     // WIN
 
     /**
      * Construct a new Player
      */
-    public HumanPlayer(String name, BufferedReader inputReader){
+    public HumanPlayer(String name, BufferedReader inputReader) {
         this.id = nextId++;
         this.name = name;
-        this.status = getInitStatus();
+        this.status = PlayerStatusEnum.PLAYING;
         this.inputReader = inputReader;
     }
 
     /**
-     * Get the initial status of player
-     * @return the initial status string
-     */
-    private static String getInitStatus(){
-        return PLAYING_STATUS;
-    }
-
-    /**
      * Get the id of this player
+     *
      * @return the integer id of the player
      */
     @Override
@@ -50,6 +42,7 @@ public class HumanPlayer implements Player, Serializable {
 
     /**
      * Get the name of the player
+     *
      * @return the string name of the player
      */
     @Override
@@ -58,7 +51,7 @@ public class HumanPlayer implements Player, Serializable {
     }
 
     @Override
-    public String getStatus() {
+    public PlayerStatusEnum getStatus() {
         return status;
     }
 
@@ -69,21 +62,10 @@ public class HumanPlayer implements Player, Serializable {
      * @param status is the status string to set
      */
     @Override
-    public void setStatus(String status) {
-        if(!isValidStatus(status)) throw new IllegalArgumentException("The status string is invalid for player");
+    public void setStatus(PlayerStatusEnum status) {
         this.status = status;
     }
 
-    /**
-     * Check if a status string is a valid status
-     * @param status is the string to check
-     * @return true if valid
-     *         false if not
-     */
-    @Override
-    public boolean isValidStatus(String status) {
-        return status.equals(LOSE_STATUS) || status.equals(PLAYING_STATUS);
-    }
 
     @Override
     public void setNextIdToZero() {
@@ -107,6 +89,7 @@ public class HumanPlayer implements Player, Serializable {
 
     /**
      * This helper method chooses an order from the player
+     *
      * @return a String of the player's order
      * @throws IOException
      */
@@ -125,6 +108,7 @@ public class HumanPlayer implements Player, Serializable {
 
     /**
      * This helper method reads an order from the player's input
+     *
      * @param prompt the prompt message to guide the player's input
      * @return a String of the player's order
      * @throws IOException

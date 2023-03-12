@@ -40,19 +40,9 @@ class HumanPlayerTest {
     @Test
     void test_Set_getInitStatus() {
         Player p = new HumanPlayer(testName, mockedReader);
-        assertEquals("PLAYING", p.getStatus());
-        p.setStatus("LOSE");
-        assertEquals("LOSE", p.getStatus());
-        assertThrows(IllegalArgumentException.class, () -> p.setStatus("A"));
-    }
-
-    @Test
-    void test_isValidStatus() {
-        Player p = new HumanPlayer(testName, mockedReader);
-        assertTrue(p.isValidStatus("LOSE"));
-        assertTrue(p.isValidStatus("PLAYING"));
-        assertFalse(p.isValidStatus("1"));
-        assertFalse(p.isValidStatus(""));
+        assertEquals(PlayerStatusEnum.PLAYING, p.getStatus());
+        p.setStatus(PlayerStatusEnum.LOSE);
+        assertEquals(PlayerStatusEnum.LOSE, p.getStatus());
     }
 
     @Test

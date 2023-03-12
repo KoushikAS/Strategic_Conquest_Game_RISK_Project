@@ -24,7 +24,7 @@ public interface Player {
      * Get the status of the player
      * @return the string status of the player
      */
-    String getStatus();
+    PlayerStatusEnum getStatus();
 
     /**
      * Set the status of the player
@@ -32,15 +32,8 @@ public interface Player {
      *
      * @param status is the status string to set
      */
-    void setStatus(String status);
+    void setStatus(PlayerStatusEnum status);
 
-    /**
-     * Check if a status string is a valid status
-     * @param status is the string to check
-     * @return true if valid
-     *         false if not
-     */
-    boolean isValidStatus(String status);
 
     /**
      * Set the static nextId field back to zero
