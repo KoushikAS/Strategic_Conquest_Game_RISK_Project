@@ -1,10 +1,15 @@
 package edu.duke.ece651.team13.server;
 
 
+import edu.duke.ece651.team13.shared.HumanPlayer;
+import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import edu.duke.ece651.team13.shared.map.V1Map18Territories;
 import edu.duke.ece651.team13.shared.map.V1Map24Territories;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class App {
 
@@ -19,12 +24,24 @@ public class App {
         }
     }
 
+    public static ArrayList<Player> getPlayers(int playerNumber) {
+        assert (playerNumber == 2 || playerNumber == 3 || playerNumber == 4);
+        ArrayList<String> names = new ArrayList<String>(Arrays.asList("Red", "Blue", "Green", "Yellow"));
+        ArrayList<Player> players = new ArrayList<>();
+        for (int i = 0; i < playerNumber; i++) {
+            players.add(new HumanPlayer(names.get(i)));
+        }
+
+        return players;
+    }
+
     public static void main(String[] args) {
         App a = new App();
 
         //TODO currently hardcoded  player number. Should be dynamic.
         int playerNumber = 2;
-        //Setup a board
+        V1Map map = getMap(playerNumber);
+        ArrayList<Player> players = getPlayers(playerNumber);
 
 
 

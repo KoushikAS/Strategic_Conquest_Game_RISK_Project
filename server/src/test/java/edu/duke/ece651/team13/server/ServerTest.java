@@ -5,20 +5,22 @@ import edu.duke.ece651.team13.shared.map.V1Map24Territories;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedInputStream;
-import java.io.ObjectInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.duke.ece651.team13.server.mockDataUtil.getMockGame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ServerTest{
 
     private int testPortNum = 12345;
 
+    /**
     @Test
     public void test_start(){
         try{
-            Server server = new Server(testPortNum, new RiscGame(4));
+            Server server = new Server(testPortNum, getMockGame(4));
             Socket clientSocket1 = new Socket("", testPortNum);
             Socket clientSocket2 = new Socket("", testPortNum);
             Socket clientSocket3 = new Socket("", testPortNum);

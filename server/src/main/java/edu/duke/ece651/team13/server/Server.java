@@ -1,11 +1,15 @@
 package edu.duke.ece651.team13.server;
 
+import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Iterator;
+
+import static edu.duke.ece651.team13.server.App.getMap;
 
 public class Server{
     private final int portNum;
@@ -24,15 +28,16 @@ public class Server{
      * Init Players and Init Game
      */
     public void start(){
-        assert(this.game.getMaxPlayers()==2||this.game.getMaxPlayers()==3||this.game.getMaxPlayers()==4);
-        for(int i=0; i<this.game.getMaxPlayers(); i++){
+        Iterator<Player> it = this.game.getPlayersIterator();
+
+        while(it.hasNext()){
             try{
+
                 Socket clientSocket = this.serverSocket.accept();
-                String name = getPlayerName(i);
-                game.initPlayer(name, clientSocket);
-                //send map to each client
-                //Map map = this.game.getBoard().getMap(); (BufferedReader not serializable)
-                MapRO map = new V1Map12Territories(this.game.getMaxPlayers());
+                //TODO Should initlaize player with the socket
+                //game.initPlayer(name, clientSocket);
+                //TODO Temporary change will come and fix it
+                MapRO map = getMap(2);
                 Thread clientThread = new Thread(new PlayerHandler(clientSocket, this.game, map));
                 clientThread.start();
             }catch (IOException e){
@@ -43,17 +48,6 @@ public class Server{
         game.initGame();
     }
 
-    /**
-     * Used in start() method to get each player's name (hardcode)
-     * @param index The order in which players connect to the server
-     * @return name
-     */
-    private String getPlayerName(int index){
-        if(index==0) return "Green";
-        else if(index==1) return "Blue";
-        else if(index==2) return "Red";
-        return "Yellow";
-    }
 
     /**
      * Initialize serverSocket using port number to build server

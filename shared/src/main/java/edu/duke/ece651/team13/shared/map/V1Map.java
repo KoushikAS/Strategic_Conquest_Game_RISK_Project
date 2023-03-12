@@ -9,7 +9,6 @@ import java.util.*;
 public abstract class V1Map implements MapRO, Serializable {
     protected ArrayList<Territory> territories;
     private final int initialUnit;
-    protected ArrayList<ArrayList<Territory>> groups; //list of each group's territories
 
     /**
      * Construct the V1Map
@@ -23,7 +22,6 @@ public abstract class V1Map implements MapRO, Serializable {
             throw new IllegalArgumentException("The initialUnit must be >0");
         this.territories = new ArrayList<>();
         this.initialUnit = initialUnit;
-        this.groups = new ArrayList<>();
         initMap();
         assert (isConnected());
     }
@@ -131,11 +129,5 @@ public abstract class V1Map implements MapRO, Serializable {
      * Get the list of iterators for all groups (2 groups, 3 groups or 4 groups)
      */
     @Override
-    public ArrayList<Iterator<Territory>> getGroupsIterator() {
-        ArrayList<Iterator<Territory>> groupsIteratorList = new ArrayList<>();
-        for (ArrayList<Territory> group : groups) {
-            groupsIteratorList.add(group.iterator());
-        }
-        return groupsIteratorList;
-    }
+    public abstract ArrayList<Iterator<Territory>> getInitialGroupsIterator();
 }

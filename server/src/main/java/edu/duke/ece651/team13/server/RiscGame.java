@@ -4,26 +4,25 @@ import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map;
-import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.Order;
 import edu.duke.ece651.team13.shared.territory.Territory;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class RiscGame implements Game {
 
     private ArrayList<Player> players;
-    private int maxPlayers;
     private V1Map map;
 
-    public RiscGame(int maxNumPlayers) {
-        this.maxPlayers = maxNumPlayers;
-        this.map = new V1Map12Territories(maxNumPlayers);
-        this.players = new ArrayList<>();
+    public RiscGame(V1Map map, ArrayList<Player> players) {
+        this.map = map;
+        this.players = players;
     }
+
 
     /**
      * Init game: groups assignment (after init Players) and initial placement
@@ -31,10 +30,14 @@ public class RiscGame implements Game {
     @Override
     public void initGame() {
         //init game after init players
-        assert (players.size() == maxPlayers);
         //assign groups (after init Players)
         assignGroups();
         //TODO: initial placement
+    }
+
+    @Override
+    public Iterator<Player> getPlayersIterator() {
+        return players.iterator();
     }
 
     /**
@@ -54,7 +57,7 @@ public class RiscGame implements Game {
      */
     private void assignGroups() {
         MapRO map = this.map;
-        ArrayList<Iterator<Territory>> groupsIterator = map.getGroupsIterator();
+        ArrayList<Iterator<Territory>> groupsIterator = map.getInitialGroupsIterator();
         for (int i = 0; i < this.players.size(); i++) {
             while (groupsIterator.get(i).hasNext()) {
                 Territory t = groupsIterator.get(i).next();
@@ -63,15 +66,6 @@ public class RiscGame implements Game {
         }
     }
 
-    /**
-     * Get the number of players
-     *
-     * @return int number
-     */
-    @Override
-    public int getMaxPlayers() {
-        return this.maxPlayers;
-    }
 
     /**
      * Get the board of one game

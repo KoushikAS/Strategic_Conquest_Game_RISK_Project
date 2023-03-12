@@ -6,6 +6,7 @@ import edu.duke.ece651.team13.shared.order.Order;
 
 import java.util.ArrayList;
 import java.net.Socket;
+import java.util.Iterator;
 
 /**
  * The interface of Game
@@ -16,11 +17,7 @@ public interface Game {
 
     void initPlayer(String name, Socket clientSocket);
 
-    /**
-     * Get the number of players
-     * @return int number
-     */
-    int getMaxPlayers();
+    Iterator<Player> getPlayersIterator();
 
     /**
      * Get the board of one game

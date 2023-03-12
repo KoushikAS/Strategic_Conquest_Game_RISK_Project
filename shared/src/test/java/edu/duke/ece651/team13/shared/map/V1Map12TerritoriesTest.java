@@ -117,7 +117,7 @@ class V1Map12TerritoriesTest {
     @Test
     void test_getTerritoriesIterator(){
         MapRO m1 = new V1Map12Territories(12);
-        ArrayList<Iterator<Territory>> groupsIteratorList = m1.getGroupsIterator();
+        ArrayList<Iterator<Territory>> groupsIteratorList = m1.getInitialGroupsIterator();
         Iterator<Territory> iterator1 = groupsIteratorList.get(0);
         Iterator<Territory> iterator2 = groupsIteratorList.get(1);
 
