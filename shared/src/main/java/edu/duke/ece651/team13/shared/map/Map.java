@@ -27,9 +27,11 @@ public interface Map {
   boolean isConnected();
 
   /**
-   * Get the territory by its id
+   * Get the territory by its name
+   * @return the territory with the corresponding name
+   *         null if the territory is not found
    */
-  Territory getTerritoryByID(int id);
+  Territory getTerritoryByName(String name);
 
   /**
    * Make a deep copy of the map
