@@ -4,14 +4,10 @@ import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 
 public abstract class V1Map implements MapRO, Serializable {
     protected ArrayList<Territory> territories;
-    protected HashMap<String, Territory> territoryNameMap;
     private final int initialUnit;
     protected ArrayList<ArrayList<Territory>> groups; //list of each group's territories
 
@@ -30,19 +26,14 @@ public abstract class V1Map implements MapRO, Serializable {
         this.groups = new ArrayList<>();
         initMap();
         assert (isConnected());
-        this.territoryNameMap = new HashMap<>();
-        for (Territory t : territories) {
-            territoryNameMap.put(t.getName(), t);
-        }
     }
 
     public V1Map(V1Map toCopy) {
         territories = new ArrayList<>();
-        territoryNameMap = new HashMap<>();
+
         for (Territory t : toCopy.territories) {
             Territory cloneT = t.replicate();
             territories.add(cloneT);
-            territoryNameMap.put(t.getName(), cloneT);
         }
         for (Territory t : toCopy.territories) {
             Territory cloneT = getTerritoryByName(t.getName());
@@ -129,7 +120,11 @@ public abstract class V1Map implements MapRO, Serializable {
 
     @Override
     public Territory getTerritoryByName(String name) {
-        return territoryNameMap.get(name);
+        Optional<Territory> territory = territories.stream().filter(t -> t.getName().equals(name)).findAny();
+        if(!territory.isPresent()) {
+            throw new IllegalArgumentException("There is no Territory in this map with the name " + name);
+        }
+        return territory.get();
     }
 
     /**
