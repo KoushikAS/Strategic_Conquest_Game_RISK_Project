@@ -2,7 +2,7 @@ package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.map.Map;
+import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.PlayerOrder;
 import edu.duke.ece651.team13.shared.Territory;
@@ -57,7 +57,7 @@ public class RiscGame implements Game{
      * Assign groups to each player after init all players
      */
     private void assignGroups(){
-        Map map = this.gameBoard.getMap();
+        MapRO map = this.gameBoard.getMap();
         ArrayList<Iterator<Territory>> groupsIterator = map.getGroupsIterator();
         for(int i=0; i<this.players.size(); i++){
             while(groupsIterator.get(i).hasNext()){
@@ -87,7 +87,7 @@ public class RiscGame implements Game{
     @Override
     public String validateOrders(ArrayList<PlayerOrder> orders) {
         // Deep copy the map
-        Map tempMap = gameBoard.getMap().replicate();
+        MapRO tempMap = gameBoard.getMap().replicate();
         // Move orders first
         for(PlayerOrder order: orders){
            if(order.getClass().equals(MoveOrder.class)){

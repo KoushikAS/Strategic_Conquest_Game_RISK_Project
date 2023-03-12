@@ -3,10 +3,10 @@ package edu.duke.ece651.team13.server;
 import edu.duke.ece651.team13.shared.map.*;
 
 public class RiscGameBoard <T> implements Board<T>{
-    private final Map map;
+    private final MapRO map;
 
     @Override
-    public Map getMap() {
+    public MapRO getMap() {
         return map;
     }
 

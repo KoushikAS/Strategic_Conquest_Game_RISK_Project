@@ -150,7 +150,7 @@ public class V1Map18Territories extends V1Map {
     }
 
     @Override
-    public Map replicate() {
+    public MapRO replicate() {
         return new V1Map18Territories(this);
     }
 }

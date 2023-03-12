@@ -107,7 +107,7 @@ public class V1Map12Territories extends V1Map {
     }
 
     @Override
-    public Map replicate() {
+    public MapRO replicate() {
         return new V1Map12Territories(this);
     }
 }

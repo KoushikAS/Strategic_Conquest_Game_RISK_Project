@@ -66,7 +66,7 @@ public class V1Map9Territories extends V1Map  {
   }
 
   @Override
-  public Map replicate() {
+  public MapRO replicate() {
     return new V1Map9Territories(this);
   }
 }

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public abstract class V1Map implements Map, Serializable {
+public abstract class V1Map implements MapRO, Serializable {
   protected ArrayList<Territory> territories;
   protected HashMap<Integer, Territory> territoryIDMap;
   private final int initialUnit;

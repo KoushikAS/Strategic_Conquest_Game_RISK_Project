@@ -1,8 +1,6 @@
 package edu.duke.ece651.team13.shared.map;
 
 import edu.duke.ece651.team13.shared.Territory;
-import edu.duke.ece651.team13.shared.map.Map;
-import edu.duke.ece651.team13.shared.map.V1Map24Territories;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ class V1Map24TerritoriesTest {
 
     @Test
     void initMap() {
-        Map m1 = new V1Map24Territories(24);
+        MapRO m1 = new V1Map24Territories(24);
 
         Iterator<Territory> it = m1.getTerritoriesIterator();
 
@@ -227,7 +225,7 @@ class V1Map24TerritoriesTest {
 
     @Test
     void test_getTerritoriesIterator(){
-        Map m1 = new V1Map24Territories(24);
+        MapRO m1 = new V1Map24Territories(24);
         ArrayList<Iterator<Territory>> groupsIteratorList = m1.getGroupsIterator();
         Iterator<Territory> iterator1 = groupsIteratorList.get(0);
         Iterator<Territory> iterator2 = groupsIteratorList.get(1);

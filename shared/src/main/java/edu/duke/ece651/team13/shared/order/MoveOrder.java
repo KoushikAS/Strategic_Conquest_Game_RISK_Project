@@ -2,7 +2,7 @@ package edu.duke.ece651.team13.shared.order;
 
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.Territory;
-import edu.duke.ece651.team13.shared.map.Map;
+import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 
 /**
@@ -30,20 +30,20 @@ public class MoveOrder extends PlayerOrder {
         return orderRuleChecker.checkOrder(this);
     }
 
-    private MoveOrder getOrderOnNewMap(Map map) {
+    private MoveOrder getOrderOnNewMap(MapRO map) {
         Territory newSource = map.getTerritoryByID(source.getId());
         Territory newDestination = map.getTerritoryByID(destination.getId());
         return new MoveOrder(this.orderRuleChecker, this.player, newSource, newDestination, this.units);
     }
 
     @Override
-    public String validateOnMap(Map map){
+    public String validateOnMap(MapRO map){
         MoveOrder newOrder = getOrderOnNewMap(map);
         return newOrder.validate();
     }
 
     @Override
-    public void actOnMap(Map map){
+    public void actOnMap(MapRO map){
         MoveOrder newOrder = getOrderOnNewMap(map);
         newOrder.act();
     }

@@ -20,22 +20,22 @@ class V1Map9Territories9TerritoriesTest {
 
   @Test
   void test_getInitialUnit() {
-    Map m = new V1Map9Territories(1);
+    MapRO m = new V1Map9Territories(1);
     assertEquals(1, m.getInitialUnit());
   }
 
   @Test
   void test_equals() {
     // TODO: Refactor this after refactoring V1Map9Territories.equals()
-    Map m1 = new V1Map9Territories(1);
-    Map m2 = new V1Map9Territories(2);
+    MapRO m1 = new V1Map9Territories(1);
+    MapRO m2 = new V1Map9Territories(2);
     assertNotEquals(m1, m2);
     assertNotEquals(m1, "map");
   }
 
   @Test
   void test_initMap() {
-    Map m1 = new V1Map9Territories(5);
+    MapRO m1 = new V1Map9Territories(5);
 
     Iterator<Territory> it = m1.getTerritoriesIterator();
 
@@ -156,7 +156,7 @@ class V1Map9Territories9TerritoriesTest {
   @Test
   void test_isConnected(){
     // Connected
-    Map m1 = new V1Map9Territories(5);
+    MapRO m1 = new V1Map9Territories(5);
     assertTrue(m1.isConnected());
 
     // Not connected
@@ -165,7 +165,7 @@ class V1Map9Territories9TerritoriesTest {
 
   @Test
   void test_replicate(){
-    Map map = new V1Map9Territories(10);
+    MapRO map = new V1Map9Territories(10);
     Iterator<Territory> it = map.getTerritoriesIterator();
     int firstID = it.next().getId();
     Territory firstT = map.getTerritoryByID(firstID);
@@ -174,7 +174,7 @@ class V1Map9Territories9TerritoriesTest {
     Territory secondT = map.getTerritoryByID(secondID);
     secondT.setUnitNum(200);
 
-    Map cloneMap = map.replicate();
+    MapRO cloneMap = map.replicate();
     Territory cloneFirstT = cloneMap.getTerritoryByID(firstID);
     assertEquals(100, cloneFirstT.getUnitNum());
     Territory cloneSecondT = cloneMap.getTerritoryByID(secondID);

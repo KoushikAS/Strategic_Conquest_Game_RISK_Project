@@ -8,7 +8,7 @@ import java.util.Iterator;
 /**
  * This interface handles the graph structure in the map
  */
-public interface Map {
+public interface MapRO {
   /**
    * Get the initial unit number that each player could have
    */
@@ -35,7 +35,7 @@ public interface Map {
    * Make a deep copy of the map
    * @return the deep copy of the map
    */
-  Map replicate();
+  MapRO replicate();
 
   /**
    * Get the list of iterators for all groups (2 groups, 3 groups or 4 groups)

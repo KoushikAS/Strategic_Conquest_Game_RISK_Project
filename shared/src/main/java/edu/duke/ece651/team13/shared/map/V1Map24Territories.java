@@ -190,7 +190,7 @@ public class V1Map24Territories extends V1Map {
 
 
     @Override
-    public Map replicate() {
+    public MapRO replicate() {
         return new V1Map24Territories(this);
     }
 }
