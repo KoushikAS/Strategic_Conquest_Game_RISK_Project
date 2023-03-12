@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.client;
 
-import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.territory.Territory;
+import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 /**
  * This interface handles a view of the board
@@ -23,5 +24,5 @@ public interface BoardView {
      * @param t the territory to be displayed
      * @return the text to be displayed in string
      */
-    String displayOneTerritory(Territory t);
+    String displayOneTerritory(TerritoryRO t);
 }

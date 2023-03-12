@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.shared.order;
 
 import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 

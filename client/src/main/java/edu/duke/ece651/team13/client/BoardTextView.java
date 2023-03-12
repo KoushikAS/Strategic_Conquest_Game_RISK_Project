@@ -1,7 +1,8 @@
 package edu.duke.ece651.team13.client;
 
-import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.map.V1Map;
+import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -72,14 +73,14 @@ public class BoardTextView implements BoardView {
    * {@inheritDoc}
    */
   @Override
-  public String displayOneTerritory(Territory t) {
+  public String displayOneTerritory(TerritoryRO t) {
     StringBuffer sb = new StringBuffer();
     int unitNum = t.getUnitNum();
     String name = t.getName();
     sb.append(unitNum + " units in " + name + " (next to: ");
-    Iterator<Territory> it = t.getNeighbourIterartor();
+    Iterator<TerritoryRO> it = t.getNeighbourIterartor();
     while(it.hasNext()){
-      Territory neighbour = it.next();
+      TerritoryRO neighbour = it.next();
       sb.append(neighbour.getName());
       if(it.hasNext()){
         sb.append(", ");

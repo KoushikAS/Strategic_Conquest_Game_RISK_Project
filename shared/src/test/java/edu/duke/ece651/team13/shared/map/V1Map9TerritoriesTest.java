@@ -1,7 +1,8 @@
 package edu.duke.ece651.team13.shared.map;
 
-import edu.duke.ece651.team13.shared.GameTerritory;
-import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.territory.GameTerritory;
+import edu.duke.ece651.team13.shared.territory.Territory;
+import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
@@ -37,20 +38,20 @@ class V1Map9Territories9TerritoriesTest {
   void test_initMap() {
     MapRO m1 = new V1Map9Territories(5);
 
-    Iterator<Territory> it = m1.getTerritoriesIterator();
+    Iterator<Territory> it1 = m1.getTerritoriesIterator();
 
-    Territory narnia = it.next();
-    Territory midkemia = it.next();
-    Territory oz = it.next();
-    Territory gondor = it.next();
-    Territory elantris = it.next();
-    Territory scadrial = it.next();
-    Territory roshar = it.next();
-    Territory hogwarts = it.next();
-    Territory mordor = it.next();
+    Territory narnia = it1.next();
+    Territory midkemia = it1.next();
+    Territory oz = it1.next();
+    Territory gondor = it1.next();
+    Territory elantris = it1.next();
+    Territory scadrial = it1.next();
+    Territory roshar = it1.next();
+    Territory hogwarts = it1.next();
+    Territory mordor = it1.next();
 
     assertEquals(narnia.getName(), "Narnia");
-    it = narnia.getNeighbourIterartor();
+    Iterator<TerritoryRO> it = narnia.getNeighbourIterartor();
     assertEquals(midkemia, it.next());
     assertEquals(elantris, it.next());
 
@@ -189,16 +190,16 @@ class V1Map9Territories9TerritoriesTest {
     firstT.setUnitNum(0);
     assertEquals(100, cloneFirstT.getUnitNum());
 
-    for (Iterator<Territory> iter = firstT.getNeighbourIterartor(); iter.hasNext(); ) {
-      Territory neighbor = iter.next();
+    for (Iterator<TerritoryRO> iter = firstT.getNeighbourIterartor(); iter.hasNext(); ) {
+      TerritoryRO neighbor = iter.next();
       Territory cloneNeighbor = cloneMap.getTerritoryByID(neighbor.getId());
       assertTrue(isNeighborTo(cloneFirstT, cloneNeighbor));
     }
   }
 
   private boolean isNeighborTo(Territory t1, Territory t2){
-    for(Iterator<Territory> iter = t1.getNeighbourIterartor(); iter.hasNext(); ){
-      Territory neighbor = iter.next();
+    for(Iterator<TerritoryRO> iter = t1.getNeighbourIterartor(); iter.hasNext(); ){
+      TerritoryRO neighbor = iter.next();
       if(neighbor == t2) return true;
     }
     return false;

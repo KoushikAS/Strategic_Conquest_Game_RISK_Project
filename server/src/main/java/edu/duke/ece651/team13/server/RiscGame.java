@@ -5,7 +5,7 @@ import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.PlayerOrder;
-import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.territory.Territory;
 
 import java.io.BufferedReader;
 import java.io.IOException;

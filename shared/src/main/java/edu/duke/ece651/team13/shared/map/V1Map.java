@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.shared.map;
 
-import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.territory.Territory;
+import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public abstract class V1Map implements MapRO, Serializable {
     }
     for(Territory t: toCopy.territories){
       Territory cloneT = getTerritoryByID(t.getId());
-      for (Iterator<Territory> it = t.getNeighbourIterartor(); it.hasNext(); ) {
+      for (Iterator<TerritoryRO> it = t.getNeighbourIterartor(); it.hasNext(); ) {
         int neighborID = it.next().getId();
         Territory cloneNeighbor = getTerritoryByID(neighborID);
         cloneT.addNeighbours(cloneNeighbor);
@@ -87,11 +88,11 @@ public abstract class V1Map implements MapRO, Serializable {
    *
    * @param visited is the HashSet to track the visited territories
    */
-  private void DFS(Territory source, HashSet<Integer> visited){
+  private void DFS(TerritoryRO source, HashSet<Integer> visited){
     visited.add(source.getId());
-    Iterator<Territory> it = source.getNeighbourIterartor();
+    Iterator<TerritoryRO> it = source.getNeighbourIterartor();
     while(it.hasNext()){
-      Territory neighbor = it.next();
+      TerritoryRO neighbor = it.next();
       if(!visited.contains(neighbor.getId())){
         DFS(neighbor, visited);
       }
