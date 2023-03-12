@@ -29,12 +29,12 @@ class MoveOrderTest {
         hogwarts.setUnitNum(10);
         Territory alley = new GameTerritory("Diagon Alley");
         alley.setOwner(tom);
-        PlayerOrder move = new MoveOrder(ownershipChecker,
+        Order move = new MoveOrder(ownershipChecker,
                 tom, hogwarts, alley, 0);
         move.act();
         assertEquals(10, hogwarts.getUnitNum());
 
-        PlayerOrder move2 = new MoveOrder(ownershipChecker,
+        Order move2 = new MoveOrder(ownershipChecker,
                 tom, hogwarts, alley, 5);
         move2.act();
         assertEquals(5, hogwarts.getUnitNum());
@@ -49,12 +49,12 @@ class MoveOrderTest {
         hogwarts.setOwner(tom);
         Territory alley = new GameTerritory("Diagon Alley");
 
-        PlayerOrder move = new MoveOrder(ownershipChecker,
+        Order move = new MoveOrder(ownershipChecker,
                 tom, hogwarts, alley, 0);
         assertEquals("Invalid move order: The destination territory is not owned by you.",
                 move.validate());
 
-        PlayerOrder move2 = new MoveOrder(ownershipChecker,
+        Order move2 = new MoveOrder(ownershipChecker,
                 tom, alley, hogwarts, 0);
         assertEquals("Invalid move order: The source territory is not owned by you.",
                 move2.validate());
@@ -72,14 +72,14 @@ class MoveOrderTest {
         Territory labor = new GameTerritory("labor");
         socks.setUnitNum(10);
 
-        PlayerOrder move_validnum = new MoveOrder(unitnumChecker, dobby, socks, labor, 10);
+        Order move_validnum = new MoveOrder(unitnumChecker, dobby, socks, labor, 10);
         assertNull(move_validnum.validate());
 
-        PlayerOrder move_insufficient_unit = new MoveOrder(unitnumChecker, dobby, socks, labor, 11);
+        Order move_insufficient_unit = new MoveOrder(unitnumChecker, dobby, socks, labor, 11);
         assertEquals("Invalid move order: Don't have sufficient unit number in the territory.",
                 move_insufficient_unit.validate());
 
-        PlayerOrder move_negativenum = new MoveOrder(unitnumChecker, dobby, socks, labor, -1);
+        Order move_negativenum = new MoveOrder(unitnumChecker, dobby, socks, labor, -1);
         assertEquals("Invalid move order: The unit number to move should be >= 0.",
                 move_negativenum.validate());
     }
@@ -146,7 +146,7 @@ class MoveOrderTest {
         for(int i = 0; i < 3; i++){
             territories.get(i).setOwner(mickey);
         }
-        PlayerOrder validPath = new MoveOrder(pathChecker, mickey, territories.get(0), territories.get(2), 0);
+        Order validPath = new MoveOrder(pathChecker, mickey, territories.get(0), territories.get(2), 0);
         assertNull(validPath.validate());
 
         // Donald owns gondor(3), elantris(4), scadrial(5), roshar(6)
@@ -161,19 +161,19 @@ class MoveOrderTest {
         // Mickey owns Hogwarts(7)
         territories.get(7).setOwner(mickey);
         // Mickey doesn't have valid path to hogwarts
-        PlayerOrder noPath1 = new MoveOrder(pathChecker, mickey, territories.get(0), territories.get(7), 0);
+        Order noPath1 = new MoveOrder(pathChecker, mickey, territories.get(0), territories.get(7), 0);
         assertEquals("Invalid move order: There is not a valid path between the src and dst.",
                 noPath1.validate());
-        PlayerOrder noPath2 = new MoveOrder(pathChecker, mickey, territories.get(2), territories.get(7), 0);
+        Order noPath2 = new MoveOrder(pathChecker, mickey, territories.get(2), territories.get(7), 0);
         assertEquals("Invalid move order: There is not a valid path between the src and dst.",
                 noPath2.validate());
 
         // Donald cannot reach Gondor(3) from Elantris(4)
-        PlayerOrder noPath3 = new MoveOrder(pathChecker, donald, territories.get(4), territories.get(3), 0);
+        Order noPath3 = new MoveOrder(pathChecker, donald, territories.get(4), territories.get(3), 0);
         assertEquals("Invalid move order: There is not a valid path between the src and dst.",
                 noPath3.validate());
         // Donald can reach Roshar(6) from Elantris(4)
-        PlayerOrder valid1 = new MoveOrder(pathChecker, donald, territories.get(4), territories.get(6), 0);
+        Order valid1 = new MoveOrder(pathChecker, donald, territories.get(4), territories.get(6), 0);
         assertNull(valid1.validate());
     }
 
@@ -196,22 +196,22 @@ class MoveOrderTest {
         gringotts.setOwner(harry);
         gringotts.setUnitNum(10);
 
-        PlayerOrder noPath1 = new MoveOrder(pathChecker, dobby, socks, labor, 10);
+        Order noPath1 = new MoveOrder(pathChecker, dobby, socks, labor, 10);
         assertEquals("Invalid move order: There is not a valid path between the src and dst.",
                 noPath1.validate());
 
-        PlayerOrder insufficient1 = new MoveOrder(ownershipChecker, dobby, socks, labor, 20);
+        Order insufficient1 = new MoveOrder(ownershipChecker, dobby, socks, labor, 20);
         assertEquals("Invalid move order: Don't have sufficient unit number in the territory.",
                 insufficient1.validate());
 
-        PlayerOrder ownership1 = new MoveOrder(ownershipChecker, harry, gringotts, labor, 10);
+        Order ownership1 = new MoveOrder(ownershipChecker, harry, gringotts, labor, 10);
         assertEquals("Invalid move order: The destination territory is not owned by you.",
                 ownership1.validate());
 
         socks.addNeighbours(labor);
         labor.addNeighbours(socks);
 
-        PlayerOrder valid1 = new MoveOrder(ownershipChecker, dobby, socks, labor, 10);
+        Order valid1 = new MoveOrder(ownershipChecker, dobby, socks, labor, 10);
         assertNull(valid1.validate());
     }
 }

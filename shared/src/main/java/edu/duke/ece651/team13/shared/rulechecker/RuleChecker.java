@@ -1,6 +1,6 @@
 package edu.duke.ece651.team13.shared.rulechecker;
 
-import edu.duke.ece651.team13.shared.order.PlayerOrder;
+import edu.duke.ece651.team13.shared.order.Order;
 
 public abstract class RuleChecker {
     private final RuleChecker next;
@@ -13,7 +13,7 @@ public abstract class RuleChecker {
      * Use parameter polymorphism to check on different types of orders
      * TODO: changed to pass in PlayerOrder, parametric polymorphism may not work here
      */
-    protected abstract String checkMyRule(PlayerOrder order);
+    protected abstract String checkMyRule(Order order);
 //    protected abstract String checkMyRule(AttackOrder order);
 
     /**
@@ -23,7 +23,7 @@ public abstract class RuleChecker {
      * @return null if the placement is OK
      *         any non-null String: a description of what is wrong, suitable to show the user
      */
-    public String checkOrder(PlayerOrder order){
+    public String checkOrder(Order order){
         //if we fail our own rule: stop the placement is not legal
         String res = checkMyRule(order);
         if (res != null) {

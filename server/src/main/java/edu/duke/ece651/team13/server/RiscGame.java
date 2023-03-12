@@ -4,7 +4,7 @@ import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
-import edu.duke.ece651.team13.shared.order.PlayerOrder;
+import edu.duke.ece651.team13.shared.order.Order;
 import edu.duke.ece651.team13.shared.territory.Territory;
 
 import java.io.BufferedReader;
@@ -85,11 +85,11 @@ public class RiscGame implements Game{
     public void playOneTurn(){}
 
     @Override
-    public String validateOrders(ArrayList<PlayerOrder> orders) {
+    public String validateOrders(ArrayList<Order> orders) {
         // Deep copy the map
         MapRO tempMap = gameBoard.getMap().replicate();
         // Move orders first
-        for(PlayerOrder order: orders){
+        for(Order order: orders){
            if(order.getClass().equals(MoveOrder.class)){
                String checkResult = order.validateOnMap(tempMap);
                if(checkResult!=null) return checkResult;

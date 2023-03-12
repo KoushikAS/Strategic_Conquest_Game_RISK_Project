@@ -1,7 +1,6 @@
 package edu.duke.ece651.team13.shared.rulechecker;
 
-import edu.duke.ece651.team13.shared.territory.Territory;
-import edu.duke.ece651.team13.shared.order.PlayerOrder;
+import edu.duke.ece651.team13.shared.order.Order;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.util.HashSet;
@@ -13,7 +12,7 @@ public class MovePathChecker extends RuleChecker{
     }
 
     @Override
-    protected String checkMyRule(PlayerOrder order) {
+    protected String checkMyRule(Order order) {
         if(!hasPath(order.getSource(), order.getDestination(), new HashSet<>())){
             return "Invalid move order: There is not a valid path between the src and dst.";
         }

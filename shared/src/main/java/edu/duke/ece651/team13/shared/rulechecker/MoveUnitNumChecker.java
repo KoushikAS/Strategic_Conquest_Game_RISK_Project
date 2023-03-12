@@ -1,6 +1,6 @@
 package edu.duke.ece651.team13.shared.rulechecker;
 
-import edu.duke.ece651.team13.shared.order.PlayerOrder;
+import edu.duke.ece651.team13.shared.order.Order;
 
 /**
  * Check if the source territory's unit number is valid after executing the order
@@ -11,7 +11,7 @@ public class MoveUnitNumChecker extends RuleChecker{
     }
 
     @Override
-    protected String checkMyRule(PlayerOrder order) {
+    protected String checkMyRule(Order order) {
         int sourceUnitNum = order.getSource().getUnitNum();
         int moveUnitNum = order.getUnits();
         if(sourceUnitNum < moveUnitNum) {

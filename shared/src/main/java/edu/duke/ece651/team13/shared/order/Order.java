@@ -5,18 +5,18 @@ import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 
-public abstract class PlayerOrder {
+public abstract class Order {
     protected final RuleChecker orderRuleChecker;
     protected Player player;
     protected Territory source;
     protected Territory destination;
     protected int units;
 
-    protected PlayerOrder(RuleChecker orderRuleChecker,
-                          Player player,
-                          Territory source,
-                          Territory destination,
-                          int units) {
+    protected Order(RuleChecker orderRuleChecker,
+                    Player player,
+                    Territory source,
+                    Territory destination,
+                    int units) {
         this.orderRuleChecker = orderRuleChecker;
         this.player = player;
         this.source = source;

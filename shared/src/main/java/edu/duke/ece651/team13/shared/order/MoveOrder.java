@@ -11,7 +11,7 @@ import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 /**
  * Move order
  */
-public class MoveOrder extends PlayerOrder {
+public class MoveOrder extends Order {
     public MoveOrder(RuleChecker ruleChecker,
                      Player player,
                      Territory source,
