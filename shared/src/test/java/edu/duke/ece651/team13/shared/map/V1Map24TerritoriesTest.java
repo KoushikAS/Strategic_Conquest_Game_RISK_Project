@@ -1,8 +1,7 @@
 package edu.duke.ece651.team13.shared.map;
 
-import edu.duke.ece651.team13.shared.Territory;
-import edu.duke.ece651.team13.shared.map.Map;
-import edu.duke.ece651.team13.shared.map.V1Map24Territories;
+import edu.duke.ece651.team13.shared.territory.Territory;
+import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,37 +13,37 @@ class V1Map24TerritoriesTest {
 
     @Test
     void initMap() {
-        Map m1 = new V1Map24Territories(24);
+        MapRO m1 = new V1Map24Territories(24);
 
-        Iterator<Territory> it = m1.getTerritoriesIterator();
+        Iterator<Territory> it1 = m1.getTerritoriesIterator();
 
-        Territory rottweiler = it.next();
-        Territory dachshund = it.next();
-        Territory beagle = it.next();
-        Territory labrador = it.next();
-        Territory poodle = it.next();
-        Territory bulldog = it.next();
-        Territory boxer = it.next();
-        Territory havanese = it.next();
-        Territory spaniel = it.next();
-        Territory sheepdog = it.next();
-        Territory akita = it.next();
-        Territory brittany = it.next();
-        Territory pug = it.next();
-        Territory vizsla = it.next();
-        Territory chihuahua = it.next();
-        Territory maltese = it.next();
-        Territory mastiff = it.next();
-        Territory collie = it.next();
-        Territory dalmatian = it.next();
-        Territory papillon = it.next();
-        Territory setter = it.next();
-        Territory samoyed = it.next();
-        Territory bullmastiff = it.next();
-        Territory whippet = it.next();
+        Territory rottweiler = it1.next();
+        Territory dachshund = it1.next();
+        Territory beagle = it1.next();
+        Territory labrador = it1.next();
+        Territory poodle = it1.next();
+        Territory bulldog = it1.next();
+        Territory boxer = it1.next();
+        Territory havanese = it1.next();
+        Territory spaniel = it1.next();
+        Territory sheepdog = it1.next();
+        Territory akita = it1.next();
+        Territory brittany = it1.next();
+        Territory pug = it1.next();
+        Territory vizsla = it1.next();
+        Territory chihuahua = it1.next();
+        Territory maltese = it1.next();
+        Territory mastiff = it1.next();
+        Territory collie = it1.next();
+        Territory dalmatian = it1.next();
+        Territory papillon = it1.next();
+        Territory setter = it1.next();
+        Territory samoyed = it1.next();
+        Territory bullmastiff = it1.next();
+        Territory whippet = it1.next();
 
         assertEquals(rottweiler.getName(), "Rottweiler");
-        it = rottweiler.getNeighbourIterartor();
+        Iterator<TerritoryRO> it = rottweiler.getNeighbourIterartor();
         assertEquals(dachshund, it.next());
         assertEquals(bulldog, it.next());
         assertEquals(labrador, it.next());
@@ -227,7 +226,7 @@ class V1Map24TerritoriesTest {
 
     @Test
     void test_getTerritoriesIterator(){
-        Map m1 = new V1Map24Territories(24);
+        MapRO m1 = new V1Map24Territories(24);
         ArrayList<Iterator<Territory>> groupsIteratorList = m1.getGroupsIterator();
         Iterator<Territory> iterator1 = groupsIteratorList.get(0);
         Iterator<Territory> iterator2 = groupsIteratorList.get(1);

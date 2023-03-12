@@ -1,6 +1,6 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.map.Map;
+import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map24Territories;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ class ServerTest{
             Socket clientSocket3 = new Socket("", testPortNum);
             Socket clientSocket4 = new Socket("", testPortNum);
             server.start();
-            Map expectedMap = new V1Map24Territories(24);
+            MapRO expectedMap = new V1Map24Territories(24);
             assertEquals(expectedMap, recvMsgFrom(clientSocket1));
             assertEquals(expectedMap, recvMsgFrom(clientSocket2));
             assertEquals(expectedMap, recvMsgFrom(clientSocket3));

@@ -1,6 +1,6 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.map.Map;
+import edu.duke.ece651.team13.shared.map.MapRO;
 
 /**
  * Board interface
@@ -11,5 +11,5 @@ public interface Board <T> {
     /**
      * Get the map of this game board
      */
-    Map getMap();
+    MapRO getMap();
 }

@@ -1,5 +1,7 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.territory;
 
+import edu.duke.ece651.team13.shared.HumanPlayer;
+import edu.duke.ece651.team13.shared.Player;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -37,35 +39,6 @@ class GameTerritoryTest {
   }
 
   @Test
-  void test_get_setTempUnitNum() {
-    Territory t = new GameTerritory(testName);
-    assertEquals(0, t.getTempUnitNum());
-    t.setTempUnitNum(5);
-    assertEquals(5, t.getTempUnitNum());
-    assertEquals(0, t.getUnitNum());
-  }
-
-  @Test
-  void test_setTempUnitNum_illegal() {
-    Territory t = new GameTerritory(testName);
-    assertThrows(IllegalArgumentException.class, () -> t.setTempUnitNum(-1));
-  }
-
-  @Test
-  void test_rollback_commitTempUnitNum() {
-    Territory t = new GameTerritory(testName);
-    t.setTempUnitNum(5);
-    assertEquals(5, t.getTempUnitNum());
-    assertEquals(0, t.getUnitNum());
-    t.commitTempUnitNum();
-    assertEquals(5, t.getUnitNum());
-    t.setTempUnitNum(10);
-    assertEquals(10, t.getTempUnitNum());
-    t.rollbackTempUnitNum();
-    assertEquals(5, t.getTempUnitNum());
-  }
-
-  @Test
   void test_get_setOwner() {
     Player player = new HumanPlayer("testPlayer", mockedReader);
     Territory t = new GameTerritory(testName);
@@ -96,7 +69,7 @@ class GameTerritoryTest {
     Territory t2 = new GameTerritory("neighbour1");
 
     // Check if the neighbours are emepty
-    Iterator<Territory> neighbourIt = t.getNeighbourIterartor();
+    Iterator<TerritoryRO> neighbourIt = t.getNeighbourIterartor();
     assertFalse(neighbourIt.hasNext());
 
     // Add an element

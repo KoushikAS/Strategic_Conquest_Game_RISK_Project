@@ -1,16 +1,13 @@
 package edu.duke.ece651.team13.shared.map;
 
-import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.territory.Territory;
+import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 
-public abstract class V1Map implements Map, Serializable {
+public abstract class V1Map implements MapRO, Serializable {
     protected ArrayList<Territory> territories;
-    protected HashMap<String, Territory> territoryNameMap;
     private final int initialUnit;
     protected ArrayList<ArrayList<Territory>> groups; //list of each group's territories
 
@@ -29,23 +26,18 @@ public abstract class V1Map implements Map, Serializable {
         this.groups = new ArrayList<>();
         initMap();
         assert (isConnected());
-        this.territoryNameMap = new HashMap<>();
-        for (Territory t : territories) {
-            territoryNameMap.put(t.getName(), t);
-        }
     }
 
     public V1Map(V1Map toCopy) {
         territories = new ArrayList<>();
-        territoryNameMap = new HashMap<>();
+
         for (Territory t : toCopy.territories) {
             Territory cloneT = t.replicate();
             territories.add(cloneT);
-            territoryNameMap.put(t.getName(), cloneT);
         }
         for (Territory t : toCopy.territories) {
             Territory cloneT = getTerritoryByName(t.getName());
-            for (Iterator<Territory> it = t.getNeighbourIterartor(); it.hasNext(); ) {
+            for (Iterator<TerritoryRO> it = t.getNeighbourIterartor(); it.hasNext(); ) {
                 String neighborName = it.next().getName();
                 Territory cloneNeighbor = getTerritoryByName(neighborName);
                 cloneT.addNeighbours(cloneNeighbor);
@@ -87,11 +79,11 @@ public abstract class V1Map implements Map, Serializable {
      *
      * @param visited is the HashSet to track the visited territories
      */
-    private void DFS(Territory source, HashSet<String> visited) {
+    private void DFS(TerritoryRO source, HashSet<String> visited) {
         visited.add(source.getName());
-        Iterator<Territory> it = source.getNeighbourIterartor();
+        Iterator<TerritoryRO> it = source.getNeighbourIterartor();
         while (it.hasNext()) {
-            Territory neighbor = it.next();
+            TerritoryRO neighbor = it.next();
             if (!visited.contains(neighbor.getName())) {
                 DFS(neighbor, visited);
             }
@@ -128,7 +120,11 @@ public abstract class V1Map implements Map, Serializable {
 
     @Override
     public Territory getTerritoryByName(String name) {
-        return territoryNameMap.get(name);
+        Optional<Territory> territory = territories.stream().filter(t -> t.getName().equals(name)).findAny();
+        if(!territory.isPresent()) {
+            throw new IllegalArgumentException("There is no Territory in this map with the name " + name);
+        }
+        return territory.get();
     }
 
     /**

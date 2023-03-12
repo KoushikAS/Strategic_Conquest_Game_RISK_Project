@@ -1,7 +1,8 @@
 package edu.duke.ece651.team13.shared.rulechecker;
 
-import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.order.PlayerOrder;
+import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,13 +26,13 @@ public class MovePathChecker extends RuleChecker{
      *
      * @param visited is the HashSet to track the visited territories
      */
-    private boolean hasPath(Territory source, Territory destination, HashSet<String> visited){
+    private boolean hasPath(TerritoryRO source, TerritoryRO destination, HashSet<String> visited){
         if(source == destination) return true;
 
         visited.add(source.getName());
-        Iterator<Territory> it = source.getNeighbourIterartor();
+        Iterator<TerritoryRO> it = source.getNeighbourIterartor();
         while(it.hasNext()){
-            Territory neighbor = it.next();
+            TerritoryRO neighbor = it.next();
             if(neighbor.getOwner() == source.getOwner()
                 && !visited.contains(neighbor.getName())){
                 if(hasPath(neighbor, destination, visited))

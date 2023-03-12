@@ -1,8 +1,8 @@
 package edu.duke.ece651.team13.shared.order;
 
 import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.Territory;
-import edu.duke.ece651.team13.shared.map.Map;
+import edu.duke.ece651.team13.shared.territory.Territory;
+import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 
 public abstract class PlayerOrder {
@@ -32,7 +32,7 @@ public abstract class PlayerOrder {
     /**
      * Execute the order on the specified source and destination, used in pre-validation
      */
-    public void actOnMap(Map map) {
+    public void actOnMap(MapRO map) {
     }
 
     /**
@@ -45,7 +45,7 @@ public abstract class PlayerOrder {
      * (would try to get the src and dst territory by id in the specified map, if those ids don't exist,
      * throws IllegalArgumentException)
      */
-    public String validateOnMap(Map map) {
+    public String validateOnMap(MapRO map) {
         return null;
     }
 

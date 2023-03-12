@@ -1,9 +1,9 @@
 package edu.duke.ece651.team13.shared.order;
 
-import edu.duke.ece651.team13.shared.GameTerritory;
+import edu.duke.ece651.team13.shared.territory.GameTerritory;
 import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.rulechecker.MoveOwnershipChecker;
 import edu.duke.ece651.team13.shared.rulechecker.MovePathChecker;
 import edu.duke.ece651.team13.shared.rulechecker.MoveUnitNumChecker;

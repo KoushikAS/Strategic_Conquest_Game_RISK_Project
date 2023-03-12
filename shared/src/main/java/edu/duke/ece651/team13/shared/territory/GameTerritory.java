@@ -1,4 +1,6 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.territory;
+
+import edu.duke.ece651.team13.shared.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,15 +16,13 @@ public class GameTerritory implements Territory, Serializable {
   private final String name;
   private Player owner;
   private int unitNum;
-  private int tempUnitNum;
-  private ArrayList<Territory> neighbours;
+  private ArrayList<TerritoryRO> neighbours;
   private Map<Player, Integer> attackers;
 
   public GameTerritory(String name) {
     this.name = name;
     this.owner = null;
     this.unitNum = 0;
-    this.tempUnitNum = 0;
     this.attackers = new HashMap<>();
     this.neighbours = new ArrayList<>();
   }
@@ -37,7 +37,6 @@ public class GameTerritory implements Territory, Serializable {
     this.name = name;
     this.owner = owner;
     this.unitNum = unitNum;
-    this.tempUnitNum = 0;
     this.attackers = new HashMap<>();
     this.neighbours = new ArrayList<>();
   }
@@ -72,16 +71,6 @@ public class GameTerritory implements Territory, Serializable {
     return this.unitNum;
   }
 
-  /**
-   * Get the temporary number of units in the territory
-   * This is used in the verification of orders
-   * 
-   * @return the integer tempUnitNum
-   */
-  @Override
-  public int getTempUnitNum() {
-    return this.tempUnitNum;
-  }
 
   /**
    * Set the owner
@@ -105,37 +94,6 @@ public class GameTerritory implements Territory, Serializable {
     if (newUnitNum < 0)
       throw new IllegalArgumentException("The unit number in a territory should be >= 0.");
     this.unitNum = newUnitNum;
-  }
-
-  /**
-   * Set the temporary unit number
-   * precondition: newTempUnitNum must be >= 0, if not, throws
-   * IllegalArgumentException
-   * 
-   * @param newTempUnitNum is the new tempUnitNum
-   */
-  @Override
-  public void setTempUnitNum(int newTempUnitNum) {
-    if (newTempUnitNum < 0)
-      throw new IllegalArgumentException("The unit number in a territory should be >= 0.");
-    this.tempUnitNum = newTempUnitNum;
-  }
-
-  /**
-   * Commit the temporary unit number, set the unitNum to be the same as
-   * tempUnitNum
-   */
-  @Override
-  public void commitTempUnitNum() {
-    setUnitNum(tempUnitNum);
-  }
-
-  /**
-   * Rollback the tempUnitNum to be equal to unitNum
-   */
-  @Override
-  public void rollbackTempUnitNum() {
-    setTempUnitNum(unitNum);
   }
 
   /**
@@ -172,7 +130,7 @@ public class GameTerritory implements Territory, Serializable {
    *
    */
   @Override
-  public Iterator<Territory> getNeighbourIterartor() {
+  public Iterator<TerritoryRO> getNeighbourIterartor() {
     return neighbours.iterator();
   }
 
@@ -182,7 +140,7 @@ public class GameTerritory implements Territory, Serializable {
    *
    */
   @Override
-  public void addNeighbours(Territory neighbour) {
+  public void addNeighbours(TerritoryRO neighbour) {
     if (!this.equals(neighbour) && !neighbours.contains(neighbour)) {
       neighbours.add(neighbour);
     }

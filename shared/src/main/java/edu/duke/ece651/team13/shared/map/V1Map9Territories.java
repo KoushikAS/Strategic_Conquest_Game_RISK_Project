@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.shared.map;
 
-import edu.duke.ece651.team13.shared.GameTerritory;
-import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.territory.GameTerritory;
+import edu.duke.ece651.team13.shared.territory.Territory;
 
 public class V1Map9Territories extends V1Map  {
 
@@ -66,7 +66,7 @@ public class V1Map9Territories extends V1Map  {
   }
 
   @Override
-  public Map replicate() {
+  public MapRO replicate() {
     return new V1Map9Territories(this);
   }
 }

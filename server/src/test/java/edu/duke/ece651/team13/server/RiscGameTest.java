@@ -1,8 +1,8 @@
 package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.Territory;
-import edu.duke.ece651.team13.shared.map.Map;
+import edu.duke.ece651.team13.shared.territory.Territory;
+import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.PlayerOrder;
 import org.junit.jupiter.api.AfterEach;
@@ -61,7 +61,7 @@ class RiscGameTest {
         game.initPlayer("Blue", mockedSocket);
         game.initGame();
 
-        Map map = game.getBoard().getMap();
+        MapRO map = game.getBoard().getMap();
 
         Territory rottweiler = map.getTerritoryByName("Rottweiler");
         assertEquals("Green", rottweiler.getOwner().getName());

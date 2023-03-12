@@ -1,8 +1,7 @@
 package edu.duke.ece651.team13.shared.map;
 
-import edu.duke.ece651.team13.shared.Territory;
-import edu.duke.ece651.team13.shared.map.Map;
-import edu.duke.ece651.team13.shared.map.V1Map12Territories;
+import edu.duke.ece651.team13.shared.territory.Territory;
+import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,25 +13,25 @@ class V1Map12TerritoriesTest {
 
     @Test
     void test_initMap() {
-        Map m1 = new V1Map12Territories(12);
+        MapRO m1 = new V1Map12Territories(12);
 
-        Iterator<Territory> it = m1.getTerritoriesIterator();
+        Iterator<Territory> it1 = m1.getTerritoriesIterator();
 
-        Territory rottweiler = it.next();
-        Territory dachshund = it.next();
-        Territory beagle = it.next();
-        Territory labrador = it.next();
-        Territory poodle = it.next();
-        Territory bulldog = it.next();
-        Territory boxer = it.next();
-        Territory havanese = it.next();
-        Territory spaniel = it.next();
-        Territory sheepdog = it.next();
-        Territory akita = it.next();
-        Territory brittany = it.next();
+        Territory rottweiler = it1.next();
+        Territory dachshund = it1.next();
+        Territory beagle = it1.next();
+        Territory labrador = it1.next();
+        Territory poodle = it1.next();
+        Territory bulldog = it1.next();
+        Territory boxer = it1.next();
+        Territory havanese = it1.next();
+        Territory spaniel = it1.next();
+        Territory sheepdog = it1.next();
+        Territory akita = it1.next();
+        Territory brittany = it1.next();
 
         assertEquals(rottweiler.getName(), "Rottweiler");
-        it = rottweiler.getNeighbourIterartor();
+        Iterator<TerritoryRO> it = rottweiler.getNeighbourIterartor();
         assertEquals(dachshund, it.next());
         assertEquals(labrador, it.next());
         assertEquals(poodle, it.next());
@@ -117,7 +116,7 @@ class V1Map12TerritoriesTest {
 
     @Test
     void test_getTerritoriesIterator(){
-        Map m1 = new V1Map12Territories(12);
+        MapRO m1 = new V1Map12Territories(12);
         ArrayList<Iterator<Territory>> groupsIteratorList = m1.getGroupsIterator();
         Iterator<Territory> iterator1 = groupsIteratorList.get(0);
         Iterator<Territory> iterator2 = groupsIteratorList.get(1);
