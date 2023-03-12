@@ -12,6 +12,7 @@ public abstract class V1Map implements Map, Serializable {
   protected ArrayList<Territory> territories;
   protected HashMap<Integer, Territory> territoryIDMap;
   private final int initialUnit;
+  protected ArrayList<ArrayList<Territory>> groups; //list of each group's territories
 
   /**
    * Construct the V1Map
@@ -25,6 +26,7 @@ public abstract class V1Map implements Map, Serializable {
       throw new IllegalArgumentException("The initialUnit must be >0");
     this.territories = new ArrayList<>();
     this.initialUnit = initialUnit;
+    this.groups = new ArrayList<>();
     initMap();
     assert(isConnected());
     this.territoryIDMap = new HashMap<>();
@@ -51,8 +53,6 @@ public abstract class V1Map implements Map, Serializable {
     }
     initialUnit = toCopy.initialUnit;
   }
-
-  protected ArrayList<ArrayList<Territory>> groups; //list of each group's territories
 
   @Override
   public int getInitialUnit() {
