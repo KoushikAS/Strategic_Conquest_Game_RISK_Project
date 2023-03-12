@@ -1,0 +1,23 @@
+package edu.duke.ece651.team13.shared.rulechecker;
+
+import edu.duke.ece651.team13.shared.order.PlayerOrder;
+
+/**
+ * Check if the source territory's unit number is valid after executing the order
+ */
+public class MoveUnitNumChecker extends RuleChecker{
+    public MoveUnitNumChecker(RuleChecker next) {
+        super(next);
+    }
+
+    @Override
+    protected String checkMyRule(PlayerOrder order) {
+        if(order.getSource().getUnitNum() < order.getUnits()) {
+            return "Invalid move order: Don't have sufficient unit number in the territory.";
+        }
+        else if(order.getUnits() < 0){
+            return "Invalid move order: The unit number to move should be >= 0.";
+        }
+        return null;
+    }
+}

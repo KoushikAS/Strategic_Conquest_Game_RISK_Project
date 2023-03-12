@@ -1,6 +1,5 @@
 package edu.duke.ece651.team13.shared.map;
 
-import edu.duke.ece651.team13.shared.GameTerritory;
 import edu.duke.ece651.team13.shared.Territory;
 
 import java.io.Serializable;
@@ -43,7 +42,7 @@ public abstract class V1Map implements Map, Serializable {
    * Do a DFS from the source territory, mark each visited territory
    * as true in the visited boolean array
    *
-   * @param visited is the array to track the visited territories
+   * @param visited is the HashSet to track the visited territories
    */
   private void DFS(Territory source, HashSet<Integer> visited){
     visited.add(source.getId());
@@ -98,42 +97,6 @@ public abstract class V1Map implements Map, Serializable {
    * Helper function to initialize the map structure
    * - all the territories and proper neighboring relationship
    */
-  protected void initMap() {
-    // Creating Terrritores
-    Territory narnia = new GameTerritory("Narnia");
-    Territory midkemia = new GameTerritory("Midkemia");
-    Territory oz = new GameTerritory("Oz");
-    Territory gondor = new GameTerritory("Gondor");
-    Territory elantris = new GameTerritory("Elantris");
-    Territory scadrial = new GameTerritory("Scadrial");
-    Territory roshar = new GameTerritory("Roshar");
-    Territory hogwarts = new GameTerritory("Hogwarts");
-    Territory mordor = new GameTerritory("Mordor");
-
-    addTerritoriesNeighbours(narnia, midkemia);
-    addTerritoriesNeighbours(narnia, elantris);
-    addTerritoriesNeighbours(midkemia, oz);
-    addTerritoriesNeighbours(midkemia, scadrial);
-    addTerritoriesNeighbours(oz, gondor);
-    addTerritoriesNeighbours(oz, mordor);
-    addTerritoriesNeighbours(gondor, mordor);
-    addTerritoriesNeighbours(elantris, scadrial);
-    addTerritoriesNeighbours(elantris, roshar);
-    addTerritoriesNeighbours(scadrial, roshar);
-    addTerritoriesNeighbours(scadrial, mordor);
-    addTerritoriesNeighbours(scadrial, hogwarts);
-    addTerritoriesNeighbours(roshar, hogwarts);
-    addTerritoriesNeighbours(mordor, hogwarts);
-
-    territories.add(narnia);
-    territories.add(midkemia);
-    territories.add(oz);
-    territories.add(gondor);
-    territories.add(elantris);
-    territories.add(scadrial);
-    territories.add(roshar);
-    territories.add(hogwarts);
-    territories.add(mordor);
-  }
+  protected abstract void initMap();
 
 }

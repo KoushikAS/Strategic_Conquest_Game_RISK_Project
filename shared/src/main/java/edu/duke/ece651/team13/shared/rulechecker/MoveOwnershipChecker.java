@@ -5,9 +5,9 @@ import edu.duke.ece651.team13.shared.order.PlayerOrder;
 /**
  * Check if the source territory of the order has valid ownership
  */
-public class OwnershipChecker extends RuleChecker{
+public class MoveOwnershipChecker extends RuleChecker{
 
-    public OwnershipChecker(RuleChecker next) {
+    public MoveOwnershipChecker(RuleChecker next) {
         super(next);
     }
 
