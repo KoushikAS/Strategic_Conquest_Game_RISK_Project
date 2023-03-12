@@ -1,11 +1,14 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.map;
+
+import edu.duke.ece651.team13.shared.GameTerritory;
+import edu.duke.ece651.team13.shared.Territory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class V1Map implements Map, Serializable {
+public abstract class V1Map implements Map, Serializable {
   protected ArrayList<Territory> territories;
   private final int initialUnit;
 

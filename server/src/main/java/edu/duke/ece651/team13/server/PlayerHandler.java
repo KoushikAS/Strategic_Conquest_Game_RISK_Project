@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.Game;
-import edu.duke.ece651.team13.shared.V1Map;
+import edu.duke.ece651.team13.shared.map.V1Map;
+import edu.duke.ece651.team13.shared.map.V1Map9Territories;
 
 import java.io.*;
 import java.net.Socket;
@@ -41,7 +41,7 @@ public class PlayerHandler extends Thread{
      * Send a map to client (temporary function)
      */
     public void sendMapToClient(){
-        V1Map map = new V1Map(1);
+        V1Map map = new V1Map9Territories(1);
         sendMesgTo(map);
     }
 

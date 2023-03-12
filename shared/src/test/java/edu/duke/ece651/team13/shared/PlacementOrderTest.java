@@ -1,5 +1,8 @@
 package edu.duke.ece651.team13.shared;
 
+import edu.duke.ece651.team13.shared.*;
+import edu.duke.ece651.team13.shared.rulechecker.PlacementChecker;
+import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 import org.junit.jupiter.api.Test;
 
 import java.net.Socket;

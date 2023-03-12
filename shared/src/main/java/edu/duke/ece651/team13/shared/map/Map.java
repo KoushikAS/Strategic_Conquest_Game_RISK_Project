@@ -1,4 +1,6 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.map;
+
+import edu.duke.ece651.team13.shared.Territory;
 
 import java.util.Iterator;
 

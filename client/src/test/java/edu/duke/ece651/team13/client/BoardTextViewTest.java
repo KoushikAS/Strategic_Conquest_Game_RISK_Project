@@ -1,5 +1,9 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.client;
 
+import edu.duke.ece651.team13.shared.GameTerritory;
+import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.map.V1Map;
+import edu.duke.ece651.team13.shared.map.V1Map9Territories;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +18,7 @@ public class BoardTextViewTest {
 
   @BeforeEach
   public void setUp() {
-    map = new V1Map(10);
+    map = new V1Map9Territories(10);
     view = new BoardTextView(map);
   }
 

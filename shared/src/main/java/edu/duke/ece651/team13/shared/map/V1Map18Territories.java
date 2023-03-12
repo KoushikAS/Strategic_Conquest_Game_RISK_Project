@@ -1,4 +1,7 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.map;
+
+import edu.duke.ece651.team13.shared.GameTerritory;
+import edu.duke.ece651.team13.shared.Territory;
 
 /**
  * drawio link to view map:

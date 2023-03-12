@@ -1,5 +1,13 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.order;
 
+import edu.duke.ece651.team13.shared.GameTerritory;
+import edu.duke.ece651.team13.shared.HumanPlayer;
+import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.order.MoveOrder;
+import edu.duke.ece651.team13.shared.order.PlayerOrder;
+import edu.duke.ece651.team13.shared.rulechecker.OwnershipChecker;
+import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 import org.junit.jupiter.api.Test;
 
 import java.net.Socket;

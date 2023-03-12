@@ -1,4 +1,7 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.rulechecker;
+
+import edu.duke.ece651.team13.shared.PlacementOrderAdapter;
+import edu.duke.ece651.team13.shared.order.PlayerOrder;
 
 public class PlacementChecker extends RuleChecker {
     public PlacementChecker(RuleChecker next) {

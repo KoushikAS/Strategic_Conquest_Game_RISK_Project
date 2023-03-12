@@ -1,5 +1,9 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.map;
 
+import edu.duke.ece651.team13.shared.GameTerritory;
+import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.map.Map;
+import edu.duke.ece651.team13.shared.map.V1Map9Territories;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
@@ -9,31 +13,31 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class V1MapTest {
+class V1Map9Territories9TerritoriesTest {
   @Test
   void test_constructor_illegal() {
-    assertThrows(IllegalArgumentException.class, () -> new V1Map(0));
-    assertThrows(IllegalArgumentException.class, () -> new V1Map(-1));
+    assertThrows(IllegalArgumentException.class, () -> new V1Map9Territories(0));
+    assertThrows(IllegalArgumentException.class, () -> new V1Map9Territories(-1));
   }
 
   @Test
   void test_getInitialUnit() {
-    Map m = new V1Map(1);
+    Map m = new V1Map9Territories(1);
     assertEquals(1, m.getInitialUnit());
   }
 
   @Test
   void test_equals() {
-    // TODO: Refactor this after refactoring V1Map.equals()
-    Map m1 = new V1Map(1);
-    Map m2 = new V1Map(2);
+    // TODO: Refactor this after refactoring V1Map9Territories.equals()
+    Map m1 = new V1Map9Territories(1);
+    Map m2 = new V1Map9Territories(2);
     assertNotEquals(m1, m2);
     assertNotEquals(m1, "map");
   }
 
   @Test
   void test_initMap() {
-    Map m1 = new V1Map(5);
+    Map m1 = new V1Map9Territories(5);
 
     Iterator<Territory> it = m1.getTerritoriesIterator();
 
@@ -107,8 +111,8 @@ class V1MapTest {
   /**
    * Helper class that initializes an unconnected map for testing
    */
-  static class UnconnectedV1Map extends V1Map{
-    public UnconnectedV1Map(int initialUnit) {
+  static class UnconnectedV1Map9Territories extends V1Map9Territories{
+    public UnconnectedV1Map9Territories(int initialUnit) {
       super(initialUnit);
     }
 
@@ -154,11 +158,11 @@ class V1MapTest {
   @Test
   void test_isConnected(){
     // Connected
-    Map m1 = new V1Map(5);
+    Map m1 = new V1Map9Territories(5);
     assertTrue(m1.isConnected());
 
     // Not connected
-    assertThrows(AssertionError.class, ()-> new UnconnectedV1Map(5));
+    assertThrows(AssertionError.class, ()-> new UnconnectedV1Map9Territories(5));
   }
 
 }

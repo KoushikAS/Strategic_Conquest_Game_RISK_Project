@@ -1,4 +1,7 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.client;
+
+import edu.duke.ece651.team13.shared.Territory;
+import edu.duke.ece651.team13.shared.map.V1Map;
 
 import java.util.ArrayList;
 import java.util.Iterator;
