@@ -11,6 +11,8 @@ public abstract class V1Map implements Map, Serializable {
   protected ArrayList<Territory> territories;
   private final int initialUnit;
 
+  protected ArrayList<ArrayList<Territory>> groups; //list of each group's territories
+
   @Override
   public int getInitialUnit() {
     return initialUnit;
@@ -67,6 +69,7 @@ public abstract class V1Map implements Map, Serializable {
       throw new IllegalArgumentException("The initialUnit must be >0");
     this.territories = new ArrayList<>();
     this.initialUnit = initialUnit;
+    this.groups = new ArrayList<>();
     initMap();
     assert(isConnected());
   }
@@ -98,5 +101,18 @@ public abstract class V1Map implements Map, Serializable {
    * - all the territories and proper neighboring relationship
    */
   protected abstract void initMap();
+
+
+  /**
+   * Get the list of iterators for all groups (2 groups, 3 groups or 4 groups)
+   */
+  @Override
+  public ArrayList<Iterator<Territory>> getGroupsIterator(){
+    ArrayList<Iterator<Territory>> groupsIteratorList = new ArrayList<>();
+    for (ArrayList<Territory> group : groups) {
+      groupsIteratorList.add(group.iterator());
+    }
+    return groupsIteratorList;
+  }
 
 }

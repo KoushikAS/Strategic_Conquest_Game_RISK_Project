@@ -3,6 +3,8 @@ package edu.duke.ece651.team13.shared.map;
 import edu.duke.ece651.team13.shared.GameTerritory;
 import edu.duke.ece651.team13.shared.Territory;
 
+import java.util.ArrayList;
+
 /**
  * drawio link to view map:
  * https://drive.google.com/file/d/1Fwy_GMuMYU3z7koQqVjbW5Y22vkXzESr/view?usp=sharing
@@ -74,5 +76,26 @@ public class V1Map12Territories extends V1Map {
         territories.add(sheepdog);
         territories.add(akita);
         territories.add(brittany);
+
+        //make groups
+        ArrayList<Territory> group1 = new ArrayList<>();
+        ArrayList<Territory> group2 = new ArrayList<>();
+
+        group1.add(rottweiler);
+        group1.add(dachshund);
+        group1.add(beagle);
+        group1.add(labrador);
+        group1.add(poodle);
+        group1.add(bulldog);
+
+        group2.add(boxer);
+        group2.add(havanese);
+        group2.add(spaniel);
+        group2.add(sheepdog);
+        group2.add(akita);
+        group2.add(brittany);
+
+        groups.add(group1);
+        groups.add(group2);
     }
 }

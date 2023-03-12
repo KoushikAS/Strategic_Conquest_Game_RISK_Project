@@ -5,6 +5,7 @@ import edu.duke.ece651.team13.shared.map.Map;
 import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -112,5 +113,41 @@ class V1Map12TerritoriesTest {
         assertEquals(spaniel, it.next());
         assertEquals(akita, it.next());
 
+    }
+
+    @Test
+    void test_getTerritoriesIterator(){
+        Map m1 = new V1Map12Territories(12);
+        ArrayList<Iterator<Territory>> groupsIteratorList = m1.getGroupsIterator();
+        Iterator<Territory> iterator1 = groupsIteratorList.get(0);
+        Iterator<Territory> iterator2 = groupsIteratorList.get(1);
+
+        Territory rottweiler = iterator1.next();
+        Territory dachshund = iterator1.next();
+        Territory beagle = iterator1.next();
+        Territory labrador = iterator1.next();
+        Territory poodle = iterator1.next();
+        Territory bulldog = iterator1.next();
+
+        Territory boxer = iterator2.next();
+        Territory havanese = iterator2.next();
+        Territory spaniel = iterator2.next();
+        Territory sheepdog = iterator2.next();
+        Territory akita = iterator2.next();
+        Territory brittany = iterator2.next();
+
+        assertEquals(rottweiler.getName(), "Rottweiler");
+        assertEquals(dachshund.getName(), "Dachshund");
+        assertEquals(beagle.getName(), "Beagle");
+        assertEquals(labrador.getName(), "Labrador");
+        assertEquals(poodle.getName(), "Poodle");
+        assertEquals(bulldog.getName(), "Bulldog");
+
+        assertEquals(boxer.getName(), "Boxer");
+        assertEquals(havanese.getName(), "Havanese");
+        assertEquals(spaniel.getName(), "Spaniel");
+        assertEquals(sheepdog.getName(), "Sheepdog");
+        assertEquals(akita.getName(), "Akita");
+        assertEquals(brittany.getName(), "Brittany");
     }
 }
