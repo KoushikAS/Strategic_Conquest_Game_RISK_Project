@@ -9,12 +9,6 @@ import java.util.Map;
  * The interface of Territory
  */
 public interface TerritoryRO {
-  /**
-   * Get the id of the territory
-   * 
-   * @return the integer id
-   */
-  int getId();
 
   /**
    * Get the name of the territory

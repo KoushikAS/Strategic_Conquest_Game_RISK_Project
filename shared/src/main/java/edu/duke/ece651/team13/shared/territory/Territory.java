@@ -37,10 +37,6 @@ public interface Territory extends TerritoryRO{
    */
   void clearAttackers();
 
-  /**
-   * Set the static nextId field back to zero
-   */
-  void setNextIdToZero();
 
   /**
    * add Neighbouring territores iterator.

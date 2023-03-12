@@ -168,23 +168,23 @@ class V1Map9Territories9TerritoriesTest {
   void test_replicate(){
     MapRO map = new V1Map9Territories(10);
     Iterator<Territory> it = map.getTerritoriesIterator();
-    int firstID = it.next().getId();
-    Territory firstT = map.getTerritoryByID(firstID);
+    String firstName = it.next().getName();
+    Territory firstT = map.getTerritoryByName(firstName);
     firstT.setUnitNum(100);
-    int secondID = it.next().getId();
-    Territory secondT = map.getTerritoryByID(secondID);
+    String secondName = it.next().getName();
+    Territory secondT = map.getTerritoryByName(secondName);
     secondT.setUnitNum(200);
 
     MapRO cloneMap = map.replicate();
-    Territory cloneFirstT = cloneMap.getTerritoryByID(firstID);
+    Territory cloneFirstT = cloneMap.getTerritoryByName(firstName);
     assertEquals(100, cloneFirstT.getUnitNum());
-    Territory cloneSecondT = cloneMap.getTerritoryByID(secondID);
+    Territory cloneSecondT = cloneMap.getTerritoryByName(secondName);
     assertEquals(200, cloneSecondT.getUnitNum());
 
-    int thirdID = it.next().getId();
-    Territory thirdT = map.getTerritoryByID(thirdID);
+    String thirdName = it.next().getName();
+    Territory thirdT = map.getTerritoryByName(thirdName);
     thirdT.setUnitNum(300);
-    Territory cloneThirdT = cloneMap.getTerritoryByID(thirdID);
+    Territory cloneThirdT = cloneMap.getTerritoryByName(thirdName);
     assertEquals(0, cloneThirdT.getUnitNum());
 
     firstT.setUnitNum(0);
@@ -192,7 +192,7 @@ class V1Map9Territories9TerritoriesTest {
 
     for (Iterator<TerritoryRO> iter = firstT.getNeighbourIterartor(); iter.hasNext(); ) {
       TerritoryRO neighbor = iter.next();
-      Territory cloneNeighbor = cloneMap.getTerritoryByID(neighbor.getId());
+      Territory cloneNeighbor = cloneMap.getTerritoryByName(neighbor.getName());
       assertTrue(isNeighborTo(cloneFirstT, cloneNeighbor));
     }
   }

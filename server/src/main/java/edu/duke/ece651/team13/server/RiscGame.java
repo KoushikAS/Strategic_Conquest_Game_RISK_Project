@@ -101,4 +101,14 @@ public class RiscGame implements Game{
         return null;
     }
 
+    @Override
+    public Player getPlayerByName(String name) {
+        for(Player p: players){
+            if(p.getName().equals(name)){
+                return p;
+            }
+        }
+        return null;
+    }
+
 }
