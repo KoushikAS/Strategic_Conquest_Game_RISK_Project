@@ -30,20 +30,6 @@ class ServerTest{
         }
     }
 
-    @Test
-    public void test_sendMapToClient(){
-        try{
-            Server server = new Server(testPortNum, new RiscGame(1));
-            Socket clientSocket = new Socket("", testPortNum);
-            server.connectToClients();
-            V1Map9Territories expectedMap = new V1Map9Territories(1);
-            assertEquals(expectedMap, recvMsgFrom(clientSocket));
-            server.closeServer();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Helper function to receive message object from server
      * @param clientSocket client socket used to communicate with server

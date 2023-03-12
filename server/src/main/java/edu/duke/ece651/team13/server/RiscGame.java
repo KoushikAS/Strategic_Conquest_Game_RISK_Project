@@ -12,7 +12,8 @@ public class RiscGame implements Game{
 
     public RiscGame(int maxNumPlayers){
         this.maxPlayers = maxNumPlayers;
-        this.gameBoard = new RiscGameBoard();
+        this.gameBoard = new RiscGameBoard(maxNumPlayers);
+        this.players = new ArrayList<>();
     }
 
     @Override
