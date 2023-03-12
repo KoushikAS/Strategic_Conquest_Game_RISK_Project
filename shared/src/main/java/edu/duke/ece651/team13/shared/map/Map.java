@@ -26,6 +26,16 @@ public interface Map {
    */
   boolean isConnected();
 
+  /**
+   * Get the territory by its id
+   */
+  Territory getTerritoryByID(int id);
+
+  /**
+   * Make a deep copy of the map
+   * @return the deep copy of the map
+   */
+  Map replicate();
 
   /**
    * Get the list of iterators for all groups (2 groups, 3 groups or 4 groups)

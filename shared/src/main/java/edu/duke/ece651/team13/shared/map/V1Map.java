@@ -4,14 +4,55 @@ import edu.duke.ece651.team13.shared.Territory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
 public abstract class V1Map implements Map, Serializable {
   protected ArrayList<Territory> territories;
+  protected HashMap<Integer, Territory> territoryIDMap;
   private final int initialUnit;
-
   protected ArrayList<ArrayList<Territory>> groups; //list of each group's territories
+
+  /**
+   * Construct the V1Map
+   * Precondition: initialUnit > 0, or throw IllegalArgumentException
+   *
+   * @param initialUnit is the initial unit number that could be used by each
+   *                    player
+   */
+  public V1Map(int initialUnit) {
+    if (initialUnit <= 0)
+      throw new IllegalArgumentException("The initialUnit must be >0");
+    this.territories = new ArrayList<>();
+    this.initialUnit = initialUnit;
+    this.groups = new ArrayList<>();
+    initMap();
+    assert(isConnected());
+    this.territoryIDMap = new HashMap<>();
+    for(Territory t: territories){
+      territoryIDMap.put(t.getId(), t);
+    }
+  }
+
+  public V1Map(V1Map toCopy){
+    territories = new ArrayList<>();
+    territoryIDMap = new HashMap<>();
+    for(Territory t: toCopy.territories){
+      Territory cloneT = t.replicate();
+      territories.add(cloneT);
+      territoryIDMap.put(t.getId(), cloneT);
+    }
+    for(Territory t: toCopy.territories){
+      Territory cloneT = getTerritoryByID(t.getId());
+      for (Iterator<Territory> it = t.getNeighbourIterartor(); it.hasNext(); ) {
+        int neighborID = it.next().getId();
+        Territory cloneNeighbor = getTerritoryByID(neighborID);
+        cloneT.addNeighbours(cloneNeighbor);
+      }
+    }
+    initialUnit = toCopy.initialUnit;
+  }
 
   @Override
   public int getInitialUnit() {
@@ -57,23 +98,6 @@ public abstract class V1Map implements Map, Serializable {
     }
   }
 
-  /**
-   * Construct the V1Map
-   * Precondition: initialUnit > 0, or throw IllegalArgumentException
-   *
-   * @param initialUnit is the initial unit number that could be used by each
-   *                    player
-   */
-  public V1Map(int initialUnit) {
-    if (initialUnit <= 0)
-      throw new IllegalArgumentException("The initialUnit must be >0");
-    this.territories = new ArrayList<>();
-    this.initialUnit = initialUnit;
-    this.groups = new ArrayList<>();
-    initMap();
-    assert(isConnected());
-  }
-
   @Override
   // todo: More conditions are needed to determine that two maps are equal
   public boolean equals(Object other) {
@@ -102,6 +126,10 @@ public abstract class V1Map implements Map, Serializable {
    */
   protected abstract void initMap();
 
+  @Override
+  public Territory getTerritoryByID(int id){
+    return territoryIDMap.get(id);
+  }
 
   /**
    * Get the list of iterators for all groups (2 groups, 3 groups or 4 groups)
@@ -114,5 +142,4 @@ public abstract class V1Map implements Map, Serializable {
     }
     return groupsIteratorList;
   }
-
 }

@@ -2,8 +2,6 @@ package edu.duke.ece651.team13.shared.map;
 
 import edu.duke.ece651.team13.shared.GameTerritory;
 import edu.duke.ece651.team13.shared.Territory;
-import edu.duke.ece651.team13.shared.map.Map;
-import edu.duke.ece651.team13.shared.map.V1Map9Territories;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
@@ -163,6 +161,47 @@ class V1Map9Territories9TerritoriesTest {
 
     // Not connected
     assertThrows(AssertionError.class, ()-> new UnconnectedV1Map9Territories(5));
+  }
+
+  @Test
+  void test_replicate(){
+    Map map = new V1Map9Territories(10);
+    Iterator<Territory> it = map.getTerritoriesIterator();
+    int firstID = it.next().getId();
+    Territory firstT = map.getTerritoryByID(firstID);
+    firstT.setUnitNum(100);
+    int secondID = it.next().getId();
+    Territory secondT = map.getTerritoryByID(secondID);
+    secondT.setUnitNum(200);
+
+    Map cloneMap = map.replicate();
+    Territory cloneFirstT = cloneMap.getTerritoryByID(firstID);
+    assertEquals(100, cloneFirstT.getUnitNum());
+    Territory cloneSecondT = cloneMap.getTerritoryByID(secondID);
+    assertEquals(200, cloneSecondT.getUnitNum());
+
+    int thirdID = it.next().getId();
+    Territory thirdT = map.getTerritoryByID(thirdID);
+    thirdT.setUnitNum(300);
+    Territory cloneThirdT = cloneMap.getTerritoryByID(thirdID);
+    assertEquals(0, cloneThirdT.getUnitNum());
+
+    firstT.setUnitNum(0);
+    assertEquals(100, cloneFirstT.getUnitNum());
+
+    for (Iterator<Territory> iter = firstT.getNeighbourIterartor(); iter.hasNext(); ) {
+      Territory neighbor = iter.next();
+      Territory cloneNeighbor = cloneMap.getTerritoryByID(neighbor.getId());
+      assertTrue(isNeighborTo(cloneFirstT, cloneNeighbor));
+    }
+  }
+
+  private boolean isNeighborTo(Territory t1, Territory t2){
+    for(Iterator<Territory> iter = t1.getNeighbourIterartor(); iter.hasNext(); ){
+      Territory neighbor = iter.next();
+      if(neighbor == t2) return true;
+    }
+    return false;
   }
 
 }

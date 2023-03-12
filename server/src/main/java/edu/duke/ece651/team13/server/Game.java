@@ -1,5 +1,8 @@
 package edu.duke.ece651.team13.server;
 
+import edu.duke.ece651.team13.shared.order.PlayerOrder;
+
+import java.util.ArrayList;
 import java.net.Socket;
 
 /**
@@ -25,4 +28,12 @@ public interface Game {
 
     void playOneTurn();
 
+    /**
+     * Validate a batch of orders made by one player
+     *
+     * @param orders is the list of orders made by a player
+     * @return null if the batch of order is valid,
+     *         description of error if invalid
+     */
+    String validateOrders(ArrayList<PlayerOrder> orders);
 }

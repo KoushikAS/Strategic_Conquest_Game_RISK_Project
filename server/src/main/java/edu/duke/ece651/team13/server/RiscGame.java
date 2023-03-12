@@ -2,8 +2,10 @@ package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.Territory;
 import edu.duke.ece651.team13.shared.map.Map;
+import edu.duke.ece651.team13.shared.order.MoveOrder;
+import edu.duke.ece651.team13.shared.order.PlayerOrder;
+import edu.duke.ece651.team13.shared.Territory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -81,5 +83,22 @@ public class RiscGame implements Game{
 
     @Override
     public void playOneTurn(){}
+
+    @Override
+    public String validateOrders(ArrayList<PlayerOrder> orders) {
+        // Deep copy the map
+        Map tempMap = gameBoard.getMap().replicate();
+        // Move orders first
+        for(PlayerOrder order: orders){
+           if(order.getClass().equals(MoveOrder.class)){
+               String checkResult = order.validateOnMap(tempMap);
+               if(checkResult!=null) return checkResult;
+               order.actOnMap(tempMap);
+           }
+        }
+        // Attack orders
+        // The orders are valid, return null
+        return null;
+    }
 
 }

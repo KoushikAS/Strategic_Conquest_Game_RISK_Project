@@ -109,4 +109,9 @@ public interface Territory {
    * add Neighbouring territores iterator.
    */
   void addNeighbours(Territory neighbour);
+
+  /**
+   * Make a deep copy of the territory, but will leave out the neighbor information
+   */
+  Territory replicate();
 }
