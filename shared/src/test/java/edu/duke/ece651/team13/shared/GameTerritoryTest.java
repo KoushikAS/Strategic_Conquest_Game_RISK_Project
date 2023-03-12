@@ -1,5 +1,11 @@
 package edu.duke.ece651.team13.shared;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.BufferedReader;
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -7,14 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
-import java.net.Socket;
-import java.util.Iterator;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 class GameTerritoryTest {
-  private final Socket mockedSocket = mock(Socket.class);
+  private final BufferedReader mockedReader = mock(BufferedReader.class);
   private final String testName = "testTerritory";
 
   @BeforeEach
@@ -82,7 +82,7 @@ class GameTerritoryTest {
 
   @Test
   void test_get_setOwner() {
-    Player player = new HumanPlayer("testPlayer", mockedSocket);
+    Player player = new HumanPlayer("testPlayer", mockedReader);
     Territory t = new GameTerritory(testName);
     assertNull(t.getOwner());
     t.setOwner(player);
@@ -94,8 +94,8 @@ class GameTerritoryTest {
     Territory t = new GameTerritory(testName);
     assertTrue(t.getAttackers().isEmpty());
 
-    Player attacker1 = new HumanPlayer("attacker1", mockedSocket);
-    Player attacker2 = new HumanPlayer("attacker2", mockedSocket);
+    Player attacker1 = new HumanPlayer("attacker1", mockedReader);
+    Player attacker2 = new HumanPlayer("attacker2", mockedReader);
     t.addAttacker(attacker1, 10);
     t.addAttacker(attacker2, 8);
     assertEquals(10, t.getAttackers().get(attacker1));

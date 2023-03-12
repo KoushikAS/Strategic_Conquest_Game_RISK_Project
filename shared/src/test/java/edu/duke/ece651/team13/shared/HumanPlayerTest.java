@@ -1,43 +1,45 @@
 package edu.duke.ece651.team13.shared;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.Socket;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class HumanPlayerTest {
-    private final Socket mockedSocket = mock(Socket.class);
+    private final BufferedReader mockedReader = mock(BufferedReader.class);
     private final String testName ="testPlayer";
 
     @BeforeEach
     void initEach(){
-        Player p = new HumanPlayer(testName, mockedSocket);
+        Player p = new HumanPlayer(testName, mockedReader);
         p.setNextIdToZero();
     }
 
     @Test
     void test_getId() {
-        Player p = new HumanPlayer(testName, mockedSocket);
+        Player p = new HumanPlayer(testName, mockedReader);
         assertEquals(0, p.getId());
-        Player p2 = new HumanPlayer(testName, mockedSocket);
+        Player p2 = new HumanPlayer(testName, mockedReader);
         assertEquals(1, p2.getId());
     }
 
     @Test
     void test_getName() {
-        Player p = new HumanPlayer(testName, mockedSocket);
+        Player p = new HumanPlayer(testName, mockedReader);
         assertEquals(testName, p.getName());
     }
 
     @Test
     void test_Set_getInitStatus() {
-        Player p = new HumanPlayer(testName, mockedSocket);
+        Player p = new HumanPlayer(testName, mockedReader);
         assertEquals("PLAYING", p.getStatus());
         p.setStatus("LOSE");
         assertEquals("LOSE", p.getStatus());
@@ -46,7 +48,7 @@ class HumanPlayerTest {
 
     @Test
     void test_isValidStatus() {
-        Player p = new HumanPlayer(testName, mockedSocket);
+        Player p = new HumanPlayer(testName, mockedReader);
         assertTrue(p.isValidStatus("LOSE"));
         assertTrue(p.isValidStatus("PLAYING"));
         assertFalse(p.isValidStatus("1"));
@@ -62,8 +64,7 @@ class HumanPlayerTest {
 
     private Player createHumanPlayer(String inputData) {
         BufferedReader input = new BufferedReader(new StringReader(inputData));
-        HumanPlayer p = new HumanPlayer(testName, mockedSocket);
-        p.setInputReader(input);
+        HumanPlayer p = new HumanPlayer(testName, input);
         return p;
     }
 }
