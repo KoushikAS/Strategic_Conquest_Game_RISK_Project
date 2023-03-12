@@ -27,13 +27,7 @@ class RiscGameTest {
         RiscGame game = new RiscGame(2);
         assertEquals(2, game.getMaxPlayers());
     }
-
-    @Test
-    void test_getBoard() {
-        RiscGame game = new RiscGame(2);
-        Board expectedBoard = new RiscGameBoard(2);
-        assertEquals(expectedBoard.getMap(), game.getBoard().getMap());
-    }
+    
 
     @Mock
     private Socket mockedSocket;
@@ -61,7 +55,7 @@ class RiscGameTest {
         game.initPlayer("Blue", mockedSocket);
         game.initGame();
 
-        MapRO map = game.getBoard().getMap();
+        MapRO map = game.getMap();
 
         Territory rottweiler = map.getTerritoryByName("Rottweiler");
         assertEquals("Green", rottweiler.getOwner().getName());

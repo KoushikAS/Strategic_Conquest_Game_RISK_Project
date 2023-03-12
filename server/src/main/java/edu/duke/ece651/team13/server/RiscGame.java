@@ -3,6 +3,8 @@ package edu.duke.ece651.team13.server;
 import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
+import edu.duke.ece651.team13.shared.map.V1Map;
+import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.Order;
 import edu.duke.ece651.team13.shared.territory.Territory;
@@ -15,11 +17,11 @@ public class RiscGame implements Game {
 
     private ArrayList<Player> players;
     private int maxPlayers;
-    private Board gameBoard;
+    private V1Map map;
 
     public RiscGame(int maxNumPlayers) {
         this.maxPlayers = maxNumPlayers;
-        this.gameBoard = new RiscGameBoard(maxNumPlayers);
+        this.map = new V1Map12Territories(maxNumPlayers);
         this.players = new ArrayList<>();
     }
 
@@ -43,17 +45,15 @@ public class RiscGame implements Game {
      */
     @Override
     public void initPlayer(String name, Socket clientSocket) {
-
         Player player = new HumanPlayer(name);
         this.players.add(player);
-
     }
 
     /**
      * Assign groups to each player after init all players
      */
     private void assignGroups() {
-        MapRO map = this.gameBoard.getMap();
+        MapRO map = this.map;
         ArrayList<Iterator<Territory>> groupsIterator = map.getGroupsIterator();
         for (int i = 0; i < this.players.size(); i++) {
             while (groupsIterator.get(i).hasNext()) {
@@ -79,8 +79,8 @@ public class RiscGame implements Game {
      * @return Board game board
      */
     @Override
-    public Board getBoard() {
-        return this.gameBoard;
+    public MapRO getMap() {
+        return this.map;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class RiscGame implements Game {
     @Override
     public String validateOrders(ArrayList<Order> orders) {
         // Deep copy the map
-        MapRO tempMap = gameBoard.getMap().replicate();
+        MapRO tempMap = map.replicate();
         // Move orders first
         for (Order order : orders) {
             if (order.getClass().equals(MoveOrder.class)) {

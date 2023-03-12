@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.Order;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public interface Game {
      * Get the board of one game
      * @return Board game board
      */
-    Board getBoard();
+    MapRO getMap();
 
     void playOneTurn();
 

@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.map.MapRO;
+import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -31,7 +32,7 @@ public class Server{
                 game.initPlayer(name, clientSocket);
                 //send map to each client
                 //Map map = this.game.getBoard().getMap(); (BufferedReader not serializable)
-                MapRO map = new RiscGameBoard<>(this.game.getMaxPlayers()).getMap();
+                MapRO map = new V1Map12Territories(this.game.getMaxPlayers());
                 Thread clientThread = new Thread(new PlayerHandler(clientSocket, this.game, map));
                 clientThread.start();
             }catch (IOException e){
