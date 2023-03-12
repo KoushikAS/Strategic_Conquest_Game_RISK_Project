@@ -1,19 +1,21 @@
 package edu.duke.ece651.team13.shared;
 
-import edu.duke.ece651.team13.shared.*;
 import edu.duke.ece651.team13.shared.rulechecker.PlacementChecker;
 import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 import org.junit.jupiter.api.Test;
 
-import java.net.Socket;
+import java.io.BufferedReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 public class PlacementOrderTest {
+    private final BufferedReader mockedReader = mock(BufferedReader.class);
+
     @Test
     public void test_execute() {
         RuleChecker placementChecker = new PlacementChecker(null);
-        Player tom = new HumanPlayer("Tom Riddle", new Socket());
+        Player tom = new HumanPlayer("Tom Riddle", mockedReader);
         Territory hogwarts = new GameTerritory("Hogwarts");
         hogwarts.setOwner(tom);
         hogwarts.setUnitNum(0);
@@ -26,7 +28,7 @@ public class PlacementOrderTest {
     @Test
     public void test_validateOrder() {
         RuleChecker placementChecker = new PlacementChecker(null);
-        Player tom = new HumanPlayer("Tom Riddle", new Socket());
+        Player tom = new HumanPlayer("Tom Riddle", mockedReader);
         Territory hogwarts = new GameTerritory("Hogwarts");
         hogwarts.setOwner(tom);
         hogwarts.setUnitNum(0);

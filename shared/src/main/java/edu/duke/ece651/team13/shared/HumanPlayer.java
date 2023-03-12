@@ -5,18 +5,15 @@ import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.net.Socket;
 
 /**
  * This class handles the information of one human player
  */
 public class HumanPlayer implements Player, Serializable {
-    private int id;
+    private final int id;
     static public int nextId = 0;
-    private String name;
-    private Socket clientSocket;
+    private final String name;
     // TODO: Change the status to an enum
     private String status;
     private BufferedReader inputReader;
@@ -27,14 +24,11 @@ public class HumanPlayer implements Player, Serializable {
     /**
      * Construct a new Player
      */
-    public HumanPlayer(
-                       String name,
-                       Socket clientSocket){
+    public HumanPlayer(String name, BufferedReader inputReader){
         this.id = nextId++;
         this.name = name;
-        this.clientSocket = clientSocket;
         this.status = getInitStatus();
-        inputReader = new BufferedReader(new InputStreamReader(System.in));
+        this.inputReader = inputReader;
     }
 
     /**
@@ -144,16 +138,6 @@ public class HumanPlayer implements Player, Serializable {
             System.out.println("That is not a valid choice");
             return null;
         }
-    }
-
-    /**
-     * Set the input reader for the player
-     * TODO: probably include in the constructor
-     *
-     * @param reader
-     */
-    public void setInputReader(BufferedReader reader) {
-        this.inputReader = reader;
     }
 
     /**
