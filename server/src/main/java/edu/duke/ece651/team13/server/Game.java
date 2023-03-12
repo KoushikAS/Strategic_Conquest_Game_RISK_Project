@@ -13,7 +13,6 @@ import java.util.Iterator;
  */
 public interface Game {
 
-    void initGame();
 
     void initPlayer(String name, Socket clientSocket);
 

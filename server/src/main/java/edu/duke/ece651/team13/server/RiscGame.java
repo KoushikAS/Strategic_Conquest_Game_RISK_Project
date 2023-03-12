@@ -20,19 +20,9 @@ public class RiscGame implements Game {
     public RiscGame(V1Map map, ArrayList<Player> players) {
         this.map = map;
         this.players = players;
+        assignInitialGroups();
     }
 
-
-    /**
-     * Init game: groups assignment (after init Players) and initial placement
-     */
-    @Override
-    public void initGame() {
-        //init game after init players
-        //assign groups (after init Players)
-        assignGroups();
-        //TODO: initial placement
-    }
 
     @Override
     public Iterator<Player> getPlayersIterator() {
@@ -54,9 +44,9 @@ public class RiscGame implements Game {
     /**
      * Assign groups to each player after init all players
      */
-    private void assignGroups() {
-        MapRO map = this.map;
-        ArrayList<Iterator<Territory>> groupsIterator = map.getInitialGroups();
+    private void assignInitialGroups() {
+        ArrayList<Iterator<Territory>> groupsIterator = this.map.getInitialGroups();
+        assert(groupsIterator.size() == this.players.size());
         for (int i = 0; i < this.players.size(); i++) {
             while (groupsIterator.get(i).hasNext()) {
                 Territory t = groupsIterator.get(i).next();

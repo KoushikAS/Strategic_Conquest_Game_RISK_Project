@@ -44,8 +44,6 @@ public class Server{
                 e.printStackTrace();
             }
         }
-        //after all players connect to server, init game
-        game.initGame();
     }
 
 

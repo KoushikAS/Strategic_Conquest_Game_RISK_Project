@@ -42,8 +42,7 @@ public class App {
         int playerNumber = 2;
         V1Map map = getMap(playerNumber);
         ArrayList<Player> players = getPlayers(playerNumber);
-
-
+        Game game = new RiscGame(map, players);
 
     }
 }
