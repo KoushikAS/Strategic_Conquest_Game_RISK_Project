@@ -17,7 +17,7 @@ class GameRoundTest {
 
     @BeforeEach
     void initEach() {
-        Player p = new HumanPlayer(testName, mockedReader);
+        Player p = new HumanPlayer(testName);
     }
 
     @Test

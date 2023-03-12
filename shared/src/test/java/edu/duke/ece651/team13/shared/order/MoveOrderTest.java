@@ -23,7 +23,7 @@ class MoveOrderTest {
     @Test
     void test_act() {
         RuleChecker ownershipChecker = new MoveOwnershipChecker(null);
-        Player tom = new HumanPlayer("Tom Riddle", mockedReader);
+        Player tom = new HumanPlayer("Tom Riddle");
         Territory hogwarts = new GameTerritory("Hogwarts");
         hogwarts.setOwner(tom);
         hogwarts.setUnitNum(10);
@@ -44,7 +44,7 @@ class MoveOrderTest {
     @Test
     void test_ownershipChecker() {
         RuleChecker ownershipChecker = new MoveOwnershipChecker(null);
-        Player tom = new HumanPlayer("Tom Riddle", mockedReader);
+        Player tom = new HumanPlayer("Tom Riddle");
         Territory hogwarts = new GameTerritory("Hogwarts");
         hogwarts.setOwner(tom);
         Territory alley = new GameTerritory("Diagon Alley");
@@ -67,7 +67,7 @@ class MoveOrderTest {
     @Test
     void test_unitnumChecker(){
         RuleChecker unitnumChecker = new MoveUnitNumChecker(null);
-        Player dobby = new HumanPlayer("Dobby", mockedReader);
+        Player dobby = new HumanPlayer("Dobby");
         Territory socks = new GameTerritory("Socks");
         Territory labor = new GameTerritory("labor");
         socks.setUnitNum(10);
@@ -142,7 +142,7 @@ class MoveOrderTest {
         ArrayList<Territory> territories = getTerritories();
 
         // Mickey has valid path from narnia(0) to oz(2) through midkemia(1)
-        Player mickey = new HumanPlayer("Mickey", mockedReader);
+        Player mickey = new HumanPlayer("Mickey");
         for(int i = 0; i < 3; i++){
             territories.get(i).setOwner(mickey);
         }
@@ -150,12 +150,12 @@ class MoveOrderTest {
         assertNull(validPath.validate());
 
         // Donald owns gondor(3), elantris(4), scadrial(5), roshar(6)
-        Player donald = new HumanPlayer("Donald", mockedReader);
+        Player donald = new HumanPlayer("Donald");
         for(int i = 3; i < 7; i++){
             territories.get(i).setOwner(donald);
         }
         // Minnie owns Mordor(8)
-        Player minnie = new HumanPlayer("Minnie", mockedReader);
+        Player minnie = new HumanPlayer("Minnie");
         territories.get(8).setOwner(minnie);
 
         // Mickey owns Hogwarts(7)
@@ -183,8 +183,8 @@ class MoveOrderTest {
         RuleChecker unitnumChecker = new MoveUnitNumChecker(pathChecker);
         RuleChecker ownershipChecker = new MoveOwnershipChecker(unitnumChecker);
 
-        Player dobby = new HumanPlayer("Dobby", mockedReader);
-        Player harry = new HumanPlayer("Harry Potter", mockedReader);
+        Player dobby = new HumanPlayer("Dobby");
+        Player harry = new HumanPlayer("Harry Potter");
         Territory socks = new GameTerritory("Socks");
         Territory labor = new GameTerritory("labor");
         Territory gringotts = new GameTerritory("Gringotts");

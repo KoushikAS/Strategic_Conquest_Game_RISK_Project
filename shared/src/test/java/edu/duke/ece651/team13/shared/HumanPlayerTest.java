@@ -15,19 +15,19 @@ class HumanPlayerTest {
 
     @BeforeEach
     void initEach() {
-        Player p = new HumanPlayer(testName, mockedReader);
+        Player p = new HumanPlayer(testName);
     }
 
 
     @Test
     void test_getName() {
-        Player p = new HumanPlayer(testName, mockedReader);
+        Player p = new HumanPlayer(testName);
         assertEquals(testName, p.getName());
     }
 
     @Test
     void test_Set_getInitStatus() {
-        Player p = new HumanPlayer(testName, mockedReader);
+        Player p = new HumanPlayer(testName);
         assertEquals(PlayerStatusEnum.PLAYING, p.getStatus());
         p.setStatus(PlayerStatusEnum.LOSE);
         assertEquals(PlayerStatusEnum.LOSE, p.getStatus());

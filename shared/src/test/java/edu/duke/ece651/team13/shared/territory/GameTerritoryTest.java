@@ -40,7 +40,7 @@ class GameTerritoryTest {
 
   @Test
   void test_get_setOwner() {
-    Player player = new HumanPlayer("testPlayer", mockedReader);
+    Player player = new HumanPlayer("testPlayer");
     Territory t = new GameTerritory(testName);
     assertNull(t.getOwner());
     t.setOwner(player);
@@ -52,8 +52,8 @@ class GameTerritoryTest {
     Territory t = new GameTerritory(testName);
     assertTrue(t.getAttackers().isEmpty());
 
-    Player attacker1 = new HumanPlayer("attacker1", mockedReader);
-    Player attacker2 = new HumanPlayer("attacker2", mockedReader);
+    Player attacker1 = new HumanPlayer("attacker1");
+    Player attacker2 = new HumanPlayer("attacker2");
     t.addAttacker(attacker1, 10);
     t.addAttacker(attacker2, 8);
     assertEquals(10, t.getAttackers().get(attacker1));

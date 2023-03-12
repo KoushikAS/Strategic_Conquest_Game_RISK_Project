@@ -10,7 +10,6 @@ public enum OrderMappingEnum {
     DONE("D");
 
     private final String value;
-
     OrderMappingEnum(String value) {
         this.value = value;
     }
