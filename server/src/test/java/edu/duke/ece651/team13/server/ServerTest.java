@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.map.V1Map9Territories;
+import edu.duke.ece651.team13.shared.map.Map;
+import edu.duke.ece651.team13.shared.map.V1Map24Territories;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedInputStream;
@@ -15,15 +16,19 @@ class ServerTest{
     private int testPortNum = 12345;
 
     @Test
-    public void test_acceptClients(){
+    public void test_start(){
         try{
-            Server server = new Server(testPortNum, new RiscGame(2));
+            Server server = new Server(testPortNum, new RiscGame(4));
             Socket clientSocket1 = new Socket("", testPortNum);
             Socket clientSocket2 = new Socket("", testPortNum);
-            server.connectToClients();
-            V1Map9Territories expectedMap = new V1Map9Territories(1);
+            Socket clientSocket3 = new Socket("", testPortNum);
+            Socket clientSocket4 = new Socket("", testPortNum);
+            server.start();
+            Map expectedMap = new V1Map24Territories(24);
             assertEquals(expectedMap, recvMsgFrom(clientSocket1));
             assertEquals(expectedMap, recvMsgFrom(clientSocket2));
+            assertEquals(expectedMap, recvMsgFrom(clientSocket3));
+            assertEquals(expectedMap, recvMsgFrom(clientSocket4));
             server.closeServer();
         }catch (Exception e){
             e.printStackTrace();
