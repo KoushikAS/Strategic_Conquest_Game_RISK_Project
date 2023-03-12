@@ -52,6 +52,8 @@ public abstract class V1Map implements Map, Serializable {
     initialUnit = toCopy.initialUnit;
   }
 
+  protected ArrayList<ArrayList<Territory>> groups; //list of each group's territories
+
   @Override
   public int getInitialUnit() {
     return initialUnit;
@@ -127,5 +129,17 @@ public abstract class V1Map implements Map, Serializable {
   @Override
   public Territory getTerritoryByID(int id){
     return territoryIDMap.get(id);
+  }
+
+  /**
+   * Get the list of iterators for all groups (2 groups, 3 groups or 4 groups)
+   */
+  @Override
+  public ArrayList<Iterator<Territory>> getGroupsIterator(){
+    ArrayList<Iterator<Territory>> groupsIteratorList = new ArrayList<>();
+    for (ArrayList<Territory> group : groups) {
+      groupsIteratorList.add(group.iterator());
+    }
+    return groupsIteratorList;
   }
 }

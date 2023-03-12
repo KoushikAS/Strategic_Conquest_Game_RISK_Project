@@ -5,6 +5,7 @@ import edu.duke.ece651.team13.shared.map.Map;
 import edu.duke.ece651.team13.shared.map.V1Map18Territories;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -174,5 +175,56 @@ class V1Map18TerritoriesTest {
         assertEquals(mastiff, it.next());
         assertEquals(chihuahua, it.next());
         assertEquals(maltese, it.next());
+    }
+
+    @Test
+    void test_getTerritoriesIterator(){
+        Map m1 = new V1Map18Territories(18);
+        ArrayList<Iterator<Territory>> groupsIteratorList = m1.getGroupsIterator();
+        Iterator<Territory> iterator1 = groupsIteratorList.get(0);
+        Iterator<Territory> iterator2 = groupsIteratorList.get(1);
+        Iterator<Territory> iterator3 = groupsIteratorList.get(2);
+
+        Territory rottweiler = iterator1.next();
+        Territory dachshund = iterator1.next();
+        Territory beagle = iterator1.next();
+        Territory labrador = iterator1.next();
+        Territory poodle = iterator1.next();
+        Territory bulldog = iterator1.next();
+
+        Territory boxer = iterator2.next();
+        Territory havanese = iterator2.next();
+        Territory spaniel = iterator2.next();
+        Territory sheepdog = iterator2.next();
+        Territory akita = iterator2.next();
+        Territory brittany = iterator2.next();
+
+        Territory vizsla = iterator3.next();
+        Territory maltese = iterator3.next();
+        Territory chihuahua = iterator3.next();
+        Territory pug = iterator3.next();
+        Territory mastiff = iterator3.next();
+        Territory collie = iterator3.next();
+
+        assertEquals(rottweiler.getName(), "Rottweiler");
+        assertEquals(dachshund.getName(), "Dachshund");
+        assertEquals(beagle.getName(), "Beagle");
+        assertEquals(labrador.getName(), "Labrador");
+        assertEquals(poodle.getName(), "Poodle");
+        assertEquals(bulldog.getName(), "Bulldog");
+
+        assertEquals(boxer.getName(), "Boxer");
+        assertEquals(havanese.getName(), "Havanese");
+        assertEquals(spaniel.getName(), "Spaniel");
+        assertEquals(sheepdog.getName(), "Sheepdog");
+        assertEquals(akita.getName(), "Akita");
+        assertEquals(brittany.getName(), "Brittany");
+
+        assertEquals(vizsla.getName(), "Vizsla");
+        assertEquals(maltese.getName(), "Maltese");
+        assertEquals(chihuahua.getName(), "Chihuahua");
+        assertEquals(pug.getName(), "Pug");
+        assertEquals(mastiff.getName(), "Mastiff");
+        assertEquals(collie.getName(), "Collie");
     }
 }

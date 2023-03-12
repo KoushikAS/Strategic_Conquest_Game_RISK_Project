@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server;
 import edu.duke.ece651.team13.shared.order.PlayerOrder;
 
 import java.util.ArrayList;
+import java.net.Socket;
 
 /**
  * The interface of Game
@@ -11,7 +12,7 @@ public interface Game {
 
     void initGame();
 
-    void initPlayer();
+    void initPlayer(String name, Socket clientSocket);
 
     /**
      * Get the number of players

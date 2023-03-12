@@ -14,8 +14,8 @@ class RiscGameTest {
 
     @Test
     void test_getBoard() {
-        RiscGame game = new RiscGame(1);
-        Board expectedBoard = new RiscGameBoard();
+        RiscGame game = new RiscGame(2);
+        Board expectedBoard = new RiscGameBoard(2);
         assertEquals(expectedBoard.getMap(), game.getBoard().getMap());
     }
 }

@@ -1,11 +1,18 @@
 package edu.duke.ece651.team13.server;
 
+import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.Map;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.PlayerOrder;
+import edu.duke.ece651.team13.shared.Territory;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class RiscGame implements Game{
 
@@ -15,14 +22,50 @@ public class RiscGame implements Game{
 
     public RiscGame(int maxNumPlayers){
         this.maxPlayers = maxNumPlayers;
-        this.gameBoard = new RiscGameBoard();
+        this.gameBoard = new RiscGameBoard(maxNumPlayers);
+        this.players = new ArrayList<>();
     }
 
+    /**
+     * Init game: groups assignment (after init Players) and initial placement
+     */
     @Override
-    public void initGame(){}
+    public void initGame(){
+        //init game after init players
+        assert(players.size()==maxPlayers);
+        //assign groups (after init Players)
+        assignGroups();
+        //TODO: initial placement
+    }
 
+    /**
+     * Create one player and add him to players list
+     * @param name name of one player
+     * @param clientSocket socket of one player used to communicate with client
+     */
     @Override
-    public void initPlayer(){}
+    public void initPlayer(String name, Socket clientSocket){
+        try{
+            Player player = new HumanPlayer(name, new BufferedReader(new InputStreamReader(clientSocket.getInputStream())));
+            this.players.add(player);
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Assign groups to each player after init all players
+     */
+    private void assignGroups(){
+        Map map = this.gameBoard.getMap();
+        ArrayList<Iterator<Territory>> groupsIterator = map.getGroupsIterator();
+        for(int i=0; i<this.players.size(); i++){
+            while(groupsIterator.get(i).hasNext()){
+                Territory t = groupsIterator.get(i).next();
+                t.setOwner(this.players.get(i));
+            }
+        }
+    }
 
     /**
      * Get the number of players

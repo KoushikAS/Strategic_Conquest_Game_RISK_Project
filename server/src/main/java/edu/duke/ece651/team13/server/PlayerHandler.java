@@ -1,8 +1,5 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.map.V1Map;
-import edu.duke.ece651.team13.shared.map.V1Map9Territories;
-
 import java.io.*;
 import java.net.Socket;
 
@@ -10,13 +7,14 @@ public class PlayerHandler extends Thread{
     private Game game;
 
     private OutputStream clientOutputStream;
-    private InputStream clientInputStream;
 
-    public PlayerHandler(Socket clientSocket, Game game){
+    private Object sendMesg;
+
+    public PlayerHandler(Socket clientSocket, Game game, Object sendMesg){
         this.game = game;
+        this.sendMesg = sendMesg;
         try{
             this.clientOutputStream = clientSocket.getOutputStream();
-            this.clientInputStream = clientSocket.getInputStream();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -40,18 +38,14 @@ public class PlayerHandler extends Thread{
     /**
      * Send a map to client (temporary function)
      */
-    public void sendMapToClient(){
-        V1Map map = new V1Map9Territories(1);
-        sendMesgTo(map);
-    }
+//    public void sendMapToClient(){
+//        V1Map map = new V1Map9Territories(1);
+//        sendMesgTo(map);
+//    }
 
     @Override
     public void run() {
         //temporarily send the map to client first
-        sendMapToClient();
-
-        while(true){
-
-        }
+        sendMesgTo(this.sendMesg);
     }
 }
