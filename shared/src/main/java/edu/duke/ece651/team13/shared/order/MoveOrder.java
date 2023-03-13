@@ -54,22 +54,10 @@ public class MoveOrder extends Order {
         return orderRuleChecker.checkOrder(this);
     }
 
-
-    private MoveOrder getOrderOnNewMap(MapRO map) {
+    @Override
+    protected MoveOrder getOrderOnNewMap(MapRO map) {
         Territory newSource = map.getTerritoryByName(source.getName());
         Territory newDestination = map.getTerritoryByName(destination.getName());
         return new MoveOrder(this.orderRuleChecker, this.player, newSource, newDestination, this.units);
-    }
-
-    @Override
-    public String validateOnMap(MapRO map){
-        MoveOrder newOrder = getOrderOnNewMap(map);
-        return newOrder.validate();
-    }
-
-    @Override
-    public void actOnMap(MapRO map){
-        MoveOrder newOrder = getOrderOnNewMap(map);
-        newOrder.act();
     }
 }

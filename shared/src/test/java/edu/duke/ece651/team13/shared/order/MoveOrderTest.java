@@ -1,24 +1,61 @@
 package edu.duke.ece651.team13.shared.order;
 
-import edu.duke.ece651.team13.shared.territory.GameTerritory;
 import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.territory.Territory;
+import edu.duke.ece651.team13.shared.map.MapRO;
+import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import edu.duke.ece651.team13.shared.rulechecker.MoveOwnershipChecker;
 import edu.duke.ece651.team13.shared.rulechecker.MovePathChecker;
 import edu.duke.ece651.team13.shared.rulechecker.MoveUnitNumChecker;
 import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
+import edu.duke.ece651.team13.shared.territory.GameTerritory;
+import edu.duke.ece651.team13.shared.territory.Territory;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.mock;
 
 class MoveOrderTest {
-    private final BufferedReader mockedReader = mock(BufferedReader.class);
+    @Mock
+    private BufferedReader mockedReader;
+
+    AutoCloseable openMocks;
+
+    @BeforeEach
+    void setUp(){
+        openMocks = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        openMocks.close();
+    }
+
+    @Test
+    void test_getOrderOnNewMap() {
+        MapRO map1 = new V1Map12Territories(10);
+        MapRO map2 = new V1Map12Territories(10);
+
+        PlayerOrder order1 = new MoveOrder(
+                null,
+                new HumanPlayer("Green", mockedReader),
+                map1.getTerritoryByName("Boxer"), map1.getTerritoryByName("Poodle"), 0);
+        PlayerOrder order2 = order1.getOrderOnNewMap(map2);
+        assertEquals("Boxer", order2.getSource().getName());
+        assertEquals("Poodle", order2.getDestination().getName());
+
+        order2.getSource().setUnitNum(100);
+        order2.getDestination().setUnitNum(200);
+        assertEquals(0, order1.getSource().getUnitNum());
+        assertEquals(0, order1.getDestination().getUnitNum());
+    }
 
     @Test
     void test_act() {

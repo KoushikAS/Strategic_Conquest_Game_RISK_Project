@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.shared.territory;
 
+import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
 import org.junit.jupiter.api.Test;
@@ -50,17 +51,18 @@ class GameTerritoryTest {
   @Test
   void test_get_add_clearAttacker() {
     Territory t = new GameTerritory(testName);
-    assertTrue(t.getAttackers().isEmpty());
+    assertFalse(t.getAttackerIterator().hasNext());
 
     Player attacker1 = new HumanPlayer("attacker1", mockedReader);
     Player attacker2 = new HumanPlayer("attacker2", mockedReader);
     t.addAttacker(attacker1, 10);
     t.addAttacker(attacker2, 8);
-    assertEquals(10, t.getAttackers().get(attacker1));
-    assertEquals(8, t.getAttackers().get(attacker2));
+    Iterator<AttackerInfo> it = t.getAttackerIterator();
+    assertEquals(10, it.next().getUnitNum());
+    assertEquals(8, it.next().getUnitNum());
 
     t.clearAttackers();
-    assertTrue(t.getAttackers().isEmpty());
+    assertFalse(t.getAttackerIterator().hasNext());
   }
 
   @Test
@@ -93,6 +95,21 @@ class GameTerritoryTest {
     assertEquals(t2, neighbourIt.next());
     assertFalse(neighbourIt.hasNext());
 
+  }
+
+  @Test
+  void test_addAttacker_clearAttackers(){
+    Territory t = new GameTerritory(testName);
+    Player green = new HumanPlayer("Green", mockedReader);
+    t.addAttacker(green ,10);
+    Iterator<AttackerInfo> it = t.getAttackerIterator();
+    assertTrue(it.hasNext());
+    AttackerInfo attackerInfo = it.next();
+    assertEquals(10, attackerInfo.getUnitNum());
+    assertEquals(green, attackerInfo.getAttacker());
+
+    t.clearAttackers();
+    assertFalse(t.getAttackerIterator().hasNext());
   }
 
 }

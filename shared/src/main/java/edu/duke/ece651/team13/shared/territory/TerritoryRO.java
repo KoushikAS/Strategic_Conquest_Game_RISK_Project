@@ -1,9 +1,9 @@
 package edu.duke.ece651.team13.shared.territory;
 
+import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.Player;
 
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * The interface of Territory
@@ -36,7 +36,7 @@ public interface TerritoryRO {
    * 
    * @return the map of attacking players to the attacking unit numbers
    */
-  Map<Player, Integer> getAttackers();
+  Iterator<AttackerInfo> getAttackerIterator();
 
   /**
    * get Neighbouring territories iterator

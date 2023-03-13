@@ -73,12 +73,22 @@ class RiscGameTest {
         Territory boxer = map.getTerritoryByName("Boxer");
         assertEquals("Blue", boxer.getOwner().getName());
         boxer.setUnitNum(50);
+        Territory havanese = map.getTerritoryByName("Havanese");
+        assertEquals("Blue", havanese.getOwner().getName());
 
         ArrayList<Order> orders = new ArrayList<>();
         Player green = game.getPlayerByName("Green");
         Player blue = game.getPlayerByName("Blue");
         orders.add(new MoveOrder(green, rottweiler, dachshund, 50));
         orders.add(new MoveOrder(green, dachshund, rottweiler, 40));
+        assertNull(game.validateOrders(orders));
+
+        orders.add(new MoveOrder(green, rottweiler, dachshund, 100));
+        assertEquals("Invalid move order: Don't have sufficient unit number in the territory.", game.validateOrders(orders));
+        orders.clear();
+
+        orders.add(new MoveOrder(green, rottweiler, dachshund, 50));
+        orders.add(new MoveOrder(blue, boxer, havanese, 30));
         assertNull(game.validateOrders(orders));
     }
 }
