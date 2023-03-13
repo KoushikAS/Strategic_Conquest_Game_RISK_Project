@@ -37,8 +37,8 @@ public class RiscGame implements Game {
      */
     @Override
     public void initPlayer(String name, Socket clientSocket) {
-        Player player = new HumanPlayer(name);
-        this.players.add(player);
+       // Player player = new HumanPlayer(name);
+       // this.players.add(player);
     }
 
     /**

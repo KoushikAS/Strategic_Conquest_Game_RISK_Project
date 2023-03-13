@@ -35,15 +35,16 @@ public class Server{
 
                 Socket clientSocket = this.serverSocket.accept();
                 //TODO Should initlaize player with the socket
-                //game.initPlayer(name, clientSocket);
+               game.initPlayer(it.next().getName(), clientSocket);
                 //TODO Temporary change will come and fix it
-                MapRO map = getMap(2);
-                Thread clientThread = new Thread(new PlayerHandler(clientSocket, this.game, map));
+
+                Thread clientThread = new Thread(new PlayerHandler(clientSocket, this.game, this.game.getMap()));
                 clientThread.start();
+
             }catch (IOException e){
                 e.printStackTrace();
             }
-        }
+       }
     }
 
 
