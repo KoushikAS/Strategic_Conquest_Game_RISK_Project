@@ -17,4 +17,10 @@ public class MockDataUtil {
         return new RiscGame(map,players);
     }
 
+    public static RiscGame getMockGame(int noPlayers, Dice dice){
+        V1Map map = getMap(noPlayers);
+        ArrayList<Player> players = getPlayers(noPlayers);
+        return new RiscGame(map,players,dice);
+    }
+
 }

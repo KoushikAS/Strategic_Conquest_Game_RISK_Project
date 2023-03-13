@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * This class handles the owner, neighbors, unit numbers
@@ -17,7 +16,7 @@ public class GameTerritory implements Territory, Serializable {
   private Player owner;
   private int unitNum;
   private ArrayList<TerritoryRO> neighbours;
-  private Map<Player, Integer> attackers;
+  private HashMap<Player, Integer> attackers;
 
   public GameTerritory(String name) {
     this.name = name;
@@ -104,7 +103,12 @@ public class GameTerritory implements Territory, Serializable {
    */
   @Override
   public void addAttacker(Player attacker, int attackUnitNum) {
-    this.attackers.put(attacker, attackUnitNum);
+    if(attackers.containsKey(attacker)){
+      attackers.put(attacker, attackers.get(attacker) + attackUnitNum);
+    }
+    else{
+      attackers.put(attacker, attackUnitNum);
+    }
   }
 
   /**
@@ -112,7 +116,7 @@ public class GameTerritory implements Territory, Serializable {
    */
   @Override
   public void clearAttackers() {
-    this.attackers.clear();
+    attackers.clear();
   }
 
   /**
@@ -121,8 +125,8 @@ public class GameTerritory implements Territory, Serializable {
    * @return the map of attacking players to the attacking unit numbers
    */
   @Override
-  public Map<Player, Integer> getAttackers() {
-    return this.attackers;
+  public HashMap<Player, Integer> getAttackers() {
+    return attackers;
   }
 
   /**

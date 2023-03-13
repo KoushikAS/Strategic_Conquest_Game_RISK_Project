@@ -15,7 +15,6 @@ class ServerTest {
 
     private final int testPortNum = 12345;
 
-
     @Test
     public void test_start() throws IOException, ClassNotFoundException {
         Game game = getMockGame(4);
