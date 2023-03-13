@@ -1,6 +1,5 @@
 package edu.duke.ece651.team13.shared.order;
 
-import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
@@ -13,10 +12,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.io.BufferedReader;
-import java.util.Iterator;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AttackOrderTest {
 
@@ -64,8 +63,8 @@ class AttackOrderTest {
         Order order1 = new AttackOrder(
                 null, green, boxer, poodle, 10);
         order1.act();
-        Iterator<AttackerInfo> it = poodle.getAttackerIterator();
-        assertEquals(10, it.next().getUnitNum());
+        HashMap<Player, Integer> attackers = poodle.getAttackers();
+        assertEquals(10, attackers.get(green));
         assertEquals(0, boxer.getUnitNum());
     }
 
@@ -85,11 +84,11 @@ class AttackOrderTest {
         Order order1 = new AttackOrder(
                 null, green, boxer, poodle, 10);
         order1.actOnMap(map2);
-        Iterator<AttackerInfo> it = poodle.getAttackerIterator();
-        assertFalse(it.hasNext());
+        HashMap<Player, Integer> attackers = poodle.getAttackers();
+        assertTrue(attackers.isEmpty());
         assertEquals(10, boxer.getUnitNum());
-        Iterator<AttackerInfo> cloneIt = clonePoodle.getAttackerIterator();
-        assertEquals(10, cloneIt.next().getUnitNum());
+        HashMap<Player, Integer> cloneAttackers = clonePoodle.getAttackers();
+        assertEquals(10, cloneAttackers.get(green));
         assertEquals(0, cloneBoxer.getUnitNum());
 
     }
