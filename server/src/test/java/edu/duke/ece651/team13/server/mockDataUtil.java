@@ -1,9 +1,7 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.V1Map;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 

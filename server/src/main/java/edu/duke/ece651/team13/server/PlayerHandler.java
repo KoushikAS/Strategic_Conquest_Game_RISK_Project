@@ -1,51 +1,43 @@
 package edu.duke.ece651.team13.server;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class PlayerHandler extends Thread{
-    private Game game;
+public class PlayerHandler extends Thread {
 
-    private OutputStream clientOutputStream;
+    private Socket clientSocket;
 
     private Object sendMesg;
 
-    public PlayerHandler(Socket clientSocket, Game game, Object sendMesg){
-        this.game = game;
+    public PlayerHandler(Socket clientSocket, Object sendMesg) {
+        this.clientSocket = clientSocket;
         this.sendMesg = sendMesg;
-        try{
-            this.clientOutputStream = clientSocket.getOutputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
      * Send message object to the client
+     *
      * @param mesg message object that server will send to client
      */
-    public void sendMesgTo(Object mesg){
-        try {
-            BufferedOutputStream clientBufferedStream = new BufferedOutputStream(this.clientOutputStream);
+    public void sendMesgTo(Object mesg) throws IOException {
+
+        try (BufferedOutputStream clientBufferedStream = new BufferedOutputStream(this.clientSocket.getOutputStream())) {
             ObjectOutputStream clientObjectStream = new ObjectOutputStream(clientBufferedStream);
             clientObjectStream.writeObject(mesg);
             clientObjectStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } finally {
+            clientSocket.close();
         }
     }
 
-    /**
-     * Send a map to client (temporary function)
-     */
-//    public void sendMapToClient(){
-//        V1Map map = new V1Map9Territories(1);
-//        sendMesgTo(map);
-//    }
-
     @Override
     public void run() {
-        //temporarily send the map to client first
-        sendMesgTo(this.sendMesg);
+        try {
+            sendMesgTo(this.sendMesg);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

@@ -1,31 +1,24 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
-import edu.duke.ece651.team13.shared.map.V1Map;
-import edu.duke.ece651.team13.shared.map.V1Map24Territories;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
-import static edu.duke.ece651.team13.server.App.getMap;
-import static edu.duke.ece651.team13.server.App.getPlayers;
 import static edu.duke.ece651.team13.server.mockDataUtil.getMockGame;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ServerTest{
+class ServerTest {
 
     private int testPortNum = 12345;
 
 
     @Test
-    public void test_start(){
-        try{
+    public void test_start() {
+        try {
 
             Game game = getMockGame(4);
 
@@ -35,7 +28,7 @@ class ServerTest{
             Socket clientSocket3 = new Socket("", testPortNum);
             Socket clientSocket4 = new Socket("", testPortNum);
             server.start();
-            
+
             MapRO expectedMap = game.getMap();
 
             assertEquals(expectedMap, recvMsgFrom(clientSocket1));
@@ -43,16 +36,17 @@ class ServerTest{
             assertEquals(expectedMap, recvMsgFrom(clientSocket3));
             assertEquals(expectedMap, recvMsgFrom(clientSocket4));
             server.closeServer();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Helper function to receive message object from server
+     *
      * @param clientSocket client socket used to communicate with server
      */
-    public Object recvMsgFrom(Socket clientSocket){
+    public Object recvMsgFrom(Socket clientSocket) {
         try {
             BufferedInputStream read_buffer_for_server = new BufferedInputStream(clientSocket.getInputStream());
             ObjectInputStream object_stream_from_server = new ObjectInputStream(read_buffer_for_server);

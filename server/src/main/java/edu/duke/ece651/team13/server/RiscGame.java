@@ -1,6 +1,5 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map;
@@ -37,8 +36,8 @@ public class RiscGame implements Game {
      */
     @Override
     public void initPlayer(String name, Socket clientSocket) {
-       // Player player = new HumanPlayer(name);
-       // this.players.add(player);
+        // Player player = new HumanPlayer(name);
+        // this.players.add(player);
     }
 
     /**
@@ -46,7 +45,7 @@ public class RiscGame implements Game {
      */
     private void assignInitialGroups() {
         ArrayList<Iterator<Territory>> groupsIterator = this.map.getInitialGroups();
-        assert(groupsIterator.size() == this.players.size());
+        assert (groupsIterator.size() == this.players.size());
         for (int i = 0; i < this.players.size(); i++) {
             while (groupsIterator.get(i).hasNext()) {
                 Territory t = groupsIterator.get(i).next();

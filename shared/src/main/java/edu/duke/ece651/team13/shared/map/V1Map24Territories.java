@@ -26,7 +26,7 @@ public class V1Map24Territories extends V1Map {
     /**
      * Copy constructor
      */
-    private V1Map24Territories(V1Map24Territories toCopy){
+    private V1Map24Territories(V1Map24Territories toCopy) {
         super(toCopy);
     }
 
@@ -57,7 +57,7 @@ public class V1Map24Territories extends V1Map {
         Territory collie = new GameTerritory("Collie");
         Territory dalmatian = new GameTerritory("Dalmatian");
         Territory papillon = new GameTerritory("Papillon");
-        Territory setter  = new GameTerritory("Setter");
+        Territory setter = new GameTerritory("Setter");
         Territory samoyed = new GameTerritory("Samoyed");
         Territory bullmastiff = new GameTerritory("Bullmastiff");
         Territory whippet = new GameTerritory("Whippet");
@@ -153,7 +153,7 @@ public class V1Map24Territories extends V1Map {
     }
 
     @Override
-    public ArrayList<Iterator<Territory>> getInitialGroups(){
+    public ArrayList<Iterator<Territory>> getInitialGroups() {
         ArrayList<ArrayList<Territory>> groups = new ArrayList<>();
 
         ArrayList<Territory> group1 = new ArrayList<>();
