@@ -8,6 +8,7 @@ import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import edu.duke.ece651.team13.shared.map.V1Map18Territories;
 import edu.duke.ece651.team13.shared.map.V1Map24Territories;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,7 +36,7 @@ public class App {
         return players;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         App a = new App();
 
         //TODO currently hardcoded  player number. Should be dynamic.

@@ -10,6 +10,7 @@ import edu.duke.ece651.team13.shared.territory.Territory;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 
 public class RiscGame implements Game {
 
@@ -88,12 +89,11 @@ public class RiscGame implements Game {
 
     @Override
     public Player getPlayerByName(String name) {
-        for (Player p : players) {
-            if (p.getName().equals(name)) {
-                return p;
-            }
+        Optional<Player> player = players.stream().filter(t -> t.getName().equals(name)).findAny();
+        if(!player.isPresent()) {
+            throw new IllegalArgumentException("There is no Player in this game with the name " + name);
         }
-        return null;
+        return player.get();
     }
 
 }

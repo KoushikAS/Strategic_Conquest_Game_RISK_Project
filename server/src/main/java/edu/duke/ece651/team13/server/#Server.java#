@@ -1,3 +1,4 @@
+
 package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.Player;
@@ -14,10 +15,10 @@ public class Server {
 
     private Game game;
 
-    public Server(int portNum, Game gameObj) throws IOException {
+    public Server(int portNum, Game gameObj) {
         this.portNum = portNum;
         this.game = gameObj;
-        this.serverSocket = new ServerSocket(portNum);
+        buildServer();
     }
 
     /**
@@ -26,8 +27,8 @@ public class Server {
      */
     public void start() {
         Iterator<Player> it = this.game.getPlayersIterator();
-
         while (it.hasNext()) {
+
             try {
                 System.out.println("Listening");
                 Socket clientSocket = this.serverSocket.accept();
@@ -44,13 +45,26 @@ public class Server {
 
 
     /**
+     * Initialize serverSocket using port number to build server
+     */
+    private void buildServer() {
+        try {
+            this.serverSocket = new ServerSocket(portNum);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Close serverSocket to end server
      */
-    public void closeServer() throws IOException {
-
+    public void closeServer() {
+        try {
             if (this.serverSocket != null) {
                 this.serverSocket.close();
             }
-
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

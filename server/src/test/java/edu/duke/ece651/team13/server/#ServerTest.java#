@@ -29,10 +29,10 @@ class ServerTest {
 
         MapRO expectedMap = game.getMap();
 
-        assertEquals(expectedMap, recvMsgFrom(clientSocket1));
         assertEquals(expectedMap, recvMsgFrom(clientSocket2));
-        assertEquals(expectedMap, recvMsgFrom(clientSocket3));
+        assertEquals(expectedMap, recvMsgFrom(clientSocket1));
         assertEquals(expectedMap, recvMsgFrom(clientSocket4));
+        assertEquals(expectedMap, recvMsgFrom(clientSocket3));
         server.closeServer();
     }
 
