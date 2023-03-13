@@ -1,7 +1,6 @@
 package edu.duke.ece651.team13.server;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 class AppTest {
     @Test

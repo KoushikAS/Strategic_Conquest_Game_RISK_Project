@@ -1,6 +1,5 @@
 package edu.duke.ece651.team13.shared.order;
 
-import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
@@ -13,10 +12,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.io.BufferedReader;
-import java.util.Iterator;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AttackOrderTest {
 
@@ -40,11 +39,11 @@ class AttackOrderTest {
         MapRO map1 = new V1Map12Territories(10);
         MapRO map2 = new V1Map12Territories(10);
 
-        PlayerOrder order1 = new AttackOrder(
+        Order order1 = new AttackOrder(
                 null,
                 new HumanPlayer("Green", mockedReader),
                 map1.getTerritoryByName("Boxer"), map1.getTerritoryByName("Poodle"), 0);
-        PlayerOrder order2 = order1.getOrderOnNewMap(map2);
+        Order order2 = order1.getOrderOnNewMap(map2);
         assertEquals("Boxer", order2.getSource().getName());
         assertEquals("Poodle", order2.getDestination().getName());
 
@@ -61,11 +60,11 @@ class AttackOrderTest {
         Territory poodle = map1.getTerritoryByName("Poodle");
         Player green = new HumanPlayer("Green", mockedReader);
         boxer.setUnitNum(10);
-        PlayerOrder order1 = new AttackOrder(
+        Order order1 = new AttackOrder(
                 null, green, boxer, poodle, 10);
         order1.act();
-        Iterator<AttackerInfo> it = poodle.getAttackerIterator();
-        assertEquals(10, it.next().getUnitNum());
+        HashMap<Player, Integer> attackers = poodle.getAttackers();
+        assertEquals(10, attackers.get(green));
         assertEquals(0, boxer.getUnitNum());
     }
 
@@ -82,14 +81,14 @@ class AttackOrderTest {
         Territory cloneBoxer = map2.getTerritoryByName("Boxer");
         Territory clonePoodle = map2.getTerritoryByName("Poodle");
 
-        PlayerOrder order1 = new AttackOrder(
+        Order order1 = new AttackOrder(
                 null, green, boxer, poodle, 10);
         order1.actOnMap(map2);
-        Iterator<AttackerInfo> it = poodle.getAttackerIterator();
-        assertFalse(it.hasNext());
+        HashMap<Player, Integer> attackers = poodle.getAttackers();
+        assertTrue(attackers.isEmpty());
         assertEquals(10, boxer.getUnitNum());
-        Iterator<AttackerInfo> cloneIt = clonePoodle.getAttackerIterator();
-        assertEquals(10, cloneIt.next().getUnitNum());
+        HashMap<Player, Integer> cloneAttackers = clonePoodle.getAttackers();
+        assertEquals(10, cloneAttackers.get(green));
         assertEquals(0, cloneBoxer.getUnitNum());
 
     }

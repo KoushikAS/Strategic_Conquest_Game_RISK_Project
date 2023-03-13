@@ -1,6 +1,6 @@
 package edu.duke.ece651.team13.client;
 
-import edu.duke.ece651.team13.shared.order.PlayerOrderInputRO;
+import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +16,6 @@ public interface GameRoundInterface {
      *
      * @throws IOException
      */
-    ArrayList<PlayerOrderInputRO> playOneRound() throws IOException;
+    ArrayList<PlayerOrderInput> playOneRound() throws IOException;
 
 }

@@ -1,15 +1,14 @@
 package edu.duke.ece651.team13.server;
 
+import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.Order;
-import org.junit.jupiter.api.AfterEach;
+import edu.duke.ece651.team13.shared.territory.Territory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
@@ -19,9 +18,11 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 class RiscGameTest {
-
     @Test
     void test_getMaxPlayers() {
         RiscGame game = new RiscGame(2);
@@ -48,14 +49,9 @@ class RiscGameTest {
         openMocks = MockitoAnnotations.openMocks(this);
     }
 
-    @AfterEach
-    void tearDown() throws Exception {
-        openMocks.close();
-    }
-
     @Test
     void test_validateOrders() throws IOException {
-        Mockito.when(mockedSocket.getInputStream()).thenReturn(mockedInputStream);
+        when(mockedSocket.getInputStream()).thenReturn(mockedInputStream);
         RiscGame game = new RiscGame(2);
         game.initPlayer("Green", mockedSocket);
         game.initPlayer("Blue", mockedSocket);
@@ -90,5 +86,43 @@ class RiscGameTest {
         orders.add(new MoveOrder(green, rottweiler, dachshund, 50));
         orders.add(new MoveOrder(blue, boxer, havanese, 30));
         assertNull(game.validateOrders(orders));
+    }
+
+    @Test
+    void test_resolveCombatInOneTerritory() throws IOException {
+        when(mockedSocket.getInputStream()).thenReturn(mockedInputStream);
+        RiscGame game = spy(new RiscGame(4, new Dice(1,20)));
+        when(game.getMaxPlayers()).thenReturn(4);
+        game.initPlayer("Defender", mockedSocket);
+        game.initPlayer("Attacker1", mockedSocket);
+        game.initPlayer("Attacker2", mockedSocket);
+        game.initPlayer("Attacker3", mockedSocket);
+        game.initGame();
+
+        Player defender = game.getPlayerByName("Defender");
+        Player attacker1 = game.getPlayerByName("Attacker1");
+        Player attacker2 = game.getPlayerByName("Attacker2");
+        Player attacker3 = game.getPlayerByName("Attacker3");
+
+        MapRO map = game.getBoard().getMap();
+        Territory rottweiler = map.getTerritoryByName("Rottweiler");
+        assertEquals("Defender", rottweiler.getOwner().getName());
+
+        // Dice always return the same value, defender should win
+        when(game.rollDice()).thenReturn(1,2,3,4,5,5,4,5,6,5,3,3,6,5);
+        ArrayList<AttackerInfo> attackerInfos = new ArrayList<>();
+        attackerInfos.add(new AttackerInfo(defender, 3));
+        attackerInfos.add(new AttackerInfo(attacker1, 1));
+        attackerInfos.add(new AttackerInfo(attacker2, 2));
+        attackerInfos.add(new AttackerInfo(attacker3, 2));
+        when(game.getWarParties(rottweiler)).thenReturn(attackerInfos);
+
+        rottweiler.setUnitNum(3);
+        // 3, 1, 2, 2 -> 2, 1, 2, 2 -> 2, (0), 2, 2 -> 2,2,2 -> 2,1,2 -> 1,1,2 -> 1,(0),2 -> (0),2
+//        Mockito.when(mockedDice.roll()).thenReturn(1,2,3,4,5,5,4,5,6,5,3,3,6,5);
+        game.resolveCombatInOneTerritory(rottweiler);
+        assertEquals("Attacker3", rottweiler.getOwner().getName());
+        assertEquals(2, rottweiler.getUnitNum());
+        assertTrue(rottweiler.getAttackers().isEmpty());
     }
 }

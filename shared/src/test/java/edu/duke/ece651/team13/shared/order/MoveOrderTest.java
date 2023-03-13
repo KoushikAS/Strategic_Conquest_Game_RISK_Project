@@ -43,11 +43,11 @@ class MoveOrderTest {
         MapRO map1 = new V1Map12Territories(10);
         MapRO map2 = new V1Map12Territories(10);
 
-        PlayerOrder order1 = new MoveOrder(
+        Order order1 = new MoveOrder(
                 null,
                 new HumanPlayer("Green", mockedReader),
                 map1.getTerritoryByName("Boxer"), map1.getTerritoryByName("Poodle"), 0);
-        PlayerOrder order2 = order1.getOrderOnNewMap(map2);
+        Order order2 = order1.getOrderOnNewMap(map2);
         assertEquals("Boxer", order2.getSource().getName());
         assertEquals("Poodle", order2.getDestination().getName());
 

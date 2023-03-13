@@ -2,6 +2,7 @@ package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.order.Order;
+import edu.duke.ece651.team13.shared.territory.Territory;
 
 import java.util.ArrayList;
 import java.net.Socket;
@@ -44,4 +45,16 @@ public interface Game {
      *         null if such player is not found
      */
     Player getPlayerByName(String name);
+
+    /**
+     * Resolve all the combats in all territories for this turn
+     */
+    public void resolveAllCombats();
+
+    /**
+     * Resolve the combat in the specified territory for this turn
+     *
+     * @param territory is the territory on which to resolve combat
+     */
+    public void resolveCombatInOneTerritory(Territory territory);
 }

@@ -5,16 +5,15 @@ import edu.duke.ece651.team13.shared.map.V1Map24Territories;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedInputStream;
-import java.io.ObjectInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ServerTest{
 
     private int testPortNum = 12345;
-
     @Test
     public void test_start(){
         try{

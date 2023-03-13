@@ -2,7 +2,6 @@ package edu.duke.ece651.team13.client;
 
 import edu.duke.ece651.team13.shared.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
-import edu.duke.ece651.team13.shared.order.PlayerOrderInputRO;
 import edu.duke.ece651.team13.shared.rulechecker.PlacementChecker;
 import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 
@@ -32,14 +31,14 @@ public class GameRound implements GameRoundInterface {
      * Returns the orders placed in this round
      */
     @Override
-    public ArrayList<PlayerOrderInputRO> playOneRound() throws IOException {
-        ArrayList<PlayerOrderInputRO> orderInputs = new ArrayList<>();
+    public ArrayList<PlayerOrderInput> playOneRound() throws IOException {
+        ArrayList<PlayerOrderInput> orderInputs = new ArrayList<>();
         while (true) {
-            PlayerOrderInputRO order = placeOneOrder();
-            orderInputs.add(order);
+            PlayerOrderInput order = placeOneOrder();
             if (order.getOrderType().equals(DONE)) {
                 break;
             }
+            orderInputs.add(order);
         }
         return orderInputs;
     }
@@ -50,11 +49,14 @@ public class GameRound implements GameRoundInterface {
      * @return a String of the player's order
      * @throws IOException
      */
-    private PlayerOrderInputRO placeOneOrder() throws IOException {
+    private PlayerOrderInput placeOneOrder() throws IOException {
 
         while (true) {
             try {
                 OrderMappingEnum orderMappingEnum = readOrder();
+                if(orderMappingEnum.equals(DONE)){
+                    return new PlayerOrderInput(orderMappingEnum, "", "", 0);
+                }
                 String source = readTerritory("Please enter the source Territory");
                 String destination = readTerritory("Please enter the destination Territory");
                 int unitNumber = readUnitNum("Please enter unit number");
@@ -64,7 +66,6 @@ public class GameRound implements GameRoundInterface {
                 System.out.println(e.getMessage());
             }
         }
-
     }
 
     /**
@@ -116,6 +117,4 @@ public class GameRound implements GameRoundInterface {
             throw new IllegalArgumentException("Invalid Unit Number entered");
         }
     }
-
-
 }

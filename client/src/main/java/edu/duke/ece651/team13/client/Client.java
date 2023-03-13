@@ -2,12 +2,16 @@ package edu.duke.ece651.team13.client;
 
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.V1Map;
+import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * This class represents a Client in the RISC game
@@ -75,6 +79,32 @@ public class Client {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Send message to server
+     *
+     * @param mesg is the message to send
+     */
+    public void sendMesgTo(Object mesg){
+        try{
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(clientSocket.getOutputStream());
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream((bufferedOutputStream));
+            objectOutputStream.writeObject(mesg);
+            objectOutputStream.flush();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Send an ArrayList of orders to the server
+     *
+     * @param orders is the ArrayList of orders to send
+     */
+    public void sendOrdersToServer(ArrayList<PlayerOrderInput> orders){
+        sendMesgTo(orders);
     }
 
     /**
