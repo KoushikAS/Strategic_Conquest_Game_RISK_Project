@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.client;
 
+import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
@@ -14,7 +15,7 @@ import java.util.TreeMap;
  */
 public class BoardTextView implements BoardView {
 
-  private V1Map map;
+  private MapRO map;
   private Map<String, ArrayList<Territory>> ownershipMap;
 
   /**
@@ -22,7 +23,7 @@ public class BoardTextView implements BoardView {
    * 
    * @param map the map to be displayed in the view
    */
-  public BoardTextView(V1Map map) {
+  public BoardTextView(MapRO map) {
     this.map = map;
     this.ownershipMap = new TreeMap<>();
   }

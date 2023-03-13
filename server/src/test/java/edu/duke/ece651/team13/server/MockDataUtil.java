@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import static edu.duke.ece651.team13.server.App.getMap;
 import static edu.duke.ece651.team13.server.App.getPlayers;
 
-public class mockDataUtil {
-    private mockDataUtil(){}
+public class MockDataUtil {
+    private MockDataUtil(){}
 
     public static RiscGame getMockGame(int noPlayers){
         V1Map map = getMap(noPlayers);

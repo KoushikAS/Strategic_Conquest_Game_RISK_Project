@@ -29,15 +29,13 @@ public class Server {
 
         while (it.hasNext()) {
             try {
-
+                System.out.println("Listening");
                 Socket clientSocket = this.serverSocket.accept();
+                System.out.println("Connected");
                 //TODO Should initlaize player with the socket
                 game.initPlayer(it.next().getName(), clientSocket);
-                //TODO Temporary change will come and fix it
-
                 Thread clientThread = new Thread(new PlayerHandler(clientSocket, this.game.getMap()));
                 clientThread.start();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

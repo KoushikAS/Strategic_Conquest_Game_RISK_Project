@@ -43,6 +43,9 @@ public class App {
         V1Map map = getMap(playerNumber);
         ArrayList<Player> players = getPlayers(playerNumber);
         Game game = new RiscGame(map, players);
-
+        Server server = new Server(12345, game);
+        System.out.println("Starting server");
+        server.start();
+        //server.closeServer();
     }
 }

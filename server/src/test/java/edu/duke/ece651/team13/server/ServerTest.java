@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import static edu.duke.ece651.team13.server.mockDataUtil.getMockGame;
+import static edu.duke.ece651.team13.server.MockDataUtil.getMockGame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ServerTest {

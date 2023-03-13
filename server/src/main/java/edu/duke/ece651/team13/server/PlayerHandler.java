@@ -29,6 +29,7 @@ public class PlayerHandler extends Thread {
             clientObjectStream.flush();
         } finally {
             clientSocket.close();
+            System.out.println("close");
         }
     }
 
