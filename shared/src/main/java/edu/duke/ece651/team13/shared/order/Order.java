@@ -33,7 +33,7 @@ public abstract class Order {
      * Execute the order on the specified source and destination, used in pre-validation
      */
     public void actOnMap(MapRO map) {
-        PlayerOrder newOrder = getOrderOnNewMap(map);
+        Order newOrder = getOrderOnNewMap(map);
         newOrder.act();
     }
 
@@ -46,7 +46,7 @@ public abstract class Order {
      * Helper function to get the order on a new map
      *   (Match the source and destination territories by name)
      */
-    protected PlayerOrder getOrderOnNewMap(MapRO map) {
+    protected Order getOrderOnNewMap(MapRO map) {
         return null;
     }
 
@@ -56,7 +56,7 @@ public abstract class Order {
      * throws IllegalArgumentException)
      */
     public String validateOnMap(MapRO map) {
-        PlayerOrder newOrder = getOrderOnNewMap(map);
+        Order newOrder = getOrderOnNewMap(map);
         return newOrder.validate();
     }
 

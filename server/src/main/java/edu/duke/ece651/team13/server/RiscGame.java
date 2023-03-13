@@ -98,7 +98,7 @@ public class RiscGame implements Game{
            }
         }
         // Attack orders
-        for(PlayerOrder order: orders){
+        for(Order order: orders){
             if(order.getClass().equals(AttackOrder.class)){
                 String checkResult = order.validateOnMap(tempMap);
                 if(checkResult!=null) return checkResult;

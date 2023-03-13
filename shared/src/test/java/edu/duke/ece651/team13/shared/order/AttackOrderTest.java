@@ -40,11 +40,11 @@ class AttackOrderTest {
         MapRO map1 = new V1Map12Territories(10);
         MapRO map2 = new V1Map12Territories(10);
 
-        PlayerOrder order1 = new AttackOrder(
+        Order order1 = new AttackOrder(
                 null,
                 new HumanPlayer("Green", mockedReader),
                 map1.getTerritoryByName("Boxer"), map1.getTerritoryByName("Poodle"), 0);
-        PlayerOrder order2 = order1.getOrderOnNewMap(map2);
+        Order order2 = order1.getOrderOnNewMap(map2);
         assertEquals("Boxer", order2.getSource().getName());
         assertEquals("Poodle", order2.getDestination().getName());
 
@@ -61,7 +61,7 @@ class AttackOrderTest {
         Territory poodle = map1.getTerritoryByName("Poodle");
         Player green = new HumanPlayer("Green", mockedReader);
         boxer.setUnitNum(10);
-        PlayerOrder order1 = new AttackOrder(
+        Order order1 = new AttackOrder(
                 null, green, boxer, poodle, 10);
         order1.act();
         Iterator<AttackerInfo> it = poodle.getAttackerIterator();
@@ -82,7 +82,7 @@ class AttackOrderTest {
         Territory cloneBoxer = map2.getTerritoryByName("Boxer");
         Territory clonePoodle = map2.getTerritoryByName("Poodle");
 
-        PlayerOrder order1 = new AttackOrder(
+        Order order1 = new AttackOrder(
                 null, green, boxer, poodle, 10);
         order1.actOnMap(map2);
         Iterator<AttackerInfo> it = poodle.getAttackerIterator();
