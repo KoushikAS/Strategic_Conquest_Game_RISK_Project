@@ -16,10 +16,9 @@ public class HumanPlayer implements Player, Serializable {
     /**
      * Construct a new Player
      */
-    public HumanPlayer(String name, BufferedReader inputReader) {
+    public HumanPlayer(String name) {
         this.name = name;
         this.status = PlayerStatusEnum.PLAYING;
-
     }
 
     /**

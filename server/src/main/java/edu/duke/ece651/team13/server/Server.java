@@ -1,80 +1,56 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.map.MapRO;
+import edu.duke.ece651.team13.shared.Player;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Iterator;
 
-public class Server{
+
+public class Server {
     private final int portNum;
     private ServerSocket serverSocket;
 
     private Game game;
 
-    public Server(int portNum, Game gameObj){
+    public Server(int portNum, Game gameObj) throws IOException {
         this.portNum = portNum;
         this.game = gameObj;
-        buildServer();
+        this.serverSocket = new ServerSocket(portNum);
     }
 
     /**
      * Accept connection from multiple clients
      * Init Players and Init Game
      */
-    public void start(){
-        assert(this.game.getMaxPlayers()==2||this.game.getMaxPlayers()==3||this.game.getMaxPlayers()==4);
-        for(int i=0; i<this.game.getMaxPlayers(); i++){
-            try{
+    public void start() {
+        Iterator<Player> it = this.game.getPlayersIterator();
+
+        while (it.hasNext()) {
+            try {
+                System.out.println("Listening");
                 Socket clientSocket = this.serverSocket.accept();
-                String name = getPlayerName(i);
-                game.initPlayer(name, clientSocket);
-                //send map to each client
-                //Map map = this.game.getBoard().getMap(); (BufferedReader not serializable)
-                MapRO map = new RiscGameBoard<>(this.game.getMaxPlayers()).getMap();
-                Thread clientThread = new Thread(new PlayerHandler(clientSocket, this.game, map));
+                System.out.println("Connected");
+                //TODO Should initlaize player with the socket
+                game.initPlayer(it.next().getName(), clientSocket);
+                Thread clientThread = new Thread(new PlayerHandler(clientSocket, this.game.getMap()));
                 clientThread.start();
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        //after all players connect to server, init game
-        game.initGame();
     }
 
-    /**
-     * Used in start() method to get each player's name (hardcode)
-     * @param index The order in which players connect to the server
-     * @return name
-     */
-    private String getPlayerName(int index){
-        if(index==0) return "Green";
-        else if(index==1) return "Blue";
-        else if(index==2) return "Red";
-        return "Yellow";
-    }
-
-    /**
-     * Initialize serverSocket using port number to build server
-     */
-    private void buildServer(){
-        try {
-            this.serverSocket = new ServerSocket(portNum);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Close serverSocket to end server
      */
-    public void closeServer(){
-        try {
-            if(this.serverSocket!=null) {
+    public void closeServer() throws IOException {
+
+            if (this.serverSocket != null) {
                 this.serverSocket.close();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 }

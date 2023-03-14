@@ -1,56 +1,49 @@
 package edu.duke.ece651.team13.server;
 
+
 import edu.duke.ece651.team13.shared.AttackerInfo;
-import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
+import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.order.AttackOrder;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.Order;
 import edu.duke.ece651.team13.shared.territory.Territory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Optional;
 
 public class RiscGame implements Game {
 
     private ArrayList<Player> players;
-    private int maxPlayers;
-    private Board gameBoard;
+    private V1Map map;
     private Dice dice;
 
-    public RiscGame(int maxNumPlayers) {
-        this.maxPlayers = maxNumPlayers;
-        this.gameBoard = new RiscGameBoard(maxNumPlayers);
-        this.players = new ArrayList<>();
+    public RiscGame(V1Map map, ArrayList<Player> players) {
+        this.map = map;
+        this.players = players;
+        assignInitialGroups();
         this.dice = new Dice(1, 20);
+
     }
 
     /**
      * Construct the game with a specified dice
      */
-    public RiscGame(int maxNumPlayers, Dice dice) {
-        this.maxPlayers = maxNumPlayers;
-        this.gameBoard = new RiscGameBoard(maxNumPlayers);
-        this.players = new ArrayList<>();
+    public RiscGame(V1Map map, ArrayList<Player> players, Dice dice) {
+        this.map = map;
+        this.players = players;
+        assignInitialGroups();
         this.dice = dice;
     }
 
-    /**
-     * Init game: groups assignment (after init Players) and initial placement
-     */
+
     @Override
-    public void initGame() {
-        //init game after init players
-        assert (players.size() == maxPlayers);
-        //assign groups (after init Players)
-        assignGroups();
-        //TODO: initial placement
+    public Iterator<Player> getPlayersIterator() {
+        return players.iterator();
     }
 
     /**
@@ -61,20 +54,16 @@ public class RiscGame implements Game {
      */
     @Override
     public void initPlayer(String name, Socket clientSocket) {
-        try {
-            Player player = new HumanPlayer(name, new BufferedReader(new InputStreamReader(clientSocket.getInputStream())));
-            this.players.add(player);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        // Player player = new HumanPlayer(name);
+        // this.players.add(player);
     }
 
     /**
      * Assign groups to each player after init all players
      */
-    private void assignGroups() {
-        MapRO map = this.gameBoard.getMap();
-        ArrayList<Iterator<Territory>> groupsIterator = map.getGroupsIterator();
+    private void assignInitialGroups() {
+        ArrayList<Iterator<Territory>> groupsIterator = this.map.getInitialGroups();
+        assert (groupsIterator.size() == this.players.size());
         for (int i = 0; i < this.players.size(); i++) {
             while (groupsIterator.get(i).hasNext()) {
                 Territory t = groupsIterator.get(i).next();
@@ -83,15 +72,6 @@ public class RiscGame implements Game {
         }
     }
 
-    /**
-     * Get the number of players
-     *
-     * @return int number
-     */
-    @Override
-    public int getMaxPlayers() {
-        return this.maxPlayers;
-    }
 
     /**
      * Get the board of one game
@@ -99,8 +79,8 @@ public class RiscGame implements Game {
      * @return Board game board
      */
     @Override
-    public Board getBoard() {
-        return this.gameBoard;
+    public MapRO getMap() {
+        return this.map;
     }
 
     @Override
@@ -110,7 +90,7 @@ public class RiscGame implements Game {
     @Override
     public String validateOrders(ArrayList<Order> orders) {
         // Deep copy the map
-        MapRO tempMap = gameBoard.getMap().replicate();
+        MapRO tempMap = map.replicate();
         // Move orders first
         for (Order order : orders) {
             if (order.getClass().equals(MoveOrder.class)) {
@@ -150,15 +130,15 @@ public class RiscGame implements Game {
 
     public void resolveCombatInOneTerritory(Territory territory) {
         ArrayList<AttackerInfo> warParties = getWarParties(territory);
-        while(warParties.size() > 1){
+        while (warParties.size() > 1) {
             for (int currIndex = 0; currIndex < warParties.size(); currIndex++) {
                 int nextIndex = currIndex == warParties.size() - 1 ? 0 : currIndex + 1;
                 int loser = getLoser(territory, warParties, currIndex, nextIndex);
                 loseOneRoll(loser, warParties);
-                if(warParties.get(loser).getUnitNum() == 0){
+                if (warParties.get(loser).getUnitNum() == 0) {
                     warParties.remove(loser);
-                    if(warParties.size() == 1) break;
-                    if(loser==currIndex) currIndex--;
+                    if (warParties.size() == 1) break;
+                    if (loser == currIndex) currIndex--;
                 }
             }
         }
@@ -196,7 +176,7 @@ public class RiscGame implements Game {
      *
      * @return the result of dice
      */
-    int rollDice(){
+    int rollDice() {
         return dice.roll();
     }
 
@@ -213,7 +193,7 @@ public class RiscGame implements Game {
 
     @Override
     public void resolveAllCombats() {
-        for (Iterator<Territory> it = gameBoard.getMap().getTerritoriesIterator(); it.hasNext(); ) {
+        for (Iterator<Territory> it = map.getTerritoriesIterator(); it.hasNext(); ) {
             Territory territory = it.next();
             resolveCombatInOneTerritory(territory);
         }
@@ -221,12 +201,11 @@ public class RiscGame implements Game {
 
     @Override
     public Player getPlayerByName(String name) {
-        for (Player p : players) {
-            if (p.getName().equals(name)) {
-                return p;
-            }
+        Optional<Player> player = players.stream().filter(t -> t.getName().equals(name)).findAny();
+        if (!player.isPresent()) {
+            throw new IllegalArgumentException("There is no Player in this game with the name " + name);
         }
-        return null;
+        return player.get();
     }
 
 }

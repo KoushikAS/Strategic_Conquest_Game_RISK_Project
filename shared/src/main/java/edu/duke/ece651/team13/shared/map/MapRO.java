@@ -42,5 +42,5 @@ public interface MapRO {
   /**
    * Get the list of iterators for all groups (2 groups, 3 groups or 4 groups)
    */
-  ArrayList<Iterator<Territory>> getGroupsIterator();
+  ArrayList<Iterator<Territory>> getInitialGroups();
 }

@@ -179,7 +179,7 @@ class V1Map18TerritoriesTest {
     @Test
     void test_getTerritoriesIterator(){
         MapRO m1 = new V1Map18Territories(18);
-        ArrayList<Iterator<Territory>> groupsIteratorList = m1.getGroupsIterator();
+        ArrayList<Iterator<Territory>> groupsIteratorList = m1.getInitialGroups();
         Iterator<Territory> iterator1 = groupsIteratorList.get(0);
         Iterator<Territory> iterator2 = groupsIteratorList.get(1);
         Iterator<Territory> iterator3 = groupsIteratorList.get(2);

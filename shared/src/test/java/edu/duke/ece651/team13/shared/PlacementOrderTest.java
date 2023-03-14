@@ -17,7 +17,7 @@ public class PlacementOrderTest {
     @Test
     public void test_execute() {
         RuleChecker placementChecker = new PlacementChecker(null);
-        Player tom = new HumanPlayer("Tom Riddle", mockedReader);
+        Player tom = new HumanPlayer("Tom Riddle");
         Territory hogwarts = new GameTerritory("Hogwarts");
         hogwarts.setOwner(tom);
         hogwarts.setUnitNum(0);
@@ -30,7 +30,7 @@ public class PlacementOrderTest {
     @Test
     public void test_validateOrder() {
         RuleChecker placementChecker = new PlacementChecker(null);
-        Player tom = new HumanPlayer("Tom Riddle", mockedReader);
+        Player tom = new HumanPlayer("Tom Riddle");
         Territory hogwarts = new GameTerritory("Hogwarts");
         hogwarts.setOwner(tom);
         hogwarts.setUnitNum(0);

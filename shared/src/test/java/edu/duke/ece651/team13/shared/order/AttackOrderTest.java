@@ -19,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AttackOrderTest {
 
-    @Mock
-    private BufferedReader mockedReader;
 
     AutoCloseable openMocks;
 
@@ -41,7 +39,7 @@ class AttackOrderTest {
 
         Order order1 = new AttackOrder(
                 null,
-                new HumanPlayer("Green", mockedReader),
+                new HumanPlayer("Green"),
                 map1.getTerritoryByName("Boxer"), map1.getTerritoryByName("Poodle"), 0);
         Order order2 = order1.getOrderOnNewMap(map2);
         assertEquals("Boxer", order2.getSource().getName());
@@ -58,7 +56,7 @@ class AttackOrderTest {
         MapRO map1 = new V1Map12Territories(10);
         Territory boxer = map1.getTerritoryByName("Boxer");
         Territory poodle = map1.getTerritoryByName("Poodle");
-        Player green = new HumanPlayer("Green", mockedReader);
+        Player green = new HumanPlayer("Green");
         boxer.setUnitNum(10);
         Order order1 = new AttackOrder(
                 null, green, boxer, poodle, 10);
@@ -74,7 +72,7 @@ class AttackOrderTest {
 
         Territory boxer = map1.getTerritoryByName("Boxer");
         Territory poodle = map1.getTerritoryByName("Poodle");
-        Player green = new HumanPlayer("Green", mockedReader);
+        Player green = new HumanPlayer("Green");
 
         boxer.setUnitNum(10);
         MapRO map2 = map1.replicate();

@@ -4,6 +4,7 @@ import edu.duke.ece651.team13.shared.territory.GameTerritory;
 import edu.duke.ece651.team13.shared.territory.Territory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * drawio link to view map:
@@ -84,26 +85,39 @@ public class V1Map12Territories extends V1Map {
         territories.add(akita);
         territories.add(brittany);
 
+    }
+
+    @Override
+    public ArrayList<Iterator<Territory>> getInitialGroups() {
+        ArrayList<ArrayList<Territory>> groups = new ArrayList<>();
+
+
         //make groups
         ArrayList<Territory> group1 = new ArrayList<>();
         ArrayList<Territory> group2 = new ArrayList<>();
 
-        group1.add(rottweiler);
-        group1.add(dachshund);
-        group1.add(beagle);
-        group1.add(labrador);
-        group1.add(poodle);
-        group1.add(bulldog);
+        group1.add(getTerritoryByName("Rottweiler"));
+        group1.add(getTerritoryByName("Dachshund"));
+        group1.add(getTerritoryByName("Beagle"));
+        group1.add(getTerritoryByName("Labrador"));
+        group1.add(getTerritoryByName("Poodle"));
+        group1.add(getTerritoryByName("Bulldog"));
 
-        group2.add(boxer);
-        group2.add(havanese);
-        group2.add(spaniel);
-        group2.add(sheepdog);
-        group2.add(akita);
-        group2.add(brittany);
+        group2.add(getTerritoryByName("Boxer"));
+        group2.add(getTerritoryByName("Havanese"));
+        group2.add(getTerritoryByName("Spaniel"));
+        group2.add(getTerritoryByName("Sheepdog"));
+        group2.add(getTerritoryByName("Akita"));
+        group2.add(getTerritoryByName("Brittany"));
 
         groups.add(group1);
         groups.add(group2);
+
+        ArrayList<Iterator<Territory>> groupsIteratorList = new ArrayList<>();
+        for (ArrayList<Territory> group : groups) {
+            groupsIteratorList.add(group.iterator());
+        }
+        return groupsIteratorList;
     }
 
     @Override
