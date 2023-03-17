@@ -6,7 +6,7 @@ import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 import java.io.Serializable;
 import java.util.*;
 
-public abstract class V1Map implements MapRO {
+public abstract class V1Map implements MapRO, Serializable {
     protected ArrayList<Territory> territories;
     private final int initialUnit;
 

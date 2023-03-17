@@ -11,10 +11,10 @@ public class networkUtil {
      * @param message message object that server will send to client
      */
     public static void sendMessage(Socket socket, Object message) throws IOException {
-        BufferedOutputStream clientBufferedStream = new BufferedOutputStream(socket.getOutputStream());
-        ObjectOutputStream clientObjectStream = new ObjectOutputStream(clientBufferedStream);
-        clientObjectStream.writeObject(message);
-        clientObjectStream.flush();
+            BufferedOutputStream clientBufferedStream = new BufferedOutputStream(socket.getOutputStream());
+            ObjectOutputStream clientObjectStream = new ObjectOutputStream(clientBufferedStream);
+            clientObjectStream.writeObject(message);
+            clientObjectStream.flush();
     }
 
     /**

@@ -12,7 +12,7 @@ public class HumanPlayer implements Player, Serializable {
 
     private final String name;
     private PlayerStatusEnum status;
-    private Socket socket;
+    private transient Socket socket;
 
     /**
      * Construct a new Player
