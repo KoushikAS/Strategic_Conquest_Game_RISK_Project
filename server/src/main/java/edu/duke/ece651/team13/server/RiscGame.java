@@ -2,33 +2,36 @@ package edu.duke.ece651.team13.server;
 
 
 import edu.duke.ece651.team13.shared.AttackerInfo;
-import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.order.AttackOrder;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.Order;
+import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
+import edu.duke.ece651.team13.shared.player.Player;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
 
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Optional;
+import java.util.*;
+
+import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
+import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 
 public class RiscGame implements Game {
 
     private ArrayList<Player> players;
     private V1Map map;
     private Dice dice;
+    private ArrayList<Order> orders;
 
     public RiscGame(V1Map map, ArrayList<Player> players) {
         this.map = map;
         this.players = players;
         assignInitialGroups();
         this.dice = new Dice(1, 20);
-
+        this.orders = new ArrayList<>();
     }
 
     /**
@@ -55,8 +58,8 @@ public class RiscGame implements Game {
      */
     @Override
     public void initPlayer(String name, Socket clientSocket) {
-        // Player player = new HumanPlayer(name);
-        // this.players.add(player);
+        Player player = this.getPlayerByName(name);
+        player.setSocket(clientSocket);
     }
 
     /**
@@ -80,34 +83,41 @@ public class RiscGame implements Game {
      * @return Board game board
      */
     @Override
-    public MapRO getMap() {
+    public MapRO getMapRO() {
         return this.map;
     }
+
 
     @Override
     public void playOneTurn() {
     }
 
     @Override
-    public String validateOrders(ArrayList<Order> orders) {
+    public String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player) {
         // Deep copy the map
         MapRO tempMap = map.replicate();
+        List<Order> orders = new ArrayList<>();
         // Move orders first
-        for (Order order : orders) {
-            if (order.getClass().equals(MoveOrder.class)) {
+        for (PlayerOrderInput orderInput : orderInputs) {
+            if (orderInput.getOrderType().equals(MOVE)) {
+                Order order = new MoveOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
                 String checkResult = order.validateOnMap(tempMap);
                 if (checkResult != null) return checkResult;
                 order.actOnMap(tempMap);
+                orders.add(order);
             }
         }
         // Attack orders
-        for (Order order : orders) {
-            if (order.getClass().equals(AttackOrder.class)) {
+        for (PlayerOrderInput orderInput : orderInputs) {
+            if (orderInput.getOrderType().equals(ATTACK)) {
+                Order order = new AttackOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
                 String checkResult = order.validateOnMap(tempMap);
                 if (checkResult != null) return checkResult;
                 order.actOnMap(tempMap);
             }
         }
+
+        this.orders.addAll(orders);
         // The orders are valid, return null
         return null;
     }
@@ -120,9 +130,9 @@ public class RiscGame implements Game {
     public ArrayList<AttackerInfo> getWarParties(Territory territory) {
         ArrayList<AttackerInfo> warPartiesList = new ArrayList<>();
         warPartiesList.add(new AttackerInfo(territory.getOwner(), territory.getUnitNum()));
-        HashMap<Player, Integer> attackerMap = territory.getAttackers();
+        HashMap<PlayerRO, Integer> attackerMap = territory.getAttackers();
         if (!attackerMap.isEmpty()) {
-            for (Player attacker : attackerMap.keySet()) {
+            for (PlayerRO attacker : attackerMap.keySet()) {
                 warPartiesList.add(new AttackerInfo(attacker, attackerMap.get(attacker)));
             }
         }
@@ -208,7 +218,7 @@ public class RiscGame implements Game {
         }
         return player.get();
     }
-    
+
     /**
      * {@inheritDoc}
      */

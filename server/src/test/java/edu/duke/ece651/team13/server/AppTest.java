@@ -1,7 +1,10 @@
 package edu.duke.ece651.team13.server;
 
 
-import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.map.V1Map12Territories;
+import edu.duke.ece651.team13.shared.map.V1Map18Territories;
+import edu.duke.ece651.team13.shared.map.V1Map24Territories;
+import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import org.junit.jupiter.api.Test;
 
@@ -24,13 +27,14 @@ class AppTest {
         assertThrows(AssertionError.class, () -> getMap(5));
 
         MapRO map2player = getMap(2);
-        assertEquals(12, map2player.getInitialUnit());
+        assertEquals(map2player.getClass(), V1Map12Territories.class);
 
         MapRO map3player = getMap(3);
-        assertEquals(18, map3player.getInitialUnit());
+        assertEquals(map3player.getClass(), V1Map18Territories.class);
 
         MapRO map4player = getMap(4);
-        assertEquals(24, map4player.getInitialUnit());
+        assertEquals(map4player.getClass(), V1Map24Territories.class);
+
     }
 
     @Test

@@ -1,12 +1,14 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.player;
 
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
+import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 
 class HumanPlayerTest {
@@ -32,4 +34,14 @@ class HumanPlayerTest {
         p.setStatus(PlayerStatusEnum.LOSE);
         assertEquals(PlayerStatusEnum.LOSE, p.getStatus());
     }
+
+    @Test
+    void test_getSocket() {
+        Player p = new HumanPlayer(testName);
+        assertNull(p.getSocket());
+        Socket mockSocket = mock(Socket.class);
+        p.setSocket(mockSocket);
+        assertEquals(mockSocket, p.getSocket());
+    }
+
 }

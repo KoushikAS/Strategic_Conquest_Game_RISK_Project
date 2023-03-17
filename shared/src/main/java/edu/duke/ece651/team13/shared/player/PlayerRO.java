@@ -1,14 +1,14 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.player;
 
 
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 
+import java.net.Socket;
+
 /**
  * The interface of player
  */
-public interface Player {
-    //TODO: playOneTurn and checkIsLost
-
+public interface PlayerRO {
 
     /**
      * Get the name of the player
@@ -25,12 +25,10 @@ public interface Player {
     PlayerStatusEnum getStatus();
 
     /**
-     * Set the status of the player
-     * precondition: the status needs to be valid (isValidStatus returns true)
+     * Get the socket of the client linked with the player.
      *
-     * @param status is the status string to set
+     * @return socket of the client linked with the player
      */
-    void setStatus(PlayerStatusEnum status);
-
+     Socket getSocket();
 
 }

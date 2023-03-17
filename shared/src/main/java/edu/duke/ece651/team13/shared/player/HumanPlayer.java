@@ -1,9 +1,9 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.player;
 
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 
-import java.io.BufferedReader;
 import java.io.Serializable;
+import java.net.Socket;
 
 /**
  * This class handles the information of one human player
@@ -12,6 +12,7 @@ public class HumanPlayer implements Player, Serializable {
 
     private final String name;
     private PlayerStatusEnum status;
+    private transient Socket socket;
 
     /**
      * Construct a new Player
@@ -19,6 +20,7 @@ public class HumanPlayer implements Player, Serializable {
     public HumanPlayer(String name) {
         this.name = name;
         this.status = PlayerStatusEnum.PLAYING;
+        this.socket = null;
     }
 
     /**
@@ -31,9 +33,24 @@ public class HumanPlayer implements Player, Serializable {
         return name;
     }
 
+    /**
+     * Get Status of the player.
+     *
+     * @return the status of the player.
+     */
     @Override
     public PlayerStatusEnum getStatus() {
         return status;
+    }
+
+    /**
+     * Get the socket of the client linked with the player.
+     *
+     * @return socket of the client linked with the player
+     */
+    @Override
+    public Socket getSocket() {
+        return socket;
     }
 
     /**
@@ -47,5 +64,14 @@ public class HumanPlayer implements Player, Serializable {
         this.status = status;
     }
 
+    /**
+     * Set Socket from the client for the player.
+     *
+     * @param socket to be set for the player.
+     */
+    @Override
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
 
 }

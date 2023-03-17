@@ -1,21 +1,22 @@
 package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.AttackerInfo;
-import edu.duke.ece651.team13.shared.Player;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
+
 import edu.duke.ece651.team13.shared.map.MapRO;
-import edu.duke.ece651.team13.shared.order.MoveOrder;
-import edu.duke.ece651.team13.shared.order.Order;
+import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
+import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import org.junit.jupiter.api.Test;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getMockGame;
+import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class RiscGameTest {
 
@@ -23,7 +24,7 @@ class RiscGameTest {
     void test_validateOrders() {
         RiscGame game = getMockGame(2);
 
-        MapRO map = game.getMap();
+        MapRO map = game.getMapRO();
 
         Territory rottweiler = map.getTerritoryByName("Rottweiler");
         assertEquals("Red", rottweiler.getOwner().getName());
@@ -31,27 +32,16 @@ class RiscGameTest {
         Territory dachshund = map.getTerritoryByName("Dachshund");
         assertEquals("Red", rottweiler.getOwner().getName());
 
+        ArrayList<PlayerOrderInput> orders = new ArrayList<>();
+        Player red = game.getPlayerByName("Red");
 
-        Territory boxer = map.getTerritoryByName("Boxer");
-        assertEquals("Blue", boxer.getOwner().getName());
-        boxer.setUnitNum(50);
-        Territory havanese = map.getTerritoryByName("Havanese");
-        assertEquals("Blue", havanese.getOwner().getName());
+        orders.add(new PlayerOrderInput(MOVE, "Rottweiler", "Dachshund", 50));
+        orders.add(new PlayerOrderInput(MOVE, "Dachshund", "Rottweiler", 40));
+        assertNull(game.validateOrdersAndAddToList(orders, red));
 
-        ArrayList<Order> orders = new ArrayList<>();
-        Player green = game.getPlayerByName("Red");
-        Player blue = game.getPlayerByName("Blue");
-        orders.add(new MoveOrder(green, rottweiler, dachshund, 50));
-        orders.add(new MoveOrder(green, dachshund, rottweiler, 40));
-        assertNull(game.validateOrders(orders));
 
-        orders.add(new MoveOrder(green, rottweiler, dachshund, 100));
-        assertEquals("Invalid move order: Don't have sufficient unit number in the territory.", game.validateOrders(orders));
-        orders.clear();
-
-        orders.add(new MoveOrder(green, rottweiler, dachshund, 50));
-        orders.add(new MoveOrder(blue, boxer, havanese, 30));
-        assertNull(game.validateOrders(orders));
+        orders.add(new PlayerOrderInput(MOVE, "Rottweiler", "Dachshund", 100));
+        assertEquals("Invalid move order: Don't have sufficient unit number in the territory.", game.validateOrdersAndAddToList(orders, red));
     }
 
     @Test
@@ -64,7 +54,7 @@ class RiscGameTest {
         Player attacker2 = game.getPlayerByName("Green");
         Player attacker3 = game.getPlayerByName("Yellow");
 
-        MapRO map = game.getMap();
+        MapRO map = game.getMapRO();
         Territory rottweiler = map.getTerritoryByName("Rottweiler");
         assertEquals("Red", rottweiler.getOwner().getName());
 
@@ -87,9 +77,26 @@ class RiscGameTest {
     }
 
     @Test
+    void test_initPlayer() {
+        RiscGame game = getMockGame(2);
+
+        assertNull(game.getPlayerByName("Red").getSocket());
+        assertNull(game.getPlayerByName("Blue").getSocket());
+
+        Socket s1 = mock(Socket.class);
+        Socket s2 = mock(Socket.class);
+
+        game.initPlayer("Red", s1);
+        game.initPlayer("Blue", s2);
+
+        assertEquals(s1, game.getPlayerByName("Red").getSocket());
+        assertEquals(s2, game.getPlayerByName("Blue").getSocket());
+    }
+
+    @Test
     public void test_checkLostPlayer() {
         RiscGame game = getMockGame(2);
-        MapRO map = game.getMap();
+        MapRO map = game.getMapRO();
         Player red = game.getPlayerByName("Red");
         Player blue = game.getPlayerByName("Blue");
         // pre-checking when red is playing

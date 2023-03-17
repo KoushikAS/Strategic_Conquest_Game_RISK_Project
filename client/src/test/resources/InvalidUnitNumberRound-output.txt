@@ -1,0 +1,22 @@
+10 units in Rottweiler (next to: Dachshund, Bulldog, Labrador, Akita, Boxer)
+10 units in Dachshund (next to: Beagle, Rottweiler, Bulldog)
+10 units in Beagle (next to: Dachshund, Bulldog, Poodle)
+10 units in Labrador (next to: Rottweiler, Bulldog, Poodle, Mastiff, Boxer, Collie, Dalmatian)
+10 units in Poodle (next to: Beagle, Bulldog, Labrador, Mastiff)
+10 units in Bulldog (next to: Dachshund, Beagle, Rottweiler, Poodle, Labrador)
+
+Welcome to RISC Game. You have been assigned player Red with the above territories.
+What would you like to do during Initialisation round?
+(M)ove
+(D)one
+Please enter the source Territory
+Please enter the destination Territory
+Please enter unit number
+That is not a valid choice
+Invalid Unit Number entered
+Please enter the source Territory
+Please enter the destination Territory
+Please enter unit number
+What would you like to do during Initialisation round?
+(M)ove
+(D)one

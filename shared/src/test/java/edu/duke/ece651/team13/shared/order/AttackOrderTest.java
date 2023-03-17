@@ -1,17 +1,16 @@
 package edu.duke.ece651.team13.shared.order;
 
-import edu.duke.ece651.team13.shared.HumanPlayer;
-import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.player.HumanPlayer;
+import edu.duke.ece651.team13.shared.player.Player;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.BufferedReader;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,8 +46,8 @@ class AttackOrderTest {
 
         order2.getSource().setUnitNum(100);
         order2.getDestination().setUnitNum(200);
-        assertEquals(0, order1.getSource().getUnitNum());
-        assertEquals(0, order1.getDestination().getUnitNum());
+        assertEquals(10, order1.getSource().getUnitNum());
+        assertEquals(10, order1.getDestination().getUnitNum());
     }
 
     @Test
@@ -61,7 +60,7 @@ class AttackOrderTest {
         Order order1 = new AttackOrder(
                 null, green, boxer, poodle, 10);
         order1.act();
-        HashMap<Player, Integer> attackers = poodle.getAttackers();
+        HashMap<PlayerRO, Integer> attackers = poodle.getAttackers();
         assertEquals(10, attackers.get(green));
         assertEquals(0, boxer.getUnitNum());
     }
@@ -82,10 +81,10 @@ class AttackOrderTest {
         Order order1 = new AttackOrder(
                 null, green, boxer, poodle, 10);
         order1.actOnMap(map2);
-        HashMap<Player, Integer> attackers = poodle.getAttackers();
+        HashMap<PlayerRO, Integer> attackers = poodle.getAttackers();
         assertTrue(attackers.isEmpty());
         assertEquals(10, boxer.getUnitNum());
-        HashMap<Player, Integer> cloneAttackers = clonePoodle.getAttackers();
+        HashMap<PlayerRO, Integer> cloneAttackers = clonePoodle.getAttackers();
         assertEquals(10, cloneAttackers.get(green));
         assertEquals(0, cloneBoxer.getUnitNum());
 

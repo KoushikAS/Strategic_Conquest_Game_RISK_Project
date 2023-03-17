@@ -1,9 +1,6 @@
 package edu.duke.ece651.team13.shared.territory;
 
-import edu.duke.ece651.team13.shared.Player;
-
-import java.util.Map;
-import java.util.Iterator;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
 
 /**
  * The interface of Territory
@@ -15,7 +12,7 @@ public interface Territory extends TerritoryRO{
    * 
    * @param newOwner is the new owner
    */
-  void setOwner(Player newOwner);
+  void setOwner(PlayerRO newOwner);
 
   /**
    * Set the unit number
@@ -30,7 +27,7 @@ public interface Territory extends TerritoryRO{
    * @param attacker      is the attacking player
    * @param attackUnitNum is the number of attacking units
    */
-  void addAttacker(Player attacker, int attackUnitNum);
+  void addAttacker(PlayerRO attacker, int attackUnitNum);
 
   /**
    * Remove all the attackers

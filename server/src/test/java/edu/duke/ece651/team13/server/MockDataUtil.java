@@ -1,8 +1,12 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.map.V1Map;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import static edu.duke.ece651.team13.server.App.getMap;
@@ -23,4 +27,17 @@ public class MockDataUtil {
         return new RiscGame(map,players,dice);
     }
 
+    /**
+     * mocks input stream for testing sockets
+     *
+     * @param object to be mocked
+     * @return
+     */
+    public static ByteArrayInputStream mockInputStream(Object object) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectStream = new ObjectOutputStream(outputStream);
+        objectStream.writeObject(object);
+        objectStream.flush();
+        return new ByteArrayInputStream(outputStream.toByteArray());
+    }
 }

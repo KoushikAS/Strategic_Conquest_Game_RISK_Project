@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.server.handler.InitialiseServerHandler;
+import edu.duke.ece651.team13.shared.player.Player;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -31,10 +32,10 @@ public class Server {
             try {
                 System.out.println("Listening");
                 Socket clientSocket = this.serverSocket.accept();
-                System.out.println("Connected");
-                //TODO Should initlaize player with the socket
-                game.initPlayer(it.next().getName(), clientSocket);
-                Thread clientThread = new Thread(new PlayerHandler(clientSocket, this.game.getMap()));
+                String playerName = it.next().getName();
+                System.out.println("Assigning " + playerName + " to the client connected");
+                game.initPlayer(playerName, clientSocket);
+                Thread clientThread = new Thread(new InitialiseServerHandler(clientSocket, this.game, playerName));
                 clientThread.start();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -48,9 +49,9 @@ public class Server {
      */
     public void closeServer() throws IOException {
 
-            if (this.serverSocket != null) {
-                this.serverSocket.close();
-            }
+        if (this.serverSocket != null) {
+            this.serverSocket.close();
+        }
 
     }
 }

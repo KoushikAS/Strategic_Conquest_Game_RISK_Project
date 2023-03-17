@@ -35,32 +35,32 @@ public class V1Map24Territories extends V1Map {
      * - all the territories and proper neighboring relationship
      */
     @Override
-    protected void initMap() {
+    protected void initMap(int initialUnit) {
         // Creating Terrritores
-        Territory rottweiler = new GameTerritory("Rottweiler");
-        Territory dachshund = new GameTerritory("Dachshund");
-        Territory beagle = new GameTerritory("Beagle");
-        Territory labrador = new GameTerritory("Labrador");
-        Territory poodle = new GameTerritory("Poodle");
-        Territory bulldog = new GameTerritory("Bulldog");
-        Territory boxer = new GameTerritory("Boxer");
-        Territory havanese = new GameTerritory("Havanese");
-        Territory spaniel = new GameTerritory("Spaniel");
-        Territory sheepdog = new GameTerritory("Sheepdog");
-        Territory akita = new GameTerritory("Akita");
-        Territory brittany = new GameTerritory("Brittany");
-        Territory vizsla = new GameTerritory("Vizsla");
-        Territory pug = new GameTerritory("Pug");
-        Territory chihuahua = new GameTerritory("Chihuahua");
-        Territory maltese = new GameTerritory("Maltese");
-        Territory mastiff = new GameTerritory("Mastiff");
-        Territory collie = new GameTerritory("Collie");
-        Territory dalmatian = new GameTerritory("Dalmatian");
-        Territory papillon = new GameTerritory("Papillon");
-        Territory setter = new GameTerritory("Setter");
-        Territory samoyed = new GameTerritory("Samoyed");
-        Territory bullmastiff = new GameTerritory("Bullmastiff");
-        Territory whippet = new GameTerritory("Whippet");
+        Territory rottweiler = new GameTerritory("Rottweiler", initialUnit);
+        Territory dachshund = new GameTerritory("Dachshund", initialUnit);
+        Territory beagle = new GameTerritory("Beagle", initialUnit);
+        Territory labrador = new GameTerritory("Labrador", initialUnit);
+        Territory poodle = new GameTerritory("Poodle", initialUnit);
+        Territory bulldog = new GameTerritory("Bulldog", initialUnit);
+        Territory boxer = new GameTerritory("Boxer", initialUnit);
+        Territory havanese = new GameTerritory("Havanese", initialUnit);
+        Territory spaniel = new GameTerritory("Spaniel", initialUnit);
+        Territory sheepdog = new GameTerritory("Sheepdog", initialUnit);
+        Territory akita = new GameTerritory("Akita", initialUnit);
+        Territory brittany = new GameTerritory("Brittany", initialUnit);
+        Territory vizsla = new GameTerritory("Vizsla", initialUnit);
+        Territory pug = new GameTerritory("Pug", initialUnit);
+        Territory chihuahua = new GameTerritory("Chihuahua", initialUnit);
+        Territory maltese = new GameTerritory("Maltese", initialUnit);
+        Territory mastiff = new GameTerritory("Mastiff", initialUnit);
+        Territory collie = new GameTerritory("Collie", initialUnit);
+        Territory dalmatian = new GameTerritory("Dalmatian", initialUnit);
+        Territory papillon = new GameTerritory("Papillon", initialUnit);
+        Territory setter = new GameTerritory("Setter", initialUnit);
+        Territory samoyed = new GameTerritory("Samoyed", initialUnit);
+        Territory bullmastiff = new GameTerritory("Bullmastiff", initialUnit);
+        Territory whippet = new GameTerritory("Whippet", initialUnit);
 
         addTerritoriesNeighbours(dachshund, beagle);
         addTerritoriesNeighbours(dachshund, rottweiler);
