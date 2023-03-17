@@ -88,6 +88,10 @@ public class V1Map9Territories extends V1Map {
         group3.add(getTerritoryByName("Scadrial"));
         group3.add(getTerritoryByName("Roshar"));
 
+        groups.add(group1);
+        groups.add(group2);
+        groups.add(group3);
+
         ArrayList<Iterator<Territory>> groupsIteratorList = new ArrayList<>();
         for (ArrayList<Territory> group : groups) {
             groupsIteratorList.add(group.iterator());
