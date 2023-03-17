@@ -10,6 +10,7 @@ import static edu.duke.ece651.team13.client.MockDataUtil.getInitalisedV1Map24Map
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 class GameRoundTest {
@@ -55,6 +56,46 @@ class GameRoundTest {
 
         ArrayList<PlayerOrderInput> expectedOrders = new ArrayList<>();
         expectedOrders.add(new PlayerOrderInput(MOVE, "Rottweiler", "Poodle", 10));
+        expectedOrders.add(new PlayerOrderInput(MOVE, "Rottweiler", "Dachshund", 20));
+        for (int i = 0; i < orders.size(); i++) {
+            assertEquals(expectedOrders.get(i), orders.get(i));
+        }
+
+        assertEquals(expectedOutputString + "\n", bytes.toString());
+    }
+
+    @Test
+    void test_InvalidOrderException() throws IOException {
+        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("InvalidOrderTypeRound-output.txt");
+        String expectedOutputString = new String(expectedStream.readAllBytes()).replace("\r", "");
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        String input = "A\nX\nM\nRottweiler\nDachshund\n20\nD\n";
+        GameRound round = createGameRound("Red", input, bytes);
+
+        ArrayList<PlayerOrderInput> orders = round.initialRound(getInitalisedV1Map24MapRO());
+
+        ArrayList<PlayerOrderInput> expectedOrders = new ArrayList<>();
+        expectedOrders.add(new PlayerOrderInput(MOVE, "Rottweiler", "Dachshund", 20));
+        for (int i = 0; i < orders.size(); i++) {
+            assertEquals(expectedOrders.get(i), orders.get(i));
+        }
+
+        assertEquals(expectedOutputString + "\n", bytes.toString());
+    }
+
+    @Test
+    void test_InvalidUnitException() throws IOException {
+        InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("InvalidUnitNumberRound-output.txt");
+        String expectedOutputString = new String(expectedStream.readAllBytes()).replace("\r", "");
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        String input = "M\nRottweiler\nDachshund\nx\nM\nRottweiler\nDachshund\n20\nD\n";
+        GameRound round = createGameRound("Red", input, bytes);
+
+        ArrayList<PlayerOrderInput> orders = round.initialRound(getInitalisedV1Map24MapRO());
+
+        ArrayList<PlayerOrderInput> expectedOrders = new ArrayList<>();
         expectedOrders.add(new PlayerOrderInput(MOVE, "Rottweiler", "Dachshund", 20));
         for (int i = 0; i < orders.size(); i++) {
             assertEquals(expectedOrders.get(i), orders.get(i));
