@@ -15,7 +15,6 @@ public class BoardTextView implements BoardView {
     /**
      * Constructs a BoardTextView instance
      *
-     * @param map the map to be displayed in the view
      */
     public BoardTextView() {
     }

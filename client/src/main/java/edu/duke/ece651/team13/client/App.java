@@ -23,6 +23,7 @@ public class App {
         Socket socket = new Socket("localhost", 12345);
         String playerName = (String) recvMessage(socket);
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+
         GameRound gameRound = new GameRound(playerName, new BoardTextView(), input, System.out);
         Ack ack = new Ack(SUCCESS, "Successfully received the player name");
         sendMessage(socket, ack);
