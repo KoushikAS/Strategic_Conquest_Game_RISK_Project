@@ -21,9 +21,9 @@ class ServerTest {
 
     private final int testPortNum = 12345;
 
-    //TODO: Integration test
+
     public void test_start() throws IOException, ClassNotFoundException {
-        Game game = getMockGame(4);
+        Game game = getMockGame(2);
 
         Server server = new Server(testPortNum, getMockGame(2));
         Socket clientSocket1 = new Socket("", testPortNum);
