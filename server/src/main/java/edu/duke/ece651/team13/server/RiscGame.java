@@ -2,6 +2,7 @@ package edu.duke.ece651.team13.server;
 
 
 import edu.duke.ece651.team13.shared.AttackerInfo;
+import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.order.AttackOrder;
@@ -216,6 +217,37 @@ public class RiscGame implements Game {
             throw new IllegalArgumentException("There is no Player in this game with the name " + name);
         }
         return player.get();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void checkLostPlayer() {
+        Iterator<Player> playerIterator = getPlayersIterator();
+        while (playerIterator.hasNext()) {
+            Player player = playerIterator.next();
+            if (playerHasLost(player)) {
+                player.setStatus(PlayerStatusEnum.LOSE);
+            }
+        }
+    }
+
+    /**
+     * This helper method checks if a player has lost
+     *
+     * @param player is the player to be checked
+     * @return true if the player has already lost and false otherwise
+     */
+    private boolean playerHasLost(Player player) {
+        Iterator<Territory> territoryIterator = map.getTerritoriesIterator();
+        while (territoryIterator.hasNext()) {
+            Territory territory = territoryIterator.next();
+            if (territory.getOwner().equals(player)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

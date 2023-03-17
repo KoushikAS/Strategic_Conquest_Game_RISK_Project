@@ -50,12 +50,18 @@ public interface Game {
     /**
      * Resolve all the combats in all territories for this turn
      */
-    public void resolveAllCombats();
+    void resolveAllCombats();
 
     /**
      * Resolve the combat in the specified territory for this turn
      *
      * @param territory is the territory on which to resolve combat
      */
-    public void resolveCombatInOneTerritory(Territory territory);
+    void resolveCombatInOneTerritory(Territory territory);
+
+    /**
+     * This method checks if a player is lost, i.e., he no longer controls
+     * any territories
+     */
+    void checkLostPlayer();
 }

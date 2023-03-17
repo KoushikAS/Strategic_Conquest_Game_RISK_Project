@@ -1,6 +1,8 @@
 package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.AttackerInfo;
+import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
+
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
 import edu.duke.ece651.team13.shared.player.Player;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getMockGame;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
@@ -88,6 +91,25 @@ class RiscGameTest {
 
         assertEquals(s1, game.getPlayerByName("Red").getSocket());
         assertEquals(s2, game.getPlayerByName("Blue").getSocket());
+    }
+
+    @Test
+    public void test_checkLostPlayer() {
+        RiscGame game = getMockGame(2);
+        MapRO map = game.getMapRO();
+        Player red = game.getPlayerByName("Red");
+        Player blue = game.getPlayerByName("Blue");
+        // pre-checking when red is playing
+        game.checkLostPlayer();
+        assertEquals(PlayerStatusEnum.PLAYING, red.getStatus());
+        Iterator<Territory> it = map.getTerritoriesIterator();
+        while (it.hasNext()) {
+            Territory t = it.next();
+            t.setOwner(blue);
+        }
+        // post-checking when red has lost
+        game.checkLostPlayer();
+        assertEquals(PlayerStatusEnum.LOSE, red.getStatus());
     }
 
 }
