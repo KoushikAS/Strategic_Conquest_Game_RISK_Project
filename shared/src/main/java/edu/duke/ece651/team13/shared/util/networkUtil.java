@@ -15,9 +15,6 @@ public class networkUtil {
             ObjectOutputStream clientObjectStream = new ObjectOutputStream(clientBufferedStream);
             clientObjectStream.writeObject(message);
             clientObjectStream.flush();
-        } finally {
-            socket.close();
-            System.out.println("close");
         }
     }
 
@@ -27,8 +24,9 @@ public class networkUtil {
      * @return the received object
      */
     public static Object recvMessage(Socket socket) throws IOException, ClassNotFoundException {
-        BufferedInputStream readBufferForClient = new BufferedInputStream(socket.getInputStream());
-        ObjectInputStream objectStreamFromClient = new ObjectInputStream(readBufferForClient);
-        return objectStreamFromClient.readObject();
+        try(BufferedInputStream readBufferForClient = new BufferedInputStream(socket.getInputStream())) {
+            ObjectInputStream objectStreamFromClient = new ObjectInputStream(readBufferForClient);
+            return objectStreamFromClient.readObject();
+        }
     }
 }

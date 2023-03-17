@@ -30,16 +30,15 @@ public class InitialiseServerHandler extends Thread {
     public void run() {
         try {
             //Send the Player Name
-            System.out.println(this.playerName + "Inside up");
+
             while (true) {
                 sendMessage(this.socket, this.playerName);
                 Ack ack = (Ack) recvMessage(this.socket);
-                System.out.println(this.playerName + "Received Ack");
                 if (ack.getStatus().equals(SUCCESS)) {
                     break;
                 }
             }
-            System.out.println(this.playerName + "What up");
+
             //Send the Map
             while (true) {
                 sendMessage(this.socket, this.game.getMapRO());
