@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.shared.order;
 
 import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.PlayerRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.rulechecker.MoveOwnershipChecker;
@@ -13,7 +14,7 @@ import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
  */
 public class MoveOrder extends Order {
     public MoveOrder(RuleChecker ruleChecker,
-                     Player player,
+                     PlayerRO player,
                      Territory source,
                      Territory destination,
                      int units){
@@ -24,7 +25,7 @@ public class MoveOrder extends Order {
      * Construct a MoveOrder with default rulechecker
      *    MoveOwnershipChecker -> MoveUnitNumChecker -> MovePathChecker
      */
-    public MoveOrder(Player player,
+    public MoveOrder(PlayerRO player,
                      Territory source,
                      Territory destination,
                      int units){

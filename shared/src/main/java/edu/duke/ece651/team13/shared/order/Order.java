@@ -1,19 +1,19 @@
 package edu.duke.ece651.team13.shared.order;
 
-import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.PlayerRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 
 public abstract class Order {
     protected final RuleChecker orderRuleChecker;
-    protected Player player;
+    protected PlayerRO player;
     protected Territory source;
     protected Territory destination;
     protected int units;
 
     protected Order(RuleChecker orderRuleChecker,
-                    Player player,
+                    PlayerRO player,
                     Territory source,
                     Territory destination,
                     int units) {
@@ -72,7 +72,7 @@ public abstract class Order {
         return units;
     }
 
-    public Player getPlayer() {
+    public PlayerRO getPlayer() {
         return player;
     }
 }

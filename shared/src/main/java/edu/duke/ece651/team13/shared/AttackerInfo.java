@@ -5,10 +5,10 @@ package edu.duke.ece651.team13.shared;
  * defender's identity and their attacking unit number
  */
 public class AttackerInfo {
-    private final Player attacker;
+    private final PlayerRO attacker;
     private int unitNum;
 
-    public AttackerInfo(Player attacker, int unitNum) {
+    public AttackerInfo(PlayerRO attacker, int unitNum) {
         if(unitNum < 0) throw new IllegalArgumentException("Unit number cannot be less than 0.");
         this.attacker = attacker;
         this.unitNum = unitNum;
@@ -18,7 +18,7 @@ public class AttackerInfo {
         return unitNum;
     }
 
-    public Player getAttacker(){
+    public PlayerRO getAttacker(){
         return attacker;
     }
 

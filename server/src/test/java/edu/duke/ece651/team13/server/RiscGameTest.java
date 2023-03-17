@@ -8,21 +8,20 @@ import edu.duke.ece651.team13.shared.order.Order;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getMockGame;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class RiscGameTest {
 
     @Test
-    void test_validateOrders() throws IOException {
+    void test_validateOrders() {
         RiscGame game = getMockGame(2);
 
-        MapRO map = game.getMap();
+        MapRO map = game.getMapRO();
 
         Territory rottweiler = map.getTerritoryByName("Rottweiler");
         assertEquals("Red", rottweiler.getOwner().getName());
@@ -42,19 +41,19 @@ class RiscGameTest {
         Player blue = game.getPlayerByName("Blue");
         orders.add(new MoveOrder(green, rottweiler, dachshund, 50));
         orders.add(new MoveOrder(green, dachshund, rottweiler, 40));
-        assertNull(game.validateOrders(orders));
+        assertNull(game.validateOrdersAndAddToList(orders));
 
         orders.add(new MoveOrder(green, rottweiler, dachshund, 100));
-        assertEquals("Invalid move order: Don't have sufficient unit number in the territory.", game.validateOrders(orders));
+        assertEquals("Invalid move order: Don't have sufficient unit number in the territory.", game.validateOrdersAndAddToList(orders));
         orders.clear();
 
         orders.add(new MoveOrder(green, rottweiler, dachshund, 50));
         orders.add(new MoveOrder(blue, boxer, havanese, 30));
-        assertNull(game.validateOrders(orders));
+        assertNull(game.validateOrdersAndAddToList(orders));
     }
 
     @Test
-    void test_resolveCombatInOneTerritory() throws IOException {
+    void test_resolveCombatInOneTerritory() {
 
         RiscGame game = spy(getMockGame(4, new Dice(1, 20)));
 
@@ -63,7 +62,7 @@ class RiscGameTest {
         Player attacker2 = game.getPlayerByName("Green");
         Player attacker3 = game.getPlayerByName("Yellow");
 
-        MapRO map = game.getMap();
+        MapRO map = game.getMapRO();
         Territory rottweiler = map.getTerritoryByName("Rottweiler");
         assertEquals("Red", rottweiler.getOwner().getName());
 
@@ -83,6 +82,23 @@ class RiscGameTest {
         assertEquals("Yellow", rottweiler.getOwner().getName());
         assertEquals(2, rottweiler.getUnitNum());
         assertTrue(rottweiler.getAttackers().isEmpty());
+    }
+
+    @Test
+    void test_initPlayer() {
+        RiscGame game = getMockGame(2);
+
+        assertNull(game.getPlayerByName("Red").getSocket());
+        assertNull(game.getPlayerByName("Blue").getSocket());
+
+        Socket s1 = mock(Socket.class);
+        Socket s2 = mock(Socket.class);
+
+        game.initPlayer("Red", s1);
+        game.initPlayer("Blue", s2);
+
+        assertEquals(s1, game.getPlayerByName("Red").getSocket());
+        assertEquals(s2, game.getPlayerByName("Blue").getSocket());
     }
 
 }

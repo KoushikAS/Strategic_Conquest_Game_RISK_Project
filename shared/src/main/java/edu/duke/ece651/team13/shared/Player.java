@@ -3,26 +3,13 @@ package edu.duke.ece651.team13.shared;
 
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 
+import java.net.Socket;
+
 /**
  * The interface of player
  */
-public interface Player {
+public interface Player extends PlayerRO {
     //TODO: playOneTurn and checkIsLost
-
-
-    /**
-     * Get the name of the player
-     *
-     * @return the string name of the player
-     */
-    String getName();
-
-    /**
-     * Get the status of the player
-     *
-     * @return the string status of the player
-     */
-    PlayerStatusEnum getStatus();
 
     /**
      * Set the status of the player
@@ -31,6 +18,13 @@ public interface Player {
      * @param status is the status string to set
      */
     void setStatus(PlayerStatusEnum status);
+
+    /**
+     * Set Socket from the client for the player.
+     *
+     * @param socket to be set for the player.
+     */
+     void setSocket(Socket socket);
 
 
 }

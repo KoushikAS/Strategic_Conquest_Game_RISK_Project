@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.shared.territory;
 
 import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.PlayerRO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,10 +14,10 @@ import java.util.Iterator;
  */
 public class GameTerritory implements Territory, Serializable {
   private final String name;
-  private Player owner;
+  private PlayerRO owner;
   private int unitNum;
   private ArrayList<TerritoryRO> neighbours;
-  private HashMap<Player, Integer> attackers;
+  private HashMap<PlayerRO, Integer> attackers;
 
   public GameTerritory(String name) {
     this.name = name;
@@ -31,7 +32,7 @@ public class GameTerritory implements Territory, Serializable {
   }
 
   private GameTerritory(String name,
-                        Player owner,
+                        PlayerRO owner,
                         int unitNum){
     this.name = name;
     this.owner = owner;
@@ -56,7 +57,7 @@ public class GameTerritory implements Territory, Serializable {
    * @return the Player that is currently the owner of the territory
    */
   @Override
-  public Player getOwner() {
+  public PlayerRO getOwner() {
     return this.owner;
   }
 
@@ -77,7 +78,7 @@ public class GameTerritory implements Territory, Serializable {
    * @param newOwner is the new owner
    */
   @Override
-  public void setOwner(Player newOwner) {
+  public void setOwner(PlayerRO newOwner) {
     this.owner = newOwner;
   }
 
@@ -102,7 +103,7 @@ public class GameTerritory implements Territory, Serializable {
    * @param attackUnitNum is the number of attacking units
    */
   @Override
-  public void addAttacker(Player attacker, int attackUnitNum) {
+  public void addAttacker(PlayerRO attacker, int attackUnitNum) {
     if(attackers.containsKey(attacker)){
       attackers.put(attacker, attackers.get(attacker) + attackUnitNum);
     }
@@ -125,7 +126,7 @@ public class GameTerritory implements Territory, Serializable {
    * @return the map of attacking players to the attacking unit numbers
    */
   @Override
-  public HashMap<Player, Integer> getAttackers() {
+  public HashMap<PlayerRO, Integer> getAttackers() {
     return attackers;
   }
 

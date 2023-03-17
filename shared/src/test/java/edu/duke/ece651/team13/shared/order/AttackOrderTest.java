@@ -2,6 +2,7 @@ package edu.duke.ece651.team13.shared.order;
 
 import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.PlayerRO;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import edu.duke.ece651.team13.shared.territory.Territory;
@@ -61,7 +62,7 @@ class AttackOrderTest {
         Order order1 = new AttackOrder(
                 null, green, boxer, poodle, 10);
         order1.act();
-        HashMap<Player, Integer> attackers = poodle.getAttackers();
+        HashMap<PlayerRO, Integer> attackers = poodle.getAttackers();
         assertEquals(10, attackers.get(green));
         assertEquals(0, boxer.getUnitNum());
     }
@@ -82,10 +83,10 @@ class AttackOrderTest {
         Order order1 = new AttackOrder(
                 null, green, boxer, poodle, 10);
         order1.actOnMap(map2);
-        HashMap<Player, Integer> attackers = poodle.getAttackers();
+        HashMap<PlayerRO, Integer> attackers = poodle.getAttackers();
         assertTrue(attackers.isEmpty());
         assertEquals(10, boxer.getUnitNum());
-        HashMap<Player, Integer> cloneAttackers = clonePoodle.getAttackers();
+        HashMap<PlayerRO, Integer> cloneAttackers = clonePoodle.getAttackers();
         assertEquals(10, cloneAttackers.get(green));
         assertEquals(0, cloneBoxer.getUnitNum());
 

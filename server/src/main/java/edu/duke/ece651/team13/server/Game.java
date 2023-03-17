@@ -20,11 +20,11 @@ public interface Game {
     Iterator<Player> getPlayersIterator();
 
     /**
-     * Get the board of one game
+     * Get the Map Read Only object of  game
      *
      * @return Board game board
      */
-    MapRO getMap();
+    MapRO getMapRO();
 
     void playOneTurn();
 
@@ -35,7 +35,7 @@ public interface Game {
      * @return null if the batch of order is valid,
      * description of error if invalid
      */
-    String validateOrders(ArrayList<Order> orders);
+    String validateOrdersAndAddToList(ArrayList<Order> orders);
 
     /**
      * Get the player by the player's name

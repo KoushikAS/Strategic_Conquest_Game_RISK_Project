@@ -26,7 +26,7 @@ class ServerTest {
         Socket clientSocket4 = new Socket("", testPortNum);
         server.start();
 
-        MapRO expectedMap = game.getMap();
+        MapRO expectedMap = game.getMapRO();
 
         assertEquals(expectedMap, recvMsgFrom(clientSocket1));
         assertEquals(expectedMap, recvMsgFrom(clientSocket2));

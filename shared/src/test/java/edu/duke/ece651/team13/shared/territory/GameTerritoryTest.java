@@ -2,6 +2,7 @@ package edu.duke.ece651.team13.shared.territory;
 
 import edu.duke.ece651.team13.shared.HumanPlayer;
 import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.PlayerRO;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -51,7 +52,7 @@ class GameTerritoryTest {
         Player attacker2 = new HumanPlayer("attacker2");
         t.addAttacker(attacker1, 10);
         t.addAttacker(attacker2, 8);
-        HashMap<Player, Integer> attackers = t.getAttackers();
+        HashMap<PlayerRO, Integer> attackers = t.getAttackers();
         assertEquals(10, attackers.get(attacker1));
         assertEquals(8, attackers.get(attacker2));
 
@@ -96,7 +97,7 @@ class GameTerritoryTest {
         Territory t = new GameTerritory(testName);
         Player green = new HumanPlayer("Green");
         t.addAttacker(green, 10);
-        HashMap<Player, Integer> attackers = t.getAttackers();
+        HashMap<PlayerRO, Integer> attackers = t.getAttackers();
         assertFalse(attackers.isEmpty());
         assertEquals(10, attackers.get(green));
 
