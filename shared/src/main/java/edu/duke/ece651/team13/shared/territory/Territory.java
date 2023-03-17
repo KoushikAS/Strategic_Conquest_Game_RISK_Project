@@ -1,10 +1,6 @@
 package edu.duke.ece651.team13.shared.territory;
 
-import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.PlayerRO;
-
-import java.util.Map;
-import java.util.Iterator;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
 
 /**
  * The interface of Territory

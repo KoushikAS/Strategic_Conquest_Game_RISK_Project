@@ -1,8 +1,10 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
+import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.Order;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
 
 import java.net.Socket;
@@ -35,7 +37,7 @@ public interface Game {
      * @return null if the batch of order is valid,
      * description of error if invalid
      */
-    String validateOrdersAndAddToList(ArrayList<Order> orders);
+    public String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player);
 
     /**
      * Get the player by the player's name

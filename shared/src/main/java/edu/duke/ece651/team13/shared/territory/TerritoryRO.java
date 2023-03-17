@@ -1,7 +1,6 @@
 package edu.duke.ece651.team13.shared.territory;
 
-import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.PlayerRO;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
 
 import java.util.HashMap;
 import java.util.Iterator;

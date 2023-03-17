@@ -2,93 +2,101 @@ package edu.duke.ece651.team13.client;
 
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
-import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * This class is a text view representation of the RISC game board
  */
 public class BoardTextView implements BoardView {
 
-  private MapRO map;
-  private Map<String, ArrayList<Territory>> ownershipMap;
 
-  /**
-   * Constructs a BoardTextView instance
-   * 
-   * @param map the map to be displayed in the view
-   */
-  public BoardTextView(MapRO map) {
-    this.map = map;
-    this.ownershipMap = new TreeMap<>();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public String display() {
-    return displayTerritories();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public String displayTerritories() {
-    groupTerritoriesByOwner();
-    StringBuffer sb = new StringBuffer();
-    for (String ownerName : ownershipMap.keySet()) {
-      sb.append(ownerName + " player:\n");
-      sb.append("-------------\n");
-      for (Territory t : ownershipMap.get(ownerName)) {
-        sb.append(displayOneTerritory(t));
-      }
+    /**
+     * Constructs a BoardTextView instance
+     *
+     * @param map the map to be displayed in the view
+     */
+    public BoardTextView() {
     }
-    return sb.toString();
-  }
 
-  /**
-   * This method groups all the territories in map into a TreeMap
-   */
-  private void groupTerritoriesByOwner() {
-    String[] tempOwnerNames = { "Blue", "Green", "Red" };
-    int tempIdx = 0;
-    Iterator<Territory> it = map.getTerritoriesIterator();
-    while (it.hasNext()) {
-      // TODO: hack to get owner name bc owners are not initialized in map now
-      Territory t = it.next();
-      String ownerName = t.getOwner() == null ? tempOwnerNames[tempIdx % 3] : t.getOwner().getName();
-      tempIdx++;
-      ownershipMap.putIfAbsent(ownerName, new ArrayList<>());
-      ownershipMap.get(ownerName).add(t);
-    }
-  }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String displayAllTerritories(MapRO map) {
+        StringBuffer sb = new StringBuffer();
+        Iterator<String> playerIterator = getPlayerNames(map);
+        while (playerIterator.hasNext()) {
+            String ownerName = playerIterator.next();
+            sb.append(ownerName + " player:\n");
+            sb.append("-------------\n");
+            sb.append(displayTerritoriesOfOwner(map, ownerName));
+        }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public String displayOneTerritory(TerritoryRO t) {
-    StringBuffer sb = new StringBuffer();
-    int unitNum = t.getUnitNum();
-    String name = t.getName();
-    sb.append(unitNum + " units in " + name + " (next to: ");
-    Iterator<TerritoryRO> it = t.getNeighbourIterartor();
-    while(it.hasNext()){
-      TerritoryRO neighbour = it.next();
-      sb.append(neighbour.getName());
-      if(it.hasNext()){
-        sb.append(", ");
-      }
+        return sb.toString();
     }
-    sb.append(")\n");
-    return sb.toString();
-  }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String displayTerritoriesOfOwner(MapRO map, String ownerName) {
+        Iterator<TerritoryRO> territoryIterator = getTerritoryOfOwner(map, ownerName);
+        StringBuffer sb = new StringBuffer();
+        while (territoryIterator.hasNext()) {
+            sb.append(displayOneTerritory(territoryIterator.next()));
+        }
+        return sb.toString();
+    }
+
+    private Iterator<String> getPlayerNames(MapRO map) {
+        Set<String> names = new HashSet<>();
+
+        Iterator<Territory> it = map.getTerritoriesIterator();
+        while (it.hasNext()) {
+            TerritoryRO territoryRO = it.next();
+            names.add(territoryRO.getOwner().getName());
+        }
+        return names.iterator();
+    }
+
+    /**
+     * This method groups all the territories in map into a TreeMap
+     */
+    private Iterator<TerritoryRO> getTerritoryOfOwner(MapRO map, String ownerName) {
+        Iterator<Territory> it = map.getTerritoriesIterator();
+        ArrayList<TerritoryRO> territories = new ArrayList<>();
+
+        while (it.hasNext()) {
+            Territory t = it.next();
+            if (t.getOwner().getName().equals(ownerName)) {
+                territories.add(t);
+            }
+        }
+
+        return territories.iterator();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String displayOneTerritory(TerritoryRO t) {
+        StringBuffer sb = new StringBuffer();
+        int unitNum = t.getUnitNum();
+        String name = t.getName();
+        sb.append(unitNum + " units in " + name + " (next to: ");
+        Iterator<TerritoryRO> it = t.getNeighbourIterartor();
+        while (it.hasNext()) {
+            TerritoryRO neighbour = it.next();
+            sb.append(neighbour.getName());
+            if (it.hasNext()) {
+                sb.append(", ");
+            }
+        }
+        sb.append(")\n");
+        return sb.toString();
+    }
 
 }

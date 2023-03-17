@@ -1,25 +1,25 @@
 package edu.duke.ece651.team13.client;
 
-import edu.duke.ece651.team13.shared.map.MapRO;
+import edu.duke.ece651.team13.shared.Ack;
 
 import java.io.IOException;
 import java.net.Socket;
 
+import static edu.duke.ece651.team13.shared.enums.AckStatusEnum.SUCCESS;
+import static edu.duke.ece651.team13.shared.util.networkUtil.recvMessage;
+import static edu.duke.ece651.team13.shared.util.networkUtil.sendMessage;
+
 
 public class App {
-
-    public static void receiveMap(Client client) throws IOException, ClassNotFoundException {
-        MapRO map = (MapRO) client.recvMsg();
-        BoardTextView view = new BoardTextView(map);
-        System.out.println(view.display());
-    }
 
     public static void main(String[] args) throws ClassNotFoundException, IOException {
         App a = new App();
 
         Socket socket = new Socket("localhost", 12345);
-        Client client = new Client(socket);
-        receiveMap(client);
+        String playerName = (String) recvMessage(socket);
+        Ack ack = new Ack(SUCCESS, "Successfully received the player name");
+        sendMessage(socket, ack);
+
 
 /**
  // identifies which player and ask for action

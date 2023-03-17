@@ -1,25 +1,17 @@
-package edu.duke.ece651.team13.server.handler;
+package edu.duke.ece651.team13.shared.util;
 
 import java.io.*;
 import java.net.Socket;
 
-public abstract class PlayerHandler extends Thread {
-
-    private Socket socket;
-
-
-    public PlayerHandler(Socket socket) {
-        this.socket = socket;
-    }
+public class networkUtil {
 
     /**
      * Send message object to the socket
      *
      * @param message message object that server will send to client
      */
-    public void sendMessage(Object message) throws IOException {
-
-        try (BufferedOutputStream clientBufferedStream = new BufferedOutputStream(this.socket.getOutputStream())) {
+    public static void sendMessage(Socket socket, Object message) throws IOException {
+        try (BufferedOutputStream clientBufferedStream = new BufferedOutputStream(socket.getOutputStream())) {
             ObjectOutputStream clientObjectStream = new ObjectOutputStream(clientBufferedStream);
             clientObjectStream.writeObject(message);
             clientObjectStream.flush();
@@ -34,14 +26,9 @@ public abstract class PlayerHandler extends Thread {
      *
      * @return the received object
      */
-    public Object recvMessage() throws IOException, ClassNotFoundException {
+    public static Object recvMessage(Socket socket) throws IOException, ClassNotFoundException {
         BufferedInputStream readBufferForClient = new BufferedInputStream(socket.getInputStream());
         ObjectInputStream objectStreamFromClient = new ObjectInputStream(readBufferForClient);
         return objectStreamFromClient.readObject();
-
     }
-
-    @Override
-    public abstract void run();
-
 }

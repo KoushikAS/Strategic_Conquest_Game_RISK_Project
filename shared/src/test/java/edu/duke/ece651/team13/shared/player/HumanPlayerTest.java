@@ -1,4 +1,4 @@
-package edu.duke.ece651.team13.shared;
+package edu.duke.ece651.team13.shared.player;
 
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import org.junit.jupiter.api.BeforeEach;

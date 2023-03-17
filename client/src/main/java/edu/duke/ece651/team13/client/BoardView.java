@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.client;
 
+import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
@@ -11,13 +12,13 @@ public interface BoardView {
      * This method displays the board
      * @return the text to be displayed in string
      */
-    String display();
+    String displayAllTerritories(MapRO map);
 
     /**
      * This method displays the territories grouped by owner
      * @return the text to be displayed in string
      */
-    String displayTerritories();
+    String displayTerritoriesOfOwner(MapRO map, String ownerName);
 
     /**
      * This method only display one territory

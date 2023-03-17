@@ -1,8 +1,8 @@
 package edu.duke.ece651.team13.shared.territory;
 
-import edu.duke.ece651.team13.shared.HumanPlayer;
-import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.PlayerRO;
+import edu.duke.ece651.team13.shared.player.HumanPlayer;
+import edu.duke.ece651.team13.shared.player.Player;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

@@ -7,7 +7,8 @@ package edu.duke.ece651.team13.shared.enums;
 public enum OrderMappingEnum {
     MOVE("M"),
     ATTACK("A"),
-    DONE("D");
+    DONE("D"),
+    INITIALISE("I");
 
     private final String value;
     OrderMappingEnum(String value) {

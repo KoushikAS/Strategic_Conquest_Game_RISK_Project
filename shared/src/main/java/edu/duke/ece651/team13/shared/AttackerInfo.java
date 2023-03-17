@@ -1,5 +1,7 @@
 package edu.duke.ece651.team13.shared;
 
+import edu.duke.ece651.team13.shared.player.PlayerRO;
+
 /**
  * This class encapsulates the information of an attacker or
  * defender's identity and their attacking unit number

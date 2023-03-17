@@ -2,12 +2,14 @@ package edu.duke.ece651.team13.shared;
 
 import edu.duke.ece651.team13.shared.enums.AckStatusEnum;
 
-public class Ack {
+import java.io.Serializable;
+
+public class Ack implements Serializable {
 
     String message;
     AckStatusEnum status;
 
-    Ack(AckStatusEnum status, String message ){
+    public Ack(AckStatusEnum status, String message){
         this.status = status;
         this.message = message;
     }

@@ -2,20 +2,21 @@ package edu.duke.ece651.team13.server;
 
 
 import edu.duke.ece651.team13.shared.AttackerInfo;
-import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.PlayerRO;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.order.AttackOrder;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.Order;
+import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
+import edu.duke.ece651.team13.shared.player.Player;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
 
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Optional;
+import java.util.*;
+
+import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
+import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 
 public class RiscGame implements Game {
 
@@ -29,7 +30,7 @@ public class RiscGame implements Game {
         this.players = players;
         assignInitialGroups();
         this.dice = new Dice(1, 20);
-        this.orders =  new ArrayList<>();
+        this.orders = new ArrayList<>();
     }
 
     /**
@@ -86,26 +87,29 @@ public class RiscGame implements Game {
     }
 
 
-
     @Override
     public void playOneTurn() {
     }
 
     @Override
-    public String validateOrdersAndAddToList(ArrayList<Order> orders) {
+    public String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player) {
         // Deep copy the map
         MapRO tempMap = map.replicate();
+        List<Order> orders = new ArrayList<>();
         // Move orders first
-        for (Order order : orders) {
-            if (order.getClass().equals(MoveOrder.class)) {
+        for (PlayerOrderInput orderInput : orderInputs) {
+            if (orderInput.getOrderType().equals(MOVE)) {
+                Order order = new MoveOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
                 String checkResult = order.validateOnMap(tempMap);
                 if (checkResult != null) return checkResult;
                 order.actOnMap(tempMap);
+                orders.add(order);
             }
         }
         // Attack orders
-        for (Order order : orders) {
-            if (order.getClass().equals(AttackOrder.class)) {
+        for (PlayerOrderInput orderInput : orderInputs) {
+            if (orderInput.getOrderType().equals(ATTACK)) {
+                Order order = new AttackOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
                 String checkResult = order.validateOnMap(tempMap);
                 if (checkResult != null) return checkResult;
                 order.actOnMap(tempMap);

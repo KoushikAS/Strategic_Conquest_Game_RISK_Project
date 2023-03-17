@@ -1,18 +1,16 @@
 package edu.duke.ece651.team13.shared.order;
 
-import edu.duke.ece651.team13.shared.HumanPlayer;
-import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.PlayerRO;
+import edu.duke.ece651.team13.shared.player.HumanPlayer;
+import edu.duke.ece651.team13.shared.player.Player;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.BufferedReader;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

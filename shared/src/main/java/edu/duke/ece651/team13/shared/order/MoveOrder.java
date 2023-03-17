@@ -1,13 +1,12 @@
 package edu.duke.ece651.team13.shared.order;
 
-import edu.duke.ece651.team13.shared.Player;
-import edu.duke.ece651.team13.shared.PlayerRO;
-import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.map.MapRO;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
 import edu.duke.ece651.team13.shared.rulechecker.MoveOwnershipChecker;
 import edu.duke.ece651.team13.shared.rulechecker.MovePathChecker;
 import edu.duke.ece651.team13.shared.rulechecker.MoveUnitNumChecker;
 import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
+import edu.duke.ece651.team13.shared.territory.Territory;
 
 /**
  * Move order
@@ -17,26 +16,27 @@ public class MoveOrder extends Order {
                      PlayerRO player,
                      Territory source,
                      Territory destination,
-                     int units){
+                     int units) {
         super(ruleChecker, player, source, destination, units);
     }
 
     /**
      * Construct a MoveOrder with default rulechecker
-     *    MoveOwnershipChecker -> MoveUnitNumChecker -> MovePathChecker
+     * MoveOwnershipChecker -> MoveUnitNumChecker -> MovePathChecker
      */
     public MoveOrder(PlayerRO player,
                      Territory source,
                      Territory destination,
-                     int units){
+                     int units) {
         this(getDefaultRuleChecker(), player, source, destination, units);
     }
 
+
     /**
      * Get the default rule checker chain
-     *     MoveOwnershipChecker -> MoveUnitNumChecker -> MovePathChecker
+     * MoveOwnershipChecker -> MoveUnitNumChecker -> MovePathChecker
      */
-    private static RuleChecker getDefaultRuleChecker(){
+    private static RuleChecker getDefaultRuleChecker() {
         RuleChecker pathChecker = new MovePathChecker(null);
         RuleChecker unitnumChecker = new MoveUnitNumChecker(pathChecker);
         return new MoveOwnershipChecker(unitnumChecker);

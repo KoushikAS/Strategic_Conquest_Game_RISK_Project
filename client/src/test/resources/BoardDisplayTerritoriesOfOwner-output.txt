@@ -1,0 +1,6 @@
+0 units in Rottweiler (next to: Dachshund, Bulldog, Labrador, Akita, Boxer)
+0 units in Dachshund (next to: Beagle, Rottweiler, Bulldog)
+0 units in Beagle (next to: Dachshund, Bulldog, Poodle)
+0 units in Labrador (next to: Rottweiler, Bulldog, Poodle, Mastiff, Boxer, Collie, Dalmatian)
+0 units in Poodle (next to: Beagle, Bulldog, Labrador, Mastiff)
+0 units in Bulldog (next to: Dachshund, Beagle, Rottweiler, Poodle, Labrador)

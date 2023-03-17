@@ -1,8 +1,8 @@
 package edu.duke.ece651.team13.server;
 
 
-import edu.duke.ece651.team13.shared.HumanPlayer;
-import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.player.HumanPlayer;
+import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import edu.duke.ece651.team13.shared.map.V1Map18Territories;

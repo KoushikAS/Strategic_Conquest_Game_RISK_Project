@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.server.handler.InitialiseHandler;
-import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.server.handler.InitialiseServerHandler;
+import edu.duke.ece651.team13.shared.player.Player;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -35,7 +35,7 @@ public class Server {
                 String playerName = it.next().getName();
                 System.out.println("Assigning " + playerName + " to the client connected");
                 game.initPlayer(it.next().getName(), clientSocket);
-                Thread clientThread = new Thread(new InitialiseHandler(clientSocket, this.game, playerName));
+                Thread clientThread = new Thread(new InitialiseServerHandler(clientSocket, this.game, playerName));
                 clientThread.start();
             } catch (IOException e) {
                 e.printStackTrace();
