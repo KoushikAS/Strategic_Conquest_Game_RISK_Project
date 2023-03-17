@@ -4,11 +4,13 @@ import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Optional;
 
 public abstract class V1Map implements MapRO, Serializable {
     protected ArrayList<Territory> territories;
-    private final int initialUnit;
 
     /**
      * Construct the V1Map
@@ -21,8 +23,7 @@ public abstract class V1Map implements MapRO, Serializable {
         if (initialUnit <= 0)
             throw new IllegalArgumentException("The initialUnit must be >0");
         this.territories = new ArrayList<>();
-        this.initialUnit = initialUnit;
-        initMap();
+        initMap(initialUnit);
         assert (isConnected());
     }
 
@@ -41,12 +42,6 @@ public abstract class V1Map implements MapRO, Serializable {
                 cloneT.addNeighbours(cloneNeighbor);
             }
         }
-        initialUnit = toCopy.initialUnit;
-    }
-
-    @Override
-    public int getInitialUnit() {
-        return initialUnit;
     }
 
     @Override
@@ -89,12 +84,25 @@ public abstract class V1Map implements MapRO, Serializable {
     }
 
     @Override
-    // todo: More conditions are needed to determine that two maps are equal
     public boolean equals(Object other) {
         if (other != null && other.getClass().equals(getClass())) {
-            V1Map otherV1Map = (V1Map) other;
-            return otherV1Map.getInitialUnit() == this.getInitialUnit();
+            V1Map otherMap = (V1Map) other;
+            Iterator<Territory> otherterritories = otherMap.getTerritoriesIterator();
+            Iterator<Territory> territories = getTerritoriesIterator();
+            if ((!territories.hasNext() && otherterritories.hasNext()) ||
+                    (territories.hasNext() && !otherterritories.hasNext())) {
+                return false;
+            }
+            while (otherterritories.hasNext()) {
+                TerritoryRO otherterritory = otherterritories.next();
+                TerritoryRO territory = territories.next();
+                if (!otherterritory.equals(territory)) {
+                    return false;
+                }
+            }
+            return !territories.hasNext();
         }
+
         return false;
     }
 
@@ -114,12 +122,12 @@ public abstract class V1Map implements MapRO, Serializable {
      * Helper function to initialize the map structure
      * - all the territories and proper neighboring relationship
      */
-    protected abstract void initMap();
+    protected abstract void initMap(int initialUnit);
 
     @Override
     public Territory getTerritoryByName(String name) {
         Optional<Territory> territory = territories.stream().filter(t -> t.getName().equals(name)).findAny();
-        if(!territory.isPresent()) {
+        if (!territory.isPresent()) {
             throw new IllegalArgumentException("There is no Territory in this map with the name " + name);
         }
         return territory.get();

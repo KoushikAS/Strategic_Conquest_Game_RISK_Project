@@ -30,17 +30,17 @@ public class V1Map9Territories extends V1Map {
      * Helper function to initialize the map structure
      * - all the territories and proper neighboring relationship
      */
-    protected void initMap() {
+    protected void initMap(int initialUnit) {
         // Creating Terrritores
-        Territory narnia = new GameTerritory("Narnia");
-        Territory midkemia = new GameTerritory("Midkemia");
-        Territory oz = new GameTerritory("Oz");
-        Territory gondor = new GameTerritory("Gondor");
-        Territory elantris = new GameTerritory("Elantris");
-        Territory scadrial = new GameTerritory("Scadrial");
-        Territory roshar = new GameTerritory("Roshar");
-        Territory hogwarts = new GameTerritory("Hogwarts");
-        Territory mordor = new GameTerritory("Mordor");
+        Territory narnia = new GameTerritory("Narnia", initialUnit);
+        Territory midkemia = new GameTerritory("Midkemia", initialUnit);
+        Territory oz = new GameTerritory("Oz", initialUnit);
+        Territory gondor = new GameTerritory("Gondor", initialUnit);
+        Territory elantris = new GameTerritory("Elantris", initialUnit);
+        Territory scadrial = new GameTerritory("Scadrial", initialUnit);
+        Territory roshar = new GameTerritory("Roshar", initialUnit);
+        Territory hogwarts = new GameTerritory("Hogwarts", initialUnit);
+        Territory mordor = new GameTerritory("Mordor", initialUnit);
 
         addTerritoriesNeighbours(narnia, midkemia);
         addTerritoriesNeighbours(narnia, elantris);

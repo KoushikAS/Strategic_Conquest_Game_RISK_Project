@@ -10,10 +10,7 @@ import java.util.Iterator;
  * This interface handles the graph structure in the map
  */
 public interface MapRO {
-  /**
-   * Get the initial unit number that each player could have
-   */
-  int getInitialUnit();
+
 
   /**
    * Get the iterator list of territories

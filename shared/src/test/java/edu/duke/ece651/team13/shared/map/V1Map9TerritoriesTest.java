@@ -19,11 +19,6 @@ class V1Map9Territories9TerritoriesTest {
     assertThrows(IllegalArgumentException.class, () -> new V1Map9Territories(-1));
   }
 
-  @Test
-  void test_getInitialUnit() {
-    MapRO m = new V1Map9Territories(1);
-    assertEquals(1, m.getInitialUnit());
-  }
 
   @Test
   void test_equals() {
@@ -116,7 +111,7 @@ class V1Map9Territories9TerritoriesTest {
     }
 
     @Override
-    protected void initMap(){
+    protected void initMap(int initialUnit){
       // Creating Terrritores
       Territory narnia = new GameTerritory("Narnia");
       Territory midkemia = new GameTerritory("Midkemia");
@@ -185,7 +180,7 @@ class V1Map9Territories9TerritoriesTest {
     Territory thirdT = map.getTerritoryByName(thirdName);
     thirdT.setUnitNum(300);
     Territory cloneThirdT = cloneMap.getTerritoryByName(thirdName);
-    assertEquals(0, cloneThirdT.getUnitNum());
+    assertEquals(10, cloneThirdT.getUnitNum());
 
     firstT.setUnitNum(0);
     assertEquals(100, cloneFirstT.getUnitNum());

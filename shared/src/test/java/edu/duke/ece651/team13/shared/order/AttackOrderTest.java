@@ -46,8 +46,8 @@ class AttackOrderTest {
 
         order2.getSource().setUnitNum(100);
         order2.getDestination().setUnitNum(200);
-        assertEquals(0, order1.getSource().getUnitNum());
-        assertEquals(0, order1.getDestination().getUnitNum());
+        assertEquals(10, order1.getSource().getUnitNum());
+        assertEquals(10, order1.getDestination().getUnitNum());
     }
 
     @Test
