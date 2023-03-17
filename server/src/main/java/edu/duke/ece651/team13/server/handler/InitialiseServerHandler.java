@@ -51,8 +51,8 @@ public class InitialiseServerHandler extends Thread {
                     Ack ack = new Ack(FAIL, errorMessage);
                     sendMessage(this.socket, ack);
                 }
-
             }
+            System.out.println(playerName +"Completed");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
         }

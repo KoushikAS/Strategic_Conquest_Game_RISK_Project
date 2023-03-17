@@ -6,7 +6,6 @@ import edu.duke.ece651.team13.shared.map.V1Map18Territories;
 import edu.duke.ece651.team13.shared.map.V1Map24Territories;
 import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

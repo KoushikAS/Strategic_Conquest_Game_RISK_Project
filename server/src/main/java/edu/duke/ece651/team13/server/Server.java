@@ -34,7 +34,7 @@ public class Server {
                 Socket clientSocket = this.serverSocket.accept();
                 String playerName = it.next().getName();
                 System.out.println("Assigning " + playerName + " to the client connected");
-                game.initPlayer(it.next().getName(), clientSocket);
+                game.initPlayer(playerName, clientSocket);
                 Thread clientThread = new Thread(new InitialiseServerHandler(clientSocket, this.game, playerName));
                 clientThread.start();
             } catch (IOException e) {

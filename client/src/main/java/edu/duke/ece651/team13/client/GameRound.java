@@ -117,7 +117,7 @@ public class GameRound implements GameRoundInterface {
      */
     private OrderMappingEnum readOrder() throws IOException {
         String s = inputReader.readLine();
-        s= s.toUpperCase();
+        s = s.toUpperCase();
         return OrderMappingEnum.findByValue(s);
     }
 

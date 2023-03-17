@@ -3,7 +3,6 @@ package edu.duke.ece651.team13.server;
 import edu.duke.ece651.team13.shared.Ack;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -21,6 +20,7 @@ class ServerTest {
 
     private final int testPortNum = 12345;
 
+    @Test
     public void test_start() throws IOException, ClassNotFoundException {
         Game game = getMockGame(2);
 
