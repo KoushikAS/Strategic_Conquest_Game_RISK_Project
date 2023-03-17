@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.*;
 
@@ -45,8 +46,6 @@ public class GameRound implements GameRoundInterface {
                 "(M)ove\n" +
                 "(D)one";
 
-        out.println(prompt);
-
         return playOneRound(validOrdersForRound, prompt);
     }
 
@@ -65,7 +64,6 @@ public class GameRound implements GameRoundInterface {
                 "(M)ove\n" +
                 "(A)ttack\n" +
                 "(D)one";
-        out.println(prompt);
 
         return playOneRound(validOrdersForRound, prompt);
     }
@@ -118,7 +116,8 @@ public class GameRound implements GameRoundInterface {
      * @throws IOException
      */
     private OrderMappingEnum readOrder() throws IOException {
-        String s = inputReader.readLine().toUpperCase();
+        String s = inputReader.readLine();
+        s= s.toUpperCase();
         return OrderMappingEnum.findByValue(s);
     }
 
