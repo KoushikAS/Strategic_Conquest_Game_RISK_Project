@@ -2,14 +2,15 @@ package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.Player;
+import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.MoveOrder;
 import edu.duke.ece651.team13.shared.order.Order;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getMockGame;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.when;
 class RiscGameTest {
 
     @Test
-    void test_validateOrders() throws IOException {
+    void test_validateOrders() {
         RiscGame game = getMockGame(2);
 
         MapRO map = game.getMap();
@@ -54,7 +55,7 @@ class RiscGameTest {
     }
 
     @Test
-    void test_resolveCombatInOneTerritory() throws IOException {
+    void test_resolveCombatInOneTerritory() {
 
         RiscGame game = spy(getMockGame(4, new Dice(1, 20)));
 
@@ -83,6 +84,25 @@ class RiscGameTest {
         assertEquals("Yellow", rottweiler.getOwner().getName());
         assertEquals(2, rottweiler.getUnitNum());
         assertTrue(rottweiler.getAttackers().isEmpty());
+    }
+
+    @Test
+    public void test_checkLostPlayer() {
+        RiscGame game = getMockGame(2);
+        MapRO map = game.getMap();
+        Player red = game.getPlayerByName("Red");
+        Player blue = game.getPlayerByName("Blue");
+        // pre-checking when red is playing
+        game.checkLostPlayer();
+        assertEquals(PlayerStatusEnum.PLAYING, red.getStatus());
+        Iterator<Territory> it = map.getTerritoriesIterator();
+        while (it.hasNext()) {
+            Territory t = it.next();
+            t.setOwner(blue);
+        }
+        // post-checking when red has lost
+        game.checkLostPlayer();
+        assertEquals(PlayerStatusEnum.LOSE, red.getStatus());
     }
 
 }
