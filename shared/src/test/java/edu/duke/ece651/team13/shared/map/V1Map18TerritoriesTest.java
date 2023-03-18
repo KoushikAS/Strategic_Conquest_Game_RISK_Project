@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class V1Map18TerritoriesTest {
 
@@ -226,4 +226,26 @@ class V1Map18TerritoriesTest {
         assertEquals(mastiff.getName(), "Mastiff");
         assertEquals(collie.getName(), "Collie");
     }
+
+    @Test
+    void test_replicate() {
+        MapRO map = new V1Map18Territories(10);
+        Iterator<Territory> it = map.getTerritoriesIterator();
+        String firstName = it.next().getName();
+        String secondName = it.next().getName();
+        Territory firstT = map.getTerritoryByName(firstName);
+        Territory secondT = map.getTerritoryByName(secondName);
+        firstT.setUnitNum(15);
+        secondT.setUnitNum(18);
+
+        MapRO cloneMap = map.replicate();
+        Territory cloneFirstT = cloneMap.getTerritoryByName(firstName);
+        Territory cloneSecondT = cloneMap.getTerritoryByName(secondName);
+        assertEquals(15, cloneFirstT.getUnitNum());
+        assertEquals(18, cloneSecondT.getUnitNum());
+
+        firstT.setUnitNum(0);
+        assertEquals(15, cloneFirstT.getUnitNum());
+    }
+
 }

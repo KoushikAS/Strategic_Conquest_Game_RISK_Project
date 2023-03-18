@@ -193,6 +193,7 @@ class V1Map9TerritoriesTest {
 
     /**
      * This helper method compares two territory iterators with the territory names
+     * TODO: use Territory equals() method when correct
      *
      * @param it1 the first territory iterator
      * @param it2 the second territory iterator
@@ -203,6 +204,12 @@ class V1Map9TerritoriesTest {
         }
         assertFalse(it1.hasNext());
         assertFalse(it2.hasNext());
+    }
+
+    @Test
+    public void test_getTerritoryByName_illegal() {
+        MapRO map = new V1Map9Territories(10);
+        assertThrows(IllegalArgumentException.class, () -> map.getTerritoryByName("Mandalore"));
     }
 
     /**
