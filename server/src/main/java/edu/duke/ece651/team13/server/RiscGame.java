@@ -114,6 +114,7 @@ public class RiscGame implements Game {
                 String checkResult = order.validateOnMap(tempMap);
                 if (checkResult != null) return checkResult;
                 order.actOnMap(tempMap);
+                orders.add(order);
             }
         }
 

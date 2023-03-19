@@ -25,8 +25,7 @@ public class App {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
         GameRound gameRound = new GameRound(playerName, new BoardTextView(), input, System.out);
-        Ack ack = new Ack(SUCCESS, "Successfully received the player name");
-        sendMessage(socket, ack);
+        sendMessage(socket, new Ack(SUCCESS, "Successfully received the player name"));
         while (true) {
             MapRO mapRO = (MapRO) recvMessage(socket);
             ArrayList<PlayerOrderInput> orderInputs = gameRound.initialRound(mapRO);
@@ -34,6 +33,7 @@ public class App {
             Ack ack2 = (Ack) recvMessage(socket);
             if (ack2.getStatus().equals(SUCCESS)) {
                 System.out.println("Sucessfull placed Order");
+                sendMessage(socket, new Ack(SUCCESS, "Successfully Received Ack"));
                 break;
             } else {
                 System.out.println("FAILED with the error message " + ack2.getMessage());

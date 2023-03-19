@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server;
 import edu.duke.ece651.team13.shared.Ack;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -38,6 +39,7 @@ class ServerTest {
         input1.add(new PlayerOrderInput(MOVE, "Rottweiler", "Dachshund", 0));
         sendMessage(clientSocket1, input1);
         assertEquals(expectedMap, recvMessage(clientSocket1));
+        sendMessage(clientSocket1, new Ack(SUCCESS,"Receieved Ack"));
 
 
         assertEquals("Blue", recvMessage(clientSocket2));
@@ -45,6 +47,7 @@ class ServerTest {
         ArrayList<PlayerOrderInput> input2 = new ArrayList<>();
         sendMessage(clientSocket2, input2);
         assertEquals(expectedMap, recvMessage(clientSocket2));
+        sendMessage(clientSocket1, new Ack(SUCCESS,"Receieved Ack"));
 
        // server.closeServer();
     }
