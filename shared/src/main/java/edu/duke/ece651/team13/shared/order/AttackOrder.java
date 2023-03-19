@@ -1,10 +1,10 @@
 package edu.duke.ece651.team13.shared.order;
 
-import edu.duke.ece651.team13.shared.player.PlayerRO;
 import edu.duke.ece651.team13.shared.map.MapRO;
-import edu.duke.ece651.team13.shared.rulechecker.MoveOwnershipChecker;
-import edu.duke.ece651.team13.shared.rulechecker.MovePathChecker;
-import edu.duke.ece651.team13.shared.rulechecker.MoveUnitNumChecker;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
+import edu.duke.ece651.team13.shared.rulechecker.AttackOwnershipChecker;
+import edu.duke.ece651.team13.shared.rulechecker.AttackPathChecker;
+import edu.duke.ece651.team13.shared.rulechecker.AttackUnitNumChecker;
 import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 import edu.duke.ece651.team13.shared.territory.Territory;
 
@@ -37,14 +37,13 @@ public class AttackOrder extends Order{
         return orderRuleChecker.checkOrder(this);
     }
 
-    //TODO To check the validation of Attack order
     /**
      * Get the default rule checker chain
      *     MoveOwnershipChecker -> MoveUnitNumChecker -> MovePathChecker
      */
-    private static RuleChecker getDefaultRuleChecker(){
-        RuleChecker pathChecker = new MovePathChecker(null);
-        RuleChecker unitnumChecker = new MoveUnitNumChecker(pathChecker);
-        return new MoveOwnershipChecker(unitnumChecker);
+    private static RuleChecker getDefaultRuleChecker() {
+        RuleChecker pathChecker = new AttackPathChecker(null);
+        RuleChecker unitnumChecker = new AttackUnitNumChecker(pathChecker);
+        return new AttackOwnershipChecker(unitnumChecker);
     }
 }
