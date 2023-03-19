@@ -29,7 +29,6 @@ public class InitialiseServerHandler extends Thread {
     public void run() {
         try {
             //Send the Player Name
-
             while (true) {
                 sendMessage(this.socket, this.playerName);
                 Ack ack = (Ack) recvMessage(this.socket);
@@ -38,7 +37,7 @@ public class InitialiseServerHandler extends Thread {
                 }
             }
 
-            //Send the Map
+            //Send the Map & Receive order
             while (true) {
                 sendMessage(this.socket, this.game.getMapRO());
                 ArrayList<PlayerOrderInput> orders = (ArrayList<PlayerOrderInput>) recvMessage(this.socket);

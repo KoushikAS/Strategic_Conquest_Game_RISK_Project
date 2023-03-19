@@ -1,6 +1,6 @@
-package edu.duke.ece651.team13.shared.rulechecker;
+package edu.duke.ece651.team13.server.rulechecker;
 
-import edu.duke.ece651.team13.shared.order.Order;
+import edu.duke.ece651.team13.server.order.Order;
 
 /**
  * Checks for correct ownership for the source and destination territories,
