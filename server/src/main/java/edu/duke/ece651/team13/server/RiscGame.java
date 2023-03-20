@@ -91,6 +91,9 @@ public class RiscGame implements Game {
 
     @Override
     public void playOneTurn() {
+        this.orders.forEach(Order::act);
+        this.orders.clear();
+        //TODO: Resolve combot territory and adding units to all territory
     }
 
     @Override

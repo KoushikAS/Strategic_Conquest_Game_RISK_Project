@@ -55,6 +55,7 @@ public class App {
         Boolean gameOverFlag;
 
         String playerName = (String) recvMessage(socket);
+        System.out.println(playerName + " assigned by the Server. Waiting for other players to join.");
         sendMessage(socket, new Ack(SUCCESS, "Successfully received the player name"));
 
         gameOverFlag = serverHandshake(socket, roundFactory, INITIAL_ROUND, playerName, boardTextView, input, System.out);
