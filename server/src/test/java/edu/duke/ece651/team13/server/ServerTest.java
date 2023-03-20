@@ -22,7 +22,7 @@ class ServerTest {
     private final int testPortNum = 12345;
 
     @Test
-    public void test_start() throws IOException, ClassNotFoundException {
+    public void test_start() throws IOException, ClassNotFoundException, InterruptedException {
         Game game = getMockGame(2);
 
         Server server = new Server(testPortNum, getMockGame(2));

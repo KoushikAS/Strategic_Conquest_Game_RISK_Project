@@ -46,7 +46,12 @@ public class App {
         Game game = new RiscGame(map, players);
         Server server = new Server(12345, game);
         System.out.println("Starting server");
-        server.start();
+        try {
+            server.start();
+        } catch (InterruptedException e) {
+            System.out.println("Problem with the Server");
+            e.printStackTrace();
+        }
         //server.closeServer();
     }
 }

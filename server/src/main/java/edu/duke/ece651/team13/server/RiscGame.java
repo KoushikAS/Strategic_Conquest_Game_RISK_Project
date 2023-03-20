@@ -18,12 +18,13 @@ import java.util.*;
 
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.PLAYING;
 
 public class RiscGame implements Game {
 
-    private ArrayList<Player> players;
-    private V1Map map;
-    private Dice dice;
+    private final ArrayList<Player> players;
+    private final V1Map map;
+    private final Dice dice;
     private ArrayList<Order> orders;
 
     public RiscGame(V1Map map, ArrayList<Player> players) {
@@ -93,7 +94,7 @@ public class RiscGame implements Game {
     }
 
     @Override
-    public String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player) {
+    public synchronized String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player) {
         // Deep copy the map
         MapRO tempMap = map.replicate();
         List<Order> orders = new ArrayList<>();
@@ -232,6 +233,14 @@ public class RiscGame implements Game {
                 player.setStatus(PlayerStatusEnum.LOSE);
             }
         }
+    }
+
+    /**
+     * This method checks if game is over (i.e. if there is only one player with Playing status)
+     */
+    @Override
+    public Boolean isGameOver() {
+        return(players.stream().filter(player -> player.getStatus().equals(PLAYING)).count() == 1);
     }
 
     /**

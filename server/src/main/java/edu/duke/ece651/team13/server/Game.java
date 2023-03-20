@@ -36,7 +36,7 @@ public interface Game {
      * @return null if the batch of order is valid,
      * description of error if invalid
      */
-    public String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player);
+     String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player);
 
     /**
      * Get the player by the player's name
@@ -63,4 +63,9 @@ public interface Game {
      * any territories
      */
     void checkLostPlayer();
+
+    /**
+     * This method checks if game is over (i.e. if there is only one player with Playing status)
+     */
+    Boolean isGameOver();
 }

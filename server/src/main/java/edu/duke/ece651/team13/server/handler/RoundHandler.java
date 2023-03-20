@@ -13,13 +13,15 @@ import static edu.duke.ece651.team13.shared.enums.AckStatusEnum.SUCCESS;
 import static edu.duke.ece651.team13.shared.util.networkUtil.recvMessage;
 import static edu.duke.ece651.team13.shared.util.networkUtil.sendMessage;
 
-public class InitialiseServerHandler extends Thread {
+public class RoundHandler extends Handler {
 
-    private final Game game;
-    private final String playerName;
-    private final Socket socket;
-
-    public InitialiseServerHandler(Socket clientSocket, Game game, String playerName) {
+    /**
+     * This handler is used to send the map to the player and validate the orders sent by the player back.
+     * @param clientSocket
+     * @param game
+     * @param playerName
+     */
+    public RoundHandler(Socket clientSocket, Game game, String playerName) {
         this.socket = clientSocket;
         this.game = game;
         this.playerName = playerName;
@@ -28,23 +30,13 @@ public class InitialiseServerHandler extends Thread {
     @Override
     public void run() {
         try {
-            //Send the Player Name
-            while (true) {
-                sendMessage(this.socket, this.playerName);
-                Ack ack = (Ack) recvMessage(this.socket);
-                if (ack.getStatus().equals(SUCCESS)) {
-                    break;
-                }
-            }
-
             //Send the Map & Receive order
             while (true) {
                 sendMessage(this.socket, this.game.getMapRO());
                 ArrayList<PlayerOrderInput> orders = (ArrayList<PlayerOrderInput>) recvMessage(this.socket);
                 String errorMessage = this.game.validateOrdersAndAddToList(orders, this.game.getPlayerByName(this.playerName));
                 if (errorMessage == null) {
-                    Ack ack = new Ack(SUCCESS, "Successfully added orders");
-                    sendMessage(this.socket, ack);
+                    sendMessage(this.socket, new Ack(SUCCESS, "Successfully added orders"));
                     recvMessage(this.socket);
                     break;
                 } else {
@@ -52,7 +44,6 @@ public class InitialiseServerHandler extends Thread {
                     sendMessage(this.socket, ack);
                 }
             }
-            System.out.println(playerName + "Completed");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
         }
