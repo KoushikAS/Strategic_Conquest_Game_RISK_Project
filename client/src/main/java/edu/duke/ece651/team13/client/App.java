@@ -63,6 +63,6 @@ public class App {
 
         do {
             gameOverFlag = serverHandshake(socket, roundFactory, NORMAL_ROUND, System.out);
-        } while (gameOverFlag);
+        } while (!gameOverFlag);
     }
 }
