@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server;
 
 
+import edu.duke.ece651.team13.server.handler.HandlerFactory;
 import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import edu.duke.ece651.team13.shared.map.V1Map18Territories;
@@ -44,9 +45,14 @@ public class App {
         V1Map map = getMap(playerNumber);
         ArrayList<Player> players = getPlayers(playerNumber);
         Game game = new RiscGame(map, players);
-        Server server = new Server(12345, game);
+        Server server = new Server(12345, game, new HandlerFactory());
         System.out.println("Starting server");
-        server.start();
+        try {
+            server.start();
+        } catch (InterruptedException e) {
+            System.out.println("Problem with the Server");
+            e.printStackTrace();
+        }
         //server.closeServer();
     }
 }

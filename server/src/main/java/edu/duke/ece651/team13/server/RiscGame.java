@@ -5,9 +5,9 @@ import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map;
-import edu.duke.ece651.team13.shared.order.AttackOrder;
-import edu.duke.ece651.team13.shared.order.MoveOrder;
-import edu.duke.ece651.team13.shared.order.Order;
+import edu.duke.ece651.team13.server.order.AttackOrder;
+import edu.duke.ece651.team13.server.order.MoveOrder;
+import edu.duke.ece651.team13.server.order.Order;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
 import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.player.PlayerRO;
@@ -18,12 +18,13 @@ import java.util.*;
 
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.PLAYING;
 
 public class RiscGame implements Game {
 
-    private ArrayList<Player> players;
-    private V1Map map;
-    private Dice dice;
+    private final ArrayList<Player> players;
+    private final V1Map map;
+    private final Dice dice;
     private ArrayList<Order> orders;
 
     public RiscGame(V1Map map, ArrayList<Player> players) {
@@ -90,10 +91,13 @@ public class RiscGame implements Game {
 
     @Override
     public void playOneTurn() {
+        this.orders.forEach(Order::act);
+        this.orders.clear();
+        //TODO: Resolve combot territory and adding units to all territory
     }
 
     @Override
-    public String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player) {
+    public synchronized String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player) {
         // Deep copy the map
         MapRO tempMap = map.replicate();
         List<Order> orders = new ArrayList<>();
@@ -114,6 +118,7 @@ public class RiscGame implements Game {
                 String checkResult = order.validateOnMap(tempMap);
                 if (checkResult != null) return checkResult;
                 order.actOnMap(tempMap);
+                orders.add(order);
             }
         }
 
@@ -231,6 +236,14 @@ public class RiscGame implements Game {
                 player.setStatus(PlayerStatusEnum.LOSE);
             }
         }
+    }
+
+    /**
+     * This method checks if game is over (i.e. if there is only one player with Playing status)
+     */
+    @Override
+    public Boolean isGameOver() {
+        return(players.stream().filter(player -> player.getStatus().equals(PLAYING)).count() == 1);
     }
 
     /**

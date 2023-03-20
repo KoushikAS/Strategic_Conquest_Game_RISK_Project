@@ -1,9 +1,9 @@
-package edu.duke.ece651.team13.shared.order;
+package edu.duke.ece651.team13.server.order;
 
+import edu.duke.ece651.team13.server.rulechecker.RuleChecker;
+import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.player.PlayerRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
-import edu.duke.ece651.team13.shared.map.MapRO;
-import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 
 public abstract class Order {
     protected final RuleChecker orderRuleChecker;

@@ -1,11 +1,11 @@
-package edu.duke.ece651.team13.shared.order;
+package edu.duke.ece651.team13.server.order;
 
+import edu.duke.ece651.team13.server.rulechecker.MoveOwnershipChecker;
+import edu.duke.ece651.team13.server.rulechecker.MovePathChecker;
+import edu.duke.ece651.team13.server.rulechecker.MoveUnitNumChecker;
+import edu.duke.ece651.team13.server.rulechecker.RuleChecker;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.player.PlayerRO;
-import edu.duke.ece651.team13.shared.rulechecker.MoveOwnershipChecker;
-import edu.duke.ece651.team13.shared.rulechecker.MovePathChecker;
-import edu.duke.ece651.team13.shared.rulechecker.MoveUnitNumChecker;
-import edu.duke.ece651.team13.shared.rulechecker.RuleChecker;
 import edu.duke.ece651.team13.shared.territory.Territory;
 
 /**

@@ -3,7 +3,6 @@ package edu.duke.ece651.team13.server;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
 import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.map.MapRO;
-import edu.duke.ece651.team13.shared.order.Order;
 import edu.duke.ece651.team13.shared.player.PlayerRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
 
@@ -33,11 +32,11 @@ public interface Game {
     /**
      * Validate a batch of orders made by one player
      *
-     * @param orders is the list of orders made by a player
+     * @param orderInputs is the list of orders made by a player
      * @return null if the batch of order is valid,
      * description of error if invalid
      */
-    public String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player);
+     String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player);
 
     /**
      * Get the player by the player's name
@@ -64,4 +63,9 @@ public interface Game {
      * any territories
      */
     void checkLostPlayer();
+
+    /**
+     * This method checks if game is over (i.e. if there is only one player with Playing status)
+     */
+    Boolean isGameOver();
 }
