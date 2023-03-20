@@ -21,12 +21,13 @@ public class Server {
     private final HandlerFactory handlerFactory;
     private final Game game;
 
-    public Server(int portNum, Game gameObj) throws IOException {
+    public Server(int portNum, Game gameObj, HandlerFactory handlerFactory) throws IOException {
         this.game = gameObj;
         this.serverSocket = new ServerSocket(portNum);
-        this.handlerFactory = new HandlerFactory();
+        this.handlerFactory = handlerFactory;
     }
 
+    //Connecting to all players to handle different handlers.
     private void connectAllPlayers(HandlerMapping handlerMapping) throws InterruptedException {
         Iterator<Player> it = this.game.getPlayersIterator();
         ArrayList<Thread> clientThreads = new ArrayList<>();
@@ -43,6 +44,7 @@ public class Server {
         }
     }
 
+    //First connect initialising name
     private void initalisePlayers() throws IOException, InterruptedException {
         Iterator<Player> it = this.game.getPlayersIterator();
         ArrayList<Thread> clientThreads = new ArrayList<>();
@@ -64,31 +66,27 @@ public class Server {
 
     /**
      * Accept connection from multiple clients
-     * Init Players and Init Game
+     * and having multiple rounds of game.
      */
     public void start() throws InterruptedException, IOException {
-
-        initalisePlayers();
-
-        //TODO: Currently running forever Should end it when the game is done.
-        while (true) {
-            //Sending the MapRO information to each player
-            connectAllPlayers(ROUND_HANDLER);
-            game.playOneTurn();
-            //Sending the Status of each player (i.e. Loose or playing)
-            connectAllPlayers(PLAYER_STATUS);
-        }
-    }
-
-
-    /**
-     * Close serverSocket to end server
-     */
-    public void closeServer() throws IOException {
-
-        if (this.serverSocket != null) {
+        try {
+            initalisePlayers();
+            do {
+                //Sending the MapRO information to each player
+                connectAllPlayers(ROUND_HANDLER);
+                game.playOneTurn();
+                //Sending the Status of each player (i.e. Loose or playing)
+                connectAllPlayers(PLAYER_STATUS);
+            } while (!game.isGameOver());
+        } finally {
+            // Closing the socket of Player and Server.
+            Iterator<Player> it = this.game.getPlayersIterator();
+            while (it.hasNext()) {
+                Player player = it.next();
+                player.getSocket().close();
+            }
             this.serverSocket.close();
         }
-
     }
+
 }

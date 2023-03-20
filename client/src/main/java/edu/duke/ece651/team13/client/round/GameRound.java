@@ -1,5 +1,6 @@
-package edu.duke.ece651.team13.client;
+package edu.duke.ece651.team13.client.round;
 
+import edu.duke.ece651.team13.client.BoardView;
 import edu.duke.ece651.team13.shared.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
@@ -15,64 +16,24 @@ import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.*;
 /**
  * This class handles the information of one human player
  */
-public class GameRound implements GameRoundInterface {
+public abstract class GameRound implements GameRoundInterface {
 
-    private final String playerName;
-    private final BoardView boardTextView;
-    private final BufferedReader inputReader;
-    private final PrintStream out;
+    protected String playerName;
+    protected BoardView boardTextView;
+    protected BufferedReader inputReader;
+    protected PrintStream out;
+    protected String prompt;
 
-    /**
-     * Construct a new Game Round
-     */
-    public GameRound(String playerName, BoardTextView boardTextView, BufferedReader inputReader, PrintStream out) {
-        this.playerName = playerName;
-        this.boardTextView = boardTextView;
-        this.inputReader = inputReader;
-        this.out = out;
-    }
 
-    /**
-     * Returns the orders placed in this round
-     */
-    @Override
-    public ArrayList<PlayerOrderInput> initialRound(MapRO mapRO) throws IOException {
-        ArrayList<OrderMappingEnum> validOrdersForRound = new ArrayList<>();
-        validOrdersForRound.add(MOVE);
+    public abstract ArrayList<PlayerOrderInput> executeRound(MapRO mapRO) throws IOException;
 
-        out.println(boardTextView.displayTerritoriesOfOwner(mapRO, this.playerName));
-        out.println("Welcome to RISC Game. You have been assigned player " + playerName + " with the above territories.");
-        String prompt = "What would you like to do during Initialisation round?\n" +
-                "(M)ove\n" +
-                "(D)one";
+    abstract ArrayList<OrderMappingEnum> getValidOrder();
 
-        return playOneRound(validOrdersForRound, prompt);
-    }
-
-    /**
-     * Returns the orders placed in this round
-     */
-    @Override
-    public ArrayList<PlayerOrderInput> normalRound(MapRO mapRO) throws IOException {
-        ArrayList<OrderMappingEnum> validOrdersForRound = new ArrayList<>();
-        validOrdersForRound.add(MOVE);
-        validOrdersForRound.add(ATTACK);
-
-        out.println(boardTextView.displayAllTerritories(mapRO));
-        out.println("You are the " + playerName + " player");
-        String prompt = "what would you like to do?\n" +
-                "(M)ove\n" +
-                "(A)ttack\n" +
-                "(D)one";
-
-        return playOneRound(validOrdersForRound, prompt);
-    }
-
-    private ArrayList<PlayerOrderInput> playOneRound(ArrayList<OrderMappingEnum> validOrdersForRound, String prompt) throws IOException {
+    protected ArrayList<PlayerOrderInput> playOneRound() throws IOException {
         ArrayList<PlayerOrderInput> orderInputs = new ArrayList<>();
         while (true) {
             out.println(prompt);
-            PlayerOrderInput order = placeOneOrder(validOrdersForRound);
+            PlayerOrderInput order = placeOneOrder(this.getValidOrder());
             if (order.getOrderType().equals(DONE)) {
                 break;
             }

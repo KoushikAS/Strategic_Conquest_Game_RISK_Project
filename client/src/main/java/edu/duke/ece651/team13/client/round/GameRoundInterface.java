@@ -1,4 +1,4 @@
-package edu.duke.ece651.team13.client;
+package edu.duke.ece651.team13.client.round;
 
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
@@ -17,14 +17,5 @@ public interface GameRoundInterface {
      *
      * @throws IOException
      */
-    ArrayList<PlayerOrderInput> normalRound(MapRO mapRO) throws IOException;
-
-    /**
-     * This method lets the player plays initali round of the game
-     * and Returns the orders played by the player.
-     *
-     * @throws IOException
-     */
-    ArrayList<PlayerOrderInput> initialRound(MapRO mapRO) throws IOException;
-
+    ArrayList<PlayerOrderInput> executeRound(MapRO mapRO) throws IOException;
 }

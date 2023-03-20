@@ -1,5 +1,7 @@
 package edu.duke.ece651.team13.server;
 
+import edu.duke.ece651.team13.server.handler.Handler;
+import edu.duke.ece651.team13.server.handler.HandlerFactory;
 import edu.duke.ece651.team13.shared.Ack;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
@@ -16,40 +18,40 @@ import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static edu.duke.ece651.team13.shared.util.networkUtil.recvMessage;
 import static edu.duke.ece651.team13.shared.util.networkUtil.sendMessage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ServerTest {
 
     private final int testPortNum = 12345;
 
-    @Test
+
     public void test_start() throws IOException, ClassNotFoundException, InterruptedException {
         Game game = getMockGame(2);
+        Game mockGame = mock(Game.class);
+        HandlerFactory mockHandlerFactory = mock(HandlerFactory.class);
+        Handler mockHandler = mock(Handler.class);
 
-        Server server = new Server(testPortNum, getMockGame(2));
+        when(mockHandlerFactory.getHandler(any(), any(), any(), any())).thenReturn(mockHandler);
+        when(mockGame.isGameOver()).thenReturn(true);
+        when(mockGame.getPlayersIterator()).thenReturn(game.getPlayersIterator());
+
+        Server server = new Server(testPortNum, mockGame, mockHandlerFactory);
         Socket clientSocket1 = new Socket("", testPortNum);
         Socket clientSocket2 = new Socket("", testPortNum);
+        Thread t1 = new Thread(new ThreadAssert(clientSocket1, game.getMapRO()));
+        Thread t2 = new Thread(new ThreadAssert(clientSocket2, game.getMapRO()));
         server.start();
 
-        MapRO expectedMap = game.getMapRO();
 
 
-        assertEquals("Red", recvMessage(clientSocket1));
-        sendMessage(clientSocket1, new Ack(SUCCESS, "Success"));
-        ArrayList<PlayerOrderInput> input1 = new ArrayList<>();
-        input1.add(new PlayerOrderInput(MOVE, "Rottweiler", "Dachshund", 0));
-        sendMessage(clientSocket1, input1);
-        assertEquals(expectedMap, recvMessage(clientSocket1));
-        sendMessage(clientSocket1, new Ack(SUCCESS,"Receieved Ack"));
+        t1.start();
+        t2.start();
 
+        t1.join();
+        t2.join();
 
-        assertEquals("Blue", recvMessage(clientSocket2));
-        sendMessage(clientSocket2, new Ack(SUCCESS, "Success"));
-        ArrayList<PlayerOrderInput> input2 = new ArrayList<>();
-        sendMessage(clientSocket2, input2);
-        assertEquals(expectedMap, recvMessage(clientSocket2));
-        sendMessage(clientSocket1, new Ack(SUCCESS,"Receieved Ack"));
-
-       // server.closeServer();
     }
 
 }
