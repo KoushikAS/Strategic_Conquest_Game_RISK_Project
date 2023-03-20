@@ -56,4 +56,25 @@ public class InitaliseGameHandlerTest {
         }
     }
 
+    @Test
+    public void test_RunException() throws IOException, InterruptedException {
+        String playerName = "Red";
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Socket mockTestSocket = mock(Socket.class);
+        when(mockTestSocket.getOutputStream()).thenReturn(byteArrayOutputStream);
+        when(mockTestSocket.getInputStream()).thenThrow(IOException.class);
+
+        InitialiseGameHandler mockClass = new InitialiseGameHandler(mockTestSocket, getMockGame(2), playerName);
+        mockClass.start();
+
+        mockClass.join();
+        byte[] expected = getByteArray(playerName);
+        byte[] actual = byteArrayOutputStream.toByteArray();
+        for (int i = 0; i < expected.length; i++) {
+            assertEquals(expected[i], actual[i]);
+        }
+    }
+
+
+
 }
