@@ -27,6 +27,7 @@ class ServerTest {
     private final int testPortNum = 12345;
 
 
+    @Test
     public void test_start() throws IOException, ClassNotFoundException, InterruptedException {
         Game game = getMockGame(2);
         Game mockGame = mock(Game.class);
@@ -35,23 +36,18 @@ class ServerTest {
 
         when(mockHandlerFactory.getHandler(any(), any(), any(), any())).thenReturn(mockHandler);
         when(mockGame.isGameOver()).thenReturn(true);
-        when(mockGame.getPlayersIterator()).thenReturn(game.getPlayersIterator());
+        when(mockGame.getPlayersIterator()).thenReturn(game.getPlayersIterator(),game.getPlayersIterator(),game.getPlayersIterator());
 
         Server server = new Server(testPortNum, mockGame, mockHandlerFactory);
         Socket clientSocket1 = new Socket("", testPortNum);
         Socket clientSocket2 = new Socket("", testPortNum);
-        Thread t1 = new Thread(new ThreadAssert(clientSocket1, game.getMapRO()));
-        Thread t2 = new Thread(new ThreadAssert(clientSocket2, game.getMapRO()));
-        server.start();
-
-
-
+        Thread t1 = new Thread(new ThreadAssert(clientSocket1, game.getMapRO(), "Red"));
+        Thread t2 = new Thread(new ThreadAssert(clientSocket2, game.getMapRO(), "Blue"));
         t1.start();
         t2.start();
-
+        server.start();
         t1.join();
         t2.join();
-
     }
 
 }
