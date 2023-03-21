@@ -24,7 +24,7 @@ class SpectateRoundTest {
         String expectedOutputString = new String(expectedStream.readAllBytes()).replace("\r", "");
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        String input = "M\nRottweiler\nPoodle\n10\nM\nRottweiler\nDachshund\n20\nA\nRottweiler\nBoxer\n30\nD\n";
+        String input = "";
         GameRound round = createGameRound("Red", input, bytes);
 
         ArrayList<PlayerOrderInput> orders = round.executeRound(getInitalisedV1Map24MapRO());
