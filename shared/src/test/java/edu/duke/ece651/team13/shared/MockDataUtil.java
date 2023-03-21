@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.shared;
 
 import edu.duke.ece651.team13.shared.map.V1Map9Territories;
+import edu.duke.ece651.team13.shared.player.PlayerRO;
 import edu.duke.ece651.team13.shared.territory.GameTerritory;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
@@ -28,11 +29,13 @@ public class MockDataUtil {
     }
 
 
-    public static ArrayList<TerritoryRO> getUnconnectedTerritories(){
+
+    public static ArrayList<TerritoryRO> getUnconnectedTerritories(PlayerRO owner1){
         ArrayList<TerritoryRO> territories = new ArrayList<>();
 
         Territory narnia = new GameTerritory("Narnia");
         Territory midkemia = new GameTerritory("Midkemia");
+        midkemia.setOwner(owner1);
         Territory oz = new GameTerritory("Oz");
 
         midkemia.addNeighbours(oz);
