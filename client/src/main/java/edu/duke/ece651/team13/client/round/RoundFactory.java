@@ -23,9 +23,10 @@ public class RoundFactory {
         switch (roundMapping) {
             case INITIAL_ROUND:
                 return new InitialRound(playerName, boardTextView, inputReader, out);
-            default:
+            case NORMAL_ROUND:
                 return new NormalRound(playerName, boardTextView, inputReader, out);
-
+            default:
+                return new SpectateRound(playerName, boardTextView, inputReader, out);
         }
     }
 }

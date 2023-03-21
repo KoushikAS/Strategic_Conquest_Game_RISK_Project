@@ -19,6 +19,7 @@ import java.util.*;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.PLAYING;
+import static edu.duke.ece651.team13.shared.util.mapUtil.isPlayerLost;
 
 public class RiscGame implements Game {
 
@@ -240,7 +241,7 @@ public class RiscGame implements Game {
         Iterator<Player> playerIterator = getPlayersIterator();
         while (playerIterator.hasNext()) {
             Player player = playerIterator.next();
-            if (playerHasLost(player)) {
+            if (isPlayerLost(this.map, player.getName())) {
                 player.setStatus(PlayerStatusEnum.LOSE);
             }
         }
@@ -254,21 +255,6 @@ public class RiscGame implements Game {
         return(players.stream().filter(player -> player.getStatus().equals(PLAYING)).count() == 1);
     }
 
-    /**
-     * This helper method checks if a player has lost
-     *
-     * @param player is the player to be checked
-     * @return true if the player has already lost and false otherwise
-     */
-    private boolean playerHasLost(Player player) {
-        Iterator<Territory> territoryIterator = map.getTerritoriesIterator();
-        while (territoryIterator.hasNext()) {
-            Territory territory = territoryIterator.next();
-            if (territory.getOwner().equals(player)) {
-                return false;
-            }
-        }
-        return true;
-    }
+
 
 }
