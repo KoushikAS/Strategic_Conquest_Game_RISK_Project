@@ -29,7 +29,7 @@ class V1Map9TerritoriesTest {
 
     @Test
     void test_initMap() {
-        MapRO m1 = new V1Map9Territories(5);
+        V1Map m1 = new V1Map9Territories(5);
 
         Iterator<Territory> it1 = m1.getTerritoriesIterator();
 
@@ -112,7 +112,7 @@ class V1Map9TerritoriesTest {
 
     @Test
     void test_replicate() {
-        MapRO map = new V1Map9Territories(10);
+        V1Map map = new V1Map9Territories(10);
         Iterator<Territory> it = map.getTerritoriesIterator();
         String firstName = it.next().getName();
         Territory firstT = map.getTerritoryByName(firstName);

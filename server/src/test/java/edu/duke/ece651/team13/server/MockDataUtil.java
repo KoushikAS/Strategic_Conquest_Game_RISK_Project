@@ -16,6 +16,11 @@ public class MockDataUtil {
     private MockDataUtil() {
     }
 
+    public static RiscGame getMockGame(V1Map map, int noPlayers) {
+        ArrayList<Player> players = getPlayers(noPlayers);
+        return new RiscGame(map, players);
+    }
+
     public static RiscGame getMockGame(int noPlayers) {
         V1Map map = getMap(noPlayers);
         ArrayList<Player> players = getPlayers(noPlayers);

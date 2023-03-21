@@ -2,6 +2,7 @@ package edu.duke.ece651.team13.shared.map;
 
 import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
+import org.checkerframework.checker.units.qual.A;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,9 +45,17 @@ public abstract class V1Map implements MapRO, Serializable {
         }
     }
 
-    @Override
+
     public Iterator<Territory> getTerritoriesIterator() {
         return territories.iterator();
+    }
+
+    @Override
+    public Iterator<TerritoryRO> getTerritoriesROIterator() {
+
+        ArrayList<TerritoryRO> territoryROS = new ArrayList<>(territories);
+
+        return territoryROS.iterator();
     }
 
     @Override
