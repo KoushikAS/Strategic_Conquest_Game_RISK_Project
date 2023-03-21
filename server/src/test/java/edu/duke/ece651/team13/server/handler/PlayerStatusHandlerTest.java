@@ -56,4 +56,24 @@ public class PlayerStatusHandlerTest {
             assertEquals(expected[i], actual[i]);
         }
     }
+
+    @Test
+    public void test_RunException() throws IOException, InterruptedException {
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Socket mockTestSocket = mock(Socket.class);
+        when(mockTestSocket.getOutputStream()).thenReturn(byteArrayOutputStream);
+        when(mockTestSocket.getInputStream()).thenThrow(IOException.class);
+
+        PlayerStatusHandler mockClass = new PlayerStatusHandler(mockTestSocket, getMockGame(2), "Red");
+        mockClass.start();
+
+        mockClass.join();
+        byte[] expected = getByteArray(false);
+        byte[] actual = byteArrayOutputStream.toByteArray();
+        for (int i = 0; i < expected.length; i++) {
+            assertEquals(expected[i], actual[i]);
+        }
+    }
+
 }

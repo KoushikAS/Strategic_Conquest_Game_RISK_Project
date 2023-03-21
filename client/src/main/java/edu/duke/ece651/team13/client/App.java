@@ -23,10 +23,10 @@ import static edu.duke.ece651.team13.shared.util.networkUtil.sendMessage;
 
 public class App {
 
-    public static Boolean serverHandshake(Socket socket, RoundFactory roundFactory, RoundMapping mapping, String playerName, BoardTextView boardTextView, BufferedReader inputReader, PrintStream out) throws IOException, ClassNotFoundException {
+    public static Boolean serverHandshake(Socket socket, RoundFactory roundFactory, RoundMapping mapping, PrintStream out) throws IOException, ClassNotFoundException {
         while (true) {
             MapRO mapRO = (MapRO) recvMessage(socket);
-            GameRound gameRound = roundFactory.getRound(mapping, playerName, boardTextView, inputReader, out);
+            GameRound gameRound = roundFactory.getRound(mapping);
             ArrayList<PlayerOrderInput> orderInputs = gameRound.executeRound(mapRO);
             sendMessage(socket, orderInputs);
             Ack ack = (Ack) recvMessage(socket);
@@ -49,7 +49,7 @@ public class App {
         App a = new App();
 
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-        RoundFactory roundFactory = new RoundFactory();
+
         BoardTextView boardTextView = new BoardTextView();
         Socket socket = new Socket("localhost", 12345);
         Boolean gameOverFlag;
@@ -57,11 +57,12 @@ public class App {
         String playerName = (String) recvMessage(socket);
         System.out.println(playerName + " assigned by the Server. Waiting for other players to join.");
         sendMessage(socket, new Ack(SUCCESS, "Successfully received the player name"));
+        RoundFactory roundFactory = new RoundFactory(playerName, boardTextView, input, System.out);
 
-        gameOverFlag = serverHandshake(socket, roundFactory, INITIAL_ROUND, playerName, boardTextView, input, System.out);
+        gameOverFlag = serverHandshake(socket, roundFactory, INITIAL_ROUND, System.out);
 
         do {
-            gameOverFlag = serverHandshake(socket, roundFactory, NORMAL_ROUND, playerName, boardTextView, input, System.out);
-        } while (gameOverFlag);
+            gameOverFlag = serverHandshake(socket, roundFactory, NORMAL_ROUND, System.out);
+        } while (!gameOverFlag);
     }
 }

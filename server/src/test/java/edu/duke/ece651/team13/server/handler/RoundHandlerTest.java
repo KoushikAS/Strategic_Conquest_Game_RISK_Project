@@ -66,4 +66,23 @@ public class RoundHandlerTest {
             assertEquals(expected[i], actual[i]);
         }
     }
+
+    @Test
+    public void test_RunException() throws IOException, InterruptedException {
+        Game game = getMockGame(2);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Socket mockTestSocket = mock(Socket.class);
+        when(mockTestSocket.getOutputStream()).thenReturn(byteArrayOutputStream);
+        when(mockTestSocket.getInputStream()).thenThrow(IOException.class);
+
+        RoundHandler mockClass = new RoundHandler(mockTestSocket, game, "Red");
+        mockClass.start();
+
+        mockClass.join();
+        byte[] expected = getByteArray(game.getMapRO());
+        byte[] actual = byteArrayOutputStream.toByteArray();
+        for (int i = 0; i < expected.length; i++) {
+            assertEquals(expected[i], actual[i]);
+        }
+    }
 }
