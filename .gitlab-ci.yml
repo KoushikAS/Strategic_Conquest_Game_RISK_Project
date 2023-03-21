@@ -47,7 +47,6 @@ deploy:
     - ece651
   stage: deploy
   only:
-     - test
      - main
   script: ./scripts/redeploy.sh
 

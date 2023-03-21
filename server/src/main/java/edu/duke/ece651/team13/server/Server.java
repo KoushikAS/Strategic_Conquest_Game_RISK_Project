@@ -1,46 +1,92 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.shared.V1Map;
+import edu.duke.ece651.team13.server.enums.HandlerMapping;
+import edu.duke.ece651.team13.server.handler.HandlerFactory;
+import edu.duke.ece651.team13.server.handler.InitialiseGameHandler;
+import edu.duke.ece651.team13.shared.player.Player;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-public class Server{
-    private final int portNum;
-    private ServerSocket serverSocket;
+import static edu.duke.ece651.team13.server.enums.HandlerMapping.PLAYER_STATUS;
+import static edu.duke.ece651.team13.server.enums.HandlerMapping.ROUND_HANDLER;
 
-    public Server(int portNum){
-        this.portNum = portNum;
-        buildServer();
+
+public class Server {
+
+    private final ServerSocket serverSocket;
+    private final HandlerFactory handlerFactory;
+    private final Game game;
+
+    public Server(int portNum, Game gameObj, HandlerFactory handlerFactory) throws IOException {
+        this.game = gameObj;
+        this.serverSocket = new ServerSocket(portNum);
+        this.handlerFactory = handlerFactory;
     }
 
-    public void buildServer(){
-        try {
-            this.serverSocket = new ServerSocket(portNum);
-        }catch (Exception e){
-            e.printStackTrace();
+    //Connecting to all players to handle different handlers.
+    private void connectAllPlayers(HandlerMapping handlerMapping) throws InterruptedException {
+        Iterator<Player> it = this.game.getPlayersIterator();
+        ArrayList<Thread> clientThreads = new ArrayList<>();
+        while (it.hasNext()) {
+            Player player = it.next();
+            Thread clientThread = new Thread(handlerFactory.getHandler(handlerMapping, player.getSocket(), this.game, player.getName()));
+            clientThread.start();
+            clientThreads.add(clientThread);
+        }
+
+        //Wait for all Players to Respond.
+        for (Thread thread : clientThreads) {
+            thread.join();
         }
     }
 
-    public void sendMesgTo(Object mesg, Socket clientSocket){
-        try {
-            BufferedOutputStream clientBufferedStream = new BufferedOutputStream(clientSocket.getOutputStream());
-            ObjectOutputStream clientObjectStream = new ObjectOutputStream(clientBufferedStream);
-            clientObjectStream.writeObject(mesg);
-            clientObjectStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void sendMapToClient(){
-        try{
+    //First connect initialising name
+    private void initalisePlayers() throws IOException, InterruptedException {
+        Iterator<Player> it = this.game.getPlayersIterator();
+        ArrayList<Thread> clientThreads = new ArrayList<>();
+        while (it.hasNext()) {
             Socket clientSocket = this.serverSocket.accept();
-            V1Map map = new V1Map(1);
-            sendMesgTo(map, clientSocket);
-        }catch (Exception e){
-            e.printStackTrace();
+            String playerName = it.next().getName();
+            game.initPlayer(playerName, clientSocket);
+            Thread clientThread = new Thread(new InitialiseGameHandler(clientSocket, this.game, playerName));
+            clientThread.start();
+            clientThreads.add(clientThread);
+        }
+
+        //Wait for all Players to Respond.
+        for (Thread thread : clientThreads) {
+            thread.join();
         }
     }
+
+
+    /**
+     * Accept connection from multiple clients
+     * and having multiple rounds of game.
+     */
+    public void start() throws InterruptedException, IOException {
+        try {
+            initalisePlayers();
+            do {
+                //Sending the MapRO information to each player
+                connectAllPlayers(ROUND_HANDLER);
+                game.playOneTurn();
+                //Sending the Status of each player (i.e. Loose or playing)
+                connectAllPlayers(PLAYER_STATUS);
+            } while (!game.isGameOver());
+        } finally {
+            // Closing the socket of Player and Server.
+            Iterator<Player> it = this.game.getPlayersIterator();
+            while (it.hasNext()) {
+                Player player = it.next();
+                player.getSocket().close();
+            }
+            this.serverSocket.close();
+        }
+    }
+
 }

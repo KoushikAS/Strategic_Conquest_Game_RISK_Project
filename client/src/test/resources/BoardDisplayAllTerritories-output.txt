@@ -1,0 +1,32 @@
+Red player:
+-------------
+10 units in Rottweiler (next to: Dachshund, Bulldog, Labrador, Akita, Boxer)
+10 units in Dachshund (next to: Beagle, Rottweiler, Bulldog)
+10 units in Beagle (next to: Dachshund, Bulldog, Poodle)
+10 units in Labrador (next to: Rottweiler, Bulldog, Poodle, Mastiff, Boxer, Collie, Dalmatian)
+10 units in Poodle (next to: Beagle, Bulldog, Labrador, Mastiff)
+10 units in Bulldog (next to: Dachshund, Beagle, Rottweiler, Poodle, Labrador)
+Blue player:
+-------------
+10 units in Boxer (next to: Akita, Havanese, Spaniel, Rottweiler, Labrador, Dalmatian, Collie)
+10 units in Havanese (next to: Brittany, Sheepdog, Akita, Spaniel, Boxer)
+10 units in Spaniel (next to: Sheepdog, Havanese, Boxer, Dalmatian, Papillon)
+10 units in Sheepdog (next to: Brittany, Havanese, Spaniel)
+10 units in Akita (next to: Brittany, Havanese, Boxer, Rottweiler)
+10 units in Brittany (next to: Sheepdog, Akita, Havanese)
+Yellow player:
+-------------
+10 units in Dalmatian (next to: Papillon, Setter, Samoyed, Spaniel, Collie, Boxer, Labrador)
+10 units in Papillon (next to: Bullmastiff, Setter, Dalmatian, Spaniel)
+10 units in Setter (next to: Bullmastiff, Whippet, Papillon, Samoyed, Dalmatian)
+10 units in Samoyed (next to: Whippet, Setter, Dalmatian, Collie, Chihuahua)
+10 units in Bullmastiff (next to: Whippet, Papillon, Setter)
+10 units in Whippet (next to: Bullmastiff, Setter, Samoyed)
+Green player:
+-------------
+10 units in Pug (next to: Maltese, Mastiff, Vizsla)
+10 units in Vizsla (next to: Pug, Maltese, Mastiff, Chihuahua, Collie)
+10 units in Chihuahua (next to: Maltese, Vizsla, Collie, Samoyed)
+10 units in Maltese (next to: Pug, Vizsla, Chihuahua)
+10 units in Mastiff (next to: Pug, Vizsla, Collie, Poodle, Labrador)
+10 units in Collie (next to: Mastiff, Vizsla, Chihuahua, Samoyed, Labrador, Dalmatian, Boxer)
