@@ -104,21 +104,29 @@ public class RiscGame implements Game {
         // Move orders first
         for (PlayerOrderInput orderInput : orderInputs) {
             if (orderInput.getOrderType().equals(MOVE)) {
-                Order order = new MoveOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
-                String checkResult = order.validateOnMap(tempMap);
-                if (checkResult != null) return checkResult;
-                order.actOnMap(tempMap);
-                orders.add(order);
+                try {
+                    Order order = new MoveOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
+                    String checkResult = order.validateOnMap(tempMap);
+                    if (checkResult != null) return checkResult;
+                    order.actOnMap(tempMap);
+                    orders.add(order);
+                }catch (IllegalArgumentException e){
+                    return e.getMessage();
+                }
             }
         }
         // Attack orders
         for (PlayerOrderInput orderInput : orderInputs) {
             if (orderInput.getOrderType().equals(ATTACK)) {
-                Order order = new AttackOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
-                String checkResult = order.validateOnMap(tempMap);
-                if (checkResult != null) return checkResult;
-                order.actOnMap(tempMap);
-                orders.add(order);
+                try {
+                    Order order = new AttackOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
+                    String checkResult = order.validateOnMap(tempMap);
+                    if (checkResult != null) return checkResult;
+                    order.actOnMap(tempMap);
+                    orders.add(order);
+                }catch (IllegalArgumentException e){
+                    return e.getMessage();
+                }
             }
         }
 
