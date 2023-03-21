@@ -14,18 +14,17 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import static edu.duke.ece651.team13.client.enums.RoundMapping.INITIAL_ROUND;
-import static edu.duke.ece651.team13.client.enums.RoundMapping.NORMAL_ROUND;
+import static edu.duke.ece651.team13.client.enums.RoundMapping.*;
 import static edu.duke.ece651.team13.shared.enums.AckStatusEnum.SUCCESS;
+import static edu.duke.ece651.team13.shared.util.mapUtil.isPlayerLost;
 import static edu.duke.ece651.team13.shared.util.networkUtil.recvMessage;
 import static edu.duke.ece651.team13.shared.util.networkUtil.sendMessage;
 
 
 public class App {
 
-    public static Boolean serverHandshake(Socket socket, RoundFactory roundFactory, RoundMapping mapping, PrintStream out) throws IOException, ClassNotFoundException {
+    public static Boolean serverHandShakeToSendOrders(Socket socket, RoundFactory roundFactory, RoundMapping mapping, PrintStream out, MapRO mapRO) throws IOException, ClassNotFoundException {
         while (true) {
-            MapRO mapRO = (MapRO) recvMessage(socket);
             GameRound gameRound = roundFactory.getRound(mapping);
             ArrayList<PlayerOrderInput> orderInputs = gameRound.executeRound(mapRO);
             sendMessage(socket, orderInputs);
@@ -59,10 +58,15 @@ public class App {
         sendMessage(socket, new Ack(SUCCESS, "Successfully received the player name"));
         RoundFactory roundFactory = new RoundFactory(playerName, boardTextView, input, System.out);
 
-        gameOverFlag = serverHandshake(socket, roundFactory, INITIAL_ROUND, System.out);
+        //Initial Round.
+        MapRO mapRO = (MapRO) recvMessage(socket);
+        gameOverFlag = serverHandShakeToSendOrders(socket, roundFactory, INITIAL_ROUND, System.out, mapRO);
 
+        //Executing Normal or Spectate Round until Game ends.
         do {
-            gameOverFlag = serverHandshake(socket, roundFactory, NORMAL_ROUND, System.out);
+            mapRO = (MapRO) recvMessage(socket);
+            RoundMapping roundMapping = isPlayerLost(mapRO, playerName) ? SPECTATE_ROUND : NORMAL_ROUND;
+            gameOverFlag = serverHandShakeToSendOrders(socket, roundFactory, roundMapping, System.out, mapRO);
         } while (!gameOverFlag);
     }
 }
