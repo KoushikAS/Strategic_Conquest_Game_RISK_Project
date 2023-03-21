@@ -1,8 +1,8 @@
 package edu.duke.ece651.team13.server;
 
+import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
 import edu.duke.ece651.team13.shared.player.Player;
-import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.player.PlayerRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
 
@@ -68,4 +68,11 @@ public interface Game {
      * This method checks if game is over (i.e. if there is only one player with Playing status)
      */
     Boolean isGameOver();
+
+    /**
+     * This method finds the winning player of the game and returns it
+     *
+     * @return the winning player
+     */
+    Player getWinningPlayer();
 }

@@ -1,13 +1,13 @@
 package edu.duke.ece651.team13.server;
 
 
+import edu.duke.ece651.team13.server.order.AttackOrder;
+import edu.duke.ece651.team13.server.order.MoveOrder;
+import edu.duke.ece651.team13.server.order.Order;
 import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map;
-import edu.duke.ece651.team13.server.order.AttackOrder;
-import edu.duke.ece651.team13.server.order.MoveOrder;
-import edu.duke.ece651.team13.server.order.Order;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
 import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.player.PlayerRO;
@@ -261,9 +261,53 @@ public class RiscGame implements Game {
      */
     @Override
     public Boolean isGameOver() {
-        return(players.stream().filter(player -> player.getStatus().equals(PLAYING)).count() == 1);
+        return (players.stream().filter(player -> player.getStatus().equals(PLAYING)).count() == 1);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Player getWinningPlayer() {
+        Optional<Player> winningPlayer = findWinningPlayer();
+        if (!winningPlayer.isPresent()) {
+            throw new IllegalArgumentException("There is no winning player yet.");
+        }
+        return winningPlayer.get();
+    }
 
+    /**
+     * This helper method finds the winning player which is the only player with PLAYING
+     * status when the game is over
+     *
+     * @return the winning player
+     */
+    private Optional<Player> findWinningPlayer() {
+        if (!isGameOver()) {
+            return Optional.empty();
+        }
+        return players.stream()
+                .filter(player -> player.getStatus() == PLAYING)
+                .filter(this::hasPlayerWon)
+                .findAny();
+    }
+
+    /**
+     * This method checks if the player has won, i.e., if he/she controls all the territories
+     * on the map
+     *
+     * @param player is the player to be checked
+     * @return true if the player has won and false otherwise
+     */
+    private boolean hasPlayerWon(Player player) {
+        Iterator<Territory> territoryIterator = map.getTerritoriesIterator();
+        while (territoryIterator.hasNext()) {
+            Territory territory = territoryIterator.next();
+            if (!territory.getOwner().equals(player)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }
