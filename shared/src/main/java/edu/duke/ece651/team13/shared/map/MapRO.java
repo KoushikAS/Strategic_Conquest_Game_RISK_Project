@@ -19,13 +19,6 @@ public interface MapRO {
   Iterator<TerritoryRO> getTerritoriesROIterator();
 
   /**
-   * Check if the map is a connected graph
-   *
-   * @return true if connected, false if not
-   */
-  boolean isConnected();
-
-  /**
    * Get the territory by its name
    * @return the territory with the corresponding name
    *         null if the territory is not found

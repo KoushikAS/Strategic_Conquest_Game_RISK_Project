@@ -2,13 +2,13 @@ package edu.duke.ece651.team13.shared.map;
 
 import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
-import org.checkerframework.checker.units.qual.A;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Optional;
+
+import static edu.duke.ece651.team13.shared.util.graphUtil.isConnectedGraph;
 
 public abstract class V1Map implements MapRO, Serializable {
     protected ArrayList<Territory> territories;
@@ -25,7 +25,7 @@ public abstract class V1Map implements MapRO, Serializable {
             throw new IllegalArgumentException("The initialUnit must be >0");
         this.territories = new ArrayList<>();
         initMap(initialUnit);
-        assert (isConnected());
+        assert (isConnectedGraph(new ArrayList<>(this.territories)));
     }
 
     public V1Map(V1Map toCopy) {
@@ -56,40 +56,6 @@ public abstract class V1Map implements MapRO, Serializable {
         ArrayList<TerritoryRO> territoryROS = new ArrayList<>(territories);
 
         return territoryROS.iterator();
-    }
-
-    @Override
-    public boolean isConnected() {
-        // Take a boolean visited array, boolean default to false
-        HashSet<String> visited = new HashSet<>();
-
-        // Start the DFS from vertex 0
-        DFS(territories.get(0), visited);
-
-        // Check if all the vertices are visited
-        for (Territory t : territories) {
-            if (!visited.contains(t.getName())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Do a DFS from the source territory, mark each visited territory
-     * as true in the visited boolean array
-     *
-     * @param visited is the HashSet to track the visited territories
-     */
-    private void DFS(TerritoryRO source, HashSet<String> visited) {
-        visited.add(source.getName());
-        Iterator<TerritoryRO> it = source.getNeighbourIterartor();
-        while (it.hasNext()) {
-            TerritoryRO neighbor = it.next();
-            if (!visited.contains(neighbor.getName())) {
-                DFS(neighbor, visited);
-            }
-        }
     }
 
     @Override

@@ -100,15 +100,7 @@ class V1Map9TerritoriesTest {
 
     }
 
-    @Test
-    void test_isConnected() {
-        // Connected
-        MapRO m1 = new V1Map9Territories(5);
-        assertTrue(m1.isConnected());
 
-        // Not connected
-        assertThrows(AssertionError.class, () -> new UnconnectedV1Map9Territories(5));
-    }
 
     @Test
     void test_replicate() {
@@ -212,51 +204,5 @@ class V1Map9TerritoriesTest {
         assertThrows(IllegalArgumentException.class, () -> map.getTerritoryByName("Mandalore"));
     }
 
-    /**
-     * Helper class that initializes an unconnected map for testing
-     */
-    static class UnconnectedV1Map9Territories extends V1Map9Territories {
-        public UnconnectedV1Map9Territories(int initialUnit) {
-            super(initialUnit);
-        }
-
-        @Override
-        protected void initMap(int initialUnit) {
-            // Creating Terrritores
-            Territory narnia = new GameTerritory("Narnia");
-            Territory midkemia = new GameTerritory("Midkemia");
-            Territory oz = new GameTerritory("Oz");
-            Territory gondor = new GameTerritory("Gondor");
-            Territory elantris = new GameTerritory("Elantris");
-            Territory scadrial = new GameTerritory("Scadrial");
-            Territory roshar = new GameTerritory("Roshar");
-            Territory hogwarts = new GameTerritory("Hogwarts");
-            Territory mordor = new GameTerritory("Mordor");
-
-            // Narnia has no neighbors
-            addTerritoriesNeighbours(midkemia, oz);
-            addTerritoriesNeighbours(midkemia, scadrial);
-            addTerritoriesNeighbours(oz, gondor);
-            addTerritoriesNeighbours(oz, mordor);
-            addTerritoriesNeighbours(gondor, mordor);
-            addTerritoriesNeighbours(elantris, scadrial);
-            addTerritoriesNeighbours(elantris, roshar);
-            addTerritoriesNeighbours(scadrial, roshar);
-            addTerritoriesNeighbours(scadrial, mordor);
-            addTerritoriesNeighbours(scadrial, hogwarts);
-            addTerritoriesNeighbours(roshar, hogwarts);
-            addTerritoriesNeighbours(mordor, hogwarts);
-
-            territories.add(narnia);
-            territories.add(midkemia);
-            territories.add(oz);
-            territories.add(gondor);
-            territories.add(elantris);
-            territories.add(scadrial);
-            territories.add(roshar);
-            territories.add(hogwarts);
-            territories.add(mordor);
-        }
-    }
 
 }
