@@ -31,7 +31,7 @@ public class SpectateRound extends GameRound {
      */
     public ArrayList<PlayerOrderInput> executeRound(MapRO mapRO) throws IOException {
         out.println(boardTextView.displayAllTerritories(mapRO));
-        out.println("You have Lost the game");
+        out.println("You have Lost the game. Hence you could only spectate the game");
 
         return new ArrayList<>();
     }

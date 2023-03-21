@@ -9,7 +9,6 @@ public class mapUtil {
 
     private mapUtil(){}
 
-
     /**
      * This helper method checks if a player has lost
      *
