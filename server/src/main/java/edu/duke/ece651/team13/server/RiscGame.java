@@ -95,6 +95,8 @@ public class RiscGame implements Game {
         this.orders.forEach(Order::act);
         this.orders.clear();
         //TODO: Resolve combot territory and adding units to all territory
+        resolveAllCombats();
+        addUnitToAllTerritory();
     }
 
     @Override
@@ -171,6 +173,13 @@ public class RiscGame implements Game {
         territory.setOwner(winnerInfo.getAttacker());
         territory.setUnitNum(winnerInfo.getUnitNum());
         territory.clearAttackers();
+    }
+
+    public void addUnitToAllTerritory(){
+        for (Iterator<Territory> it = map.getTerritoriesIterator(); it.hasNext(); ) {
+            Territory territory = it.next();
+            territory.setUnitNum(territory.getUnitNum() + 1);
+        }
     }
 
     private int getLoser(Territory territory, ArrayList<AttackerInfo> warParties, int currIndex, int nextIndex) {

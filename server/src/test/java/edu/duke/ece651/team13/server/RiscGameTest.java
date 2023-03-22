@@ -31,7 +31,6 @@ class RiscGameTest {
         Territory rottweiler = map.getTerritoryByName("Rottweiler");
         assertEquals("Red", rottweiler.getOwner().getName());
         rottweiler.setUnitNum(100);
-        Territory dachshund = map.getTerritoryByName("Dachshund");
         assertEquals("Red", rottweiler.getOwner().getName());
 
         ArrayList<PlayerOrderInput> orders = new ArrayList<>();
@@ -112,6 +111,21 @@ class RiscGameTest {
         // post-checking when red has lost
         game.checkLostPlayer();
         assertEquals(PlayerStatusEnum.LOSE, red.getStatus());
+    }
+
+    @Test
+    public void test_addUnitToAllTerritory(){
+        V1Map map = getMap(2);
+        RiscGame game = getMockGame(map, 2);
+        for (Iterator<Territory> it = map.getTerritoriesIterator(); it.hasNext(); ){
+            Territory territory = it.next();
+            assertEquals(12, territory.getUnitNum());
+        }
+        game.addUnitToAllTerritory();
+        for (Iterator<Territory> it = map.getTerritoriesIterator(); it.hasNext(); ){
+            Territory territory = it.next();
+            assertEquals(13, territory.getUnitNum());
+        }
     }
 
 }
