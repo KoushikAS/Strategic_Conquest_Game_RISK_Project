@@ -4,6 +4,7 @@ import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 
 import edu.duke.ece651.team13.shared.map.MapRO;
+import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
 import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.territory.Territory;
@@ -13,6 +14,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static edu.duke.ece651.team13.server.App.getMap;
 import static edu.duke.ece651.team13.server.MockDataUtil.getMockGame;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -95,8 +97,8 @@ class RiscGameTest {
 
     @Test
     public void test_checkLostPlayer() {
-        RiscGame game = getMockGame(2);
-        MapRO map = game.getMapRO();
+        V1Map map = getMap(2);
+        RiscGame game = getMockGame(map, 2);
         Player red = game.getPlayerByName("Red");
         Player blue = game.getPlayerByName("Blue");
         // pre-checking when red is playing

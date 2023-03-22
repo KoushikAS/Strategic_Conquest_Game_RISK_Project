@@ -2,6 +2,7 @@ package edu.duke.ece651.team13.shared.util;
 
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.territory.Territory;
+import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.util.Iterator;
 
@@ -17,9 +18,9 @@ public class mapUtil {
      * @return true if the player has already lost and false otherwise
      */
     public static boolean isPlayerLost(MapRO map,  String player) {
-        Iterator<Territory> territoryIterator = map.getTerritoriesIterator();
+        Iterator<TerritoryRO> territoryIterator = map.getTerritoriesROIterator();
         while (territoryIterator.hasNext()) {
-            Territory territory = territoryIterator.next();
+            TerritoryRO territory = territoryIterator.next();
             if (territory.getOwner().getName().equals(player)) {
                 return false;
             }
