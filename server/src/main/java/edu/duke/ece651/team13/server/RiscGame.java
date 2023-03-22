@@ -18,6 +18,7 @@ import java.util.*;
 
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.LOSE;
 import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.PLAYING;
 import static edu.duke.ece651.team13.shared.util.mapUtil.isPlayerLost;
 
@@ -261,7 +262,8 @@ public class RiscGame implements Game {
      */
     @Override
     public Boolean isGameOver() {
-        return (players.stream().filter(player -> player.getStatus().equals(PLAYING)).count() == 1);
+//        return (players.stream().filter(player -> player.getStatus().equals(PLAYING)).count() == 1);
+        return true;
     }
 
     /**
@@ -308,6 +310,21 @@ public class RiscGame implements Game {
             }
         }
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void fastForward() {
+        Player red = getPlayerByName("Red");
+        Player blue = getPlayerByName("Blue");
+        Iterator<Territory> it = map.getTerritoriesIterator();
+        while (it.hasNext()) {
+            Territory t = it.next();
+            t.setOwner(red);
+        }
+        blue.setStatus(LOSE);
     }
 
 }

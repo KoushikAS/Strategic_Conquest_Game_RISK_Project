@@ -11,8 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static edu.duke.ece651.team13.server.enums.HandlerMapping.PLAYER_STATUS;
-import static edu.duke.ece651.team13.server.enums.HandlerMapping.ROUND_HANDLER;
+import static edu.duke.ece651.team13.server.enums.HandlerMapping.*;
 
 
 public class Server {
@@ -63,6 +62,25 @@ public class Server {
         }
     }
 
+    /**
+     * This method announces the winning player to all other players
+     */
+    private void announceWinningPlayer() throws InterruptedException {
+        Iterator<Player> it = this.game.getPlayersIterator();
+        ArrayList<Thread> clientThreads = new ArrayList<>();
+        while (it.hasNext()) {
+            String winningPlayerName = game.getWinningPlayer().getName();
+            Thread clientThread = new Thread(new InitialiseGameHandler(it.next().getSocket(), this.game, winningPlayerName));
+            clientThread.start();
+            clientThreads.add(clientThread);
+        }
+
+        // Wait for all Players to Respond.
+        for (Thread thread : clientThreads) {
+            thread.join();
+        }
+    }
+
 
     /**
      * Accept connection from multiple clients
@@ -75,9 +93,13 @@ public class Server {
                 //Sending the MapRO information to each player
                 connectAllPlayers(ROUND_HANDLER);
                 game.playOneTurn();
-                //Sending the Status of each player (i.e. Loose or playing)
+                //Sending the Status of each player (i.e. Lose or playing)
                 connectAllPlayers(PLAYER_STATUS);
+                // TODO: for testing only
+                // game.fastForward();
             } while (!game.isGameOver());
+            connectAllPlayers(END_GAME);
+            announceWinningPlayer();
         } finally {
             // Closing the socket of Player and Server.
             Iterator<Player> it = this.game.getPlayersIterator();

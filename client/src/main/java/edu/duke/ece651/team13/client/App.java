@@ -70,5 +70,10 @@ public class App {
             RoundMapping roundMapping = isPlayerLost(mapRO, playerName) ? SPECTATE_ROUND : NORMAL_ROUND;
             gameOverFlag = serverHandShakeToSendOrders(socket, roundFactory, roundMapping, System.out, mapRO);
         } while (!gameOverFlag);
+
+        // display win info
+        String winningPlayerName = (String) recvMessage(socket);
+        System.out.println(winningPlayerName + " has won the game! Congratulations!");
+        sendMessage(socket, new Ack(SUCCESS, "Successfully received the winning player name"));
     }
 }

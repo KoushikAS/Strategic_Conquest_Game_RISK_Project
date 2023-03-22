@@ -75,4 +75,10 @@ public interface Game {
      * @return the winning player
      */
     Player getWinningPlayer();
+
+    /**
+     * This method fasts forward the game to the stage of a player has won
+     * TODO: for testing only
+     */
+    void fastForward();
 }

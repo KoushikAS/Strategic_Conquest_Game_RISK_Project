@@ -13,6 +13,8 @@ public class HandlerFactory {
                 return new RoundHandler(clientSocket, game, playerName);
             case INITIALISE_GAME:
                 return new InitialiseGameHandler(clientSocket, game, playerName);
+            case END_GAME:
+                return new EndGameHandler(clientSocket, game, playerName);
             default:
                 return new PlayerStatusHandler(clientSocket, game, playerName);
         }

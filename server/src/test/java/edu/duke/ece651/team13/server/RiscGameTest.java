@@ -127,6 +127,7 @@ class RiscGameTest {
         }
     }
 
+    @Test
     public void test_getPlayerByName() {
         RiscGame game = getMockGame(2);
         assertThrows(IllegalArgumentException.class, () -> game.getPlayerByName("Oliver"));
@@ -135,7 +136,6 @@ class RiscGameTest {
     @Test
     public void test_getWinningPlayer() {
         RiscGame game = getMockGame(3);
-        MapRO map = game.getMapRO();
         Player red = game.getPlayerByName("Red");
         Player blue = game.getPlayerByName("Blue");
         Player green = game.getPlayerByName("Green");
@@ -145,13 +145,7 @@ class RiscGameTest {
         assertEquals(PlayerStatusEnum.PLAYING, green.getStatus());
         // no winning player yet
         assertThrows(IllegalArgumentException.class, game::getWinningPlayer);
-//        Iterator<Territory> it = map.getTerritoriesIterator();
-//        while (it.hasNext()) {
-//            Territory t = it.next();
-//            t.setOwner(red);
-//        }
-//        game.fastForward();
-        // TODO: Test here
+        game.fastForward();
         // red wins the game
         game.checkLostPlayer();
         assertEquals(PlayerStatusEnum.PLAYING, red.getStatus());
@@ -162,4 +156,13 @@ class RiscGameTest {
         assertEquals(expected, red);
     }
 
+    @Test
+    public void test_fastForward() {
+        RiscGame game = getMockGame(2);
+        Player red = game.getPlayerByName("Red");
+        Player blue = game.getPlayerByName("Blue");
+        game.fastForward();
+        assertEquals(PlayerStatusEnum.PLAYING, red.getStatus());
+        assertEquals(PlayerStatusEnum.LOSE, blue.getStatus());
+    }
 }
