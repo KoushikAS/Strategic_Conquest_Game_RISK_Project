@@ -95,8 +95,6 @@ public class Server {
                 game.playOneTurn();
                 //Sending the Status of each player (i.e. Lose or playing)
                 connectAllPlayers(PLAYER_STATUS);
-                // TODO: for testing only
-                // game.fastForward();
             } while (!game.isGameOver());
             connectAllPlayers(END_GAME);
             announceWinningPlayer();

@@ -30,11 +30,13 @@ public class App {
             sendMessage(socket, orderInputs);
             Ack ack = (Ack) recvMessage(socket);
             if (ack.getStatus().equals(SUCCESS)) {
-                out.println("Sucessfull placed Order");
+                out.println("SUCCESS! :)");
+                out.println("Your order has been placed.");
                 sendMessage(socket, new Ack(SUCCESS, "Successfully Received Ack"));
                 break;
             } else {
-                out.println("FAILED with the error message " + ack.getMessage());
+                out.println("FAILED! :( ");
+                out.println("The error is: " + ack.getMessage() + "\n");
                 //Receive the map again.
                 mapRO = (MapRO) recvMessage(socket);
             }
@@ -73,7 +75,7 @@ public class App {
 
         // display win info
         String winningPlayerName = (String) recvMessage(socket);
-        System.out.println(winningPlayerName + " has won the game! Congratulations!");
+        System.out.println(winningPlayerName + " has won the game!");
         sendMessage(socket, new Ack(SUCCESS, "Successfully received the winning player name"));
     }
 }

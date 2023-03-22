@@ -262,8 +262,7 @@ public class RiscGame implements Game {
      */
     @Override
     public Boolean isGameOver() {
-//        return (players.stream().filter(player -> player.getStatus().equals(PLAYING)).count() == 1);
-        return true;
+        return (players.stream().filter(player -> player.getStatus().equals(PLAYING)).count() == 1);
     }
 
     /**
@@ -288,28 +287,7 @@ public class RiscGame implements Game {
         if (!isGameOver()) {
             return Optional.empty();
         }
-        return players.stream()
-                .filter(player -> player.getStatus() == PLAYING)
-                .filter(this::hasPlayerWon)
-                .findAny();
-    }
-
-    /**
-     * This method checks if the player has won, i.e., if he/she controls all the territories
-     * on the map
-     *
-     * @param player is the player to be checked
-     * @return true if the player has won and false otherwise
-     */
-    private boolean hasPlayerWon(Player player) {
-        Iterator<Territory> territoryIterator = map.getTerritoriesIterator();
-        while (territoryIterator.hasNext()) {
-            Territory territory = territoryIterator.next();
-            if (!territory.getOwner().equals(player)) {
-                return false;
-            }
-        }
-        return true;
+        return players.stream().filter(player -> player.getStatus() == PLAYING).findAny();
     }
 
     /**
