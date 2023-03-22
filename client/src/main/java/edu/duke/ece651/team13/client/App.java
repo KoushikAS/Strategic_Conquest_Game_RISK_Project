@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static edu.duke.ece651.team13.client.enums.RoundMapping.*;
 import static edu.duke.ece651.team13.shared.enums.AckStatusEnum.SUCCESS;
@@ -48,13 +49,27 @@ public class App {
         return gameOverFlag;
     }
 
+    public static Socket connectServer(String prompt){
+        Socket socket;
+        String serverIP;
+        System.out.println(prompt);
+        Scanner in = new Scanner(System.in);
+        serverIP = in.nextLine();
+        try{
+            socket = new Socket(serverIP, 12345);
+        } catch (IOException e) {
+            return connectServer("Invalid server IP. Please try again");
+        }
+        return socket;
+    }
+
     public static void main(String[] args) throws ClassNotFoundException, IOException {
         App a = new App();
 
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
         BoardTextView boardTextView = new BoardTextView();
-        Socket socket = new Socket("localhost", 12345);
+        Socket socket = connectServer("Please input the server IP");
         Boolean gameOverFlag;
 
         String playerName = (String) recvMessage(socket);
