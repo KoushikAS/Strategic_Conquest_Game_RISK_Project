@@ -21,7 +21,7 @@ class SpectateRoundTest {
     @Test
     void test_playOneRound() throws IOException {
         InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("SpectateRound-output.txt");
-        String expectedOutputString = new String(expectedStream.readAllBytes()).replace("\r", "");
+        String expectedOutputString = new String(expectedStream.readAllBytes());
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         String input = "";
@@ -29,7 +29,7 @@ class SpectateRoundTest {
 
         ArrayList<PlayerOrderInput> orders = round.executeRound(getInitalisedV1Map24MapRO());
         assertEquals(0, orders.size());
-        assertEquals(expectedOutputString + "\n", bytes.toString());
+        assertEquals(expectedOutputString + "\n", bytes.toString().replace("\r", ""));
     }
 
 
