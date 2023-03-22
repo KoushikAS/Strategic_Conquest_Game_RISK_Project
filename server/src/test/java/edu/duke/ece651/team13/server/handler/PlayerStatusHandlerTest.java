@@ -28,7 +28,7 @@ public class PlayerStatusHandlerTest {
         mockClass.start();
 
         mockClass.join();
-        byte[] expected = getByteArray(false);
+        byte[] expected = getByteArray(true);
         byte[] actual = byteArrayOutputStream.toByteArray();
         for (int i = 0; i < expected.length; i++) {
             assertEquals(expected[i], actual[i]);
@@ -50,7 +50,7 @@ public class PlayerStatusHandlerTest {
         mockClass.start();
 
         mockClass.join();
-        byte[] expected = getByteArray(false);
+        byte[] expected = getByteArray(true);
         byte[] actual = byteArrayOutputStream.toByteArray();
         for (int i = 0; i < expected.length; i++) {
             assertEquals(expected[i], actual[i]);
@@ -69,7 +69,7 @@ public class PlayerStatusHandlerTest {
         mockClass.start();
 
         mockClass.join();
-        byte[] expected = getByteArray(false);
+        byte[] expected = getByteArray(true);
         byte[] actual = byteArrayOutputStream.toByteArray();
         for (int i = 0; i < expected.length; i++) {
             assertEquals(expected[i], actual[i]);
