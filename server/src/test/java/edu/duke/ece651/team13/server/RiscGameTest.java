@@ -2,7 +2,6 @@ package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
-
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
@@ -128,4 +127,42 @@ class RiscGameTest {
         }
     }
 
+    @Test
+    public void test_getPlayerByName() {
+        RiscGame game = getMockGame(2);
+        assertThrows(IllegalArgumentException.class, () -> game.getPlayerByName("Oliver"));
+    }
+
+    @Test
+    public void test_getWinningPlayer() {
+        RiscGame game = getMockGame(3);
+        Player red = game.getPlayerByName("Red");
+        Player blue = game.getPlayerByName("Blue");
+        Player green = game.getPlayerByName("Green");
+        game.checkLostPlayer();
+        assertEquals(PlayerStatusEnum.PLAYING, red.getStatus());
+        assertEquals(PlayerStatusEnum.PLAYING, blue.getStatus());
+        assertEquals(PlayerStatusEnum.PLAYING, green.getStatus());
+        // no winning player yet
+        assertThrows(IllegalArgumentException.class, game::getWinningPlayer);
+        game.fastForward();
+        // red wins the game
+        game.checkLostPlayer();
+        assertEquals(PlayerStatusEnum.PLAYING, red.getStatus());
+        assertEquals(PlayerStatusEnum.LOSE, blue.getStatus());
+        assertEquals(PlayerStatusEnum.LOSE, green.getStatus());
+
+        Player expected = game.getWinningPlayer();
+        assertEquals(expected, red);
+    }
+
+    @Test
+    public void test_fastForward() {
+        RiscGame game = getMockGame(2);
+        Player red = game.getPlayerByName("Red");
+        Player blue = game.getPlayerByName("Blue");
+        game.fastForward();
+        assertEquals(PlayerStatusEnum.PLAYING, red.getStatus());
+        assertEquals(PlayerStatusEnum.LOSE, blue.getStatus());
+    }
 }
