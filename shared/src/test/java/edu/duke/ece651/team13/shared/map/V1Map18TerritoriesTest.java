@@ -13,7 +13,7 @@ class V1Map18TerritoriesTest {
 
     @Test
     void initMap() {
-        MapRO m1 = new V1Map18Territories(18);
+        V1Map m1 = new V1Map18Territories(18);
 
         Iterator<Territory> it1 = m1.getTerritoriesIterator();
 
@@ -229,7 +229,7 @@ class V1Map18TerritoriesTest {
 
     @Test
     void test_replicate() {
-        MapRO map = new V1Map18Territories(10);
+        V1Map map = new V1Map18Territories(10);
         Iterator<Territory> it = map.getTerritoriesIterator();
         String firstName = it.next().getName();
         String secondName = it.next().getName();

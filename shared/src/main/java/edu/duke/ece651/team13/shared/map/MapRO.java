@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.shared.map;
 
 import edu.duke.ece651.team13.shared.territory.Territory;
+import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,14 +16,7 @@ public interface MapRO {
   /**
    * Get the iterator list of territories
    */
-  Iterator<Territory> getTerritoriesIterator();
-
-  /**
-   * Check if the map is a connected graph
-   *
-   * @return true if connected, false if not
-   */
-  boolean isConnected();
+  Iterator<TerritoryRO> getTerritoriesROIterator();
 
   /**
    * Get the territory by its name

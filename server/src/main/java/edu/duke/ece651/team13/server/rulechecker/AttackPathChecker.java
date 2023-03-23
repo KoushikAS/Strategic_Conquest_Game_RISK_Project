@@ -34,6 +34,7 @@ public class AttackPathChecker extends RuleChecker {
      */
     private boolean isValidPath(TerritoryRO source, TerritoryRO destination) {
         Iterator<TerritoryRO> it = source.getNeighbourIterartor();
+
         while (it.hasNext()) {
             TerritoryRO neighbor = it.next();
             if (destination == neighbor) {

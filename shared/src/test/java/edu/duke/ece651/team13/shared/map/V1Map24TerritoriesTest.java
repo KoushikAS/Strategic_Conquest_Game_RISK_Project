@@ -13,7 +13,7 @@ class V1Map24TerritoriesTest {
 
     @Test
     void initMap() {
-        MapRO m1 = new V1Map24Territories(24);
+        V1Map m1 = new V1Map24Territories(24);
 
         Iterator<Territory> it1 = m1.getTerritoriesIterator();
 

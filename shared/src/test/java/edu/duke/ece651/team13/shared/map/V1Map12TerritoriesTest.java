@@ -13,7 +13,7 @@ class V1Map12TerritoriesTest {
 
     @Test
     void test_initMap() {
-        MapRO m1 = new V1Map12Territories(12);
+        V1Map m1 = new V1Map12Territories(12);
 
         Iterator<Territory> it1 = m1.getTerritoriesIterator();
 

@@ -52,7 +52,7 @@ public class BoardTextView implements BoardView {
     private Iterator<String> getPlayerNames(MapRO map) {
         Set<String> names = new HashSet<>();
 
-        Iterator<Territory> it = map.getTerritoriesIterator();
+        Iterator<TerritoryRO> it = map.getTerritoriesROIterator();
         while (it.hasNext()) {
             TerritoryRO territoryRO = it.next();
             names.add(territoryRO.getOwner().getName());
@@ -64,11 +64,11 @@ public class BoardTextView implements BoardView {
      * This method groups all the territories in map into a TreeMap
      */
     private Iterator<TerritoryRO> getTerritoryOfOwner(MapRO map, String ownerName) {
-        Iterator<Territory> it = map.getTerritoriesIterator();
+        Iterator<TerritoryRO> it = map.getTerritoriesROIterator();
         ArrayList<TerritoryRO> territories = new ArrayList<>();
 
         while (it.hasNext()) {
-            Territory t = it.next();
+            TerritoryRO t = it.next();
             if (t.getOwner().getName().equals(ownerName)) {
                 territories.add(t);
             }

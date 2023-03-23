@@ -1,13 +1,13 @@
 package edu.duke.ece651.team13.server;
 
 
+import edu.duke.ece651.team13.server.order.AttackOrder;
+import edu.duke.ece651.team13.server.order.MoveOrder;
+import edu.duke.ece651.team13.server.order.Order;
 import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.shared.map.MapRO;
 import edu.duke.ece651.team13.shared.map.V1Map;
-import edu.duke.ece651.team13.server.order.AttackOrder;
-import edu.duke.ece651.team13.server.order.MoveOrder;
-import edu.duke.ece651.team13.server.order.Order;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
 import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.player.PlayerRO;
@@ -18,7 +18,9 @@ import java.util.*;
 
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.LOSE;
 import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.PLAYING;
+import static edu.duke.ece651.team13.shared.util.mapUtil.isPlayerLost;
 
 public class RiscGame implements Game {
 
@@ -26,6 +28,7 @@ public class RiscGame implements Game {
     private final V1Map map;
     private final Dice dice;
     private ArrayList<Order> orders;
+    private boolean isPlacementRound;
 
     public RiscGame(V1Map map, ArrayList<Player> players) {
         this.map = map;
@@ -33,6 +36,7 @@ public class RiscGame implements Game {
         assignInitialGroups();
         this.dice = new Dice(1, 20);
         this.orders = new ArrayList<>();
+        this.isPlacementRound = true;
     }
 
     /**
@@ -93,7 +97,13 @@ public class RiscGame implements Game {
     public void playOneTurn() {
         this.orders.forEach(Order::act);
         this.orders.clear();
-        //TODO: Resolve combot territory and adding units to all territory
+        resolveAllCombats();
+        if(!isPlacementRound){
+            addUnitToAllTerritory();
+        }
+        else{
+            isPlacementRound = false;
+        }
     }
 
     @Override
@@ -104,21 +114,29 @@ public class RiscGame implements Game {
         // Move orders first
         for (PlayerOrderInput orderInput : orderInputs) {
             if (orderInput.getOrderType().equals(MOVE)) {
-                Order order = new MoveOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
-                String checkResult = order.validateOnMap(tempMap);
-                if (checkResult != null) return checkResult;
-                order.actOnMap(tempMap);
-                orders.add(order);
+                try {
+                    Order order = new MoveOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
+                    String checkResult = order.validateOnMap(tempMap);
+                    if (checkResult != null) return checkResult;
+                    order.actOnMap(tempMap);
+                    orders.add(order);
+                }catch (IllegalArgumentException e){
+                    return e.getMessage();
+                }
             }
         }
         // Attack orders
         for (PlayerOrderInput orderInput : orderInputs) {
             if (orderInput.getOrderType().equals(ATTACK)) {
-                Order order = new AttackOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
-                String checkResult = order.validateOnMap(tempMap);
-                if (checkResult != null) return checkResult;
-                order.actOnMap(tempMap);
-                orders.add(order);
+                try {
+                    Order order = new AttackOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
+                    String checkResult = order.validateOnMap(tempMap);
+                    if (checkResult != null) return checkResult;
+                    order.actOnMap(tempMap);
+                    orders.add(order);
+                }catch (IllegalArgumentException e){
+                    return e.getMessage();
+                }
             }
         }
 
@@ -134,11 +152,18 @@ public class RiscGame implements Game {
      */
     public ArrayList<AttackerInfo> getWarParties(Territory territory) {
         ArrayList<AttackerInfo> warPartiesList = new ArrayList<>();
-        warPartiesList.add(new AttackerInfo(territory.getOwner(), territory.getUnitNum()));
+        // If current unit number in the territory is 0, the owner does not defend, the attacker wins automatically
+        if(territory.getUnitNum() > 0){
+            warPartiesList.add(new AttackerInfo(territory.getOwner(), territory.getUnitNum()));
+        }
+
         HashMap<PlayerRO, Integer> attackerMap = territory.getAttackers();
         if (!attackerMap.isEmpty()) {
             for (PlayerRO attacker : attackerMap.keySet()) {
-                warPartiesList.add(new AttackerInfo(attacker, attackerMap.get(attacker)));
+                if(attackerMap.get(attacker) > 0){
+                    // If an attacker is attacking with 0 units, we don't let the attacker join the combat
+                    warPartiesList.add(new AttackerInfo(attacker, attackerMap.get(attacker)));
+                }
             }
         }
         return warPartiesList;
@@ -146,22 +171,31 @@ public class RiscGame implements Game {
 
     public void resolveCombatInOneTerritory(Territory territory) {
         ArrayList<AttackerInfo> warParties = getWarParties(territory);
-        while (warParties.size() > 1) {
-            for (int currIndex = 0; currIndex < warParties.size(); currIndex++) {
-                int nextIndex = currIndex == warParties.size() - 1 ? 0 : currIndex + 1;
-                int loser = getLoser(territory, warParties, currIndex, nextIndex);
-                loseOneRoll(loser, warParties);
-                if (warParties.get(loser).getUnitNum() == 0) {
-                    warParties.remove(loser);
-                    if (warParties.size() == 1) break;
-                    if (loser == currIndex) currIndex--;
+        if(!warParties.isEmpty()){
+            while (warParties.size() > 1) {
+                for (int currIndex = 0; currIndex < warParties.size(); currIndex++) {
+                    int nextIndex = currIndex == warParties.size() - 1 ? 0 : currIndex + 1;
+                    int loser = getLoser(territory, warParties, currIndex, nextIndex);
+                    loseOneRoll(loser, warParties);
+                    if (warParties.get(loser).getUnitNum() == 0) {
+                        warParties.remove(loser);
+                        if (warParties.size() == 1) break;
+                        if (loser == currIndex) currIndex--;
+                    }
                 }
             }
+            AttackerInfo winnerInfo = warParties.get(0);
+            territory.setOwner(winnerInfo.getAttacker());
+            territory.setUnitNum(winnerInfo.getUnitNum());
         }
-        AttackerInfo winnerInfo = warParties.get(0);
-        territory.setOwner(winnerInfo.getAttacker());
-        territory.setUnitNum(winnerInfo.getUnitNum());
         territory.clearAttackers();
+    }
+
+    public void addUnitToAllTerritory(){
+        for (Iterator<Territory> it = map.getTerritoriesIterator(); it.hasNext(); ) {
+            Territory territory = it.next();
+            territory.setUnitNum(territory.getUnitNum() + 1);
+        }
     }
 
     private int getLoser(Territory territory, ArrayList<AttackerInfo> warParties, int currIndex, int nextIndex) {
@@ -232,7 +266,7 @@ public class RiscGame implements Game {
         Iterator<Player> playerIterator = getPlayersIterator();
         while (playerIterator.hasNext()) {
             Player player = playerIterator.next();
-            if (playerHasLost(player)) {
+            if (isPlayerLost(this.map, player.getName())) {
                 player.setStatus(PlayerStatusEnum.LOSE);
             }
         }
@@ -243,24 +277,47 @@ public class RiscGame implements Game {
      */
     @Override
     public Boolean isGameOver() {
-        return(players.stream().filter(player -> player.getStatus().equals(PLAYING)).count() == 1);
+        return (players.stream().filter(player -> player.getStatus().equals(PLAYING)).count() == 1);
     }
 
     /**
-     * This helper method checks if a player has lost
-     *
-     * @param player is the player to be checked
-     * @return true if the player has already lost and false otherwise
+     * {@inheritDoc}
      */
-    private boolean playerHasLost(Player player) {
-        Iterator<Territory> territoryIterator = map.getTerritoriesIterator();
-        while (territoryIterator.hasNext()) {
-            Territory territory = territoryIterator.next();
-            if (territory.getOwner().equals(player)) {
-                return false;
-            }
+    @Override
+    public Player getWinningPlayer() {
+        Optional<Player> winningPlayer = findWinningPlayer();
+        if (!winningPlayer.isPresent()) {
+            throw new IllegalArgumentException("There is no winning player yet.");
         }
-        return true;
+        return winningPlayer.get();
+    }
+
+    /**
+     * This helper method finds the winning player which is the only player with PLAYING
+     * status when the game is over
+     *
+     * @return the winning player
+     */
+    private Optional<Player> findWinningPlayer() {
+        if (!isGameOver()) {
+            return Optional.empty();
+        }
+        return players.stream().filter(player -> player.getStatus() == PLAYING).findAny();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void fastForward() {
+        Player red = getPlayerByName("Red");
+        Player blue = getPlayerByName("Blue");
+        Iterator<Territory> it = map.getTerritoriesIterator();
+        while (it.hasNext()) {
+            Territory t = it.next();
+            t.setOwner(red);
+        }
+        blue.setStatus(LOSE);
     }
 
 }

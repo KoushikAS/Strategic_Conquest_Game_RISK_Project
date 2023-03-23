@@ -4,11 +4,16 @@ import edu.duke.ece651.team13.client.BoardTextView;
 import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 import static edu.duke.ece651.team13.client.MockDataUtil.getInitalisedV1Map24MapRO;
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,7 +30,7 @@ class InitialRoundTest {
     @Test
     void test_IntialRound() throws IOException {
         InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("IntialRound-output.txt");
-        String expectedOutputString = new String(expectedStream.readAllBytes()).replace("\r", "");
+        String expectedOutputString = new String(expectedStream.readAllBytes());
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         String input = "M\nRottweiler\nPoodle\n10\nM\nRottweiler\nDachshund\n20\nD\n";
@@ -40,14 +45,14 @@ class InitialRoundTest {
             assertEquals(expectedOrders.get(i), orders.get(i));
         }
 
-        assertEquals(expectedOutputString + "\n", bytes.toString());
+        assertEquals(expectedOutputString + "\n", bytes.toString().replace("\r", ""));
     }
 
 
     @Test
     void test_InvalidOrderException() throws IOException {
         InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("InvalidOrderTypeRound-output.txt");
-        String expectedOutputString = new String(expectedStream.readAllBytes()).replace("\r", "");
+        String expectedOutputString = new String(expectedStream.readAllBytes());
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         String input = "A\nX\nM\nRottweiler\nDachshund\n20\nD\n";
@@ -61,13 +66,13 @@ class InitialRoundTest {
             assertEquals(expectedOrders.get(i), orders.get(i));
         }
 
-        assertEquals(expectedOutputString + "\n", bytes.toString());
+        assertEquals(expectedOutputString + "\n", bytes.toString().replace("\r", ""));
     }
 
     @Test
     void test_InvalidUnitException() throws IOException {
         InputStream expectedStream = getClass().getClassLoader().getResourceAsStream("InvalidUnitNumberRound-output.txt");
-        String expectedOutputString = new String(expectedStream.readAllBytes()).replace("\r", "");
+        String expectedOutputString = new String(expectedStream.readAllBytes());
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         String input = "M\nRottweiler\nDachshund\nx\nM\nRottweiler\nDachshund\n20\nD\n";
@@ -81,6 +86,6 @@ class InitialRoundTest {
             assertEquals(expectedOrders.get(i), orders.get(i));
         }
 
-        assertEquals(expectedOutputString + "\n", bytes.toString());
+        assertEquals(expectedOutputString + "\n", bytes.toString().replace("\r", ""));
     }
 }
