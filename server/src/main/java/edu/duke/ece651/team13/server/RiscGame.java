@@ -28,6 +28,7 @@ public class RiscGame implements Game {
     private final V1Map map;
     private final Dice dice;
     private ArrayList<Order> orders;
+    private boolean isPlacementRound;
 
     public RiscGame(V1Map map, ArrayList<Player> players) {
         this.map = map;
@@ -35,6 +36,7 @@ public class RiscGame implements Game {
         assignInitialGroups();
         this.dice = new Dice(1, 20);
         this.orders = new ArrayList<>();
+        this.isPlacementRound = true;
     }
 
     /**
@@ -95,9 +97,13 @@ public class RiscGame implements Game {
     public void playOneTurn() {
         this.orders.forEach(Order::act);
         this.orders.clear();
-        //TODO: Resolve combot territory and adding units to all territory
         resolveAllCombats();
-        addUnitToAllTerritory();
+        if(!isPlacementRound){
+            addUnitToAllTerritory();
+        }
+        else{
+            isPlacementRound = false;
+        }
     }
 
     @Override
@@ -146,11 +152,18 @@ public class RiscGame implements Game {
      */
     public ArrayList<AttackerInfo> getWarParties(Territory territory) {
         ArrayList<AttackerInfo> warPartiesList = new ArrayList<>();
-        warPartiesList.add(new AttackerInfo(territory.getOwner(), territory.getUnitNum()));
+        // If current unit number in the territory is 0, the owner does not defend, the attacker wins automatically
+        if(territory.getUnitNum() > 0){
+            warPartiesList.add(new AttackerInfo(territory.getOwner(), territory.getUnitNum()));
+        }
+
         HashMap<PlayerRO, Integer> attackerMap = territory.getAttackers();
         if (!attackerMap.isEmpty()) {
             for (PlayerRO attacker : attackerMap.keySet()) {
-                warPartiesList.add(new AttackerInfo(attacker, attackerMap.get(attacker)));
+                if(attackerMap.get(attacker) > 0){
+                    // If an attacker is attacking with 0 units, we don't let the attacker join the combat
+                    warPartiesList.add(new AttackerInfo(attacker, attackerMap.get(attacker)));
+                }
             }
         }
         return warPartiesList;
@@ -158,21 +171,23 @@ public class RiscGame implements Game {
 
     public void resolveCombatInOneTerritory(Territory territory) {
         ArrayList<AttackerInfo> warParties = getWarParties(territory);
-        while (warParties.size() > 1) {
-            for (int currIndex = 0; currIndex < warParties.size(); currIndex++) {
-                int nextIndex = currIndex == warParties.size() - 1 ? 0 : currIndex + 1;
-                int loser = getLoser(territory, warParties, currIndex, nextIndex);
-                loseOneRoll(loser, warParties);
-                if (warParties.get(loser).getUnitNum() == 0) {
-                    warParties.remove(loser);
-                    if (warParties.size() == 1) break;
-                    if (loser == currIndex) currIndex--;
+        if(!warParties.isEmpty()){
+            while (warParties.size() > 1) {
+                for (int currIndex = 0; currIndex < warParties.size(); currIndex++) {
+                    int nextIndex = currIndex == warParties.size() - 1 ? 0 : currIndex + 1;
+                    int loser = getLoser(territory, warParties, currIndex, nextIndex);
+                    loseOneRoll(loser, warParties);
+                    if (warParties.get(loser).getUnitNum() == 0) {
+                        warParties.remove(loser);
+                        if (warParties.size() == 1) break;
+                        if (loser == currIndex) currIndex--;
+                    }
                 }
             }
+            AttackerInfo winnerInfo = warParties.get(0);
+            territory.setOwner(winnerInfo.getAttacker());
+            territory.setUnitNum(winnerInfo.getUnitNum());
         }
-        AttackerInfo winnerInfo = warParties.get(0);
-        territory.setOwner(winnerInfo.getAttacker());
-        territory.setUnitNum(winnerInfo.getUnitNum());
         territory.clearAttackers();
     }
 

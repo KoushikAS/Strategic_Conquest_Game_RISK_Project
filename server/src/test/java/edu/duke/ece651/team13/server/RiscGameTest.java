@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import static edu.duke.ece651.team13.server.App.getMap;
 import static edu.duke.ece651.team13.server.MockDataUtil.getMockGame;
+import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -42,6 +43,55 @@ class RiscGameTest {
 
         orders.add(new PlayerOrderInput(MOVE, "Rottweiler", "Dachshund", 100));
         assertEquals("Invalid move order: Don't have sufficient unit number in the territory.", game.validateOrdersAndAddToList(orders, red));
+    }
+
+    @Test
+    public void test_playOneTurn(){
+        RiscGame game = getMockGame(2);
+
+        Player red = game.getPlayerByName("Red");
+        Player blue = game.getPlayerByName("Blue");
+
+        //Move orders
+        PlayerOrderInput move1 = new PlayerOrderInput(MOVE, "Rottweiler", "Dachshund", 0);
+        PlayerOrderInput move2 = new PlayerOrderInput(MOVE, "Dachshund", "Rottweiler", 5);
+        ArrayList<PlayerOrderInput> orders = new ArrayList<>();
+        orders.add(move1);
+        orders.add(move2);
+        game.validateOrdersAndAddToList(orders, red);
+        game.playOneTurn();
+
+        Territory dachshund = game.getMapRO().getTerritoryByName("Dachshund");
+        Territory rottweiler = game.getMapRO().getTerritoryByName("Rottweiler");
+
+        // First round, don't get extra unit
+        assertEquals(17, rottweiler.getUnitNum());
+        assertEquals(7, dachshund.getUnitNum());
+        assertEquals(red, rottweiler.getOwner());
+        assertEquals(red, dachshund.getOwner());
+
+        //Attack orders
+        //Two players attack each other with ALL the units in one territory, automatically wins each other
+        Territory bulldog = game.getMapRO().getTerritoryByName("Bulldog");
+        Territory spaniel = game.getMapRO().getTerritoryByName("Spaniel");
+        assertEquals(red, bulldog.getOwner());
+        assertEquals(blue, spaniel.getOwner());
+
+        PlayerOrderInput attack1 = new PlayerOrderInput(ATTACK, "Bulldog", "Spaniel", 12);
+        PlayerOrderInput attack2 = new PlayerOrderInput(ATTACK, "Spaniel", "Bulldog", 12);
+        orders.clear();
+        orders.add(attack1);
+        assertNull(game.validateOrdersAndAddToList(orders, red));
+        orders.clear();
+        orders.add(attack2);
+        assertNull(game.validateOrdersAndAddToList(orders, blue));
+        game.playOneTurn();
+
+        assertEquals(blue, bulldog.getOwner());
+        assertEquals(red, spaniel.getOwner());
+        // Second round, get extra unit
+        assertEquals(13, bulldog.getUnitNum());
+        assertEquals(13, spaniel.getUnitNum());
     }
 
     @Test
@@ -116,15 +166,9 @@ class RiscGameTest {
     public void test_addUnitToAllTerritory(){
         V1Map map = getMap(2);
         RiscGame game = getMockGame(map, 2);
-        for (Iterator<Territory> it = map.getTerritoriesIterator(); it.hasNext(); ){
-            Territory territory = it.next();
-            assertEquals(12, territory.getUnitNum());
-        }
+        verifyUnitNumForAll(map, 12);
         game.addUnitToAllTerritory();
-        for (Iterator<Territory> it = map.getTerritoriesIterator(); it.hasNext(); ){
-            Territory territory = it.next();
-            assertEquals(13, territory.getUnitNum());
-        }
+        verifyUnitNumForAll(map, 13);
     }
 
     @Test
@@ -164,5 +208,23 @@ class RiscGameTest {
         game.fastForward();
         assertEquals(PlayerStatusEnum.PLAYING, red.getStatus());
         assertEquals(PlayerStatusEnum.LOSE, blue.getStatus());
+    }
+
+    @Test
+    public void test_addUnit_in_placementPhase(){
+        V1Map map = getMap(2);
+        RiscGame game = getMockGame(map, 2);
+        verifyUnitNumForAll(map, 12);
+        game.playOneTurn();
+        verifyUnitNumForAll(map, 12);
+        game.playOneTurn();
+        verifyUnitNumForAll(map, 13);
+    }
+
+    private static void verifyUnitNumForAll(V1Map map, int expected) {
+        for (Iterator<Territory> it = map.getTerritoriesIterator(); it.hasNext(); ) {
+            Territory territory = it.next();
+            assertEquals(expected, territory.getUnitNum());
+        }
     }
 }
