@@ -41,7 +41,7 @@ public class App {
         App a = new App();
 
         //TODO currently hardcoded  player number. Should be dynamic.
-        int playerNumber = 2;
+        int playerNumber = 4;
         V1Map map = getMap(playerNumber);
         ArrayList<Player> players = getPlayers(playerNumber);
         Game game = new RiscGame(map, players);

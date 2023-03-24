@@ -42,6 +42,7 @@ public class RoundHandler extends Handler {
                 } else {
                     Ack ack = new Ack(FAIL, errorMessage);
                     sendMessage(this.socket, ack);
+                    recvMessage(this.socket);
                 }
             }
         } catch (IOException | ClassNotFoundException e) {

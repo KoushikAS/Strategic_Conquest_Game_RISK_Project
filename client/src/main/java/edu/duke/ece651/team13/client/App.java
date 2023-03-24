@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import static edu.duke.ece651.team13.client.enums.RoundMapping.*;
 import static edu.duke.ece651.team13.shared.enums.AckStatusEnum.SUCCESS;
@@ -38,6 +37,7 @@ public class App {
             } else {
                 out.println("FAILED! :( ");
                 out.println("The error is: " + ack.getMessage() + "\n");
+                sendMessage(socket, new Ack(SUCCESS, "Successfully Received Ack"));
                 //Receive the map again.
                 mapRO = (MapRO) recvMessage(socket);
             }
@@ -49,16 +49,15 @@ public class App {
         return gameOverFlag;
     }
 
-    public static Socket connectServer(String prompt){
+    public static Socket connectServer(String prompt, BufferedReader input) throws IOException {
         Socket socket;
         String serverIP;
         System.out.println(prompt);
-        Scanner in = new Scanner(System.in);
-        serverIP = in.nextLine();
-        try{
+        serverIP = input.readLine();
+        try {
             socket = new Socket(serverIP, 12345);
         } catch (IOException e) {
-            return connectServer("Invalid server IP. Please try again");
+            return connectServer("Invalid server IP. Please try again", input);
         }
         return socket;
     }
@@ -69,7 +68,7 @@ public class App {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
         BoardTextView boardTextView = new BoardTextView();
-        Socket socket = connectServer("Please input the server IP");
+        Socket socket = connectServer("Please input the server IP", input);
         Boolean gameOverFlag;
 
         String playerName = (String) recvMessage(socket);
