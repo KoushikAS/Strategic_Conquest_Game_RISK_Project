@@ -37,6 +37,7 @@ public class App {
             } else {
                 out.println("FAILED! :( ");
                 out.println("The error is: " + ack.getMessage() + "\n");
+                sendMessage(socket, new Ack(SUCCESS, "Successfully Received Ack"));
                 //Receive the map again.
                 mapRO = (MapRO) recvMessage(socket);
             }
