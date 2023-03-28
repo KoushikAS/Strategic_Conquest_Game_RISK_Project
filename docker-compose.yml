@@ -38,5 +38,14 @@ services:
         - SPRING_DATASOURCE_USERNAME=postgres
         - SPRING_DATASOURCE_PASSWORD=postgres
         - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  client:
+      image: node:alpine
+      command: sh -c "npm install && npm start"
+      ports:
+        - "3000:3000"
+      volumes:
+        - ./frontend:/app
+      depends_on:
+        - server
 volumes:
    data-volume:
