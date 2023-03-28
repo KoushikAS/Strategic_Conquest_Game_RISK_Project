@@ -1,18 +1,19 @@
 package edu.duke.ece651.team13.server;
 
 
-import edu.duke.ece651.team13.server.handler.HandlerFactory;
 import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.map.V1Map12Territories;
 import edu.duke.ece651.team13.shared.map.V1Map18Territories;
 import edu.duke.ece651.team13.shared.map.V1Map24Territories;
 import edu.duke.ece651.team13.shared.player.HumanPlayer;
 import edu.duke.ece651.team13.shared.player.Player;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@SpringBootApplication
 public class App {
 
     public static V1Map getMap(int playerNumber) {
@@ -37,6 +38,7 @@ public class App {
         return players;
     }
 
+    /**
     public static void main(String[] args) throws IOException {
         App a = new App();
 
@@ -55,4 +57,10 @@ public class App {
         }
         //server.closeServer();
     }
+     **/
+
+
+        public static void main(String[] args) {
+            SpringApplication.run(App.class, args);
+        }
 }
