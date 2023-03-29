@@ -1,9 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Game from "./Game";
+import './styles/App.css';
+
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import GameView from './game/GameView';
+import LoginView from './login/LoginView'
 
 function App() {
   return (
-    <Game />
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<GameView />} />
+        <Route path="/login" element={<LoginView />} />
+      </Routes>
+    </Router>
   );
 }
 

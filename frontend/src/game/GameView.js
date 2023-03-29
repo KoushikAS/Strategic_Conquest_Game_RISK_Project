@@ -1,8 +1,8 @@
 import React from "react";
-import DummyMap from "./maps/DummyMap";
+import DummyMap from "../maps/DummyMap";
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
-const Game = () => (
+const GameView = () => (
     <Container>
         <Row>
             <Col md={8}>
@@ -34,4 +34,4 @@ const Game = () => (
     </Container>
 );
 
-export default Game;
+export default GameView;
