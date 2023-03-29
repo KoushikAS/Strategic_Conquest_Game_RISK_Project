@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import { GiFruitBowl } from "react-icons/gi";
-import { RiComputerFill } from "react-icons/ri";
+import { HiOutlineDesktopComputer } from "react-icons/hi";
 
 const PlayerInfoCard = () => (
   <Card>
@@ -14,7 +14,7 @@ const PlayerInfoCard = () => (
           <p>18</p>
         </Col>
         <Col md={6}>
-          <RiComputerFill size={30} />
+          <HiOutlineDesktopComputer size={30} />
           <p>3</p>
         </Col>
       </Row>
@@ -25,6 +25,7 @@ const PlayerInfoCard = () => (
 const playerInfoCardStyles = {
   backgroundColor: "#FFCCCB",
   textAlign: "center",
+  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
 };
 
 export default PlayerInfoCard;

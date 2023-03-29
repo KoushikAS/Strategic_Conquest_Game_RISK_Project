@@ -37,7 +37,7 @@ const PlayerOrderButtons = () => (
       </Col>
     </Row>
     <Row className="text-center" style={{ marginTop: "80%" }}>
-      <Button variant="success" size="lg" block>
+      <Button variant="success" size="lg" style={{ fontWeight: "bold" }} block>
         Done
       </Button>
     </Row>
