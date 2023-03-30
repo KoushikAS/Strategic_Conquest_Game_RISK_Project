@@ -31,7 +31,7 @@ const TerritoryView = (props) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{territory.name}</Modal.Title>
+          <Modal.Title>{territory.name} owned by {territory.owner}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <TerritoryDetailView territory={territory} />
