@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server;
 
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.map.V1Map;
 
@@ -14,6 +15,10 @@ import static edu.duke.ece651.team13.server.App.getPlayers;
 
 public class MockDataUtil {
     private MockDataUtil() {
+    }
+
+    public static PlayerEntity getPlayerEntity(){
+        return  new PlayerEntity("Red");
     }
 
     public static RiscGame getMockGame(V1Map map, int noPlayers) {
@@ -54,5 +59,7 @@ public class MockDataUtil {
         oos.flush();
         return bos.toByteArray();
     }
+
+
 }
 
