@@ -1,5 +1,6 @@
 import React from "react";
 import { GiFruitBowl } from "react-icons/gi";
+import { GiSwordman } from "react-icons/gi";
 import { RiComputerFill } from "react-icons/ri";
 import { Col, Row } from "react-bootstrap";
 

@@ -1,6 +1,6 @@
 .territory {
-    width: 100px;
-    height: 100px;
+    min-width: 120px;
+    min-height: 120px;
     position: relative;
     transform-style: preserve-3d;
     perspective: 1000px;
@@ -16,10 +16,6 @@
 }
 
 .territory:hover {
-    transform: scale(1.5) ;
+    transform: scale(1.2) ;
     z-index: 1;
-}
-
-.content.hovered {
-    transform: scale(0.5);
 }

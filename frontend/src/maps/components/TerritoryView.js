@@ -4,26 +4,15 @@ import TerritoryBasicView from "./TerritoryBasicView";
 import { Container } from "react-bootstrap";
 
 const TerritoryView = (props) => {
-  const [hover, setHover] = useState(false);
   const styles = {
     backgroundColor: getTerritoryColor(props.territory.owner, false),
   };
   const territory = props.territory;
 
   return (
-    <div
-      key={territory.name}
-      className="territory"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={styles}
-    >
-      <Container >
-        {hover ? (
-          <TerritoryResouceView territory={territory} />
-        ) : (
-          <TerritoryBasicView territory={territory} />
-        )}
+    <div key={territory.name} className="territory" style={styles}>
+      <Container>
+        <TerritoryBasicView territory={territory} />
       </Container>
     </div>
   );
