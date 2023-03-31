@@ -25,7 +25,7 @@ public class MockDataUtil {
     }
 
     public static TerritoryEntity getTerritoryEntity(){
-        return  new TerritoryEntity("Labrador");
+        return  new TerritoryEntity();
     }
 
     public static AttackerEntity getAttackerEntity(TerritoryEntity territory){

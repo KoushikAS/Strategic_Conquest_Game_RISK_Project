@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server.entity;
 
+import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,37 +33,5 @@ public class TerritoryEntity {
 
     @Column(name="UNIT_NUM")
     private int unitNum;
-
-    @ManyToMany
-    private Set<TerritoryEntity> neighbours = new HashSet<>();
-
-
-    public TerritoryEntity(String name) {
-        this.name = name;
-        this.owner = null;
-        this.unitNum = 0;
-        this.neighbours = new HashSet<>();
-    }
-
-    public TerritoryEntity(String name, int unitNum) {
-        this.name = name;
-        this.owner = null;
-        this.unitNum = unitNum;
-        this.neighbours = new HashSet<>();
-    }
-
-    private TerritoryEntity(TerritoryEntity toCopy) {
-        this(toCopy.name, toCopy.owner, toCopy.unitNum);
-    }
-
-    private TerritoryEntity(String name,
-                            PlayerEntity owner,
-                            int unitNum) {
-        this.name = name;
-        this.owner = owner;
-        this.unitNum = unitNum;
-        this.neighbours = new HashSet<>();
-    }
-
 
 }
