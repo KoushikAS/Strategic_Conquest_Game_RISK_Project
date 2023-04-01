@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server;
 
 import edu.duke.ece651.team13.server.entity.AttackerEntity;
+import edu.duke.ece651.team13.server.entity.MapEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.shared.player.Player;
@@ -22,6 +23,10 @@ public class MockDataUtil {
 
     public static PlayerEntity getPlayerEntity(){
         return  new PlayerEntity("Red");
+    }
+
+    public static MapEntity getMapEntity(){
+        return new MapEntity();
     }
 
     public static TerritoryEntity getTerritoryEntity(){

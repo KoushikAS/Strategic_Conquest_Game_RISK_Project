@@ -10,13 +10,14 @@ import javax.persistence.*;
  * This class handles the information of one human player
  */
 @Entity
-@Table(name="TERRITORY")
+@Table(name="PLAYER")
 @Data
 @NoArgsConstructor
 public class PlayerEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "playerSeq")
+    @SequenceGenerator(name = "playerSeq")
     private Long Id;
 
     @Column(name="NAME", length=50, nullable=false, unique=false)

@@ -1,14 +1,9 @@
 package edu.duke.ece651.team13.server.entity;
 
-import edu.duke.ece651.team13.shared.territory.Territory;
-import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * This class handles the owner, neighbors, unit numbers
@@ -21,15 +16,20 @@ import java.util.Set;
 public class TerritoryEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "territorySeq")
+    @SequenceGenerator(name = "territorySeq")
     private Long Id;
 
     @Column(name="NAME", length=50, nullable=false, unique=false)
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "OWNER_ID", referencedColumnName = "id")
     private PlayerEntity owner;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "map_id")
+    private MapEntity map;
 
     @Column(name="UNIT_NUM")
     private int unitNum;

@@ -15,7 +15,8 @@ import javax.persistence.*;
 public class AttackerEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "attackerSeq")
+    @SequenceGenerator(name = "attackerSeq")
     private Long Id;
 
     @ManyToOne
