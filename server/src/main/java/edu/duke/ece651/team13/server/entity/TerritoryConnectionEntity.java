@@ -1,7 +1,9 @@
 package edu.duke.ece651.team13.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +19,9 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class TerritoryConnectionEntity {
 
     @Id
@@ -32,7 +37,6 @@ public class TerritoryConnectionEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "DEST_NEIGHBOUR_ID", referencedColumnName = "id")
-    @JsonBackReference
     private TerritoryEntity destinationTerritory;
 
     @Column(name = "DISTANCE")
