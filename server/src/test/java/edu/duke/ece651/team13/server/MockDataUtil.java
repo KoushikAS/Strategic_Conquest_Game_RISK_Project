@@ -1,7 +1,9 @@
 package edu.duke.ece651.team13.server;
 
+import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.map.V1Map;
+import org.checkerframework.checker.units.qual.A;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,6 +16,26 @@ import static edu.duke.ece651.team13.server.App.getPlayers;
 
 public class MockDataUtil {
     private MockDataUtil() {
+    }
+
+    public static GameEntity getGameEntity(){
+        return  new GameEntity();
+    }
+
+    public static PlayerEntity getPlayerEntity(){
+        return  new PlayerEntity("Red");
+    }
+
+    public static MapEntity getMapEntity(){
+        return new MapEntity();
+    }
+
+    public static TerritoryEntity getTerritoryEntity(){
+        return  new TerritoryEntity();
+    }
+
+    public static AttackerEntity getAttackerEntity(TerritoryEntity territory){
+        return new AttackerEntity(territory, getPlayerEntity(), 5);
     }
 
     public static RiscGame getMockGame(V1Map map, int noPlayers) {
@@ -54,5 +76,7 @@ public class MockDataUtil {
         oos.flush();
         return bos.toByteArray();
     }
+
+
 }
 

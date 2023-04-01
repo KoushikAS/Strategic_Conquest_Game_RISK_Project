@@ -15,7 +15,7 @@ services:
     image: dpage/pgadmin4
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: 568@duke.edu
+      PGADMIN_DEFAULT_EMAIL: 651@duke.edu
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
