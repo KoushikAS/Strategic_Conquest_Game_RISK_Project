@@ -5,15 +5,13 @@ import edu.duke.ece651.team13.server.entity.MapEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.repository.MapRepository;
-import edu.duke.ece651.team13.shared.map.V1Map;
-import edu.duke.ece651.team13.shared.player.Player;
-import edu.duke.ece651.team13.shared.territory.GameTerritory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

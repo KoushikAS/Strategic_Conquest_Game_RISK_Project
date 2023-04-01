@@ -2,7 +2,10 @@ package edu.duke.ece651.team13.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,7 +13,7 @@ import javax.persistence.*;
  * This class handles the information of one human player
  */
 @Entity
-@Table(name="PLAYER")
+@Table(name = "PLAYER")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,7 +21,7 @@ import javax.persistence.*;
 public class PlayerEntity {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "playerSeq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "playerSeq")
     @SequenceGenerator(name = "playerSeq")
     private Long Id;
 
@@ -27,7 +30,7 @@ public class PlayerEntity {
     @JsonBackReference
     private GameEntity game;
 
-    @Column(name="NAME", length=50, nullable=false, unique=false)
+    @Column(name = "NAME", length = 50, nullable = false, unique = false)
     private String name;
 
     @Column(name = "Status")
@@ -41,7 +44,6 @@ public class PlayerEntity {
         this.name = name;
         this.status = PlayerStatusEnum.PLAYING;
     }
-
 
 
 }

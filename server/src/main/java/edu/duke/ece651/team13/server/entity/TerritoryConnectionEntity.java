@@ -1,31 +1,23 @@
 package edu.duke.ece651.team13.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-
-/**
- * This class handles the owner, neighbors, unit numbers
- * and current attackers of the territory
- */
 @Entity
-@Table(name="TERRITORY_NEIGHBOUR_MAPPING")
+@Table(name = "TERRITORY_NEIGHBOUR_MAPPING")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class TerritoryConnectionEntity {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "territoryConnectionSeq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "territoryConnectionSeq")
     @SequenceGenerator(name = "territoryConnectionSeq")
     private Long Id;
 
@@ -34,15 +26,18 @@ public class TerritoryConnectionEntity {
     @JsonBackReference
     private TerritoryEntity sourceTerritory;
 
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "DEST_NEIGHBOUR_ID", referencedColumnName = "id")
+    @JsonBackReference
     private TerritoryEntity destinationTerritory;
+
+    @Column(name = "DEST_NEIGHBOUR_ID", insertable = false, updatable = false)
+    private Long destinationTerritoryId;
 
     @Column(name = "DISTANCE")
     private Integer distance;
 
-    public TerritoryConnectionEntity(TerritoryEntity sourceTerritory, TerritoryEntity destinationTerritory, Integer distance ){
+    public TerritoryConnectionEntity(TerritoryEntity sourceTerritory, TerritoryEntity destinationTerritory, Integer distance) {
         this.sourceTerritory = sourceTerritory;
         this.destinationTerritory = destinationTerritory;
         this.distance = distance;

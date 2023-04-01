@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class TestController {
+public class GameController {
 
     @Autowired
     private GameService gameService;

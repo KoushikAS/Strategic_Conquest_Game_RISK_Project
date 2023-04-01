@@ -11,5 +11,4 @@ import java.util.List;
 @Repository
 public interface TerritoryRepository extends CrudRepository<TerritoryEntity, Long> {
 
-    List<TerritoryEntity> findByMap(MapEntity map);
 }

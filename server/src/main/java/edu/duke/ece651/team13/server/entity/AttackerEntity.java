@@ -1,21 +1,22 @@
 package edu.duke.ece651.team13.server.entity;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-/**
- * This class handles the information of one human player
- */
 @Entity
 @Table(name = "ATTACKER")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class AttackerEntity {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "attackerSeq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attackerSeq")
     @SequenceGenerator(name = "attackerSeq")
     private Long Id;
 
@@ -30,7 +31,7 @@ public class AttackerEntity {
     @Column(name = "units")
     private Integer units;
 
-    public AttackerEntity(TerritoryEntity territory, PlayerEntity attacker, Integer units){
+    public AttackerEntity(TerritoryEntity territory, PlayerEntity attacker, Integer units) {
         this.territory = territory;
         this.attacker = attacker;
         this.units = units;

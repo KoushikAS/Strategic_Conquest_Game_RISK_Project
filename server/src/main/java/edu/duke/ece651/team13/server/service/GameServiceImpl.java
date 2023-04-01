@@ -1,12 +1,8 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.Game;
 import edu.duke.ece651.team13.server.entity.GameEntity;
-import edu.duke.ece651.team13.server.entity.MapEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.repository.GameRepository;
-import edu.duke.ece651.team13.server.repository.MapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +39,7 @@ public class GameServiceImpl implements GameService {
         //TODO: Map getting initlaized accoording to no of players
         GameEntity gameEntity = repository.save(new GameEntity());
         List<PlayerEntity> players = new ArrayList<>();
-        for(int i =0; i < no_players; i++){
+        for (int i = 0; i < no_players; i++) {
             players.add(playerService.createPlayer(playersName.get(i), gameEntity));
         }
 
