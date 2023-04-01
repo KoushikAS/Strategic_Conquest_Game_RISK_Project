@@ -1,18 +1,16 @@
 package edu.duke.ece651.team13.server.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
 import javax.persistence.*;
 
-/**
- * This class handles the owner, neighbors, unit numbers
- * and current attackers of the territory
- */
 @Entity
 @Table(name="TERRITORY")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class TerritoryEntity {
 
     @Id
@@ -28,10 +26,10 @@ public class TerritoryEntity {
     private PlayerEntity owner;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "map_id")
+    @JoinColumn(name = "MAP_ID")
+    @JsonBackReference
     private MapEntity map;
 
     @Column(name="UNIT_NUM")
     private int unitNum;
-
 }

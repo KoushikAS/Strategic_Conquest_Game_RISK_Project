@@ -28,6 +28,7 @@ public class TerritoryServiceImpl implements TerritoryService {
     public TerritoryEntity createTerritory(String name, int unitNo, MapEntity map){
         TerritoryEntity territory = new TerritoryEntity();
         territory.setMap(map);
+        map.getTerritories().add(territory);
         territory.setName(name);
         territory.setUnitNum(unitNo);
         return repository.save(territory);

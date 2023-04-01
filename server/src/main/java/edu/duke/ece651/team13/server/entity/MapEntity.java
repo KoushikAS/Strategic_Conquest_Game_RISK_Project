@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.server.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,14 +9,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * This class handles the owner, neighbors, unit numbers
- * and current attackers of the territory
- */
 @Entity
 @Table(name="MAP")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class MapEntity {
 
     @Id
@@ -24,10 +22,7 @@ public class MapEntity {
     @SequenceGenerator(name = "mapSeq")
     private Long Id;
 
-    @OneToMany(
-            mappedBy = "map",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "map", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<TerritoryEntity> territories = new ArrayList<>();
 }
