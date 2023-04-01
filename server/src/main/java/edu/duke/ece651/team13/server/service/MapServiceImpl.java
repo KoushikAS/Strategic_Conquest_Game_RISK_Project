@@ -34,14 +34,14 @@ public class MapServiceImpl implements MapService {
     }
 
     @Override
-    public MapEntity createMap(int no_players, GameEntity gameEntity, List<PlayerEntity> players) {
+    public MapEntity createMap( GameEntity gameEntity, List<PlayerEntity> players) {
         //TODO: Map getting initlaized accoording to no of players
 
         MapEntity mapEntity = repository.save(new MapEntity());
         mapEntity.setGame(gameEntity);
         gameEntity.setMap(mapEntity);
 
-        switch (no_players) {
+        switch (players.size()) {
             case 2:
             case 3:
             case 4:
