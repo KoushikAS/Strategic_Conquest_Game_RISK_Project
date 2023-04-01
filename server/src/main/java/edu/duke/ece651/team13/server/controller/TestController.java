@@ -31,14 +31,13 @@ public class TestController {
     }
 
     @GetMapping("/getMap")
-    public ResponseEntity<List<TerritoryEntity>> getMap() {
+    public ResponseEntity<MapEntity> getMap() {
 
         MapEntity mapEntity = mapService.createMap(3);
         MapEntity map = mapService.getMap(mapEntity.getId());
         log.info("Count "+ map.getTerritories());
         log.info("Count" + map.getTerritories().size());
-        List<TerritoryEntity> territoriesByMap = territoryService.getTerritoriesByMap(map);
-        return ResponseEntity.ok().body(territoriesByMap);
+        return ResponseEntity.ok().body(map);
     }
 
     @GetMapping("/getMap/{id}")

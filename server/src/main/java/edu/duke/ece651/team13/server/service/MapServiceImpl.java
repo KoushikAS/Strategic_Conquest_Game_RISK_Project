@@ -51,8 +51,8 @@ public class MapServiceImpl implements MapService {
         TerritoryEntity blue = territoryService.createTerritory("Blue", 2, mapEntity);
         TerritoryEntity yellow = territoryService.createTerritory("Yellow", 2, mapEntity);
 
-        territoryService.addNeighbour(red.getId(), blue.getId(), 5);
-        territoryService.addNeighbour(red.getId(), yellow.getId(), 5);
+        territoryService.addNeighbour(red, blue, 5);
+        territoryService.addNeighbour(red, yellow, 5);
 
         return mapEntity;
     }

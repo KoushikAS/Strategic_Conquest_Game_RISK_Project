@@ -20,7 +20,6 @@ public interface TerritoryService  {
 
   TerritoryEntity updateTerritory(Long Id, PlayerEntity owner, int unit);
 
-  void addNeighbour(Long Id1, Long Id2, Integer distance);
+  void addNeighbour(TerritoryEntity territory1, TerritoryEntity territory2, Integer distance);
 
-  List<TerritoryEntity> getTerritoriesByMap(MapEntity map);
 }

@@ -1,8 +1,8 @@
 package edu.duke.ece651.team13.server.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,7 +13,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="TERRITORY_NEIGHBOUR_MAPPING")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class TerritoryConnectionEntity {
@@ -25,11 +26,13 @@ public class TerritoryConnectionEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "SOURCE_TERRITORY_ID", referencedColumnName = "id")
+    @JsonBackReference
     private TerritoryEntity sourceTerritory;
 
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "DEST_NEIGHBOUR_ID", referencedColumnName = "id")
+    @JsonBackReference
     private TerritoryEntity destinationTerritory;
 
     @Column(name = "DISTANCE")

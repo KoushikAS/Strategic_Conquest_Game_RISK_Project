@@ -54,17 +54,11 @@ public class TerritoryServiceImpl implements TerritoryService {
     }
 
     @Override
-    public void addNeighbour(Long Id1, Long Id2, Integer distance){
-        TerritoryEntity territory1 = getTerritoriesByMap(Id1);
-        TerritoryEntity territory2 = getTerritoriesByMap(Id2);
-
-        territoryConnecitonRepository.save(new TerritoryConnectionEntity(territory2, territory1, distance));
-        territoryConnecitonRepository.save(new TerritoryConnectionEntity(territory1, territory2, distance));
-    }
-
-    @Override
-    public List<TerritoryEntity> getTerritoriesByMap(MapEntity map){
-        return repository.findByMap(map);
+    public void addNeighbour(TerritoryEntity territory1, TerritoryEntity territory2, Integer distance){
+        TerritoryConnectionEntity connection1 = territoryConnecitonRepository.save(new TerritoryConnectionEntity(territory2, territory1, distance));
+        territory1.getConnections().add(connection1);
+        TerritoryConnectionEntity connection2 = territoryConnecitonRepository.save(new TerritoryConnectionEntity(territory1, territory2, distance));
+        territory2.getConnections().add(connection2);
     }
 
 

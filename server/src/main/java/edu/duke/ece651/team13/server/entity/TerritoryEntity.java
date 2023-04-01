@@ -1,9 +1,12 @@
 package edu.duke.ece651.team13.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="TERRITORY")
@@ -21,14 +24,19 @@ public class TerritoryEntity {
     @Column(name="NAME", length=50, nullable=false, unique=false)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "OWNER_ID", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "OWNER_ID")
+    @JsonManagedReference
     private PlayerEntity owner;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MAP_ID")
     @JsonBackReference
     private MapEntity map;
+
+    @OneToMany(mappedBy = "sourceTerritory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<TerritoryConnectionEntity> connections = new ArrayList<>();
 
     @Column(name="UNIT_NUM")
     private int unitNum;

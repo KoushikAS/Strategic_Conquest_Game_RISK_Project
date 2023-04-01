@@ -1,8 +1,7 @@
 package edu.duke.ece651.team13.server.entity;
 
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,8 +10,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="PLAYER")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class PlayerEntity {
 
     @Id
@@ -34,5 +35,7 @@ public class PlayerEntity {
         this.name = name;
         this.status = PlayerStatusEnum.PLAYING;
     }
+
+
 
 }

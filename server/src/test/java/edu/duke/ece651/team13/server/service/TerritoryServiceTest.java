@@ -81,14 +81,11 @@ public class TerritoryServiceTest {
     void addNeighbourTest(){
 
         TerritoryEntity territory = getTerritoryEntity();
-        when(repository.findById(1L)).thenReturn(Optional.of(territory));
-        when(repository.findById(2L)).thenReturn(Optional.of(territory));
         when(neighbourMappingRepository.save(any(TerritoryConnectionEntity.class))).thenReturn(new TerritoryConnectionEntity());
 
-        service.addNeighbour(1L, 2L, 5);
+        service.addNeighbour(territory, territory, 5);
 
-        verify(repository, times(1)).findById(1L);
-        verify(repository, times(1)).findById(2L);
+
         verify(neighbourMappingRepository, times(2)).save(any(TerritoryConnectionEntity.class));
         verifyNoMoreInteractions(repository);
         verifyNoMoreInteractions(neighbourMappingRepository);
