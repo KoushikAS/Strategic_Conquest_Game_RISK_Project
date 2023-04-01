@@ -1,20 +1,14 @@
 package edu.duke.ece651.team13.server.controller;
 
-import edu.duke.ece651.team13.server.entity.GameEntity;
-import edu.duke.ece651.team13.server.entity.MapEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
-import edu.duke.ece651.team13.server.service.GameService;
-import edu.duke.ece651.team13.server.service.MapService;
-import edu.duke.ece651.team13.server.service.TerritoryService;
+import edu.duke.ece651.team13.server.dto.OrdersDTO;
+import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,6 +19,12 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private PlayerService playerService;
+
     @GetMapping("/")
     public String index() {
         return "Greetings from Spring Boot!";
@@ -32,21 +32,33 @@ public class GameController {
 
     @GetMapping("/createGame")
     public ResponseEntity<GameEntity> getGame() {
-
+        log.info("Received an /createGame");
         GameEntity gameEntity = gameService.createGame(3);
-
         return ResponseEntity.ok().body(gameEntity);
     }
 
     @GetMapping("/getGame/{id}")
     public ResponseEntity<GameEntity> getMap(@PathVariable("id") Long id) {
-
-
-    log.info("The id recieved" + id);
+        log.info("Received an /getGame/");
         GameEntity game = gameService.getGame(id);
-
         return ResponseEntity.ok().body(game);
     }
 
+    @PostMapping("/submitOrder")
+    public ResponseEntity<String> submitOrder(@RequestBody OrdersDTO ordersDTO){
+        log.info("Received an /submitOrder");
+        log.info("Player Id" + ordersDTO.getPlayerId());
+        orderService.validateAndAddOrders(ordersDTO);
+        return ResponseEntity.ok().body("Submitted successful");
+    }
+
+    //TODO tmp just for changing
+    @GetMapping("/getOrders/{id}")
+    public ResponseEntity<List<OrderEntity>> getOrders(@PathVariable("id") Long id) {
+        log.info("The id recieved" + id);
+        PlayerEntity player = playerService.getPlayer(id);
+        List<OrderEntity> game = orderService.getOrdersByPlayer(player);
+        return ResponseEntity.ok().body(game);
+    }
 
 }

@@ -4,13 +4,18 @@ import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class GameServiceImpl implements GameService {
 
     @Autowired
@@ -30,7 +35,8 @@ public class GameServiceImpl implements GameService {
         if (game.isPresent()) {
             return game.get();
         } else {
-            throw new NoSuchElementException();
+            log.error("Did not find Game with Id " + gameId);
+            throw new ResponseStatusException(NOT_FOUND, "Game with Id " + gameId + " does not exists");
         }
     }
 

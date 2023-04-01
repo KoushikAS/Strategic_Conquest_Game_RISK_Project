@@ -7,14 +7,19 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.repository.TerritoryConnectionRepository;
 import edu.duke.ece651.team13.server.repository.TerritoryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TerritoryServiceImpl implements TerritoryService {
 
     @Autowired
@@ -41,7 +46,8 @@ public class TerritoryServiceImpl implements TerritoryService {
         if (territory.isPresent()) {
             return territory.get();
         } else {
-            throw new NoSuchElementException();
+            log.error("Did not find Territory with Map Id " + Id);
+            throw new ResponseStatusException(NOT_FOUND, "Map with Id " + Id + " does not exists");
         }
     }
 
