@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import lombok.*;
 
@@ -20,6 +21,11 @@ public class PlayerEntity {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "playerSeq")
     @SequenceGenerator(name = "playerSeq")
     private Long Id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "GAME_ID")
+    @JsonBackReference
+    private GameEntity game;
 
     @Column(name="NAME", length=50, nullable=false, unique=false)
     private String name;

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface TerritoryService  {
 
-  TerritoryEntity createTerritory(String name, int unitNo, MapEntity map);
+  TerritoryEntity createTerritory(String name, int unitNo, MapEntity map, PlayerEntity player);
 
   TerritoryEntity getTerritoriesByMap(Long Id);
 

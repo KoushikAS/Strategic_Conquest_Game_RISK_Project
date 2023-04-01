@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server.service;
 
+import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.MapEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
@@ -24,15 +25,6 @@ public class MapServiceImpl implements MapService {
     @Autowired
     private final TerritoryService territoryService;
 
-    MapEntity getMapEntity(Long Id) {
-        Optional<MapEntity> map = repository.findById(Id);
-        if (map.isPresent()) {
-            return map.get();
-        } else {
-            throw new NoSuchElementException();
-        }
-    }
-
     @Override
     public MapEntity getMap(Long mapId) {
         Optional<MapEntity> map = repository.findById(mapId);
@@ -44,17 +36,31 @@ public class MapServiceImpl implements MapService {
     }
 
     @Override
-    public MapEntity createMap(int no_players) {
+    public MapEntity createMap(int no_players, GameEntity gameEntity, List<PlayerEntity> players) {
         //TODO: Map getting initlaized accoording to no of players
-        MapEntity mapEntity = repository.save(new MapEntity());
 
-        TerritoryEntity red = territoryService.createTerritory("Red", 5, mapEntity);
-        TerritoryEntity blue = territoryService.createTerritory("Blue", 2, mapEntity);
-        TerritoryEntity yellow = territoryService.createTerritory("Yellow", 2, mapEntity);
+        MapEntity mapEntity = repository.save(new MapEntity());
+        mapEntity.setGame(gameEntity);
+        gameEntity.setMap(mapEntity);
+
+        switch (no_players) {
+            case 2:
+            case 3:
+            case 4:
+            default:
+                createMapFor4players(mapEntity, players);
+        }
+
+        return mapEntity;
+    }
+
+    private void createMapFor4players(MapEntity mapEntity, List<PlayerEntity> players) {
+        TerritoryEntity red = territoryService.createTerritory("Lab", 5, mapEntity, players.get(0));
+        TerritoryEntity blue = territoryService.createTerritory("Boxer", 2, mapEntity, players.get(1));
+        TerritoryEntity yellow = territoryService.createTerritory("Husky", 2, mapEntity, players.get(2));
 
         territoryService.addNeighbour(red, blue, 5);
         territoryService.addNeighbour(red, yellow, 5);
 
-        return mapEntity;
     }
 }

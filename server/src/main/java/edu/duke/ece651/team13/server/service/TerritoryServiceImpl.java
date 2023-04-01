@@ -25,12 +25,13 @@ public class TerritoryServiceImpl implements TerritoryService {
     private final TerritoryConnectionRepository territoryConnecitonRepository;
 
     @Override
-    public TerritoryEntity createTerritory(String name, int unitNo, MapEntity map){
+    public TerritoryEntity createTerritory(String name, int unitNo, MapEntity map, PlayerEntity player){
         TerritoryEntity territory = new TerritoryEntity();
         territory.setMap(map);
         map.getTerritories().add(territory);
         territory.setName(name);
         territory.setUnitNum(unitNo);
+        territory.setOwner(player);
         return repository.save(territory);
     }
 

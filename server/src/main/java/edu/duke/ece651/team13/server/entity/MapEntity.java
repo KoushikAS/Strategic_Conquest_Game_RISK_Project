@@ -1,16 +1,19 @@
 package edu.duke.ece651.team13.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import edu.duke.ece651.team13.server.Game;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table(name="MAP")
+@Table(name = "MAP")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,9 +21,14 @@ import java.util.Set;
 public class MapEntity {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "mapSeq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mapSeq")
     @SequenceGenerator(name = "mapSeq")
     private Long Id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "GAME_ID")
+    @JsonBackReference
+    private GameEntity game;
 
     @OneToMany(mappedBy = "map", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference

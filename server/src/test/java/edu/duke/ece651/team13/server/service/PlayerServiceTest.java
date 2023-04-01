@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server.service;
 
+import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.repository.PlayerRepository;
 
@@ -18,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
 import static edu.duke.ece651.team13.server.MockDataUtil.getPlayerEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -54,9 +56,10 @@ public class PlayerServiceTest {
 
     @Test
     void createPlayerTest(){
+        GameEntity game = getGameEntity();
         PlayerEntity player = getPlayerEntity();
         when(repository.save(any(PlayerEntity.class))).thenReturn(player);
-        PlayerEntity actual = service.createPlayer(player.getName());
+        PlayerEntity actual = service.createPlayer(player.getName(), game);
         assertEquals(player,actual);
         verify(repository, times(1)).save(any(PlayerEntity.class));
         verifyNoMoreInteractions(repository);

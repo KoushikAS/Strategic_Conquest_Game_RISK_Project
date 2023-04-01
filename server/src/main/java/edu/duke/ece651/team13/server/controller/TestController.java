@@ -1,7 +1,9 @@
 package edu.duke.ece651.team13.server.controller;
 
+import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.MapEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.service.GameService;
 import edu.duke.ece651.team13.server.service.MapService;
 import edu.duke.ece651.team13.server.service.TerritoryService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,36 +23,29 @@ import java.util.List;
 public class TestController {
 
     @Autowired
-    private final MapService mapService;
-
-    @Autowired
-    private final TerritoryService territoryService;
+    private GameService gameService;
 
     @GetMapping("/")
     public String index() {
         return "Greetings from Spring Boot!";
     }
 
-    @GetMapping("/getMap")
-    public ResponseEntity<MapEntity> getMap() {
+    @GetMapping("/createGame")
+    public ResponseEntity<GameEntity> getGame() {
 
-        MapEntity mapEntity = mapService.createMap(3);
-        MapEntity map = mapService.getMap(mapEntity.getId());
-        log.info("Count "+ map.getTerritories());
-        log.info("Count" + map.getTerritories().size());
-        return ResponseEntity.ok().body(map);
+        GameEntity gameEntity = gameService.createGame(3);
+
+        return ResponseEntity.ok().body(gameEntity);
     }
 
-    @GetMapping("/getMap/{id}")
-    public ResponseEntity<MapEntity> getMap(@PathVariable("id") Long id) {
+    @GetMapping("/getGame/{id}")
+    public ResponseEntity<GameEntity> getMap(@PathVariable("id") Long id) {
 
 
     log.info("The id recieved" + id);
-        MapEntity map = mapService.getMap(id);
-        log.info("Count "+ map.getTerritories());
-        log.info("Count" + map.getTerritories().size());
+        GameEntity game = gameService.getGame(id);
 
-        return ResponseEntity.ok().body(map);
+        return ResponseEntity.ok().body(game);
     }
 
 
