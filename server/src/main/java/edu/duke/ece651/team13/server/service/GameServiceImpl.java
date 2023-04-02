@@ -36,7 +36,6 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public GameEntity createGame(int no_players) {
-        //TODO: Map getting initlaized accoording to no of players
         GameEntity gameEntity = repository.save(new GameEntity());
         List<PlayerEntity> players = new ArrayList<>();
         for (int i = 0; i < no_players; i++) {
