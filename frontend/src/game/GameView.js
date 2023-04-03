@@ -35,7 +35,6 @@ const GameView = () => {
       <Row>
         <Col md={9}>
           <GameBanner />
-          <br />
           <Map game={game} />
         </Col>
         <Col md={3}>

@@ -1,12 +1,27 @@
 import React from "react";
 import "../styles/Map.css";
 import Map3Players from "./components/Map3Players";
+import map2PlayersBg from "./images/Map2Players.png";
 import map3PlayersBg from "./images/Map3Players.png";
+import map4PlayersBg from "./images/Map4Players.png";
 
 const Map = (props) => {
   const territories = props.game.map.territories;
+  const playerNum = props.game.players.length;
+
+  const getBgImg = (playerNum) => {
+    switch (playerNum) {
+      case 2:
+        return `url(${map2PlayersBg})`;
+      case 3:
+        return `url(${map3PlayersBg})`;
+      default:
+        return `url(${map4PlayersBg})`;
+    }
+  }
+
   const backgroundStyles = {
-    backgroundImage: `url(${map3PlayersBg})`,
+    backgroundImage: getBgImg(playerNum),
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundSize: "120%",
