@@ -6,7 +6,7 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 
 public interface TerritoryService {
 
-    TerritoryEntity createTerritory(String name, int unitNo, MapEntity map, PlayerEntity player);
+    TerritoryEntity createTerritory(String name, int unitNo, MapEntity map, PlayerEntity player, int foodProduction, int techProduction);
 
     TerritoryEntity getTerritoriesByMap(Long Id);
 
