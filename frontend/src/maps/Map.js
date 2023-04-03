@@ -1,6 +1,23 @@
 import React from "react";
 import "../styles/Map.css";
-import TerritoryView from "./components/TerritoryView";
+import Map3Players from "./components/Map3Players";
+import map3PlayersBg from "./images/Map3Players.png";
+
+const Map = (props) => {
+  const territories = props.game.map.territories;
+  const backgroundStyles = {
+    backgroundImage: `url(${map3PlayersBg})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundSize: "120%",
+    backgroundPosition: "50% 50%",
+  };
+  return (
+    <div style={backgroundStyles}>
+      <Map3Players territories={territories} />
+    </div>
+  );
+};
 
 const dummyTerritories = [
   {
@@ -172,16 +189,5 @@ const dummyTerritories = [
     units: { basic: 4, infantry: 9, cavalry: 8, artillery: 3 },
   },
 ];
-
-const Map = (props) => {
-  const territories = props.game.map.territories;
-  return (
-    <div style={{ display: "flex", flexWrap: "wrap" }}>
-      {territories.map((territory) => (
-        <TerritoryView key={territory.name} territory={territory} />
-      ))}
-    </div>
-  );
-};
 
 export default Map;

@@ -15,7 +15,7 @@ const TerritoryBasicView = (props) => {
   };
 
   return (
-    <div>
+    <div style={{fontSize: "12px"}}>
       <div
         className="text-center"
         style={{ margin: "0.8rem", fontSize: "18px" }}
@@ -25,13 +25,13 @@ const TerritoryBasicView = (props) => {
 
       <Row className="text-center">
         <Col md={4}>
-          <GiSwordman size={25} />
+          <GiSwordman size={20} />
         </Col>
         <Col md={4}>
-          <GiFruitBowl size={25} />
+          <GiFruitBowl size={20} />
         </Col>
         <Col md={4}>
-          <HiOutlineDesktopComputer size={25} />
+          <HiOutlineDesktopComputer size={20} />
         </Col>
       </Row>
       <Row className="text-center">
