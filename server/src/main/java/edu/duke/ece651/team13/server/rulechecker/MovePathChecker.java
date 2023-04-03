@@ -1,6 +1,8 @@
 package edu.duke.ece651.team13.server.rulechecker;
 
+import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.order.Order;
+import edu.duke.ece651.team13.server.util.GraphUtill;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.util.HashSet;
@@ -21,6 +23,14 @@ public class MovePathChecker extends RuleChecker{
         return null;
     }
 
+    @Override
+    protected String checkMyRule(OrderEntity order) {
+        if(!GraphUtill.hasPath(order.getSource(), order.getDestination())){
+            return "Invalid move order: There is not a valid path between the src and dst.";
+        }
+        return null;
+    }
+
     /**
      * Do a DFS from the source territory to find a path to the destination
      * Skip the paths where the owner is not the owner of source
@@ -33,6 +43,5 @@ public class MovePathChecker extends RuleChecker{
         DFS(source, visited, source.getOwner());
 
         return visited.contains(destination);
-
     }
 }

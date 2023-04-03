@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server.rulechecker;
 
+import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.order.Order;
 
 public abstract class RuleChecker {
@@ -36,4 +37,6 @@ public abstract class RuleChecker {
         //if there are no more rules, then the placement is legal
         return null;
     }
+
+    protected abstract String checkMyRule(OrderEntity order);
 }
