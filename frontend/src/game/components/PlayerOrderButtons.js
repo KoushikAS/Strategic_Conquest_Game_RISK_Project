@@ -1,48 +1,67 @@
 import React from "react";
 import { Row, Col, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-const PlayerOrderButtons = () => (
-  <>
-    <Row className="text-center">
-      <Col md={6}>
-        <Button className="rounded-circle" style={moveButtonStyles} size="lg">
-          Move
-        </Button>
-      </Col>
-      <Col md={6}>
-        <Button className="rounded-circle" style={attackButtonStyles} size="lg">
-          Attack
-        </Button>
-      </Col>
-    </Row>
-    <br />
-    <Row className="text-center">
-      <Col md={6}>
+const PlayerOrderButtons = () => {
+  const navigate = useNavigate();
+
+  const handleAttack = () => {
+    navigate("/attack");
+  };
+
+  return (
+    <>
+      <Row className="text-center">
+        <Col md={6}>
+          <Button className="rounded-circle" style={moveButtonStyles} size="lg">
+            Move
+          </Button>
+        </Col>
+        <Col md={6}>
+          <Button
+            onClick={handleAttack}
+            className="rounded-circle"
+            style={attackButtonStyles}
+            size="lg"
+          >
+            Attack
+          </Button>
+        </Col>
+      </Row>
+      <br />
+      <Row className="text-center">
+        <Col md={6}>
+          <Button
+            className="rounded-circle"
+            style={researchButtonStyles}
+            size="lg"
+          >
+            Research
+          </Button>
+        </Col>
+        <Col md={6}>
+          <Button
+            className="rounded-circle"
+            style={upgradeButtonStyles}
+            size="lg"
+          >
+            Upgrade
+          </Button>
+        </Col>
+      </Row>
+      <Row className="text-center" style={{ marginTop: "80%" }}>
         <Button
-          className="rounded-circle"
-          style={researchButtonStyles}
+          variant="success"
           size="lg"
+          style={{ fontWeight: "bold" }}
+          block
         >
-          Research
+          Done
         </Button>
-      </Col>
-      <Col md={6}>
-        <Button
-          className="rounded-circle"
-          style={upgradeButtonStyles}
-          size="lg"
-        >
-          Upgrade
-        </Button>
-      </Col>
-    </Row>
-    <Row className="text-center" style={{ marginTop: "80%" }}>
-      <Button variant="success" size="lg" style={{ fontWeight: "bold" }} block>
-        Done
-      </Button>
-    </Row>
-  </>
-);
+      </Row>
+    </>
+  );
+};
 
 const orderButtonStyles = {
   height: "4rem",

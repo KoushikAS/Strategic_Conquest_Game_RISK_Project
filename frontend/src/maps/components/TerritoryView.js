@@ -15,24 +15,30 @@ const TerritoryView = (props) => {
     backgroundColor: getTerritoryColor(territory.owner.name, false),
     cursor: "pointer",
   };
-  
+
+  const handleClick = (e) => {
+    console.log(e.target);
+    props.handleSource(territory);
+  };
 
   return (
     <>
       <div
         key={territory.name}
-        onClick={handleShow}
+        onClick={props.handleSource ? handleClick : handleShow}
         className="territory"
         style={styles}
       >
-        <Container>
-          <TerritoryBasicView territory={territory} />
+        <Container key={territory}>
+          <TerritoryBasicView key={territory} territory={territory} />
         </Container>
       </div>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{territory.name} owned by {territory.owner.name}</Modal.Title>
+          <Modal.Title>
+            {territory.name} owned by {territory.owner.name}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <TerritoryDetailView territory={territory} />
