@@ -10,11 +10,12 @@ const TerritoryView = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const territory = props.territory;
   const styles = {
-    backgroundColor: getTerritoryColor(props.territory.owner, false),
+    backgroundColor: getTerritoryColor(territory.owner.name, false),
     cursor: "pointer",
   };
-  const territory = props.territory;
+  
 
   return (
     <>
@@ -31,7 +32,7 @@ const TerritoryView = (props) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{territory.name} owned by {territory.owner}</Modal.Title>
+          <Modal.Title>{territory.name} owned by {territory.owner.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <TerritoryDetailView territory={territory} />

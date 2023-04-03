@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/Map.css";
 import TerritoryView from "./components/TerritoryView";
 
-const territories = [
+const dummyTerritories = [
   {
     name: "Rottweiler",
     owner: "Green",
@@ -173,12 +173,15 @@ const territories = [
   },
 ];
 
-const DummyMap = () => (
-  <div style={{ display: "flex", flexWrap: "wrap" }}>
-    {territories.map((territory) => (
-      <TerritoryView territory={territory} />
-    ))}
-  </div>
-);
+const Map = (props) => {
+  const territories = props.game.map.territories;
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap" }}>
+      {territories.map((territory) => (
+        <TerritoryView key={territory.name} territory={territory} />
+      ))}
+    </div>
+  );
+};
 
-export default DummyMap;
+export default Map;

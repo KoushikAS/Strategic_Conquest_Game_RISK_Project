@@ -5,10 +5,11 @@ import { GiSwordman } from "react-icons/gi";
 import { Col, Row } from "react-bootstrap";
 
 const TerritoryBasicView = (props) => {
+  const territory = props.territory;
   const getTotalUnits = () => {
     let totalUnits = 0;
-    for (let key in props.territory.units) {
-      totalUnits += props.territory.units[key];
+    for (let key in territory.units) {
+      totalUnits += territory.units[key];
     }
     return totalUnits;
   };
@@ -19,7 +20,7 @@ const TerritoryBasicView = (props) => {
         className="text-center"
         style={{ margin: "0.8rem", fontSize: "18px" }}
       >
-        {props.territory.name}
+        {territory.name}
       </div>
 
       <Row className="text-center">
@@ -34,9 +35,11 @@ const TerritoryBasicView = (props) => {
         </Col>
       </Row>
       <Row className="text-center">
-        <Col md={4}>{getTotalUnits()}</Col>
-        <Col md={4}>+{props.territory.foodGenNum}</Col>
-        <Col md={4}>+{props.territory.techGenNum}</Col>
+        <Col md={4}>{territory.unitNum}</Col>
+        <Col md={4}>+{5}</Col>
+        <Col md={4}>+{6}</Col>
+        {/* <Col md={4}>+{territory.foodGenNum}</Col>
+        <Col md={4}>+{territory.techGenNum}</Col> */}
       </Row>
     </div>
   );
