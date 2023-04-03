@@ -21,16 +21,18 @@ public class TerritoryServiceImpl implements TerritoryService {
     private final TerritoryRepository repository;
 
     @Autowired
-    private final TerritoryConnectionRepository territoryConnecitonRepository;
+    private final TerritoryConnectionRepository territoryConnectionRepository;
 
     @Override
-    public TerritoryEntity createTerritory(String name, int unitNo, MapEntity map, PlayerEntity player) {
+    public TerritoryEntity createTerritory(String name, int unitNo, MapEntity map, PlayerEntity player, int foodProduction, int techProduction) {
         TerritoryEntity territory = new TerritoryEntity();
         territory.setMap(map);
         map.getTerritories().add(territory);
         territory.setName(name);
         territory.setUnitNum(unitNo);
         territory.setOwner(player);
+        territory.setFoodProduction(foodProduction);
+        territory.setTechProduction(techProduction);
         return repository.save(territory);
     }
 
@@ -55,9 +57,9 @@ public class TerritoryServiceImpl implements TerritoryService {
 
     @Override
     public void addNeighbour(TerritoryEntity territory1, TerritoryEntity territory2, Integer distance) {
-        TerritoryConnectionEntity connection1 = territoryConnecitonRepository.save(new TerritoryConnectionEntity(territory2, territory1, distance));
+        TerritoryConnectionEntity connection1 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory2, territory1, distance));
         territory1.getConnections().add(connection1);
-        TerritoryConnectionEntity connection2 = territoryConnecitonRepository.save(new TerritoryConnectionEntity(territory1, territory2, distance));
+        TerritoryConnectionEntity connection2 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory1, territory2, distance));
         territory2.getConnections().add(connection2);
     }
 

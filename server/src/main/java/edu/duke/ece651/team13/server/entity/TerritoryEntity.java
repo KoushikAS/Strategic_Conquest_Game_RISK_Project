@@ -42,4 +42,10 @@ public class TerritoryEntity {
 
     @Column(name = "UNIT_NUM")
     private int unitNum;
+
+    @Column(name = "FOOD_PRODUCTION")
+    private int foodProduction;
+
+    @Column(name = "TECH_PRODUCTION")
+    private int techProduction;
 }

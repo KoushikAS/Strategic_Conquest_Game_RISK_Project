@@ -58,7 +58,7 @@ public class TerritoryServiceTest {
         PlayerEntity player = getPlayerEntity();
         TerritoryEntity territory = getTerritoryEntity();
         when(repository.save(any(TerritoryEntity.class))).thenReturn(territory);
-        TerritoryEntity actual = service.createTerritory(territory.getName(), territory.getUnitNum(), map, player);
+        TerritoryEntity actual = service.createTerritory(territory.getName(), territory.getUnitNum(), map, player, 50, 50);
         assertEquals(territory,actual);
         verify(repository, times(1)).save(any(TerritoryEntity.class));
         verifyNoMoreInteractions(repository);
