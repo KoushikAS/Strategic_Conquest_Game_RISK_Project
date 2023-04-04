@@ -10,11 +10,16 @@ const TerritoryView = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const territory = props.territory;
   const styles = {
-    backgroundColor: getTerritoryColor(props.territory.owner, false),
+    backgroundColor: getTerritoryColor(territory.owner.name, false),
     cursor: "pointer",
   };
-  const territory = props.territory;
+
+  const handleClick = (e) => {
+    console.log(e.target);
+    props.handleSource(territory);
+  };
 
   return (
     <>
@@ -25,13 +30,19 @@ const TerritoryView = (props) => {
         style={styles}
       >
         <Container>
-          <TerritoryBasicView territory={territory} />
+          <TerritoryBasicView
+            handleSource={props.handleSource}
+            handleClose={handleClose}
+            territory={territory}
+          />
         </Container>
       </div>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{territory.name} owned by {territory.owner}</Modal.Title>
+          <Modal.Title>
+            {territory.name} owned by {territory.owner.name}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <TerritoryDetailView territory={territory} />

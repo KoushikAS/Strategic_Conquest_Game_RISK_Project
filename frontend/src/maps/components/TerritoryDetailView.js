@@ -14,7 +14,8 @@ const TerritoryDetailView = (props) => {
           <GiSwordman size={iconSize} />
         </Col>
         <Col md={4}>Basic Units</Col>
-        <Col md={4}>{props.territory.units.basic}</Col>
+        {/* <Col md={4}>{props.territory.units.basic}</Col> */}
+        <Col md={4}>1</Col>
       </Row>
 
       <Row className="text-center" style={rowStyles}>
@@ -22,7 +23,8 @@ const TerritoryDetailView = (props) => {
           <GiSwordwoman size={iconSize} />
         </Col>
         <Col md={4}>Infantry Units</Col>
-        <Col md={4}>{props.territory.units.infantry}</Col>
+        {/* <Col md={4}>{props.territory.units.infantry}</Col> */}
+        <Col md={4}>2</Col>
       </Row>
 
       <Row className="text-center" style={rowStyles}>
@@ -30,7 +32,8 @@ const TerritoryDetailView = (props) => {
           <GiBowman size={iconSize} />
         </Col>
         <Col md={4}>Cavalry Units</Col>
-        <Col md={4}>{props.territory.units.cavalry}</Col>
+        {/* <Col md={4}>{props.territory.units.cavalry}</Col> */}
+        <Col md={4}>3</Col>
       </Row>
 
       <Row className="text-center" style={rowStyles}>
@@ -38,7 +41,8 @@ const TerritoryDetailView = (props) => {
           <GiCaveman size={iconSize} />
         </Col>
         <Col md={4}>Artillery Units</Col>
-        <Col md={4}>{props.territory.units.artillery}</Col>
+        {/* <Col md={4}>{props.territory.units.artillery}</Col> */}
+        <Col md={4}>4</Col>
       </Row>
     </div>
   );

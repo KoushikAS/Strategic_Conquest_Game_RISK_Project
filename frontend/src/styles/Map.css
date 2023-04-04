@@ -1,6 +1,6 @@
 .territory {
-    min-width: 120px;
-    min-height: 120px;
+    min-width: 100px;
+    min-height: 100px;
     position: relative;
     transform-style: preserve-3d;
     perspective: 1000px;
@@ -8,11 +8,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     margin: 0.5rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     transition: all 0.15s ease-in-out;
+    border-radius: 20%;
 }
 
 .territory:hover {

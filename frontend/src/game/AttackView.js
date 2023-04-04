@@ -6,9 +6,11 @@ import PlayerOrderButtons from "./components/PlayerOrderButtons";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
-const GameView = () => {
+const AttackView = () => {
   const [game, setGame] = React.useState();
   const [isLoading, setIsLoading] = React.useState(true);
+  const [sourceTerritory, setSourceTerritory] = React.useState();
+  const [targetTerritory, setTargetTerritory] = React.useState();
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -22,7 +24,7 @@ const GameView = () => {
       } catch (error) {
         console.log(error);
       }
-    }
+    };
     fetchGame();
   }, []);
 
@@ -30,21 +32,23 @@ const GameView = () => {
     return <div>Loading...</div>;
   }
 
+  const currentView = sourceTerritory ? "attack-to" : "attack-from";
+
   return (
     <Container>
       <Row>
         <Col md={9}>
-          <GameBanner view="home" />
-          <Map game={game} />
+          <GameBanner view={currentView} />
+          <Map game={game} handleSource={setSourceTerritory} />
         </Col>
         <Col md={3}>
           <PlayerInfoCard />
           <br />
-          <PlayerOrderButtons />
+          <div>{sourceTerritory}</div>
         </Col>
       </Row>
     </Container>
   );
 };
 
-export default GameView;
+export default AttackView;
