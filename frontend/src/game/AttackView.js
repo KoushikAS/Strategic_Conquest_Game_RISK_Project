@@ -44,6 +44,7 @@ const AttackView = () => {
         <Col md={3}>
           <PlayerInfoCard />
           <br />
+          <div>{sourceTerritory}</div>
         </Col>
       </Row>
     </Container>

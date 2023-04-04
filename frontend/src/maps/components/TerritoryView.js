@@ -25,12 +25,16 @@ const TerritoryView = (props) => {
     <>
       <div
         key={territory.name}
-        onClick={props.handleSource ? handleClick : handleShow}
+        onClick={handleShow}
         className="territory"
         style={styles}
       >
-        <Container key={territory}>
-          <TerritoryBasicView key={territory} territory={territory} />
+        <Container>
+          <TerritoryBasicView
+            handleSource={props.handleSource}
+            handleClose={handleClose}
+            territory={territory}
+          />
         </Container>
       </div>
 

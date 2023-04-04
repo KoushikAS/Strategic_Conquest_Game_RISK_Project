@@ -14,10 +14,20 @@ const TerritoryBasicView = (props) => {
     return totalUnits;
   };
 
+  const handleClick = (e) => {
+    // stop propagation if attacking
+    if (props.handleSource) {
+      e.stopPropagation();
+    }
+    console.log(e.target.innerText);
+    props.handleSource(e.target.innerText);
+  };
+
   return (
     <div style={{fontSize: "12px"}}>
       <div
         className="text-center"
+        onClick={handleClick}
         style={{ margin: "0.8rem", fontSize: "18px" }}
       >
         {territory.name}
