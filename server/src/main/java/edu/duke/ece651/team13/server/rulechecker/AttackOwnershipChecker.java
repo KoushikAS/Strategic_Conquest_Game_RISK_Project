@@ -21,5 +21,6 @@ public class AttackOwnershipChecker extends RuleChecker {
         if (order.getDestination().getOwner() == order.getPlayer()) {
             throw new IllegalArgumentException( "Invalid attack order: The destination territory cannot be owned by you.");
         }
+
     }
 }
