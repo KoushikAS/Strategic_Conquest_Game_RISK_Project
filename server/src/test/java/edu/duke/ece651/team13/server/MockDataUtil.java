@@ -1,10 +1,14 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.server.entity.*;
-import edu.duke.ece651.team13.shared.player.Player;
+import edu.duke.ece651.team13.server.entity.AttackerEntity;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.MapEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
+import edu.duke.ece651.team13.server.entity.UserEntity;
 import edu.duke.ece651.team13.shared.map.V1Map;
-import edu.duke.ece651.team13.shared.territory.Territory;
-import org.checkerframework.checker.units.qual.A;
+import edu.duke.ece651.team13.shared.player.Player;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -24,6 +28,10 @@ public class MockDataUtil {
         GameEntity game =  new GameEntity();
         game.setMap(getMapEntity());
         return game;
+    }
+
+    public static UserEntity getUserEntity(){
+        return new UserEntity();
     }
 
     public static PlayerEntity getPlayerEntity(){
