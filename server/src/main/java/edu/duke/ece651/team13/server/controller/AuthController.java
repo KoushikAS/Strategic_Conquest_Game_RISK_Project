@@ -68,7 +68,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request){
-        String errorMesg = "Invalid email or password";
         try{
             Authentication authentication = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
