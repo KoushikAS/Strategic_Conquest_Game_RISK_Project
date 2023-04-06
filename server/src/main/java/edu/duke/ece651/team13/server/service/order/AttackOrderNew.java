@@ -31,8 +31,10 @@ public class AttackOrderNew implements OrderFactory{
     }
 
     public void executeLocally(TerritoryEntity sourceTerritoryEntity, TerritoryEntity destinationTerritoryEntity , int unitNo ) {
-        int sourceUnitNum = sourceTerritoryEntity.getUnitNum() - unitNo;
-        sourceTerritoryEntity.setUnitNum(sourceUnitNum);
+        //TODO remove correct unit type
+        if (unitNo > 0) {
+            sourceTerritoryEntity.getUnits().subList(0, unitNo).clear();
+        }
     }
 
 }
