@@ -51,7 +51,7 @@ class AttackOrderTest {
 
         service.validateAndExecuteLocally(order, game);
 
-        assertEquals(5, game.getMap().getTerritories().get(0).getUnitNum());
+        assertEquals(5, game.getMap().getTerritories().get(0).getUnits().size());
     }
 
 

@@ -44,7 +44,9 @@ public class MockDataUtil {
 
     public static TerritoryEntity getTerritoryEntity(){
         TerritoryEntity territory = new TerritoryEntity();
-        territory.setUnitNum(10);
+        for(int i=0; i < 10; i++) {
+            territory.getUnits().add(getUnitEntity());
+        }
         return territory;
     }
 
