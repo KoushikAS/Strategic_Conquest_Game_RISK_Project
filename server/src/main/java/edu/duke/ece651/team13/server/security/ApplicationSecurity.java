@@ -3,6 +3,8 @@ package edu.duke.ece651.team13.server.security;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.duke.ece651.team13.server.repository.UserRepository;
+import edu.duke.ece651.team13.server.service.UserServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,15 +24,7 @@ public class ApplicationSecurity {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return userRepo.findByEmail(username)
-                        .orElseThrow(
-                                () -> new UsernameNotFoundException("User " + username + " not found"));
-            }
-        };
+        return new UserServiceImpl(userRepo);
     }
 
     @Bean
