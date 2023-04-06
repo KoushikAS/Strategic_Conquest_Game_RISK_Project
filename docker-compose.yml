@@ -16,7 +16,7 @@ services:
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: 651@duke.edu
-      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_DEFAULT_PASSWORD: 651651651
     ports:
       - "5050:80"
     depends_on:
