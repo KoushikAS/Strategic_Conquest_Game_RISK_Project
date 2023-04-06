@@ -96,12 +96,5 @@ public class OrderServiceImpl implements OrderService {
         for(OrderEntity order: orderEntityList){
             repository.save(order);
         }
-
-        //Add Attackers to the List
-        for (OrderEntity order: orderEntityList){
-            if (order.getOrderType().equals(ATTACK)) {
-                attackerService.addAttacker(order.getDestination(), order.getPlayer(), order.getUnitNum());
-            }
-        }
     }
 }
