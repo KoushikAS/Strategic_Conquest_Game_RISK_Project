@@ -5,10 +5,9 @@ package edu.duke.ece651.team13.shared.enums;
  * This class contains enum for mapping between different types of orders
  */
 public enum OrderMappingEnum {
-    MOVE("M"),
-    ATTACK("A"),
-    DONE("D"),
-    INITIALISE("I");
+    MOVE("MOVE"),
+    ATTACK("ATTACK"),
+    DONE("DONE");
 
     private final String value;
     OrderMappingEnum(String value) {

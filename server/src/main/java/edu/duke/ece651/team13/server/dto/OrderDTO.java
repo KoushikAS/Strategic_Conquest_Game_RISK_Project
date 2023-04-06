@@ -15,4 +15,5 @@ public class OrderDTO {
     private Long destinationTerritoryId;
     //TODO Update to indicate type of units and add value
     private int units;
+    private String orderType;
 }

@@ -9,6 +9,7 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
 import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
 import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
+import edu.duke.ece651.team13.shared.enums.OrderMappingEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
             OrderEntity orderEntity = new OrderEntity();
             orderEntity.setPlayer(player);
-            orderEntity.setOrderType(MOVE);
+            orderEntity.setOrderType(OrderMappingEnum.findByValue(orderDTO.getOrderType()));
             orderEntity.setSource(source.get());
             orderEntity.setDestination(destination.get());
             orderEntity.setUnitNum(orderDTO.getUnits());
