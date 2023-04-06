@@ -1,15 +1,22 @@
 package edu.duke.ece651.team13.server.controller;
 
 import edu.duke.ece651.team13.server.dto.OrdersDTO;
-import edu.duke.ece651.team13.server.entity.*;
-import edu.duke.ece651.team13.server.service.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.service.GameService;
+import edu.duke.ece651.team13.server.service.OrderService;
+import edu.duke.ece651.team13.server.service.PlayerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,11 +52,16 @@ public class GameController {
     }
 
     @PostMapping("/submitOrder")
-    public ResponseEntity<String> submitOrder(@RequestBody OrdersDTO ordersDTO){
+    public ResponseEntity<String> submitOrder(
+            @RequestBody OrdersDTO ordersDTO) {
         log.info("Received an /submitOrder");
         log.info("Player Id" + ordersDTO.getPlayerId());
-        orderService.validateAndAddOrders(ordersDTO);
-        return ResponseEntity.ok().body("Submitted successful");
+        try {
+            orderService.validateAndAddOrders(ordersDTO);
+            return ResponseEntity.ok().body("Submitted successful");
+        } catch (IllegalAccessException e) {
+            throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
+        }
     }
 
     //TODO tmp just for changing

@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.server.order;
 
 import edu.duke.ece651.team13.server.entity.*;
-import edu.duke.ece651.team13.server.service.AttackOrderNew;
+import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

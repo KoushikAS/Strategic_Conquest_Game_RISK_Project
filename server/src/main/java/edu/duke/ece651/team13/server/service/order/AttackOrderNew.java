@@ -1,4 +1,4 @@
-package edu.duke.ece651.team13.server.service;
+package edu.duke.ece651.team13.server.service.order;
 
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
