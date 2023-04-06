@@ -34,6 +34,10 @@ public class MockDataUtil {
         return  new TerritoryEntity();
     }
 
+    public static UnitEntity getUnitEntity(){
+        return  new UnitEntity();
+    }
+
     public static AttackerEntity getAttackerEntity(TerritoryEntity territory){
         return new AttackerEntity(territory, getPlayerEntity(), 5);
     }

@@ -40,12 +40,13 @@ public class TerritoryEntity {
     @OneToMany(mappedBy = "sourceTerritory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TerritoryConnectionEntity> connections = new ArrayList<>();
 
-    @Column(name = "UNIT_NUM")
-    private int unitNum;
-
     @Column(name = "FOOD_PRODUCTION")
     private int foodProduction;
 
     @Column(name = "TECH_PRODUCTION")
     private int techProduction;
+
+    @OneToMany(mappedBy = "territory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<UnitEntity> units = new ArrayList<>();
 }

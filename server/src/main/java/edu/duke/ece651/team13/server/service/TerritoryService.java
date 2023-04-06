@@ -6,11 +6,11 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 
 public interface TerritoryService {
 
-    TerritoryEntity createTerritory(String name, int unitNo, MapEntity map, PlayerEntity player, int foodProduction, int techProduction);
+    TerritoryEntity createTerritory(String name, MapEntity map, PlayerEntity player, int foodProduction, int techProduction);
 
     TerritoryEntity getTerritoriesByMap(Long Id);
 
-    TerritoryEntity updateTerritory(Long Id, PlayerEntity owner, int unit);
+    TerritoryEntity updateTerritoryOwner(Long Id, PlayerEntity owner);
 
     void addNeighbour(TerritoryEntity territory1, TerritoryEntity territory2, Integer distance);
 

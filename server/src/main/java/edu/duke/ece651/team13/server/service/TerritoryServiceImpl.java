@@ -24,12 +24,11 @@ public class TerritoryServiceImpl implements TerritoryService {
     private final TerritoryConnectionRepository territoryConnectionRepository;
 
     @Override
-    public TerritoryEntity createTerritory(String name, int unitNo, MapEntity map, PlayerEntity player, int foodProduction, int techProduction) {
+    public TerritoryEntity createTerritory(String name, MapEntity map, PlayerEntity player, int foodProduction, int techProduction) {
         TerritoryEntity territory = new TerritoryEntity();
         territory.setMap(map);
         map.getTerritories().add(territory);
         territory.setName(name);
-        territory.setUnitNum(unitNo);
         territory.setOwner(player);
         territory.setFoodProduction(foodProduction);
         territory.setTechProduction(techProduction);
@@ -48,10 +47,9 @@ public class TerritoryServiceImpl implements TerritoryService {
     }
 
     @Override
-    public TerritoryEntity updateTerritory(Long Id, PlayerEntity owner, int unit) {
+    public TerritoryEntity updateTerritoryOwner(Long Id, PlayerEntity owner) {
         TerritoryEntity territory = getTerritoriesByMap(Id);
         territory.setOwner(owner);
-        territory.setUnitNum(unit);
         return repository.save(territory);
     }
 
@@ -62,6 +60,5 @@ public class TerritoryServiceImpl implements TerritoryService {
         TerritoryConnectionEntity connection2 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory1, territory2, distance));
         territory2.getConnections().add(connection2);
     }
-
 
 }
