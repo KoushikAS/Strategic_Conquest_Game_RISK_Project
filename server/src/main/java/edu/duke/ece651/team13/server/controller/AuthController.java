@@ -7,7 +7,6 @@ import edu.duke.ece651.team13.shared.auth.LoginRequest;
 import edu.duke.ece651.team13.shared.auth.LoginResponse;
 import edu.duke.ece651.team13.shared.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,6 @@ import java.util.Map;
  */
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 public class AuthController {
     @Autowired
     private UserService userService;
@@ -36,14 +35,8 @@ public class AuthController {
     AuthenticationManager authManager;
     @Autowired
     JwtTokenUtil jwtUtil;
-
-    /**
-     * Handler method to handle home page request
-     */
-    @GetMapping("/")
-    public String index() {
-        return "Greetings from Spring Boot!";
-    }
+    @Autowired
+    final BCryptPasswordEncoder passwordEncoder;
 
     /**
      * Registers a new user with the given user input.
@@ -62,7 +55,7 @@ public class AuthController {
         }
 
         // register the new user
-        UserEntity savedUser = userService.createUser(registerRequest);
+        UserEntity savedUser = userService.createUser(registerRequest.getFullName(), registerRequest.getEmail(), passwordEncoder.encode(registerRequest.getPassword()));
 
         // create a response map with the success message and user ID
         Map<String, Object> response = new HashMap<>();

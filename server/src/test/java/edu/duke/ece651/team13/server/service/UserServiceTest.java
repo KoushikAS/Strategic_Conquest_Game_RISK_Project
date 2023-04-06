@@ -34,7 +34,7 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new UserServiceImpl(repository, new BCryptPasswordEncoder());
+        service = new UserServiceImpl(repository);
     }
 
     @Test

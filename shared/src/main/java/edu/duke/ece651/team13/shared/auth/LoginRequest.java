@@ -9,6 +9,11 @@ public class LoginRequest {
 
     private String password;
 
+    /**
+     * Default constructor needed in order that the spring can deserialize this object
+     */
+    public LoginRequest(){}
+
     public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;

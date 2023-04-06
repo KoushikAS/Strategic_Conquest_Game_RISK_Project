@@ -10,14 +10,6 @@ public interface UserService {
     UserEntity createUser(String fullName, String email, String password);
 
     /**
-     * This method creates a new User entity from a userInput object
-     *
-     * @param registerRequest
-     * @return
-     */
-    UserEntity createUser(RegisterRequest registerRequest);
-
-    /**
      * This method finds a user in the database by their id
      *
      * @return the corresponding UserEntity if it exists,
@@ -43,6 +35,4 @@ public interface UserService {
     String isUserPresent(RegisterRequest registerRequest);
 
     UserEntity updateUserPassword(Long id, String password);
-
-    boolean matchesPassword(String rawPassword, String encodedPassword);
 }

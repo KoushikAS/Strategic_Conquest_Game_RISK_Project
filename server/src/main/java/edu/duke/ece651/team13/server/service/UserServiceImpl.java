@@ -20,26 +20,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     final UserRepository repository;
 
-    @Autowired
-    final BCryptPasswordEncoder passwordEncoder;
-
-    private String encode(String password){
-        return passwordEncoder.encode(password);
-    }
-
     @Override
     public UserEntity createUser(String fullName, String email, String password) {
         UserEntity user = new UserEntity();
         user.setFullName(fullName);
         user.setEmail(email);
         System.out.println(password);
-        user.setPassword(encode(password));
+        user.setPassword(password);
         return repository.save(user);
-    }
-
-    @Override
-    public UserEntity createUser(RegisterRequest registerRequest) {
-        return createUser(registerRequest.getFullName(), registerRequest.getEmail(), registerRequest.getPassword());
     }
 
     @Override
@@ -74,13 +62,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserEntity updateUserPassword(Long id, String password) {
         UserEntity user = getUserById(id);
-        user.setPassword(encode(password));
+        user.setPassword(password);
         return repository.save(user);
-    }
-
-    @Override
-    public boolean matchesPassword(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
     @Override

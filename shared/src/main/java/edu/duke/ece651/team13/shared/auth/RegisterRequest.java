@@ -11,6 +11,11 @@ public class RegisterRequest {
 
     private String password;
 
+    /**
+     * Default constructor needed in order that the spring can deserialize this object
+     */
+    public RegisterRequest(){}
+
     public RegisterRequest(String fullName, String email, String password) {
         this.fullName = fullName;
         this.email = email;
