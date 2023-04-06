@@ -10,18 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This is the controller for authentication - login and register features
@@ -55,12 +51,9 @@ public class AuthController {
         }
 
         // register the new user
-        UserEntity savedUser = userService.createUser(registerRequest.getFullName(), registerRequest.getEmail(), passwordEncoder.encode(registerRequest.getPassword()));
-
-        // create a response map with the success message and user ID
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "User registered successfully");
-        response.put("userId", savedUser.getId());
+        UserEntity savedUser = userService.createUser(registerRequest.getFullName(),
+                registerRequest.getEmail(),
+                passwordEncoder.encode(registerRequest.getPassword()));
 
         // return a success response
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
