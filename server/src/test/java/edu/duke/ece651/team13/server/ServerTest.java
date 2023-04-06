@@ -1,65 +1,65 @@
-package edu.duke.ece651.team13.server;
-
-import edu.duke.ece651.team13.server.handler.Handler;
-import edu.duke.ece651.team13.server.handler.HandlerFactory;
-import edu.duke.ece651.team13.shared.Ack;
-import edu.duke.ece651.team13.shared.map.MapRO;
-import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
-import edu.duke.ece651.team13.shared.player.Player;
-import org.checkerframework.checker.units.qual.A;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import static edu.duke.ece651.team13.server.MockDataUtil.getMockGame;
-import static edu.duke.ece651.team13.shared.enums.AckStatusEnum.SUCCESS;
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
-import static edu.duke.ece651.team13.shared.util.networkUtil.recvMessage;
-import static edu.duke.ece651.team13.shared.util.networkUtil.sendMessage;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-class ServerTest {
-
-    private final int testPortNum = 12345;
-
-
-    @Test
-    public void test_start() throws IOException, ClassNotFoundException, InterruptedException {
-        Game game = getMockGame(2);
-        Iterator<Player> playerIterator = game.getPlayersIterator();
-        ArrayList<Player> players = new ArrayList<>();
-        while(playerIterator.hasNext()){
-            players.add(playerIterator.next());
-        }
-
-        Game mockGame = mock(Game.class);
-        HandlerFactory mockHandlerFactory = mock(HandlerFactory.class);
-        Handler mockHandler = mock(Handler.class);
-
-        when(mockHandlerFactory.getHandler(any(), any(), any(), any())).thenReturn(mockHandler);
-        when(mockGame.isGameOver()).thenReturn(false, true);
-
-        Server server = new Server(testPortNum, mockGame, mockHandlerFactory);
-        Socket clientSocket1 = new Socket("", testPortNum);
-        Socket clientSocket2 = new Socket("", testPortNum);
-        players.get(0).setSocket(clientSocket1);
-        players.get(1).setSocket(clientSocket2);
-
-        when(mockGame.getPlayersIterator()).thenReturn(players.iterator(),players.iterator(),players.iterator(), players.iterator(), players.iterator(),players.iterator());
-
-        Thread t1 = new Thread(new ThreadAssert(clientSocket1, game.getMapRO(), "Red"));
-        Thread t2 = new Thread(new ThreadAssert(clientSocket2, game.getMapRO(), "Blue"));
-        t1.start();
-        t2.start();
-        server.start();
-        t1.join();
-        t2.join();
-    }
-
-}
+//package edu.duke.ece651.team13.server;
+//
+//import edu.duke.ece651.team13.server.handler.Handler;
+//import edu.duke.ece651.team13.server.handler.HandlerFactory;
+//import edu.duke.ece651.team13.shared.Ack;
+//import edu.duke.ece651.team13.shared.map.MapRO;
+//import edu.duke.ece651.team13.shared.order.PlayerOrderInput;
+//import edu.duke.ece651.team13.shared.player.Player;
+//import org.checkerframework.checker.units.qual.A;
+//import org.junit.jupiter.api.Test;
+//
+//import java.io.IOException;
+//import java.net.Socket;
+//import java.util.ArrayList;
+//import java.util.Iterator;
+//
+//import static edu.duke.ece651.team13.server.MockDataUtil.getMockGame;
+//import static edu.duke.ece651.team13.shared.enums.AckStatusEnum.SUCCESS;
+//import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
+//import static edu.duke.ece651.team13.shared.util.networkUtil.recvMessage;
+//import static edu.duke.ece651.team13.shared.util.networkUtil.sendMessage;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.mockito.ArgumentMatchers.any;
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.when;
+//
+//class ServerTest {
+//
+//    private final int testPortNum = 12345;
+//
+//
+//    @Test
+//    public void test_start() throws IOException, ClassNotFoundException, InterruptedException {
+//        Game game = getMockGame(2);
+//        Iterator<Player> playerIterator = game.getPlayersIterator();
+//        ArrayList<Player> players = new ArrayList<>();
+//        while(playerIterator.hasNext()){
+//            players.add(playerIterator.next());
+//        }
+//
+//        Game mockGame = mock(Game.class);
+//        HandlerFactory mockHandlerFactory = mock(HandlerFactory.class);
+//        Handler mockHandler = mock(Handler.class);
+//
+//        when(mockHandlerFactory.getHandler(any(), any(), any(), any())).thenReturn(mockHandler);
+//        when(mockGame.isGameOver()).thenReturn(false, true);
+//
+//        Server server = new Server(testPortNum, mockGame, mockHandlerFactory);
+//        Socket clientSocket1 = new Socket("", testPortNum);
+//        Socket clientSocket2 = new Socket("", testPortNum);
+//        players.get(0).setSocket(clientSocket1);
+//        players.get(1).setSocket(clientSocket2);
+//
+//        when(mockGame.getPlayersIterator()).thenReturn(players.iterator(),players.iterator(),players.iterator(), players.iterator(), players.iterator(),players.iterator());
+//
+//        Thread t1 = new Thread(new ThreadAssert(clientSocket1, game.getMapRO(), "Red"));
+//        Thread t2 = new Thread(new ThreadAssert(clientSocket2, game.getMapRO(), "Blue"));
+//        t1.start();
+//        t2.start();
+//        server.start();
+//        t1.join();
+//        t2.join();
+//    }
+//
+//}

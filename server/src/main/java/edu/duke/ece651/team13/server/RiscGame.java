@@ -1,9 +1,5 @@
 package edu.duke.ece651.team13.server;
 
-
-import edu.duke.ece651.team13.server.order.AttackOrder;
-import edu.duke.ece651.team13.server.order.MoveOrder;
-import edu.duke.ece651.team13.server.order.Order;
 import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.shared.map.MapRO;
@@ -27,7 +23,7 @@ public class RiscGame implements Game {
     private final ArrayList<Player> players;
     private final V1Map map;
     private final Dice dice;
-    private ArrayList<Order> orders;
+    private ArrayList<String> orders;
     private boolean isPlacementRound;
 
     public RiscGame(V1Map map, ArrayList<Player> players) {
@@ -95,7 +91,7 @@ public class RiscGame implements Game {
 
     @Override
     public void playOneTurn() {
-        this.orders.forEach(Order::act);
+//        this.orders.forEach(Order::act);
         this.orders.clear();
         resolveAllCombats();
         if(!isPlacementRound){
@@ -108,40 +104,7 @@ public class RiscGame implements Game {
 
     @Override
     public synchronized String validateOrdersAndAddToList(ArrayList<PlayerOrderInput> orderInputs, PlayerRO player) {
-        // Deep copy the map
-        MapRO tempMap = map.replicate();
-        List<Order> orders = new ArrayList<>();
-        // Move orders first
-        for (PlayerOrderInput orderInput : orderInputs) {
-            if (orderInput.getOrderType().equals(MOVE)) {
-                try {
-                    Order order = new MoveOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
-                    String checkResult = order.validateOnMap(tempMap);
-                    if (checkResult != null) return checkResult;
-                    order.actOnMap(tempMap);
-                    orders.add(order);
-                }catch (IllegalArgumentException e){
-                    return e.getMessage();
-                }
-            }
-        }
-        // Attack orders
-        for (PlayerOrderInput orderInput : orderInputs) {
-            if (orderInput.getOrderType().equals(ATTACK)) {
-                try {
-                    Order order = new AttackOrder(player, map.getTerritoryByName(orderInput.getSource()), map.getTerritoryByName(orderInput.getDestination()), orderInput.getUnits());
-                    String checkResult = order.validateOnMap(tempMap);
-                    if (checkResult != null) return checkResult;
-                    order.actOnMap(tempMap);
-                    orders.add(order);
-                }catch (IllegalArgumentException e){
-                    return e.getMessage();
-                }
-            }
-        }
 
-        this.orders.addAll(orders);
-        // The orders are valid, return null
         return null;
     }
 

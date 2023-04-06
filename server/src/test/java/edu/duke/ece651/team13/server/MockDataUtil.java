@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server;
 import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.map.V1Map;
+import edu.duke.ece651.team13.shared.territory.Territory;
 import org.checkerframework.checker.units.qual.A;
 
 import java.io.ByteArrayInputStream;
@@ -10,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import static edu.duke.ece651.team13.server.App.getMap;
 import static edu.duke.ece651.team13.server.App.getPlayers;
@@ -19,7 +21,9 @@ public class MockDataUtil {
     }
 
     public static GameEntity getGameEntity(){
-        return  new GameEntity();
+        GameEntity game =  new GameEntity();
+        game.setMap(getMapEntity());
+        return game;
     }
 
     public static PlayerEntity getPlayerEntity(){
@@ -27,11 +31,21 @@ public class MockDataUtil {
     }
 
     public static MapEntity getMapEntity(){
-        return new MapEntity();
+        MapEntity map = new MapEntity();
+        List<TerritoryEntity> territoryEntityList = new ArrayList<>();
+        for(long i =0; i <5;i ++) {
+            TerritoryEntity territory = getTerritoryEntity();
+            territory.setId(i);
+            territoryEntityList.add(territory);
+        }
+        map.setTerritories(territoryEntityList);
+        return map;
     }
 
     public static TerritoryEntity getTerritoryEntity(){
-        return  new TerritoryEntity();
+        TerritoryEntity territory = new TerritoryEntity();
+        territory.setUnitNum(10);
+        return territory;
     }
 
     public static UnitEntity getUnitEntity(){

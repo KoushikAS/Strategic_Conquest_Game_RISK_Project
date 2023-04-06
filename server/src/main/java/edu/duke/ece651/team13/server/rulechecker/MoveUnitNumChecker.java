@@ -1,6 +1,6 @@
 package edu.duke.ece651.team13.server.rulechecker;
 
-import edu.duke.ece651.team13.server.order.Order;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
 
 /**
  * Check if the source territory's unit number is valid after executing the order
@@ -11,15 +11,14 @@ public class MoveUnitNumChecker extends RuleChecker{
     }
 
     @Override
-    protected String checkMyRule(Order order) {
+    protected void checkMyRule(OrderEntity order) throws IllegalArgumentException {
         int sourceUnitNum = order.getSource().getUnitNum();
-        int moveUnitNum = order.getUnits();
+        long moveUnitNum = order.getUnitNum();
         if(sourceUnitNum < moveUnitNum) {
-            return "Invalid move order: Don't have sufficient unit number in the territory.";
+            throw new IllegalArgumentException("Invalid move order: Don't have sufficient unit number in the territory.");
         }
         else if(moveUnitNum < 0){
-            return "Invalid move order: The unit number to move should be >= 0.";
+            throw new IllegalArgumentException( "Invalid move order: The unit number to move should be >= 0.");
         }
-        return null;
     }
 }

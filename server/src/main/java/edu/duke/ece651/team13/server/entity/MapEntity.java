@@ -10,6 +10,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Entity
 @Table(name = "MAP")
@@ -32,4 +34,10 @@ public class MapEntity {
     @OneToMany(mappedBy = "map", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<TerritoryEntity> territories = new ArrayList<>();
+
+    public TerritoryEntity getTerritoryEntityById(Long Id){
+        return territories.stream().filter(territoryEntity -> Objects.equals(territoryEntity.getId(), Id))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
+    }
 }

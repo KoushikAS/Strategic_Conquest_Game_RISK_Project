@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.server.order;
 
 import edu.duke.ece651.team13.server.entity.*;
-import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
+import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,27 +16,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
-class AttackOrderTest {
+class MoveOrderNewTest {
 
-    private AttackOrderNew service; //service under test
+    private MoveOrderNew service; //service under test
 
     @BeforeEach
     void setUp() {
-        service = new AttackOrderNew();
+        service = new MoveOrderNew();
     }
 
 
     @Test
     void test_validateAndExecuteLocallySuccess() throws IllegalAccessException {
         GameEntity game = getGameEntity();
-        PlayerEntity owner = new PlayerEntity();
-        owner.setId(1L);
-        PlayerEntity opponent = new PlayerEntity();
-        opponent.setId(2L);
         TerritoryEntity source = game.getMap().getTerritories().get(0);
-        source.setOwner(owner);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
-        destination.setOwner(opponent);
 
         List<TerritoryConnectionEntity> connections = new ArrayList<>();
         connections.add(new TerritoryConnectionEntity(source, destination, 5));
@@ -47,28 +41,20 @@ class AttackOrderTest {
         order.setDestination(destination);
         order.setOrderType(MOVE);
         order.setUnitNum(5);
-        order.setPlayer(owner);
 
         service.validateAndExecuteLocally(order, game);
 
         assertEquals(5, game.getMap().getTerritories().get(0).getUnitNum());
+        assertEquals(15, game.getMap().getTerritories().get(1).getUnitNum());
     }
 
-
     @Test
-    void test_validateAndExecuteLocallyNottAdjacnet() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyNoConnectionError() throws IllegalAccessException {
         GameEntity game = getGameEntity();
-        PlayerEntity owner = new PlayerEntity();
-        owner.setId(1L);
-        PlayerEntity opponent = new PlayerEntity();
-        opponent.setId(2L);
         TerritoryEntity source = game.getMap().getTerritories().get(0);
-        source.setOwner(owner);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
-        destination.setOwner(opponent);
 
         List<TerritoryConnectionEntity> connections = new ArrayList<>();
-
         source.setConnections(connections);
 
         OrderEntity order = new OrderEntity();
@@ -76,23 +62,16 @@ class AttackOrderTest {
         order.setDestination(destination);
         order.setOrderType(MOVE);
         order.setUnitNum(5);
-        order.setPlayer(owner);
-
+        //No Connection
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
-
     }
 
+
     @Test
-    void test_validateAndExecuteLocallyNotEnoughUnits() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyExtraUnits() throws IllegalAccessException {
         GameEntity game = getGameEntity();
-        PlayerEntity owner = new PlayerEntity();
-        owner.setId(1L);
-        PlayerEntity opponent = new PlayerEntity();
-        opponent.setId(2L);
         TerritoryEntity source = game.getMap().getTerritories().get(0);
-        source.setOwner(owner);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
-        destination.setOwner(opponent);
 
         List<TerritoryConnectionEntity> connections = new ArrayList<>();
         connections.add(new TerritoryConnectionEntity(source, destination, 5));
@@ -103,24 +82,20 @@ class AttackOrderTest {
         order.setDestination(destination);
         order.setOrderType(MOVE);
         order.setUnitNum(25);
-        order.setPlayer(owner);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
-
     }
 
-
     @Test
-    void test_validateAndExecuteLocallyNotOnwedAttackingSame() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyNotOwnerExcepetion() throws IllegalAccessException {
         GameEntity game = getGameEntity();
-        PlayerEntity owner = new PlayerEntity();
-        owner.setId(1L);
-        PlayerEntity opponent = new PlayerEntity();
-        opponent.setId(2L);
+        PlayerEntity player1 = new PlayerEntity();
+        PlayerEntity player2 = new PlayerEntity();
+        player1.setId(1L);
         TerritoryEntity source = game.getMap().getTerritories().get(0);
-        source.setOwner(opponent);
+        source.setOwner(player1);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
-        destination.setOwner(opponent);
+        destination.setOwner(player2);
 
         List<TerritoryConnectionEntity> connections = new ArrayList<>();
         connections.add(new TerritoryConnectionEntity(source, destination, 5));
@@ -131,11 +106,11 @@ class AttackOrderTest {
         order.setDestination(destination);
         order.setOrderType(MOVE);
         order.setUnitNum(5);
-        order.setPlayer(owner);
+        order.setPlayer(player2);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
-        source.setOwner(owner);
-        destination.setOwner(owner);
+        source.setOwner(player2);
+        destination.setOwner(player1);
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
 
     }

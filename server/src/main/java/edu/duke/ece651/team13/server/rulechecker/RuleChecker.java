@@ -1,6 +1,6 @@
 package edu.duke.ece651.team13.server.rulechecker;
 
-import edu.duke.ece651.team13.server.order.Order;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
 
 public abstract class RuleChecker {
     private final RuleChecker next;
@@ -13,7 +13,7 @@ public abstract class RuleChecker {
      * Use parameter polymorphism to check on different types of orders
      * TODO: changed to pass in PlayerOrder, parametric polymorphism may not work here
      */
-    protected abstract String checkMyRule(Order order);
+    protected abstract void checkMyRule(OrderEntity order) throws IllegalAccessException;
 //    protected abstract String checkMyRule(AttackOrder order);
 
     /**
@@ -23,12 +23,10 @@ public abstract class RuleChecker {
      * @return null if the placement is OK
      *         any non-null String: a description of what is wrong, suitable to show the user
      */
-    public String checkOrder(Order order){
+    public String checkOrder(OrderEntity order)throws IllegalAccessException{
         //if we fail our own rule: stop the placement is not legal
-        String res = checkMyRule(order);
-        if (res != null) {
-            return res;
-        }
+        checkMyRule(order);
+
         //otherwise, ask the rest of the chain.
         if (next != null) {
             return next.checkOrder(order);
@@ -36,4 +34,5 @@ public abstract class RuleChecker {
         //if there are no more rules, then the placement is legal
         return null;
     }
+
 }
