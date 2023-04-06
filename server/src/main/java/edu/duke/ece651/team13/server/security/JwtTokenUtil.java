@@ -16,7 +16,7 @@ import java.util.Date;
 public class JwtTokenUtil {
     private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
 
-    @Value("abcdefghijklmnOPQRSTUVWXYZ")
+    @Value("3gfO2FTfPh1VdMrbnXN3g1ZeR0sNaLC8Ksa6Iz8DxKmQlaa554VrFMrnFRXyxVDaoS2QAfesLwAbVvhm7mPQZg==")
     private String SECRET_KEY;
 
     public String generateAccessToken(UserEntity user) {

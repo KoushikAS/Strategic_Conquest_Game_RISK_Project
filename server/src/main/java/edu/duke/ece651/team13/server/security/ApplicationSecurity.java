@@ -20,14 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 public class ApplicationSecurity {
-
-    @Autowired private UserRepository userRepo;
     @Autowired private JwtTokenFilter jwtTokenFilter;
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserServiceImpl(userRepo);
-    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
