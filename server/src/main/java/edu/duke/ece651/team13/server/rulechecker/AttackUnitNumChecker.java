@@ -12,7 +12,7 @@ public class AttackUnitNumChecker extends RuleChecker {
 
     @Override
     protected void checkMyRule(OrderEntity order) throws IllegalArgumentException{
-        int sourceUnitNum = order.getSource().getUnitNum();
+        int sourceUnitNum = order.getSource().getUnits().size();
         long attackUnitNum = order.getUnitNum();
         if (sourceUnitNum < attackUnitNum) {
             throw new IllegalArgumentException( "Invalid attack order: Don't have sufficient unit number in the territory.");

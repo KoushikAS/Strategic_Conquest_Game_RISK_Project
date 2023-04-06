@@ -12,7 +12,7 @@ public class MoveUnitNumChecker extends RuleChecker{
 
     @Override
     protected void checkMyRule(OrderEntity order) throws IllegalArgumentException {
-        int sourceUnitNum = order.getSource().getUnitNum();
+        int sourceUnitNum = order.getSource().getUnits().size();
         long moveUnitNum = order.getUnitNum();
         if(sourceUnitNum < moveUnitNum) {
             throw new IllegalArgumentException("Invalid move order: Don't have sufficient unit number in the territory.");

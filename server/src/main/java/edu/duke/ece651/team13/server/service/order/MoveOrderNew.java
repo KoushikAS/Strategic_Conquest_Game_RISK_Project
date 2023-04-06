@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server.service.order;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.rulechecker.MoveOwnershipChecker;
 import edu.duke.ece651.team13.server.rulechecker.MovePathChecker;
 import edu.duke.ece651.team13.server.rulechecker.MoveUnitNumChecker;
@@ -31,10 +32,11 @@ public class MoveOrderNew implements OrderFactory{
     }
 
     public void executeLocally(TerritoryEntity sourceTerritoryEntity, TerritoryEntity destinationTerritoryEntity , int unitNo ) {
-        int sourceUnitNum = sourceTerritoryEntity.getUnitNum() - unitNo;
-        sourceTerritoryEntity.setUnitNum(sourceUnitNum);
-        int destUnitNum = destinationTerritoryEntity.getUnitNum() + unitNo;
-        destinationTerritoryEntity.setUnitNum(destUnitNum);
+        for(int i=0 ;i < unitNo; i++){
+            //TODO Remove the correct vairety of units
+            UnitEntity unit = sourceTerritoryEntity.getUnits().remove(0);
+            destinationTerritoryEntity.getUnits().add(unit);
+        }
     }
 
 }
