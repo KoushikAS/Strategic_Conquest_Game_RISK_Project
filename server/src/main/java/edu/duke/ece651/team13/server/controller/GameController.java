@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,8 +49,12 @@ public class GameController {
     @GetMapping("/getGame/{id}")
     public ResponseEntity<GameEntity> getMap(@PathVariable("id") Long id) {
         log.info("Received an /getGame/");
-        GameEntity game = gameService.getGame(id);
-        return ResponseEntity.ok().body(game);
+        try {
+            GameEntity game = gameService.getGame(id);
+            return ResponseEntity.ok().body(game);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping("/submitOrder")
@@ -61,6 +67,8 @@ public class GameController {
             return ResponseEntity.ok().body("Submitted successful");
         } catch (IllegalAccessException e) {
             throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
         }
     }
 

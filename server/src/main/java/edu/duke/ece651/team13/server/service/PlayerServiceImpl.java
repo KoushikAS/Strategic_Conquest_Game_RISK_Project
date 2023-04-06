@@ -38,7 +38,7 @@ public class PlayerServiceImpl implements PlayerService {
             return player.get();
         } else {
             log.error("Did not find Player Id " + Id);
-            throw new ResponseStatusException(NOT_FOUND, "Player with Id " + Id + " does not exists");
+            throw new NoSuchElementException("Player with Id " + Id + " does not exists");
         }
     }
 

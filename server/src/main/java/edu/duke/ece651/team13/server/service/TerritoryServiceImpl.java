@@ -47,7 +47,7 @@ public class TerritoryServiceImpl implements TerritoryService {
             return territory.get();
         } else {
             log.error("Did not find Territory with Map Id " + Id);
-            throw new ResponseStatusException(NOT_FOUND, "Map with Id " + Id + " does not exists");
+            throw new NoSuchElementException( "Map with Id " + Id + " does not exists");
         }
     }
 
