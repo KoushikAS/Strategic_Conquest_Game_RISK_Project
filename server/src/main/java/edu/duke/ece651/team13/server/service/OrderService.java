@@ -10,5 +10,5 @@ public interface OrderService {
 
     List<OrderEntity> getOrdersByPlayer(PlayerEntity playerEntity);
 
-    void validateAndAddOrders(OrdersDTO orders);
+    void validateAndAddOrders(OrdersDTO orders) throws IllegalAccessException;
 }
