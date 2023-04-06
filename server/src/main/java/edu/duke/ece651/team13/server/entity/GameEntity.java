@@ -31,4 +31,7 @@ public class GameEntity {
     @JsonManagedReference
     private MapEntity map;
 
+    @Column(name = "ROUND_NO")
+    private int roundNo;
+
 }

@@ -9,17 +9,15 @@ public class OrderMappingEnumTest {
 
     @Test
     public void getValue_test(){
-        assertEquals("M", MOVE.getValue());
-        assertEquals("A", ATTACK.getValue());
-        assertEquals("D", DONE.getValue());
-        assertEquals("I", INITIALISE.getValue());
+        assertEquals("MOVE", MOVE.getValue());
+        assertEquals("ATTACK", ATTACK.getValue());
+        assertEquals("DONE", DONE.getValue());
     }
 
     @Test
     public void findByValue_test(){
-        assertEquals(MOVE, findByValue("M"));
-        assertEquals(ATTACK, findByValue("A"));
-        assertEquals(DONE, findByValue("D"));
-        assertEquals(INITIALISE, findByValue("I"));
+        assertEquals(MOVE, findByValue("MOVE"));
+        assertEquals(ATTACK, findByValue("ATTACK"));
+        assertEquals(DONE, findByValue("DONE"));
     }
 }
