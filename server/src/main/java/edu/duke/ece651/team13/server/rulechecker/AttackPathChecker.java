@@ -3,8 +3,6 @@ package edu.duke.ece651.team13.server.rulechecker;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
-import edu.duke.ece651.team13.server.order.Order;
-import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.util.Iterator;
 import java.util.stream.Collectors;
@@ -18,23 +16,11 @@ public class AttackPathChecker extends RuleChecker {
         super(next);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected String checkMyRule(Order order) {
+    protected void checkMyRule(OrderEntity order) throws IllegalArgumentException{
         if (!isAdjacentToTerritory(order.getSource(), order.getDestination())) {
-            return "Invalid attack order: You can only attack an adjacent territory owned by another player.";
+            throw new IllegalArgumentException("Invalid attack order: You can only attack an adjacent territory owned by another player.");
         }
-        return null;
-    }
-
-    @Override
-    protected String checkMyRule(OrderEntity order) {
-        if (!isAdjacentToTerritory(order.getSource(), order.getDestination())) {
-            return "Invalid attack order: You can only attack an adjacent territory owned by another player.";
-        }
-        return null;
     }
 
     /**
@@ -56,22 +42,4 @@ public class AttackPathChecker extends RuleChecker {
         return false;
     }
 
-    /**
-     * Checks if the destination territory is a neighbor to the source territory
-     *
-     * @param source      the source territory
-     * @param destination the destination territory
-     * @return true if it is a valid path and false otherwise
-     */
-    private boolean isAdjacentToTerritory(TerritoryRO source, TerritoryRO destination) {
-        Iterator<TerritoryRO> it = source.getNeighbourIterartor();
-
-        while (it.hasNext()) {
-            TerritoryRO neighbor = it.next();
-            if (destination == neighbor) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

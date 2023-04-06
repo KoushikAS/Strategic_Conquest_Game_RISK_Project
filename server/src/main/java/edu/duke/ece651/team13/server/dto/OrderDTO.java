@@ -14,5 +14,5 @@ public class OrderDTO {
     private Long sourceTerritoryId;
     private Long destinationTerritoryId;
     //TODO Update to indicate type of units and add value
-    private Long units;
+    private int units;
 }

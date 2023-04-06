@@ -52,7 +52,8 @@ public class MoveOrder extends Order {
 
     @Override
     public String validate() {
-        return orderRuleChecker.checkOrder(this);
+        //return orderRuleChecker.checkOrder(this);
+        return "Empty";
     }
 
     @Override

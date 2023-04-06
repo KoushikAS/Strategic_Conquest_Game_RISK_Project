@@ -44,5 +44,5 @@ public class OrderEntity {
     private TerritoryEntity destination;
 
     @Column(name = "UNIT_NUM")
-    private long unitNum;
+    private int unitNum;
 }
