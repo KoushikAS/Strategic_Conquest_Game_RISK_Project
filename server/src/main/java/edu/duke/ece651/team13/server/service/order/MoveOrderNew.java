@@ -8,11 +8,18 @@ import edu.duke.ece651.team13.server.rulechecker.MoveOwnershipChecker;
 import edu.duke.ece651.team13.server.rulechecker.MovePathChecker;
 import edu.duke.ece651.team13.server.rulechecker.MoveUnitNumChecker;
 import edu.duke.ece651.team13.server.rulechecker.RuleChecker;
+import edu.duke.ece651.team13.server.service.TerritoryService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MoveOrderNew implements OrderFactory{
+@RequiredArgsConstructor
+public class MoveOrderNew implements OrderFactory {
 
+
+    @Autowired
+    private final TerritoryService territoryService;
 
     /**
      * Get the default rule checker chain
@@ -28,15 +35,24 @@ public class MoveOrderNew implements OrderFactory{
     public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalAccessException {
         RuleChecker ruleChecker = getDefaultRuleChecker();
         ruleChecker.checkOrder(order);
-        executeLocally(game.getMap().getTerritoryEntityById(order.getSource().getId()), game.getMap().getTerritoryEntityById(order.getDestination().getId()), order.getUnitNum());
+        executelocally(game.getMap().getTerritoryEntityById(order.getSource().getId()), game.getMap().getTerritoryEntityById(order.getDestination().getId()), order.getUnitNum());
     }
 
-    public void executeLocally(TerritoryEntity sourceTerritoryEntity, TerritoryEntity destinationTerritoryEntity , int unitNo ) {
-        for(int i=0 ;i < unitNo; i++){
+    private void executelocally(TerritoryEntity sourceTerritoryEntity, TerritoryEntity destinationTerritoryEntity, int unitNo) {
+        for (int i = 0; i < unitNo; i++) {
             //TODO Remove the correct vairety of units
             UnitEntity unit = sourceTerritoryEntity.getUnits().remove(0);
             destinationTerritoryEntity.getUnits().add(unit);
         }
+    }
+
+    @Override
+    public void executeOnGame(OrderEntity order, GameEntity game) {
+        TerritoryEntity sourceTerritoryEntity = game.getMap().getTerritoryEntityById(order.getSource().getId());
+        TerritoryEntity destinationTerritoryEntity = game.getMap().getTerritoryEntityById(order.getDestination().getId());
+        executelocally(sourceTerritoryEntity, destinationTerritoryEntity, order.getUnitNum());
+        territoryService.updateTerritoryUnits(sourceTerritoryEntity.getId(), sourceTerritoryEntity.getUnits());
+        territoryService.updateTerritoryUnits(destinationTerritoryEntity.getId(), destinationTerritoryEntity.getUnits());
     }
 
 }

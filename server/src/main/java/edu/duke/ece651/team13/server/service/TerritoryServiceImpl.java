@@ -1,9 +1,6 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.MapEntity;
-import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.repository.TerritoryConnectionRepository;
 import edu.duke.ece651.team13.server.repository.TerritoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -65,6 +63,13 @@ public class TerritoryServiceImpl implements TerritoryService {
         territory1.getConnections().add(connection1);
         TerritoryConnectionEntity connection2 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory1, territory2, distance));
         territory2.getConnections().add(connection2);
+    }
+
+    @Override
+    public TerritoryEntity updateTerritoryUnits(Long Id, List<UnitEntity> units){
+        TerritoryEntity territory = getTerritoriesByMap(Id);
+        territory.setUnits(units);
+        return repository.save(territory);
     }
 
 }

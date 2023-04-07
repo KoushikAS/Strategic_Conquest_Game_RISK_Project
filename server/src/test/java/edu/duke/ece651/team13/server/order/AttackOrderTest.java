@@ -1,11 +1,15 @@
 package edu.duke.ece651.team13.server.order;
 
 import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.service.AttackerService;
+import edu.duke.ece651.team13.server.service.TerritoryService;
 import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +24,15 @@ class AttackOrderTest {
 
     private AttackOrderNew service; //service under test
 
+    @Mock
+    private TerritoryService territoryService;
+
+    @Mock
+    private AttackerService attackerService;
+
     @BeforeEach
     void setUp() {
-        service = new AttackOrderNew();
+        service = new AttackOrderNew(territoryService, attackerService);
     }
 
 
@@ -106,7 +116,6 @@ class AttackOrderTest {
         order.setPlayer(owner);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
-
     }
 
 

@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server.service;
 import edu.duke.ece651.team13.server.entity.AttackerEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.AttackerRepository;
 import edu.duke.ece651.team13.server.repository.PlayerRepository;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
@@ -60,7 +61,7 @@ public class AttackerServiceTest {
 
         when(repository.save(any(AttackerEntity.class))).thenReturn(attacker);
 
-        AttackerEntity actual = service.addAttacker(territory, player, 5);
+        AttackerEntity actual = service.addAttacker(territory, player, UnitMappingEnum.LEVEL0, 5);
         assertEquals(attacker,actual);
         verify(repository, times(1)).save(any(AttackerEntity.class));
         verifyNoMoreInteractions(repository);
