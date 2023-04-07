@@ -8,7 +8,7 @@ import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import java.util.List;
 import java.util.Map;
 
-public interface CombotResolutionService {
+public interface CombatResolutionService {
 
     void resolveCombot(TerritoryEntity territory);
 

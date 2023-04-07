@@ -18,7 +18,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class CombotResolutionServiceImpl implements CombotResolutionService {
+public class CombatResolutionServiceImpl implements CombatResolutionService {
 
     @Autowired
     public final AttackerService attackerService;
