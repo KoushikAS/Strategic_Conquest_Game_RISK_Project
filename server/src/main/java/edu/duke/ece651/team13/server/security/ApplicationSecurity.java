@@ -1,7 +1,5 @@
 package edu.duke.ece651.team13.server.security;
 
-import edu.duke.ece651.team13.server.repository.UserRepository;
-import edu.duke.ece651.team13.server.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +40,7 @@ public class ApplicationSecurity {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/login", "/register").permitAll()
+                .antMatchers("/","/login", "/register", "/createGame", "/getGame", "/getGame/*", "/submitOrder", "/getOrders/*").permitAll()
                 .anyRequest().authenticated();
 
         http.exceptionHandling()
