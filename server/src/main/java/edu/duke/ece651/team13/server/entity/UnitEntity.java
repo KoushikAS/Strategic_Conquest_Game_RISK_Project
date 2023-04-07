@@ -29,4 +29,7 @@ public class UnitEntity {
     @JoinColumn(name = "TERRITORY_ID")
     @JsonBackReference
     private TerritoryEntity territory;
+
+    @Column(name = "units")
+    private Integer units;
 }
