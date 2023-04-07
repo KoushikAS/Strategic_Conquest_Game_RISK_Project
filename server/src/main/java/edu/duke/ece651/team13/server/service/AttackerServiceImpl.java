@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server.service;
 import edu.duke.ece651.team13.server.entity.AttackerEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.AttackerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class AttackerServiceImpl implements AttackerService {
     }
 
     @Override
-    public AttackerEntity addAttacker(TerritoryEntity territory, PlayerEntity player, Integer UnitNo) {
-        AttackerEntity attackerEntity = new AttackerEntity(territory, player, UnitNo);
+    public AttackerEntity addAttacker(TerritoryEntity territory, PlayerEntity player, UnitMappingEnum unitType, Integer UnitNo) {
+        AttackerEntity attackerEntity = new AttackerEntity(territory, player,unitType, UnitNo);
         return repository.save(attackerEntity);
     }
 
