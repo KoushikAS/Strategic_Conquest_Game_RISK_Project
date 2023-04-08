@@ -9,5 +9,5 @@ public interface PlayerService {
 
     PlayerEntity getPlayer(Long Id);
 
-    PlayerEntity updatePlayerStatus(Long Id, PlayerStatusEnum status);
+    PlayerEntity updatePlayerStatus(PlayerEntity player, PlayerStatusEnum status);
 }

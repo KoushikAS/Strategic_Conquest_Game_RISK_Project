@@ -43,8 +43,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public PlayerEntity updatePlayerStatus(Long Id, PlayerStatusEnum status) {
-        PlayerEntity player = getPlayer(Id);
+    public PlayerEntity updatePlayerStatus(PlayerEntity player, PlayerStatusEnum status) {
         player.setStatus(status);
         return repository.save(player);
     }
