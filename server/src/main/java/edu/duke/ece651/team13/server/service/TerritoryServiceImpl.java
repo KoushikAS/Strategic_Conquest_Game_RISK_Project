@@ -41,14 +41,19 @@ public class TerritoryServiceImpl implements TerritoryService {
 
 
     @Override
-    public TerritoryEntity getTerritoriesByMap(Long Id) {
+    public TerritoryEntity getTerritoriesById(Long Id) {
         Optional<TerritoryEntity> territory = repository.findById(Id);
         if (territory.isPresent()) {
             return territory.get();
         } else {
-            log.error("Did not find Territory with Map Id " + Id);
-            throw new NoSuchElementException( "Map with Id " + Id + " does not exists");
+            log.error("Did not find Territory with Id " + Id);
+            throw new NoSuchElementException( "Territory with Id " + Id + " does not exists");
         }
+    }
+
+    @Override
+    public List<TerritoryEntity> getTerritoriesByPlayer(PlayerEntity player){
+        return repository.findByOwner(player);
     }
 
     @Override

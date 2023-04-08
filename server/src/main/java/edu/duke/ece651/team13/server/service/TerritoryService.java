@@ -12,7 +12,9 @@ public interface TerritoryService {
 
     TerritoryEntity createTerritory(String name, MapEntity map, PlayerEntity player, int foodProduction, int techProduction);
 
-    TerritoryEntity getTerritoriesByMap(Long Id);
+    TerritoryEntity getTerritoriesById(Long Id);
+
+    List<TerritoryEntity> getTerritoriesByPlayer(PlayerEntity player);
 
     TerritoryEntity updateTerritoryOwner(TerritoryEntity territory, PlayerEntity owner);
 
