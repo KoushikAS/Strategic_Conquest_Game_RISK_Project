@@ -11,6 +11,8 @@ import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -89,7 +91,11 @@ public class RoundServiceImpl implements RoundService {
     }
 
     @Override
-    public void playOneRound(GameEntity game) {
+    @Async
+    @EventListener
+    public void playOneRound(Long gameId) {
+        log.info("Executing Round for Game Id :" + gameId);
+        GameEntity game = gameService.getGame(gameId);
         executePlayersOrders(game);
         resolveCombatForGame(game);
         //TODO Update Resources  like Units, Technology and Food

@@ -6,5 +6,5 @@ public interface RoundService {
 
     Boolean isGameReadyForRoundExecution(GameEntity game);
 
-    void playOneRound(GameEntity game);
+    void playOneRound(Long gameId);
 }

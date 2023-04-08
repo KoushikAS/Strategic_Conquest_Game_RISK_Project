@@ -13,6 +13,7 @@ import edu.duke.ece651.team13.shared.enums.OrderMappingEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -45,6 +46,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private final AttackOrderNew attackOrder;
+
+    @Autowired
+    private final ApplicationEventPublisher eventPublisher;
+
+    @Autowired
+    private final RoundService roundService;
 
     @Override
     public List<OrderEntity> getOrdersByPlayer(PlayerEntity playerEntity) {
@@ -97,5 +104,10 @@ public class OrderServiceImpl implements OrderService {
         for(OrderEntity order: orderEntityList){
             repository.save(order);
         }
+
+        if(roundService.isGameReadyForRoundExecution(game)){
+            eventPublisher.publishEvent(game.getId());
+        }
+
     }
 }
