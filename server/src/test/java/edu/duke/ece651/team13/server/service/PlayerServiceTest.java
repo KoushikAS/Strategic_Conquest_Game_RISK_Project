@@ -68,12 +68,12 @@ public class PlayerServiceTest {
     @Test
     void updatePlayerStatusTest(){
         PlayerEntity player = getPlayerEntity();
-        when(repository.findById(1L)).thenReturn(Optional.of(player));
+
         when(repository.save(any(PlayerEntity.class))).thenReturn(player);
 
-        PlayerEntity actual = service.updatePlayerStatus(1L, PlayerStatusEnum.LOSE);
+        PlayerEntity actual = service.updatePlayerStatus(player, PlayerStatusEnum.LOSE);
         assertEquals(player,actual);
-        verify(repository, times(1)).findById(1L);
+
         verify(repository, times(1)).save(any(PlayerEntity.class));
         verifyNoMoreInteractions(repository);
     }
