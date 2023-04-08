@@ -2,13 +2,12 @@ package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.entity.UserEntity;
 import edu.duke.ece651.team13.server.repository.UserRepository;
-import edu.duke.ece651.team13.shared.auth.RegisterRequest;
+import edu.duke.ece651.team13.server.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;

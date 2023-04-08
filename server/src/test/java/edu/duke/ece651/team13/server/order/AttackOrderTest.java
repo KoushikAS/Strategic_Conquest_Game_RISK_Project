@@ -9,13 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

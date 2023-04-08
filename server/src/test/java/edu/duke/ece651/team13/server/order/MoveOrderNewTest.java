@@ -1,7 +1,6 @@
 package edu.duke.ece651.team13.server.order;
 
 import edu.duke.ece651.team13.server.entity.*;
-import edu.duke.ece651.team13.server.repository.AttackerRepository;
 import edu.duke.ece651.team13.server.service.TerritoryService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

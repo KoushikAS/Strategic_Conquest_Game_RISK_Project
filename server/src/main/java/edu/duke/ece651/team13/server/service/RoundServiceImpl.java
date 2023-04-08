@@ -6,8 +6,8 @@ import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
 import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
-import edu.duke.ece651.team13.shared.enums.OrderMappingEnum;
-import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
+import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.PLAYING;
+import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
 @Service
 @RequiredArgsConstructor

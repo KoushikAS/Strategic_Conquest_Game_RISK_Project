@@ -2,7 +2,7 @@ package edu.duke.ece651.team13.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import edu.duke.ece651.team13.shared.enums.OrderMappingEnum;
+import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

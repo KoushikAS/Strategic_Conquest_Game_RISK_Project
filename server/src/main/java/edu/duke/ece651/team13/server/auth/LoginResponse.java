@@ -1,4 +1,4 @@
-package edu.duke.ece651.team13.shared.auth;
+package edu.duke.ece651.team13.server.auth;
 
 /**
  * This class is used to organize and send user authentication result
