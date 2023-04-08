@@ -13,17 +13,20 @@ import edu.duke.ece651.team13.shared.enums.OrderMappingEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static edu.duke.ece651.team13.server.enums.GameStatusEnum.ENDED;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.LOSE;
+import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.PLAYING;
 
 @Service
 @RequiredArgsConstructor
@@ -38,27 +41,38 @@ public class OrderServiceImpl implements OrderService {
     private final PlayerService playerService;
 
     @Autowired
-    private final AttackerService attackerService;
-
-    @Autowired
     private final MoveOrderNew moveOrder;
 
     @Autowired
     private final AttackOrderNew attackOrder;
+
+    @Autowired
+    private final ApplicationEventPublisher eventPublisher;
+
 
     @Override
     public List<OrderEntity> getOrdersByPlayer(PlayerEntity playerEntity) {
         return repository.findByPlayer(playerEntity);
     }
 
-    public List<OrderEntity> getOrderEntityList(OrdersDTO orders, GameEntity game, PlayerEntity player) {
+    private Boolean isGameReadyForRoundExecution(GameEntity game) {
+        //Checking if all the players who are active have submitted orders
+        for (PlayerEntity player : game.getPlayers()) {
+            if (player.getStatus().equals(PLAYING) && getOrdersByPlayer(player).size() == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private List<OrderEntity> getOrderEntityList(OrdersDTO orders, GameEntity game, PlayerEntity player) {
         List<OrderEntity> orderEntities = new ArrayList<>();
         for (OrderDTO orderDTO : orders.getOrders()) {
             Optional<TerritoryEntity> source = game.getMap().getTerritories().stream().filter(territoryEntity -> territoryEntity.getId().equals(orderDTO.getSourceTerritoryId())).findFirst();
             Optional<TerritoryEntity> destination = game.getMap().getTerritories().stream().filter(territoryEntity -> territoryEntity.getId().equals(orderDTO.getDestinationTerritoryId())).findFirst();
             if (!source.isPresent() || !destination.isPresent()) {
                 log.error("Either did not find the source territory Id" + orderDTO.getSourceTerritoryId() + " or did not find destination territory Id " + orderDTO.getDestinationTerritoryId());
-                throw new ResponseStatusException(NOT_FOUND, "Source or Destination Territory does not exists");
+                throw new NoSuchElementException("Source or Destination Territory does not exists");
             }
 
             OrderEntity orderEntity = new OrderEntity();
@@ -74,9 +88,25 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void validateAndAddOrders(OrdersDTO orders) throws IllegalAccessException {
+    public void validateAndAddOrders(OrdersDTO orders) throws IllegalArgumentException {
         PlayerEntity player = playerService.getPlayer(orders.getPlayerId());
+
+        if (player.getStatus().equals(LOSE)) {
+            throw new IllegalArgumentException("Player has already lost he cannot issue a order.");
+        }
+
         GameEntity game = player.getGame();
+
+        if (game.getStatus().equals(ENDED)) {
+            throw new IllegalArgumentException("Game has already ended no new orders could be issued.");
+        }
+
+        if (game.getRoundNo() == 0 && orders
+                .getOrders().stream()
+                .anyMatch(orderDTO -> !orderDTO.getOrderType().equals(MOVE.getValue()))) {
+            throw new IllegalArgumentException("Only Move Orders can be issued during initialising round.");
+        }
+
         List<OrderEntity> orderEntityList = getOrderEntityList(orders, game, player);
 
         //Validate Move Order
@@ -94,8 +124,13 @@ public class OrderServiceImpl implements OrderService {
         }
 
         //Save order list
-        for(OrderEntity order: orderEntityList){
+        for (OrderEntity order : orderEntityList) {
             repository.save(order);
         }
+
+        if (isGameReadyForRoundExecution(game)) {
+            eventPublisher.publishEvent(game.getId());
+        }
+
     }
 }

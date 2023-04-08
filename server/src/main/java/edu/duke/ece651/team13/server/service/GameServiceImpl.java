@@ -2,6 +2,7 @@ package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,4 +52,12 @@ public class GameServiceImpl implements GameService {
         mapService.createMap( gameEntity, players);
         return gameEntity;
     }
+
+    @Override
+    public GameEntity updateGameRoundAndStatus(GameEntity game, GameStatusEnum status, int roundNo) {
+        game.setStatus(status);
+        game.setRoundNo(roundNo);
+        return repository.save(game);
+    }
+
 }
