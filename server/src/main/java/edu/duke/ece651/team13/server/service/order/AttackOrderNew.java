@@ -53,7 +53,7 @@ public class AttackOrderNew implements OrderFactory {
     public void executeOnGame(OrderEntity order, GameEntity game) {
         TerritoryEntity sourceTerritoryEntity = game.getMap().getTerritoryEntityById(order.getSource().getId());
         executeLocaly(sourceTerritoryEntity, order.getUnitNum());
-        territoryService.updateTerritoryUnits(sourceTerritoryEntity.getId(), sourceTerritoryEntity.getUnits());
+        territoryService.updateTerritoryUnits(sourceTerritoryEntity, sourceTerritoryEntity.getUnits());
         attackerService.addAttacker(order.getDestination(), order.getPlayer(), UnitMappingEnum.LEVEL0, order.getUnitNum());
     }
 

@@ -97,7 +97,7 @@
 //    @Test
 //    void test_resolveCombatInOneTerritory() {
 //
-//        RiscGame game = spy(getMockGame(4, new Dice(1, 20)));
+//        RiscGame game = spy(getMockGame(4, new Dice()));
 //
 //        Player defender = game.getPlayerByName("Red");
 //        Player attacker1 = game.getPlayerByName("Blue");

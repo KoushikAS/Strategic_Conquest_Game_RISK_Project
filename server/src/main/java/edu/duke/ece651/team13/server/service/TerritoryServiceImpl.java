@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server.service;
 import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.repository.TerritoryConnectionRepository;
 import edu.duke.ece651.team13.server.repository.TerritoryRepository;
+import edu.duke.ece651.team13.shared.territory.Territory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,7 @@ public class TerritoryServiceImpl implements TerritoryService {
     }
 
     @Override
-    public TerritoryEntity updateTerritoryOwner(Long Id, PlayerEntity owner) {
-        TerritoryEntity territory = getTerritoriesByMap(Id);
+    public TerritoryEntity updateTerritoryOwner(TerritoryEntity territory, PlayerEntity owner) {
         territory.setOwner(owner);
         return repository.save(territory);
     }
@@ -66,8 +66,7 @@ public class TerritoryServiceImpl implements TerritoryService {
     }
 
     @Override
-    public TerritoryEntity updateTerritoryUnits(Long Id, List<UnitEntity> units){
-        TerritoryEntity territory = getTerritoriesByMap(Id);
+    public TerritoryEntity updateTerritoryUnits(TerritoryEntity territory, List<UnitEntity> units){
         territory.setUnits(units);
         return repository.save(territory);
     }

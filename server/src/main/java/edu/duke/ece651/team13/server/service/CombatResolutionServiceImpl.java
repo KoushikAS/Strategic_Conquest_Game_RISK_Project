@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -29,9 +30,11 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
     @Autowired
     public final UnitService unitService;
 
-    private final Dice dice = new Dice(1, 20);
+    @Autowired
+    private final Dice dice;
 
-    private void reduceUnit(List<MutablePair<UnitMappingEnum, Integer>> units, UnitMappingEnum unitType) {
+    //Making public to test
+    public void reduceUnit(List<MutablePair<UnitMappingEnum, Integer>> units, UnitMappingEnum unitType) {
         for (int i = 0; i < units.size(); i++) {
             if (units.get(i).getLeft().equals(unitType)) {
                 int updatedValue = units.get(i).getRight() - 1;
@@ -42,11 +45,11 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
                 }
                 return;
             }
-
         }
     }
 
-    private void fight(List<MutablePair<UnitMappingEnum, Integer>> attacker, List<MutablePair<UnitMappingEnum, Integer>> defender, Boolean isAttackerTerritoryOwner, Boolean isDefenderTerritoryOwner) {
+    //Making public to test
+    public void fight(List<MutablePair<UnitMappingEnum, Integer>> attacker, List<MutablePair<UnitMappingEnum, Integer>> defender, Boolean isAttackerTerritoryOwner, Boolean isDefenderTerritoryOwner) {
 
         UnitMappingEnum attackerUnitType = attacker.stream()
                 .map(MutablePair::getLeft)
@@ -91,7 +94,8 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
     }
 
 
-    private Map<PlayerEntity, List<MutablePair<UnitMappingEnum, Integer>>> getWarParties(List<AttackerEntity> attackers, TerritoryEntity territory) {
+    //Making public to test
+    public Map<PlayerEntity, List<MutablePair<UnitMappingEnum, Integer>>> getWarParties(List<AttackerEntity> attackers, TerritoryEntity territory) {
         Map<PlayerEntity, List<MutablePair<UnitMappingEnum, Integer>>> warParties = new HashMap<>();
 
         //Add all attackers to the war party
@@ -113,10 +117,12 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
         return warParties;
     }
 
-    private Map.Entry<PlayerEntity, List<MutablePair<UnitMappingEnum, Integer>>> resolveWinner(TerritoryEntity territory, List<AttackerEntity> attackers) {
+    //Making public to test
+    public Map.Entry<PlayerEntity, List<MutablePair<UnitMappingEnum, Integer>>> resolveWinner(TerritoryEntity territory, List<AttackerEntity> attackers) {
         Map<PlayerEntity, List<MutablePair<UnitMappingEnum, Integer>>> warPartyMap = getWarParties(attackers, territory);
 
         List<PlayerEntity> warParties = new ArrayList<>(warPartyMap.keySet());
+
         int i = 0;
         int j = 1;
 
@@ -124,6 +130,7 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
 
             PlayerEntity attacker = warParties.get(i);
             PlayerEntity defender = warParties.get(j);
+
             Boolean isAttackerTerritoryOwner = territory.getOwner().equals(attacker);
             Boolean isDefenderTerritoryOwner = territory.getOwner().equals(defender);
 
@@ -160,8 +167,16 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
 
         Map.Entry<PlayerEntity, List<MutablePair<UnitMappingEnum, Integer>>> winner = resolveWinner(territory, attackers);
 
-        territory = territoryService.updateTerritoryOwner(territory.getId(), winner.getKey());
-        //TODO Update units
+        Map<UnitMappingEnum, Integer> unitMapping = winner.getValue().stream().collect(Collectors.toMap(MutablePair::getLeft, MutablePair::getRight));
+        territory.setOwner(winner.getKey());
+        List<UnitEntity> unitEntities = new ArrayList<>();
+        for (UnitEntity unit : territory.getUnits()) {
+            unit.setUnits(unitMapping.get(unit.getUnitType()));
+            unitEntities.add(unit);
+        }
+
+        territoryService.updateTerritoryOwner(territory, winner.getKey());
+        territoryService.updateTerritoryUnits(territory, unitEntities);
 
         attackerService.clearAttackers(territory);
     }
