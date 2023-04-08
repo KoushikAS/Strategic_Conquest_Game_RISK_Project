@@ -97,10 +97,13 @@ public class RoundServiceImpl implements RoundService {
         log.info("Executing Round for Game Id :" + gameId);
         GameEntity game = gameService.getGame(gameId);
         executePlayersOrders(game);
-        resolveCombatForGame(game);
-        //TODO Update Resources  like Units, Technology and Food
 
-        updatePlayerStatus(game);
+        if(game.getRoundNo() >= 1) {
+            resolveCombatForGame(game);
+            //TODO Update Resources  like Units, Technology and Food
+            updatePlayerStatus(game);
+        }
+
         updateGameStatus(game);
     }
 }

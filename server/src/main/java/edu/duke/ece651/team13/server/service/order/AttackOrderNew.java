@@ -36,7 +36,7 @@ public class AttackOrderNew implements OrderFactory {
     }
 
     @Override
-    public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalAccessException {
+    public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException {
         RuleChecker ruleChecker = getDefaultRuleChecker();
         ruleChecker.checkOrder(order);
         executeLocaly(game.getMap().getTerritoryEntityById(order.getSource().getId()), order.getUnitNum());

@@ -13,7 +13,7 @@ public abstract class RuleChecker {
      * Use parameter polymorphism to check on different types of orders
      * TODO: changed to pass in PlayerOrder, parametric polymorphism may not work here
      */
-    protected abstract void checkMyRule(OrderEntity order) throws IllegalAccessException;
+    protected abstract void checkMyRule(OrderEntity order) throws IllegalArgumentException;
 //    protected abstract String checkMyRule(AttackOrder order);
 
     /**
@@ -23,7 +23,7 @@ public abstract class RuleChecker {
      * @return null if the placement is OK
      *         any non-null String: a description of what is wrong, suitable to show the user
      */
-    public String checkOrder(OrderEntity order)throws IllegalAccessException{
+    public String checkOrder(OrderEntity order)throws IllegalArgumentException{
         //if we fail our own rule: stop the placement is not legal
         checkMyRule(order);
 
