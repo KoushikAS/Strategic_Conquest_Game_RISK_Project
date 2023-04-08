@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server.service;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
 import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
 import edu.duke.ece651.team13.shared.enums.OrderMappingEnum;
@@ -29,6 +30,9 @@ public class RoundServiceImpl implements RoundService {
 
     @Autowired
     private final CombatResolutionService combatResolutionService;
+
+    @Autowired
+    private final TerritoryService territoryService;
 
 
     @Override
@@ -60,9 +64,24 @@ public class RoundServiceImpl implements RoundService {
         game.getMap().getTerritories().forEach(combatResolutionService::resolveCombot);
     }
 
+    private void updateResourceForPlayers(List<PlayerEntity> players){
+        for(PlayerEntity player: players){
+            List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
+            int foodProduction = 0;
+            int techProduction = 0;
+            for(TerritoryEntity territory: territoryEntities){
+                foodProduction += territory.getFoodProduction();
+                techProduction += territory.getTechProduction();
+            }
+            player.setFoodResource(player.getFoodResource()+foodProduction);
+            player.setTechResource(player.getTechResource()+techProduction);
+        }
+    }
+
     @Override
     public void playOneRound(GameEntity game) {
         executePlayersOrders(game);
         resolveCombatForGame(game);
+        updateResourceForPlayers(game.getPlayers());
     }
 }
