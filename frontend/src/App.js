@@ -1,13 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.css";
-import { AuthProvider, AuthContext } from "./AuthProvider";
+import { AuthProvider, AuthContext } from "./auth/AuthProvider";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import GameView from "./game/GameView";
 import AttackView from "./game/AttackView";
-import LoginView from "./login/LoginView";
+import LoginView from "./auth/LoginView";
 import GameListView from "./game_list/GameListView";
-import { ProtectedRoute } from "./ProtectedRoute";
+import { ProtectedRoute } from "./auth/ProtectedRoute";
 
 function App() {
   return (
