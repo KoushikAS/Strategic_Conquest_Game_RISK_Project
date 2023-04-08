@@ -7,7 +7,6 @@ import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.entity.UserEntity;
-import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.util.Dice;
 import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.player.Player;
@@ -21,6 +20,7 @@ import java.util.List;
 
 import static edu.duke.ece651.team13.server.App.getMap;
 import static edu.duke.ece651.team13.server.App.getPlayers;
+import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL0;
 
 public class MockDataUtil {
     private MockDataUtil() {
@@ -54,18 +54,19 @@ public class MockDataUtil {
 
     public static TerritoryEntity getTerritoryEntity(){
         TerritoryEntity territory = new TerritoryEntity();
-        for(int i=0; i < 10; i++) {
-            territory.getUnits().add(getUnitEntity());
-        }
+        territory.getUnits().add(getUnitEntity());
         return territory;
     }
 
     public static UnitEntity getUnitEntity(){
-        return  new UnitEntity();
+        UnitEntity basicUnit = new UnitEntity();
+        basicUnit.setUnits(10);
+        basicUnit.setUnitType(LEVEL0);
+        return basicUnit;
     }
 
     public static AttackerEntity getAttackerEntity(TerritoryEntity territory){
-        return new AttackerEntity(territory, getPlayerEntity(), UnitMappingEnum.LEVEL0, 5);
+        return new AttackerEntity(territory, getPlayerEntity(), LEVEL0, 5);
     }
 
     public static RiscGame getMockGame(V1Map map, int noPlayers) {

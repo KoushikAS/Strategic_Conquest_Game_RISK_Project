@@ -1,7 +1,10 @@
 package edu.duke.ece651.team13.server.order;
 
-import edu.duke.ece651.team13.server.entity.*;
-import edu.duke.ece651.team13.server.repository.AttackerRepository;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.service.TerritoryService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,9 +38,15 @@ class MoveOrderNewTest {
 
     @Test
     void test_validateAndExecuteLocallySuccess() throws IllegalArgumentException {
+        PlayerEntity player1 = new PlayerEntity();
+        player1.setId(1L);
+        player1.setFoodResource(140);
+
         GameEntity game = getGameEntity();
         TerritoryEntity source = game.getMap().getTerritories().get(0);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
+        source.setOwner(player1);
+        destination.setOwner(player1);
 
         List<TerritoryConnectionEntity> connections = new ArrayList<>();
         connections.add(new TerritoryConnectionEntity(source, destination, 5));
@@ -48,11 +57,12 @@ class MoveOrderNewTest {
         order.setDestination(destination);
         order.setOrderType(MOVE);
         order.setUnitNum(5);
+        order.setPlayer(player1);
 
         service.validateAndExecuteLocally(order, game);
 
-        assertEquals(5, game.getMap().getTerritories().get(0).getUnits().size());
-        assertEquals(15, game.getMap().getTerritories().get(1).getUnits().size());
+        assertEquals(5, game.getMap().getTerritories().get(0).getUnits().get(0).getUnits());
+        assertEquals(15, game.getMap().getTerritories().get(1).getUnits().get(0).getUnits());
     }
 
     @Test
