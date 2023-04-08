@@ -147,6 +147,7 @@ public class MapServiceImpl implements MapService {
         territoryService.addNeighbour(boxer, collie, 7);
 
         initUnitForMap(mapEntity, initialUnitNum);
+        initResourceForPlayers(players);
     }
 
     private void createMapFor3players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum){
@@ -216,6 +217,7 @@ public class MapServiceImpl implements MapService {
         territoryService.addNeighbour(sheepdog, maltese, 7);
 
         initUnitForMap(mapEntity, initialUnitNum);
+        initResourceForPlayers(players);
     }
 
     private void createMapFor2players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum){
@@ -260,6 +262,7 @@ public class MapServiceImpl implements MapService {
         territoryService.addNeighbour(bulldog, spaniel, 7);
 
         initUnitForMap(mapEntity, initialUnitNum);
+        initResourceForPlayers(players);
     }
 
     /**
@@ -276,6 +279,20 @@ public class MapServiceImpl implements MapService {
             unitService.createUnit(UnitMappingEnum.LEVEL4, territory, 0);
             unitService.createUnit(UnitMappingEnum.LEVEL5, territory, 0);
             unitService.createUnit(UnitMappingEnum.LEVEL6, territory, 0);
+        }
+    }
+
+    private void initResourceForPlayers(List<PlayerEntity> players){
+        for(PlayerEntity playerEntity: players){
+            List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(playerEntity);
+            int foodResource = 0;
+            int techResource = 0;
+            for(TerritoryEntity territoryEntity: territoryEntities){
+                foodResource += territoryEntity.getFoodProduction();
+                techResource += territoryEntity.getTechProduction();
+            }
+            playerEntity.setFoodResource(foodResource);
+            playerEntity.setTechResource(techResource);
         }
     }
 }

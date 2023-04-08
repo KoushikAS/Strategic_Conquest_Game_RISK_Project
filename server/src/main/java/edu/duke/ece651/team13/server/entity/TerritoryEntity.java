@@ -41,10 +41,10 @@ public class TerritoryEntity {
     private List<TerritoryConnectionEntity> connections = new ArrayList<>();
 
     @Column(name = "FOOD_PRODUCTION")
-    private int foodProduction;
+    private int foodProduction; //food resource production this territory generate each round
 
     @Column(name = "TECH_PRODUCTION")
-    private int techProduction;
+    private int techProduction; //tech resource production this territory generate each round
 
     @OneToMany(mappedBy = "territory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
