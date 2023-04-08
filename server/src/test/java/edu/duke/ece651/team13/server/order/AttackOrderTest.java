@@ -37,7 +37,7 @@ class AttackOrderTest {
 
 
     @Test
-    void test_validateAndExecuteLocallySuccess() throws IllegalAccessException {
+    void test_validateAndExecuteLocallySuccess() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
         owner.setId(1L);
@@ -66,7 +66,7 @@ class AttackOrderTest {
 
 
     @Test
-    void test_validateAndExecuteLocallyNottAdjacnet() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyNottAdjacnet() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
         owner.setId(1L);
@@ -93,7 +93,7 @@ class AttackOrderTest {
     }
 
     @Test
-    void test_validateAndExecuteLocallyNotEnoughUnits() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyNotEnoughUnits() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
         owner.setId(1L);
@@ -120,7 +120,7 @@ class AttackOrderTest {
 
 
     @Test
-    void test_validateAndExecuteLocallyNotOnwedAttackingSame() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyNotOnwedAttackingSame() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
         owner.setId(1L);

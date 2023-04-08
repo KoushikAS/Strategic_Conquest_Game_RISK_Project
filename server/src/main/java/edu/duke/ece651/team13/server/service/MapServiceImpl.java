@@ -269,9 +269,13 @@ public class MapServiceImpl implements MapService {
      */
     private void initUnitForMap(MapEntity mapEntity, int initialUnitNum){
         for(TerritoryEntity territory: mapEntity.getTerritories()){
-            for(int i=0; i<initialUnitNum; i++){
-                unitService.createUnit(UnitMappingEnum.LEVEL0, territory);
-            }
+            unitService.createUnit(UnitMappingEnum.LEVEL0, territory, initialUnitNum);
+            unitService.createUnit(UnitMappingEnum.LEVEL1, territory, 0);
+            unitService.createUnit(UnitMappingEnum.LEVEL2, territory, 0);
+            unitService.createUnit(UnitMappingEnum.LEVEL3, territory, 0);
+            unitService.createUnit(UnitMappingEnum.LEVEL4, territory, 0);
+            unitService.createUnit(UnitMappingEnum.LEVEL5, territory, 0);
+            unitService.createUnit(UnitMappingEnum.LEVEL6, territory, 0);
         }
     }
 }

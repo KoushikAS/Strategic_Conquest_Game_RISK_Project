@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void validateAndAddOrders(OrdersDTO orders) throws IllegalAccessException {
+    public void validateAndAddOrders(OrdersDTO orders) throws IllegalArgumentException {
         PlayerEntity player = playerService.getPlayer(orders.getPlayerId());
         GameEntity game = player.getGame();
         List<OrderEntity> orderEntityList = getOrderEntityList(orders, game, player);
