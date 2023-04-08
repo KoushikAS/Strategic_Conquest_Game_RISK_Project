@@ -3,7 +3,7 @@ package edu.duke.ece651.team13.server.order;
 import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.service.AttackerService;
 import edu.duke.ece651.team13.server.service.TerritoryService;
-import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
+import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 class AttackOrderTest {
 
-    private AttackOrderNew service; //service under test
+    private AttackOrderService service; //service under test
 
     @Mock
     private TerritoryService territoryService;
@@ -31,7 +31,7 @@ class AttackOrderTest {
 
     @BeforeEach
     void setUp() {
-        service = new AttackOrderNew(territoryService, attackerService);
+        service = new AttackOrderService(territoryService, attackerService);
     }
 
 

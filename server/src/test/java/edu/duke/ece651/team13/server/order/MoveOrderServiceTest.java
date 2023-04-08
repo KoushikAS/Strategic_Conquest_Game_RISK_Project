@@ -2,7 +2,7 @@ package edu.duke.ece651.team13.server.order;
 
 import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.service.TerritoryService;
-import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
+import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,9 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
-class MoveOrderNewTest {
+class MoveOrderServiceTest {
 
-    private MoveOrderNew service; //service under test
+    private MoveOrderService service; //service under test
 
     @Mock
     private TerritoryService territoryService;
@@ -28,7 +28,7 @@ class MoveOrderNewTest {
 
     @BeforeEach
     void setUp() {
-        service = new MoveOrderNew(territoryService);
+        service = new MoveOrderService(territoryService);
     }
 
 

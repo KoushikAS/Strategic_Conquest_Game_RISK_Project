@@ -13,7 +13,7 @@ import static edu.duke.ece651.team13.server.rulechecker.AttackFoodResourceChecke
 
 @Service
 @RequiredArgsConstructor
-public class AttackOrderNew implements OrderFactory {
+public class AttackOrderService implements OrderFactory {
 
     @Autowired
     private final TerritoryService territoryService;

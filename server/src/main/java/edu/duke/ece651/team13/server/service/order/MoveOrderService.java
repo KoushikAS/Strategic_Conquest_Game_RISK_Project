@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MoveOrderNew implements OrderFactory {
+public class MoveOrderService implements OrderFactory {
 
 
     @Autowired
