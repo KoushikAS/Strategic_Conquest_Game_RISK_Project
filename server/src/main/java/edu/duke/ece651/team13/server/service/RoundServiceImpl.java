@@ -47,6 +47,8 @@ public class RoundServiceImpl implements RoundService {
     private final GameService gameService;
 
 
+
+
     private void executePlayersOrders(GameEntity game) {
         for (PlayerEntity player : game.getPlayers()) {
             List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
@@ -65,18 +67,6 @@ public class RoundServiceImpl implements RoundService {
         game.getMap().getTerritories().forEach(combatResolutionService::resolveCombot);
     }
 
-    private void updateResourceForPlayers(List<PlayerEntity> players){
-        for(PlayerEntity player: players){
-            List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
-            int foodProduction = 0;
-            int techProduction = 0;
-            for(TerritoryEntity territory: territoryEntities){
-                foodProduction += territory.getFoodProduction();
-                techProduction += territory.getTechProduction();
-            }
-            player.setFoodResource(player.getFoodResource()+foodProduction);
-            player.setTechResource(player.getTechResource()+techProduction);
-
     private void updatePlayerStatus(GameEntity game) {
         for (PlayerEntity player : game.getPlayers()) {
             if (territoryService.getTerritoriesByPlayer(player).isEmpty()) {
@@ -94,6 +84,20 @@ public class RoundServiceImpl implements RoundService {
         }
     }
 
+    private void updateResourceForPlayers(List<PlayerEntity> players){
+        for(PlayerEntity player: players){
+            List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
+            int foodProduction = 0;
+            int techProduction = 0;
+            for(TerritoryEntity territory: territoryEntities){
+                foodProduction += territory.getFoodProduction();
+                techProduction += territory.getTechProduction();
+            }
+            player.setFoodResource(player.getFoodResource()+foodProduction);
+            player.setTechResource(player.getTechResource()+techProduction);
+        }
+    }
+
     @Override
     @Async
     @EventListener
@@ -101,12 +105,11 @@ public class RoundServiceImpl implements RoundService {
         log.info("Executing Round for Game Id :" + gameId);
         GameEntity game = gameService.getGame(gameId);
         executePlayersOrders(game);
-        resolveCombatForGame(game);
-        updateResourceForPlayers(game.getPlayers());
 
         if(game.getRoundNo() >= 1) {
             resolveCombatForGame(game);
             //TODO Update Resources  like Units, Technology and Food
+            updateResourceForPlayers(game.getPlayers());
             updatePlayerStatus(game);
         }
 
