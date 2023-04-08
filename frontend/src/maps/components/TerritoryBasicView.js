@@ -18,6 +18,8 @@ const TerritoryBasicView = (props) => {
     // stop propagation if attacking
     if (props.handleSource) {
       e.stopPropagation();
+    } else {
+      return;
     }
     console.log(e.target.innerText);
     props.handleSource(e.target.innerText);
