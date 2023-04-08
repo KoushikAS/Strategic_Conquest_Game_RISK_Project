@@ -30,7 +30,7 @@ public class RiscGame implements Game {
         this.map = map;
         this.players = players;
         assignInitialGroups();
-        this.dice = new Dice(1, 20);
+        this.dice = new Dice();
         this.orders = new ArrayList<>();
         this.isPlacementRound = true;
     }

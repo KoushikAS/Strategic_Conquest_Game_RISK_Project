@@ -4,6 +4,7 @@ import edu.duke.ece651.team13.server.entity.MapEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.entity.UnitEntity;
+import edu.duke.ece651.team13.shared.territory.Territory;
 
 import java.util.List;
 
@@ -13,9 +14,9 @@ public interface TerritoryService {
 
     TerritoryEntity getTerritoriesByMap(Long Id);
 
-    TerritoryEntity updateTerritoryOwner(Long Id, PlayerEntity owner);
+    TerritoryEntity updateTerritoryOwner(TerritoryEntity territory, PlayerEntity owner);
 
     void addNeighbour(TerritoryEntity territory1, TerritoryEntity territory2, Integer distance);
 
-    TerritoryEntity updateTerritoryUnits(Long Id, List<UnitEntity> units);
+    TerritoryEntity updateTerritoryUnits(TerritoryEntity territory, List<UnitEntity> units);
 }

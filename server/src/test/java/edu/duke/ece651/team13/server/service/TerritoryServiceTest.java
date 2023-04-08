@@ -68,24 +68,21 @@ public class TerritoryServiceTest {
     void updateTerritoryTest(){
         PlayerEntity player = getPlayerEntity();
         TerritoryEntity territory = getTerritoryEntity();
-        when(repository.findById(1L)).thenReturn(Optional.of(territory));
         when(repository.save(any(TerritoryEntity.class))).thenReturn(territory);
 
-        TerritoryEntity actual = service.updateTerritoryOwner(1L, player);
+        TerritoryEntity actual = service.updateTerritoryOwner(territory, player);
         assertEquals(territory,actual);
-        verify(repository, times(1)).findById(1L);
+
         verify(repository, times(1)).save(any(TerritoryEntity.class));
         verifyNoMoreInteractions(repository);
     }
 
     @Test
     void addNeighbourTest(){
-
         TerritoryEntity territory = getTerritoryEntity();
         when(neighbourMappingRepository.save(any(TerritoryConnectionEntity.class))).thenReturn(new TerritoryConnectionEntity());
 
         service.addNeighbour(territory, territory, 5);
-
 
         verify(neighbourMappingRepository, times(2)).save(any(TerritoryConnectionEntity.class));
         verifyNoMoreInteractions(repository);

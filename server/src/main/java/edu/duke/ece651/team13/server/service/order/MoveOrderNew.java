@@ -51,8 +51,8 @@ public class MoveOrderNew implements OrderFactory {
         TerritoryEntity sourceTerritoryEntity = game.getMap().getTerritoryEntityById(order.getSource().getId());
         TerritoryEntity destinationTerritoryEntity = game.getMap().getTerritoryEntityById(order.getDestination().getId());
         executelocally(sourceTerritoryEntity, destinationTerritoryEntity, order.getUnitNum());
-        territoryService.updateTerritoryUnits(sourceTerritoryEntity.getId(), sourceTerritoryEntity.getUnits());
-        territoryService.updateTerritoryUnits(destinationTerritoryEntity.getId(), destinationTerritoryEntity.getUnits());
+        territoryService.updateTerritoryUnits(sourceTerritoryEntity, sourceTerritoryEntity.getUnits());
+        territoryService.updateTerritoryUnits(destinationTerritoryEntity, destinationTerritoryEntity.getUnits());
     }
 
 }
