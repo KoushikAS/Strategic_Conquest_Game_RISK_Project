@@ -41,10 +41,10 @@ public class GameController {
         return "Greetings from Spring Boot!";
     }
 
-    @GetMapping("/createGame")
-    public ResponseEntity<GameEntity> getGame() {
+    @GetMapping("/createGame/{noOfPlayer}")
+    public ResponseEntity<GameEntity> createGame(@PathVariable("noOfPlayer") Integer noOfPlayer) {
         log.info("Received an /createGame");
-        GameEntity gameEntity = gameService.createGame(3);
+        GameEntity gameEntity = gameService.createGame(noOfPlayer);
         return ResponseEntity.ok().body(gameEntity);
     }
 
