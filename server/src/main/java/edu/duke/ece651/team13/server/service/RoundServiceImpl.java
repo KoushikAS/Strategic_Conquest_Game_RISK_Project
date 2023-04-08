@@ -1,6 +1,5 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.AttackerEntity;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
@@ -28,6 +27,9 @@ public class RoundServiceImpl implements RoundService {
     @Autowired
     private final AttackOrderNew attackOrder;
 
+    @Autowired
+    private final CombatResolutionService combatResolutionService;
+
 
     @Override
     public Boolean isGameReadyForRoundExecution(GameEntity game) {
@@ -40,8 +42,8 @@ public class RoundServiceImpl implements RoundService {
         return true;
     }
 
-    private void executePlayersOrders(GameEntity game){
-        for(PlayerEntity player: game.getPlayers()) {
+    private void executePlayersOrders(GameEntity game) {
+        for (PlayerEntity player : game.getPlayers()) {
             List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
 
             orders.stream()
@@ -53,11 +55,14 @@ public class RoundServiceImpl implements RoundService {
                     .forEach(order -> attackOrder.executeOnGame(order, game));
         }
     }
+
+    private void resolveCombatForGame(GameEntity game) {
+        game.getMap().getTerritories().forEach(combatResolutionService::resolveCombot);
+    }
+
     @Override
     public void playOneRound(GameEntity game) {
-
         executePlayersOrders(game);
-
-
+        resolveCombatForGame(game);
     }
 }

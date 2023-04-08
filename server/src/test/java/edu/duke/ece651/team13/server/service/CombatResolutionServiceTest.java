@@ -19,7 +19,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -184,14 +184,14 @@ public class CombatResolutionServiceTest {
     @Test
     void resolveWinner_defenderWinTest(){
 
-        when(dice.roll()).thenReturn(2, 1 );
+        when(dice.roll()).thenReturn(0);
         PlayerEntity defender = new PlayerEntity("defender");
         PlayerEntity attacker = new PlayerEntity("attacker");
 
 
         TerritoryEntity territory = new TerritoryEntity();
         territory.setOwner(defender);
-        territory.getUnits().add(new UnitEntity(1L, UnitMappingEnum.LEVEL0, territory, 1));
+        territory.getUnits().add(new UnitEntity(1L, UnitMappingEnum.LEVEL5, territory, 1));
         List<AttackerEntity> attackerEntities = new ArrayList<>();
         attackerEntities.add(new AttackerEntity(territory, attacker, UnitMappingEnum.LEVEL0, 1));
 
@@ -203,7 +203,7 @@ public class CombatResolutionServiceTest {
     @Test
     void resolveWinner_attackerWinTest(){
 
-        when(dice.roll()).thenReturn(1, 2 );
+        when(dice.roll()).thenReturn(0);
         PlayerEntity defender = new PlayerEntity("defender");
         PlayerEntity attacker = new PlayerEntity("attacker");
 
@@ -212,7 +212,7 @@ public class CombatResolutionServiceTest {
         territory.setOwner(defender);
         territory.getUnits().add(new UnitEntity(1L, UnitMappingEnum.LEVEL0, territory, 1));
         List<AttackerEntity> attackerEntities = new ArrayList<>();
-        attackerEntities.add(new AttackerEntity(territory, attacker, UnitMappingEnum.LEVEL0, 1));
+        attackerEntities.add(new AttackerEntity(territory, attacker, UnitMappingEnum.LEVEL5, 1));
 
         Map.Entry<PlayerEntity, List<MutablePair<UnitMappingEnum, Integer>>> actual = service.resolveWinner(territory, attackerEntities);
 
@@ -237,5 +237,8 @@ public class CombatResolutionServiceTest {
         when(attackerService.getAttackers(territory)).thenReturn(attackerEntities);
 
         service.resolveCombot(territory);
+        verify(territoryService, times(1)).updateTerritoryUnits(any(TerritoryEntity.class), any());
+        verify(territoryService, times(1)).updateTerritoryOwner(any(TerritoryEntity.class), any());
+        verify(attackerService, times(1)).clearAttackers(any(TerritoryEntity.class));
     }
 }

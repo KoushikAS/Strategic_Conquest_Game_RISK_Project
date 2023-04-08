@@ -56,7 +56,7 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
                 .max((Comparator.comparing(UnitMappingEnum::getLevel)))
                 .orElseThrow(NoSuchElementException::new);
 
-        UnitMappingEnum defenderUnitType = attacker.stream()
+        UnitMappingEnum defenderUnitType = defender.stream()
                 .map(MutablePair::getLeft)
                 .min((Comparator.comparing(UnitMappingEnum::getLevel)))
                 .orElseThrow(NoSuchElementException::new);
