@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server.service;
 
+import edu.duke.ece651.team13.server.dto.GameDTO;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
@@ -43,11 +44,12 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<GameEntity> getFreeGames() {
-        List<GameEntity> games = repository.findByRoundNo(0L);
+    public List<GameDTO> getFreeGames() {
+        List<GameEntity> games = repository.findByRoundNo(0);
         return games.stream()
                 .filter(game -> game.getPlayers().stream()
                         .anyMatch(player -> player.getUser() == null))
+                .map(game -> new GameDTO(game.getId(), game.getPlayers().size()))
                 .collect(Collectors.toList());
     }
 

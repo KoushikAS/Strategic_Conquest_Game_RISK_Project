@@ -1,5 +1,7 @@
 package edu.duke.ece651.team13.server.controller;
 
+import edu.duke.ece651.team13.server.dto.GameDTO;
+import edu.duke.ece651.team13.server.dto.GamesDTO;
 import edu.duke.ece651.team13.server.dto.OrdersDTO;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
@@ -18,8 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,10 +49,10 @@ public class GameController {
     }
 
     @GetMapping("/getFreeGames")
-    public ResponseEntity<List<GameEntity>> getAvailableFreeGames() {
+    public ResponseEntity<GamesDTO> getAvailableFreeGames() {
         log.info("Received a request /getFreeGames ");
-        List<GameEntity> games =  gameService.getFreeGames();
-        return ResponseEntity.ok().body(games);
+        List<GameDTO> games =  gameService.getFreeGames();
+        return ResponseEntity.ok().body(new GamesDTO(games));
     }
 
 

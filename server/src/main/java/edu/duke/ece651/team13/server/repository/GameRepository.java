@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface GameRepository extends CrudRepository<GameEntity, Long> {
 
-    List<GameEntity> findByRoundNo(Long roundNo);
+    List<GameEntity> findByRoundNo(int roundNo);
 }
