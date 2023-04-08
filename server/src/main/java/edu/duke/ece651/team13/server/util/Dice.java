@@ -1,18 +1,16 @@
-package edu.duke.ece651.team13.server;
+package edu.duke.ece651.team13.server.util;
+
+import lombok.NoArgsConstructor;
 
 import java.util.Random;
 
 /**
  * This class represents the dice
  */
+@NoArgsConstructor
 public class Dice {
-    private final int minValue;
-    private final int maxValue;
-
-    public Dice() {
-        this.minValue = 1;
-        this.maxValue = 20;
-    }
+    private final int minValue =1;
+    private final int maxValue = 20;
 
     /**
      * Roll the dice

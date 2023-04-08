@@ -8,6 +8,7 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.entity.UserEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
+import edu.duke.ece651.team13.server.util.Dice;
 import edu.duke.ece651.team13.shared.map.V1Map;
 import edu.duke.ece651.team13.shared.player.Player;
 

@@ -15,18 +15,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static edu.duke.ece651.team13.server.enums.GameStatusEnum.ENDED;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.LOSE;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -57,14 +56,15 @@ public class OrderServiceImpl implements OrderService {
         return repository.findByPlayer(playerEntity);
     }
 
-    public List<OrderEntity> getOrderEntityList(OrdersDTO orders, GameEntity game, PlayerEntity player) {
+
+    private List<OrderEntity> getOrderEntityList(OrdersDTO orders, GameEntity game, PlayerEntity player) {
         List<OrderEntity> orderEntities = new ArrayList<>();
         for (OrderDTO orderDTO : orders.getOrders()) {
             Optional<TerritoryEntity> source = game.getMap().getTerritories().stream().filter(territoryEntity -> territoryEntity.getId().equals(orderDTO.getSourceTerritoryId())).findFirst();
             Optional<TerritoryEntity> destination = game.getMap().getTerritories().stream().filter(territoryEntity -> territoryEntity.getId().equals(orderDTO.getDestinationTerritoryId())).findFirst();
             if (!source.isPresent() || !destination.isPresent()) {
                 log.error("Either did not find the source territory Id" + orderDTO.getSourceTerritoryId() + " or did not find destination territory Id " + orderDTO.getDestinationTerritoryId());
-                throw new ResponseStatusException(NOT_FOUND, "Source or Destination Territory does not exists");
+                throw new NoSuchElementException("Source or Destination Territory does not exists");
             }
 
             OrderEntity orderEntity = new OrderEntity();

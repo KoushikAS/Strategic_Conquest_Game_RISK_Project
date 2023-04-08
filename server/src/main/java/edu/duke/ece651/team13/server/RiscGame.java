@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server;
 
+import edu.duke.ece651.team13.server.util.Dice;
 import edu.duke.ece651.team13.shared.AttackerInfo;
 import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.shared.map.MapRO;
@@ -12,8 +13,6 @@ import edu.duke.ece651.team13.shared.territory.Territory;
 import java.net.Socket;
 import java.util.*;
 
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.LOSE;
 import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.PLAYING;
 import static edu.duke.ece651.team13.shared.util.mapUtil.isPlayerLost;
