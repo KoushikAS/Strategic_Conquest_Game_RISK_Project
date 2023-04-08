@@ -1,19 +1,15 @@
 package edu.duke.ece651.team13.server.service.order;
 
-import edu.duke.ece651.team13.server.entity.AttackerEntity;
-import edu.duke.ece651.team13.server.entity.GameEntity;
-import edu.duke.ece651.team13.server.entity.OrderEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
-import edu.duke.ece651.team13.server.rulechecker.AttackOwnershipChecker;
-import edu.duke.ece651.team13.server.rulechecker.AttackPathChecker;
-import edu.duke.ece651.team13.server.rulechecker.AttackUnitNumChecker;
-import edu.duke.ece651.team13.server.rulechecker.RuleChecker;
+import edu.duke.ece651.team13.server.rulechecker.*;
 import edu.duke.ece651.team13.server.service.AttackerService;
 import edu.duke.ece651.team13.server.service.TerritoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static edu.duke.ece651.team13.server.rulechecker.AttackFoodResourceChecker.getFoodCost;
 
 @Service
 @RequiredArgsConstructor
@@ -27,22 +23,24 @@ public class AttackOrderNew implements OrderFactory {
 
     /**
      * Get the default rule checker chain
-     * AttackOwnershipChecker -> AttackUnitNumChecker -> AttackPathChecker
+     * AttackOwnershipChecker -> AttackUnitNumChecker -> AttackFoodResourceChecker -> AttackPathChecker
      */
     private static RuleChecker getDefaultRuleChecker() {
         RuleChecker pathChecker = new AttackPathChecker(null);
-        RuleChecker unitnumChecker = new AttackUnitNumChecker(pathChecker);
-        return new AttackOwnershipChecker(unitnumChecker);
+        RuleChecker foodResourceChecker = new AttackFoodResourceChecker(pathChecker);
+        RuleChecker unitNumChecker = new AttackUnitNumChecker(foodResourceChecker);
+        return new AttackOwnershipChecker(unitNumChecker);
     }
 
     @Override
     public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException {
         RuleChecker ruleChecker = getDefaultRuleChecker();
         ruleChecker.checkOrder(order);
-        executeLocaly(game.getMap().getTerritoryEntityById(order.getSource().getId()), order.getUnitNum());
+        executeLocally(game.getMap().getTerritoryEntityById(order.getSource().getId()), order.getUnitNum(), order.getPlayer(), getFoodCost(order));
     }
 
-    private void executeLocaly(TerritoryEntity sourceTerritoryEntity, int unitNo) {
+    private void executeLocally(TerritoryEntity sourceTerritoryEntity, int unitNo, PlayerEntity player, int foodCost) {
+        player.setFoodResource(player.getFoodResource()-foodCost);
         //TODO remove correct unit type
         if (unitNo > 0) {
             sourceTerritoryEntity.getUnits().subList(0, unitNo).clear();
@@ -52,7 +50,7 @@ public class AttackOrderNew implements OrderFactory {
     @Override
     public void executeOnGame(OrderEntity order, GameEntity game) {
         TerritoryEntity sourceTerritoryEntity = game.getMap().getTerritoryEntityById(order.getSource().getId());
-        executeLocaly(sourceTerritoryEntity, order.getUnitNum());
+        executeLocally(sourceTerritoryEntity, order.getUnitNum(), order.getPlayer(), getFoodCost(order));
         territoryService.updateTerritoryUnits(sourceTerritoryEntity, sourceTerritoryEntity.getUnits());
         attackerService.addAttacker(order.getDestination(), order.getPlayer(), UnitMappingEnum.LEVEL0, order.getUnitNum());
     }

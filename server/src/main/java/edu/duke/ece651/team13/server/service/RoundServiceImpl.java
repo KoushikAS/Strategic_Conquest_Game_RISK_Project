@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server.service;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
 import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
@@ -83,6 +84,20 @@ public class RoundServiceImpl implements RoundService {
         }
     }
 
+    private void updateResourceForPlayers(List<PlayerEntity> players){
+        for(PlayerEntity player: players){
+            List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
+            int foodProduction = 0;
+            int techProduction = 0;
+            for(TerritoryEntity territory: territoryEntities){
+                foodProduction += territory.getFoodProduction();
+                techProduction += territory.getTechProduction();
+            }
+            player.setFoodResource(player.getFoodResource()+foodProduction);
+            player.setTechResource(player.getTechResource()+techProduction);
+        }
+    }
+
     @Override
     @Async
     @EventListener
@@ -94,6 +109,7 @@ public class RoundServiceImpl implements RoundService {
         if(game.getRoundNo() >= 1) {
             resolveCombatForGame(game);
             //TODO Update Resources  like Units, Technology and Food
+            updateResourceForPlayers(game.getPlayers());
             updatePlayerStatus(game);
         }
 

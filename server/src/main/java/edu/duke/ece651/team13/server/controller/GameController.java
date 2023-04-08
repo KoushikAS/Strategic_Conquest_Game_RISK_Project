@@ -65,7 +65,7 @@ public class GameController {
         try {
             orderService.validateAndAddOrders(ordersDTO);
             return ResponseEntity.ok().body("Submitted successful");
-        } catch (IllegalAccessException e) {
+        } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
