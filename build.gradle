@@ -60,12 +60,6 @@ project (':server'){
 //        testImplementation project(path: ':shared', configuration: "testPkg")
     }
 }
-project (':client'){
-    dependencies {
-        implementation project(':shared')
-//        testImplementation project(path: ':shared', configuration: "testPkg")
-    }
-}
 clover {
     report{
         xml=true
