@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.PLAYING;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -46,9 +48,9 @@ public class RoundServiceImpl implements RoundService {
 
     @Override
     public Boolean isGameReadyForRoundExecution(GameEntity game) {
-        //Checking if all the players have submitted orders
+        //Checking if all the players who are playing have submitted orders
         for (PlayerEntity player : game.getPlayers()) {
-            if (orderService.getOrdersByPlayer(player).size() == 0) {
+            if (player.getStatus().equals(PLAYING) && orderService.getOrdersByPlayer(player).size() == 0) {
                 return false;
             }
         }
@@ -82,7 +84,7 @@ public class RoundServiceImpl implements RoundService {
     }
 
     private void updateGameStatus(GameEntity game) {
-        long noOfPlayersPlaying = game.getPlayers().stream().filter(player -> player.getStatus().equals(PlayerStatusEnum.PLAYING)).count();
+        long noOfPlayersPlaying = game.getPlayers().stream().filter(player -> player.getStatus().equals(PLAYING)).count();
         if (noOfPlayersPlaying <= 1) {
             gameService.updateGameRoundAndStatus(game, GameStatusEnum.ENDED, game.getRoundNo() + 1);
         } else {
