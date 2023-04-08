@@ -43,6 +43,10 @@ public class PlayerEntity {
     @Column(name = "TECH_RESOURCE")
     private int techResource; //tech resource totals of this player
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private GameEntity user;
+
     /**
      * Construct a new Player
      */

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -39,6 +40,15 @@ public class GameServiceImpl implements GameService {
             log.error("Did not find Game with Id " + gameId);
             throw new ResponseStatusException(NOT_FOUND, "Game with Id " + gameId + " does not exists");
         }
+    }
+
+    @Override
+    public List<GameEntity> getFreeGames() {
+        List<GameEntity> games = repository.findByRoundNo(0L);
+        return games.stream()
+                .filter(game -> game.getPlayers().stream()
+                        .anyMatch(player -> player.getUser() == null))
+                .collect(Collectors.toList());
     }
 
     @Override

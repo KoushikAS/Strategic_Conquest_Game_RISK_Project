@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -45,6 +46,14 @@ public class GameController {
         GameEntity gameEntity = gameService.createGame(3);
         return ResponseEntity.ok().body(gameEntity);
     }
+
+    @GetMapping("/getFreeGames")
+    public ResponseEntity<List<GameEntity>> getAvailableFreeGames() {
+        log.info("Received a request /getFreeGames ");
+        List<GameEntity> games =  gameService.getFreeGames();
+        return ResponseEntity.ok().body(games);
+    }
+
 
     @GetMapping("/getGame/{id}")
     public ResponseEntity<GameEntity> getMap(@PathVariable("id") Long id) {

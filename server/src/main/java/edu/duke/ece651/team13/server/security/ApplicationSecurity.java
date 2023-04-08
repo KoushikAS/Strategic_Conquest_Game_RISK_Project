@@ -40,7 +40,7 @@ public class ApplicationSecurity {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/","/login", "/register", "/createGame", "/getGame", "/getGame/*", "/submitOrder", "/getOrders/*").permitAll()
+                .antMatchers("/","/login", "/register", "/createGame", "/getGame", "/getGame/*", "/submitOrder", "/getOrders/*", "/getFreeGames").permitAll()
                 .anyRequest().authenticated();
 
         http.exceptionHandling()
