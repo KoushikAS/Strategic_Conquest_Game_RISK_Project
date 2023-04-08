@@ -5,8 +5,6 @@ import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.AttackerRepository;
-import edu.duke.ece651.team13.server.repository.PlayerRepository;
-import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,8 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;

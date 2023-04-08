@@ -3,18 +3,14 @@ package edu.duke.ece651.team13.server.service;
 import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.repository.TerritoryConnectionRepository;
 import edu.duke.ece651.team13.server.repository.TerritoryRepository;
-import edu.duke.ece651.team13.shared.territory.Territory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -47,12 +43,12 @@ public class TerritoryServiceImpl implements TerritoryService {
             return territory.get();
         } else {
             log.error("Did not find Territory with Id " + Id);
-            throw new NoSuchElementException( "Territory with Id " + Id + " does not exists");
+            throw new NoSuchElementException("Territory with Id " + Id + " does not exists");
         }
     }
 
     @Override
-    public List<TerritoryEntity> getTerritoriesByPlayer(PlayerEntity player){
+    public List<TerritoryEntity> getTerritoriesByPlayer(PlayerEntity player) {
         return repository.findByOwner(player);
     }
 
@@ -71,7 +67,7 @@ public class TerritoryServiceImpl implements TerritoryService {
     }
 
     @Override
-    public TerritoryEntity updateTerritoryUnits(TerritoryEntity territory, List<UnitEntity> units){
+    public TerritoryEntity updateTerritoryUnits(TerritoryEntity territory, List<UnitEntity> units) {
         territory.setUnits(units);
         return repository.save(territory);
     }

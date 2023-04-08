@@ -5,9 +5,9 @@ import edu.duke.ece651.team13.server.dto.OrdersDTO;
 import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
-import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
-import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
-import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.service.order.AttackOrderService;
+import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,8 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,10 +40,10 @@ public class OrderServiceTest {
     private PlayerService playerService;
 
     @Mock
-    private MoveOrderNew moveOrder;
+    private MoveOrderService moveOrder;
 
     @Mock
-    private AttackOrderNew attackOrder;
+    private AttackOrderService attackOrder;
 
     @Mock
     private ApplicationEventPublisher eventPublisher;
