@@ -33,7 +33,7 @@ class MoveOrderNewTest {
 
 
     @Test
-    void test_validateAndExecuteLocallySuccess() throws IllegalAccessException {
+    void test_validateAndExecuteLocallySuccess() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         TerritoryEntity source = game.getMap().getTerritories().get(0);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
@@ -55,7 +55,7 @@ class MoveOrderNewTest {
     }
 
     @Test
-    void test_validateAndExecuteLocallyNoConnectionError() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyNoConnectionError() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         TerritoryEntity source = game.getMap().getTerritories().get(0);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
@@ -74,7 +74,7 @@ class MoveOrderNewTest {
 
 
     @Test
-    void test_validateAndExecuteLocallyExtraUnits() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyExtraUnits() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         TerritoryEntity source = game.getMap().getTerritories().get(0);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
@@ -93,7 +93,7 @@ class MoveOrderNewTest {
     }
 
     @Test
-    void test_validateAndExecuteLocallyNotOwnerExcepetion() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyNotOwnerExcepetion() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         PlayerEntity player1 = new PlayerEntity();
         PlayerEntity player2 = new PlayerEntity();

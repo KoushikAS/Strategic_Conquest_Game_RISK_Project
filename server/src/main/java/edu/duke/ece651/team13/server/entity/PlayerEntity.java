@@ -37,6 +37,12 @@ public class PlayerEntity {
     @Enumerated(EnumType.STRING)
     private PlayerStatusEnum status;
 
+    @Column(name = "FOOD_RESOURCE")
+    private int foodResource; //food resource totals of this player
+
+    @Column(name = "TECH_RESOURCE")
+    private int techResource; //tech resource totals of this player
+
     /**
      * Construct a new Player
      */

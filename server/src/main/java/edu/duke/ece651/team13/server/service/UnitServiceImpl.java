@@ -16,11 +16,12 @@ public class UnitServiceImpl implements UnitService{
     private final UnitRepository repository;
 
     @Override
-    public UnitEntity createUnit(UnitMappingEnum unitType, TerritoryEntity territory) {
+    public UnitEntity createUnit(UnitMappingEnum unitType, TerritoryEntity territory, int unitNum) {
         UnitEntity unit = new UnitEntity();
         unit.setTerritory(territory);
         territory.getUnits().add(unit);
         unit.setUnitType(unitType);
+        unit.setUnits(unitNum);
         return repository.save(unit);
     }
 

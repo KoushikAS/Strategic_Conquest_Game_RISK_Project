@@ -6,7 +6,7 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 
 public interface OrderFactory {
 
-    void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalAccessException;
+    void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException;
 
     void executeOnGame(OrderEntity order, GameEntity game);
 }

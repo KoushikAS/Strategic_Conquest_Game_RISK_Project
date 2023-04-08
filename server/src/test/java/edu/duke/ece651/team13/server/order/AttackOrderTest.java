@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -36,10 +36,11 @@ class AttackOrderTest {
 
 
     @Test
-    void test_validateAndExecuteLocallySuccess() throws IllegalAccessException {
+    void test_validateAndExecuteLocallySuccess() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
         owner.setId(1L);
+        owner.setFoodResource(150);
         PlayerEntity opponent = new PlayerEntity();
         opponent.setId(2L);
         TerritoryEntity source = game.getMap().getTerritories().get(0);
@@ -54,7 +55,7 @@ class AttackOrderTest {
         OrderEntity order = new OrderEntity();
         order.setSource(source);
         order.setDestination(destination);
-        order.setOrderType(MOVE);
+        order.setOrderType(ATTACK);
         order.setUnitNum(5);
         order.setPlayer(owner);
 
@@ -65,7 +66,7 @@ class AttackOrderTest {
 
 
     @Test
-    void test_validateAndExecuteLocallyNottAdjacnet() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyNottAdjacnet() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
         owner.setId(1L);
@@ -83,7 +84,7 @@ class AttackOrderTest {
         OrderEntity order = new OrderEntity();
         order.setSource(source);
         order.setDestination(destination);
-        order.setOrderType(MOVE);
+        order.setOrderType(ATTACK);
         order.setUnitNum(5);
         order.setPlayer(owner);
 
@@ -92,7 +93,7 @@ class AttackOrderTest {
     }
 
     @Test
-    void test_validateAndExecuteLocallyNotEnoughUnits() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyNotEnoughUnits() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
         owner.setId(1L);
@@ -110,7 +111,7 @@ class AttackOrderTest {
         OrderEntity order = new OrderEntity();
         order.setSource(source);
         order.setDestination(destination);
-        order.setOrderType(MOVE);
+        order.setOrderType(ATTACK);
         order.setUnitNum(25);
         order.setPlayer(owner);
 
@@ -119,7 +120,7 @@ class AttackOrderTest {
 
 
     @Test
-    void test_validateAndExecuteLocallyNotOnwedAttackingSame() throws IllegalAccessException {
+    void test_validateAndExecuteLocallyNotOnwedAttackingSame() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
         owner.setId(1L);
@@ -137,7 +138,7 @@ class AttackOrderTest {
         OrderEntity order = new OrderEntity();
         order.setSource(source);
         order.setDestination(destination);
-        order.setOrderType(MOVE);
+        order.setOrderType(ATTACK);
         order.setUnitNum(5);
         order.setPlayer(owner);
 

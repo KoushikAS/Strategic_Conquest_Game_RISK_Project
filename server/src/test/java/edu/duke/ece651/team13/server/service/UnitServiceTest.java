@@ -35,7 +35,7 @@ class UnitServiceTest {
         TerritoryEntity territory= getTerritoryEntity();
         UnitEntity unit = getUnitEntity();
         when(repository.save(any(UnitEntity.class))).thenReturn(unit);
-        UnitEntity actual = service.createUnit(UnitMappingEnum.LEVEL0, territory);
+        UnitEntity actual = service.createUnit(UnitMappingEnum.LEVEL0, territory, 1);
         assertEquals(unit,actual);
         verify(repository, times(1)).save(any(UnitEntity.class));
         verifyNoMoreInteractions(repository);
