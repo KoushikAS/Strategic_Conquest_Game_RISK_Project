@@ -1,5 +1,10 @@
 package edu.duke.ece651.team13.server.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum UnitMappingEnum {
     LEVEL0(0, 0, 0, "Basic"),
     LEVEL1(1, 1, 3, "Infantry"),
@@ -13,27 +18,4 @@ public enum UnitMappingEnum {
     private final int bonus;
     private final int cost; //the cost to upgrade unit from level0 to the target level
     private final String type;
-
-    UnitMappingEnum(int level, int bonus, int cost, String type){
-        this.level = level;
-        this.bonus = bonus;
-        this.cost = cost;
-        this.type = type;
-    }
-
-    public int getLevel(){
-        return this.level;
-    }
-
-    public int getBonus(){
-        return this.bonus;
-    }
-
-    public int getCost(){
-        return this.cost;
-    }
-
-    public String getType(){
-        return this.type;
-    }
 }
