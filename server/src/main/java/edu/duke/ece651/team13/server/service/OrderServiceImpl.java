@@ -26,6 +26,7 @@ import static edu.duke.ece651.team13.server.enums.GameStatusEnum.ENDED;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.LOSE;
+import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.PLAYING;
 
 @Service
 @RequiredArgsConstructor
@@ -48,14 +49,21 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private final ApplicationEventPublisher eventPublisher;
 
-    @Autowired
-    private final RoundService roundService;
 
     @Override
     public List<OrderEntity> getOrdersByPlayer(PlayerEntity playerEntity) {
         return repository.findByPlayer(playerEntity);
     }
 
+    private Boolean isGameReadyForRoundExecution(GameEntity game) {
+        //Checking if all the players who are active have submitted orders
+        for (PlayerEntity player : game.getPlayers()) {
+            if (player.getStatus().equals(PLAYING) && getOrdersByPlayer(player).size() == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     private List<OrderEntity> getOrderEntityList(OrdersDTO orders, GameEntity game, PlayerEntity player) {
         List<OrderEntity> orderEntities = new ArrayList<>();
@@ -120,7 +128,7 @@ public class OrderServiceImpl implements OrderService {
             repository.save(order);
         }
 
-        if (roundService.isGameReadyForRoundExecution(game)) {
+        if (isGameReadyForRoundExecution(game)) {
             eventPublisher.publishEvent(game.getId());
         }
 

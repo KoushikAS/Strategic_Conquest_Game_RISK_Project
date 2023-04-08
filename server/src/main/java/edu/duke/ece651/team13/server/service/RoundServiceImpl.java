@@ -46,16 +46,7 @@ public class RoundServiceImpl implements RoundService {
     private final GameService gameService;
 
 
-    @Override
-    public Boolean isGameReadyForRoundExecution(GameEntity game) {
-        //Checking if all the players who are active have submitted orders
-        for (PlayerEntity player : game.getPlayers()) {
-            if (player.getStatus().equals(PLAYING) && orderService.getOrdersByPlayer(player).size() == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
+
 
     private void executePlayersOrders(GameEntity game) {
         for (PlayerEntity player : game.getPlayers()) {

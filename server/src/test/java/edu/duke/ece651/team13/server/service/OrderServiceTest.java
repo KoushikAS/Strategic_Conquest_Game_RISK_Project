@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -53,7 +54,7 @@ public class OrderServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new OrderServiceImpl(repository, playerService, moveOrder, attackOrder, eventPublisher, roundService);
+        service = new OrderServiceImpl(repository, playerService, moveOrder, attackOrder, eventPublisher);
     }
 
     @Test
@@ -210,8 +211,11 @@ public class OrderServiceTest {
         player.setStatus(PlayerStatusEnum.PLAYING);
         player.setId(1L);
         player.setGame(game);
+        game.getPlayers().add(player);
+
+
         when(playerService.getPlayer(any())).thenReturn(player);
-        when(roundService.isGameReadyForRoundExecution(any())).thenReturn(Boolean.FALSE);
+        when(repository.findByPlayer(player)).thenReturn(Collections.emptyList());
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
         orderDTOS.add(new OrderDTO(1L, 1L, 5, MOVE.getValue()));
@@ -236,12 +240,23 @@ public class OrderServiceTest {
         game.setStatus(GameStatusEnum.PLAYING);
         game.setRoundNo(1);
         game.setId(1L);
+
         PlayerEntity player = new PlayerEntity();
         player.setStatus(PlayerStatusEnum.PLAYING);
         player.setId(1L);
         player.setGame(game);
+        game.getPlayers().add(player);
+
+        PlayerEntity loosePlayer = new PlayerEntity();
+        loosePlayer.setStatus(PlayerStatusEnum.LOSE);
+        loosePlayer.setId(2L);
+        loosePlayer.setGame(game);
+        game.getPlayers().add(loosePlayer);
+
+        List<OrderEntity> orderEntities = new ArrayList<>();
+        orderEntities.add(new OrderEntity());
         when(playerService.getPlayer(any())).thenReturn(player);
-        when(roundService.isGameReadyForRoundExecution(any())).thenReturn(Boolean.TRUE);
+        when(repository.findByPlayer(player)).thenReturn(orderEntities);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
         orderDTOS.add(new OrderDTO(1L, 1L, 5, MOVE.getValue()));
