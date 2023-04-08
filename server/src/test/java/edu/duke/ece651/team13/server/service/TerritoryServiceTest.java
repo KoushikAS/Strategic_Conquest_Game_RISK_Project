@@ -12,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -44,12 +46,29 @@ public class TerritoryServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(territory));
         when(repository.findById(2L)).thenReturn(Optional.empty());
 
-        TerritoryEntity actual = service.getTerritoriesByMap(1L);
+        TerritoryEntity actual = service.getTerritoriesById(1L);
         assertEquals(territory,actual);
         verify(repository, times(1)).findById(1L);
         verifyNoMoreInteractions(repository);
 
-        assertThrows(NoSuchElementException.class, () -> service.getTerritoriesByMap(2L));
+        assertThrows(NoSuchElementException.class, () -> service.getTerritoriesById(2L));
+    }
+
+    @Test
+    void getTerritoryByOwnerTest(){
+        List<TerritoryEntity> territoryEntityList = new ArrayList<>();
+        territoryEntityList.add(getTerritoryEntity());
+        territoryEntityList.add(getTerritoryEntity());
+
+
+        when(repository.findByOwner(any())).thenReturn(territoryEntityList);
+
+
+        List<TerritoryEntity> actual = service.getTerritoriesByPlayer(new PlayerEntity("red"));
+
+        assertEquals(territoryEntityList, actual);
+        verify(repository, times(1)).findByOwner(any());
+        verifyNoMoreInteractions(repository);
     }
 
     @Test
