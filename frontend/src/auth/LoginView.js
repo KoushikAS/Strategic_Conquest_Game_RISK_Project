@@ -12,6 +12,9 @@ const LoginView = () => {
     fontSize: "2rem",
     color: "#77A6F7",
   };
+  const textStyles = {
+    color: "#BEBCBC"
+  }
   return (
     <Container className="vh-100 d-flex align-items-center justify-content-center">
       <Card style={cardStyles}>
@@ -21,7 +24,7 @@ const LoginView = () => {
           </Card.Title>
           <Form>
             <Form.Group controlId="formEmail">
-              <Form.Label>Email</Form.Label>
+              <Form.Label style={textStyles}>Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Email"
@@ -30,7 +33,7 @@ const LoginView = () => {
             </Form.Group>
 
             <Form.Group controlId="formPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label style={textStyles}>Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Password"
@@ -42,7 +45,7 @@ const LoginView = () => {
               Sign In
             </Button>
           </Form>
-          <p className="mt-3 mb-0 text-center">Welcome back!</p>
+          <p className="mt-3 mb-0 text-center" style={textStyles}>Welcome back!</p>
         </Card.Body>
       </Card>
     </Container>
