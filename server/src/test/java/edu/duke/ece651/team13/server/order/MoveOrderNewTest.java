@@ -134,7 +134,39 @@ class MoveOrderNewTest {
         source.setOwner(player2);
         destination.setOwner(player1);
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
+    }
 
+    @Test
+    void test_validateAndExecuteLocally_InsufficientFood(){
+        GameEntity game = getGameEntity();
+        PlayerEntity player1 = new PlayerEntity();
+        player1.setId(1L);
+        TerritoryEntity source = game.getMap().getTerritories().get(0);
+        source.setOwner(player1);
+        source.addUnit(getUnitEntity(1));
+        TerritoryEntity destination = game.getMap().getTerritories().get(1);
+        destination.setOwner(player1);
+
+        List<TerritoryConnectionEntity> connections = new ArrayList<>();
+        connections.add(new TerritoryConnectionEntity(source, destination, 5));
+        source.setConnections(connections);
+
+        player1.setFoodResource(0);
+
+        OrderEntity order = new OrderEntity();
+        order.setSource(source);
+        order.setDestination(destination);
+        order.setOrderType(MOVE);
+        order.addUnit(getUnitEntity(1));
+        order.setPlayer(player1);
+
+        assertThrows(IllegalArgumentException.class, ()->service.validateAndExecuteLocally(order, game));
+        try{
+            service.validateAndExecuteLocally(order, game);
+        }
+        catch(IllegalArgumentException e){
+            assertEquals("Invalid move order: Player doesn't have sufficient food resource.",e.getMessage());
+        }
     }
 
 }

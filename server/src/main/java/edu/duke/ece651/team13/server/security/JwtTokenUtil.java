@@ -17,7 +17,7 @@ public class JwtTokenUtil {
     private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
 
     @Value("3gfO2FTfPh1VdMrbnXN3g1ZeR0sNaLC8Ksa6Iz8DxKmQlaa554VrFMrnFRXyxVDaoS2QAfesLwAbVvhm7mPQZg==")
-    private String SECRET_KEY;
+    String SECRET_KEY;
 
     public String generateAccessToken(UserEntity user) {
         return Jwts.builder()
@@ -49,7 +49,7 @@ public class JwtTokenUtil {
         return parseClaims(token).getSubject();
     }
 
-    private Claims parseClaims(String token) {
+    Claims parseClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)

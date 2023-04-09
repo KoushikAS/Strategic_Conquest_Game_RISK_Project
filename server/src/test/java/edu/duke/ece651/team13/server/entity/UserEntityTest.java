@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UserEntityTest {
 
@@ -59,5 +61,14 @@ class UserEntityTest {
     void test_setPassword() {
         user.setPassword("anotherPassword");
         assertEquals("anotherPassword", user.getPassword());
+    }
+
+    @Test
+    void test_springSecurityPlaceholderMethods() {
+        assertNull(user.getAuthorities());
+        assertTrue(user.isAccountNonExpired());
+        assertTrue(user.isEnabled());
+        assertTrue(user.isAccountNonLocked());
+        assertTrue(user.isCredentialsNonExpired());
     }
 }
