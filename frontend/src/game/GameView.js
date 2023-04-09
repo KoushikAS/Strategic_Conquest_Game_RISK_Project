@@ -5,6 +5,7 @@ import PlayerInfoCard from "./components/PlayerInfoCard";
 import PlayerOrderButtons from "./components/PlayerOrderButtons";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
+import { API_URL } from "../config/config";
 
 const GameView = () => {
   const [game, setGame] = React.useState();
@@ -13,10 +14,10 @@ const GameView = () => {
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        let response = await axios.get("http://localhost:12345/createGame");
+        let response = await axios.get(`${API_URL}/createGame`);
         const gameId = response.data.id;
         console.log(`Game ID: ${gameId}`);
-        response = await axios.get(`http://localhost:12345/getGame/${gameId}`);
+        response = await axios.get(`${API_URL}/getGame/${gameId}`);
         setGame(response.data);
         setIsLoading(false);
       } catch (error) {
