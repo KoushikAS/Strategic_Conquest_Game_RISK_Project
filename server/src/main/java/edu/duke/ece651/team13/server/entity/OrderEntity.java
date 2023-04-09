@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +44,10 @@ public class OrderEntity {
     @JsonIgnore
     private TerritoryEntity destination;
 
-    @Column(name = "UNIT_NUM")
+    @Column(name = "UNIT_NUMBER")
     private int unitNum;
+
+    @Column(name = "UNIT_TYPE")
+    @Enumerated(EnumType.STRING)
+    private UnitMappingEnum unitType;
 }

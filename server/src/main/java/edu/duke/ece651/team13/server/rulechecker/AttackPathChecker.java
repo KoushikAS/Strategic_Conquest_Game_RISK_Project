@@ -17,7 +17,7 @@ public class AttackPathChecker extends RuleChecker {
     }
 
     @Override
-    protected void checkMyRule(OrderEntity order) throws IllegalArgumentException{
+    protected void checkMyRule(OrderEntity order) throws IllegalArgumentException {
         if (!isAdjacentToTerritory(order.getSource(), order.getDestination())) {
             throw new IllegalArgumentException("Invalid attack order: You can only attack an adjacent territory owned by another player.");
         }

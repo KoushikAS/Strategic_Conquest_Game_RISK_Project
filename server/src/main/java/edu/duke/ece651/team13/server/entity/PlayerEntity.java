@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * This class handles the information of one human player
@@ -55,5 +56,16 @@ public class PlayerEntity {
         this.status = PlayerStatusEnum.PLAYING;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlayerEntity that = (PlayerEntity) o;
+        return Id.equals(that.Id) && name.equals(that.name);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(Id, name);
+    }
 }

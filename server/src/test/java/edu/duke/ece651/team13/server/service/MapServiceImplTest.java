@@ -1,6 +1,8 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.MapEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.repository.MapRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,10 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(MockitoExtension.class)
 class MapServiceImplTest {
@@ -30,12 +31,12 @@ class MapServiceImplTest {
     private UnitService unitService;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         service = new MapServiceImpl(repository, territoryService, unitService);
     }
 
     @Test
-    void createMapFor4playersTest(){
+    void createMapFor4playersTest() {
         MapEntity map4players = getMapEntity();
         MapEntity actualMap = createMapHelper(map4players, 4);
         assertEquals(map4players, actualMap);
@@ -44,7 +45,7 @@ class MapServiceImplTest {
     }
 
     @Test
-    void createMapFor3playersTest(){
+    void createMapFor3playersTest() {
         MapEntity map3players = getMapEntity();
         MapEntity actualMap = createMapHelper(map3players, 3);
         assertEquals(map3players, actualMap);
@@ -53,7 +54,7 @@ class MapServiceImplTest {
     }
 
     @Test
-    void createMapFor2playersTest(){
+    void createMapFor2playersTest() {
         MapEntity map2players = getMapEntity();
         MapEntity actualMap = createMapHelper(map2players, 2);
         assertEquals(map2players, actualMap);
@@ -61,13 +62,13 @@ class MapServiceImplTest {
         verifyNoMoreInteractions(repository);
     }
 
-    MapEntity createMapHelper(MapEntity map, int no_players){
+    MapEntity createMapHelper(MapEntity map, int no_players) {
         GameEntity gameEntity = getGameEntity();
         when(repository.save(any(MapEntity.class))).thenReturn(map);
         return service.createMap(gameEntity, getPlayersHelper(no_players));
     }
 
-    List<PlayerEntity> getPlayersHelper(int no_players){
+    List<PlayerEntity> getPlayersHelper(int no_players) {
         List<PlayerEntity> players = new ArrayList<>();
         for (int i = 0; i < no_players; i++) {
             players.add(getPlayerEntity());

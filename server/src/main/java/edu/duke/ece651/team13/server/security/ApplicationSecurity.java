@@ -18,7 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 public class ApplicationSecurity {
-    @Autowired private JwtTokenFilter jwtTokenFilter;
+    @Autowired
+    private JwtTokenFilter jwtTokenFilter;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

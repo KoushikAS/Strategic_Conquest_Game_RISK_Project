@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server.order;
 
 import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.TerritoryService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.getUnitEntity;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,9 +36,15 @@ class MoveOrderServiceTest {
 
     @Test
     void test_validateAndExecuteLocallySuccess() throws IllegalArgumentException {
+        PlayerEntity player1 = new PlayerEntity();
+        player1.setId(1L);
+        player1.setFoodResource(140);
+
         GameEntity game = getGameEntity();
         TerritoryEntity source = game.getMap().getTerritories().get(0);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
+        source.setOwner(player1);
+        destination.setOwner(player1);
 
         List<TerritoryConnectionEntity> connections = new ArrayList<>();
         connections.add(new TerritoryConnectionEntity(source, destination, 5));
@@ -46,12 +54,14 @@ class MoveOrderServiceTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
+        order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(5);
+        order.setPlayer(player1);
 
         service.validateAndExecuteLocally(order, game);
 
-        assertEquals(5, game.getMap().getTerritories().get(0).getUnits().size());
-        assertEquals(15, game.getMap().getTerritories().get(1).getUnits().size());
+        assertEquals(5, game.getMap().getTerritories().get(0).getUnits().get(0).getUnitNum());
+        assertEquals(15, game.getMap().getTerritories().get(1).getUnits().get(0).getUnitNum());
     }
 
     @Test
@@ -64,10 +74,15 @@ class MoveOrderServiceTest {
         source.setConnections(connections);
 
         OrderEntity order = new OrderEntity();
+        PlayerEntity player1 = new PlayerEntity();
+        player1.setId(1L);
+        player1.setFoodResource(140);
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
+        order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(5);
+        order.setPlayer(player1);
         //No Connection
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
     }
@@ -87,6 +102,7 @@ class MoveOrderServiceTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
+        order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(25);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
@@ -111,6 +127,7 @@ class MoveOrderServiceTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
+        order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(5);
         order.setPlayer(player2);
 
@@ -118,7 +135,39 @@ class MoveOrderServiceTest {
         source.setOwner(player2);
         destination.setOwner(player1);
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
+    }
 
+    @Test
+    void test_validateAndExecuteLocally_InsufficientFood() {
+        GameEntity game = getGameEntity();
+        PlayerEntity player1 = new PlayerEntity();
+        player1.setId(1L);
+        TerritoryEntity source = game.getMap().getTerritories().get(0);
+        source.setOwner(player1);
+        source.addUnit(getUnitEntity(1));
+        TerritoryEntity destination = game.getMap().getTerritories().get(1);
+        destination.setOwner(player1);
+
+        List<TerritoryConnectionEntity> connections = new ArrayList<>();
+        connections.add(new TerritoryConnectionEntity(source, destination, 5));
+        source.setConnections(connections);
+
+        player1.setFoodResource(0);
+
+        OrderEntity order = new OrderEntity();
+        order.setSource(source);
+        order.setDestination(destination);
+        order.setOrderType(MOVE);
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(1);
+        order.setPlayer(player1);
+
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
+        try {
+            service.validateAndExecuteLocally(order, game);
+        } catch (IllegalArgumentException e) {
+            assertEquals("Invalid move order: Player doesn't have sufficient food resource.", e.getMessage());
+        }
     }
 
 }

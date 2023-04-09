@@ -1,7 +1,6 @@
 package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.dto.GameDTO;
-import edu.duke.ece651.team13.server.dto.GamesDTO;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.UserEntity;
@@ -11,12 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -59,12 +55,12 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public PlayerEntity joinGame(Long gameId, Long userId){
+    public PlayerEntity joinGame(Long gameId, Long userId) {
         GameEntity game = getGame(gameId);
         UserEntity user = userService.getUserById(userId);
 
-        for(PlayerEntity playerEntity: game.getPlayers()){
-            if(playerEntity.getUser() == null){
+        for (PlayerEntity playerEntity : game.getPlayers()) {
+            if (playerEntity.getUser() == null) {
                 playerEntity.setUser(user);
                 return playerEntity;
             }
@@ -74,7 +70,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<GameDTO> getGamesLinkedToPlayer(Long userId){
+    public List<GameDTO> getGamesLinkedToPlayer(Long userId) {
         UserEntity user = userService.getUserById(userId);
         List<PlayerEntity> players = playerService.getPlayersByUser(user);
         return players.stream().map(PlayerEntity::getGame)
@@ -90,7 +86,7 @@ public class GameServiceImpl implements GameService {
             players.add(playerService.createPlayer(playersName.get(i), gameEntity));
         }
 
-        mapService.createMap( gameEntity, players);
+        mapService.createMap(gameEntity, players);
         return gameEntity;
     }
 

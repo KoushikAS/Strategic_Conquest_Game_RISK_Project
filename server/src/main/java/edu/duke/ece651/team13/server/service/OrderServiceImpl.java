@@ -6,10 +6,11 @@ import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
-import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,8 @@ public class OrderServiceImpl implements OrderService {
             orderEntity.setOrderType(OrderMappingEnum.findByValue(orderDTO.getOrderType()));
             orderEntity.setSource(source.get());
             orderEntity.setDestination(destination.get());
-            orderEntity.setUnitNum(orderDTO.getUnits());
+            orderEntity.setUnitNum(orderDTO.getUnitNum());
+            orderEntity.setUnitType(UnitMappingEnum.findByValue(orderDTO.getUnitType()));
             orderEntities.add(orderEntity);
         }
         return orderEntities;

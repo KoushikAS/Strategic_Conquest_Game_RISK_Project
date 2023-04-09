@@ -5,10 +5,10 @@ import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
-import edu.duke.ece651.team13.server.service.order.AttackOrderService;
-import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.service.order.AttackOrderService;
+import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,8 +20,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 
@@ -86,6 +84,8 @@ public class RoundServiceTest {
 
         PlayerEntity red = new PlayerEntity("red");
         PlayerEntity blue = new PlayerEntity("blue");
+        red.setId(1L);
+        blue.setId(2L);
         gameEntity.getPlayers().add(red);
         gameEntity.getPlayers().add(blue);
 
@@ -107,9 +107,10 @@ public class RoundServiceTest {
         GameEntity gameEntity = getGameEntity();
         gameEntity.setRoundNo(1);
 
-
         PlayerEntity red = new PlayerEntity("red");
         PlayerEntity blue = new PlayerEntity("blue");
+        red.setId(1L);
+        blue.setId(2L);
         gameEntity.getPlayers().add(red);
         gameEntity.getPlayers().add(blue);
 
