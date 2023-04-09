@@ -39,7 +39,7 @@ public class GameController {
         return "Greetings from Spring Boot!";
     }
 
-    @GetMapping("/createGame/{noOfPlayer}")
+    @PostMapping("/createGame/{noOfPlayer}")
     public ResponseEntity<GameDTO> createGame(@PathVariable("noOfPlayer") Integer noOfPlayer) {
         log.info("Received an /createGame");
         try {
@@ -56,7 +56,7 @@ public class GameController {
     }
 
     @GetMapping("/getFreeGames")
-    public ResponseEntity<GamesDTO> getAvailableFreeGames(@RequestParam("userid") Long userId) {
+    public ResponseEntity<GamesDTO> getAvailableFreeGames(@RequestParam("userId") Long userId) {
         log.info("Received a request /getFreeGames ");
         try {
             List<GameDTO> games = gameService.getFreeGames(userId);
@@ -67,7 +67,7 @@ public class GameController {
     }
 
     @GetMapping("/usergames")
-    public ResponseEntity<GamesDTO> getGamesOfUser(@RequestParam("userid") Long userId) {
+    public ResponseEntity<GamesDTO> getGamesOfUser(@RequestParam("userId") Long userId) {
         log.info("Received a request /usergames ");
         try {
             List<GameDTO> games = gameService.getGamesLinkedToPlayer(userId);
@@ -77,8 +77,8 @@ public class GameController {
         }
     }
 
-    @GetMapping("/joinGame/{gameId}")
-    public ResponseEntity<PlayerEntity> joinGame(@PathVariable("gameId") Long gameId, @RequestParam("userid") Long userId) {
+    @PostMapping("/joinGame/{gameId}")
+    public ResponseEntity<PlayerEntity> joinGame(@PathVariable("gameId") Long gameId, @RequestParam("userId") Long userId) {
         log.info("Received a request /joinGame/{gameId} ");
         try {
             PlayerEntity player = gameService.joinGame(gameId, userId);
