@@ -67,7 +67,7 @@ public class GameServiceImpl implements GameService {
 
         for (PlayerEntity playerEntity : game.getPlayers()) {
             if (playerEntity.getUser() == null) {
-                playerEntity.setUser(loggedInUser);
+                playerService.updatePlayerUser(playerEntity, loggedInUser);
                 return playerEntity;
             }
         }

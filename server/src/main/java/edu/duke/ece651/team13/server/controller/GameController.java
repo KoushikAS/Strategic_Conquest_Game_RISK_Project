@@ -66,9 +66,9 @@ public class GameController {
         }
     }
 
-    @GetMapping("/usergames")
+    @GetMapping("/userGames")
     public ResponseEntity<GamesDTO> getGamesOfUser(@RequestParam("userId") Long userId) {
-        log.info("Received a request /usergames ");
+        log.info("Received a request /userGames ");
         try {
             List<GameDTO> games = gameService.getGamesLinkedToPlayer(userId);
             return ResponseEntity.ok().body(new GamesDTO(games));
