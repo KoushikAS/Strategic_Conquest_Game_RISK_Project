@@ -8,6 +8,7 @@ import AttackView from "./game/AttackView";
 import LoginView from "./auth/LoginView";
 import GameListView from "./game_list/GameListView";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
+import RegisterView from "./auth/RegisterView";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             }
           />
           <Route path="/login" element={<LoginView />} />
+          <Route path="/register" element={<RegisterView />} />
         </Routes>
       </AuthProvider>
     </Router>

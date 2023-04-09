@@ -14,7 +14,7 @@ const GameView = () => {
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        let response = await axios.get(`${API_URL}/createGame`);
+        let response = await axios.get(`${API_URL}/createGame/3`);
         const gameId = response.data.id;
         console.log(`Game ID: ${gameId}`);
         response = await axios.get(`${API_URL}/getGame/${gameId}`);

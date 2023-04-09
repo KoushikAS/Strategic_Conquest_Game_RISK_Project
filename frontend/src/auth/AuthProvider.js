@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  const login = async (data) => {
+  const login = (data) => {
     setUser(data);
     navigate("/gameList");
   };
