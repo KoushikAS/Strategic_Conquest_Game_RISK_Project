@@ -25,5 +25,10 @@ public class UnitServiceImpl implements UnitService {
         return repository.save(unit);
     }
 
+    @Override
+    public UnitEntity updateUnit(UnitEntity unit, int unitNum){
+        unit.setUnitNum(unitNum);
+        return repository.save(unit);
+    }
 
 }

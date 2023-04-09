@@ -5,6 +5,7 @@ import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.AttackerService;
 import edu.duke.ece651.team13.server.service.PlayerService;
 import edu.duke.ece651.team13.server.service.TerritoryService;
+import edu.duke.ece651.team13.server.service.UnitService;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ class AttackOrderTest {
     private AttackOrderService service; //service under test
 
     @Mock
-    private TerritoryService territoryService;
+    private UnitService unitService;
 
     @Mock
     private AttackerService attackerService;
@@ -36,7 +37,7 @@ class AttackOrderTest {
 
     @BeforeEach
     void setUp() {
-        service = new AttackOrderService(territoryService, attackerService, playerService);
+        service = new AttackOrderService(unitService, attackerService, playerService);
     }
 
     @Test

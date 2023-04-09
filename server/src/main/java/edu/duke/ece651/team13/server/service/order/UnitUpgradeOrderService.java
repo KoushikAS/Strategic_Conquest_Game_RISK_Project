@@ -2,11 +2,9 @@ package edu.duke.ece651.team13.server.service.order;
 
 
 import edu.duke.ece651.team13.server.entity.*;
-import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.rulechecker.*;
-import edu.duke.ece651.team13.server.service.AttackerService;
 import edu.duke.ece651.team13.server.service.PlayerService;
-import edu.duke.ece651.team13.server.service.TerritoryService;
+import edu.duke.ece651.team13.server.service.UnitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +18,7 @@ import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForT
 public class UnitUpgradeOrderService implements OrderFactory {
 
     @Autowired
-    private final TerritoryService territoryService;
+    private final UnitService unitService;
 
     @Autowired
     private final PlayerService playerService;
@@ -30,7 +28,7 @@ public class UnitUpgradeOrderService implements OrderFactory {
      * UnitUpgradeOwnershipChecker -> UnitUpgradeUnitNumChecker -> UnitUpgradeTechLevelChecker -> UnitUpgradeTechResourceChecker -> UnitUpgradeMaxLevelChecker
      */
     private static RuleChecker getDefaultRuleChecker() {
-        RuleChecker maxLevelChecker =new UnitUpgradeMaxLevelChecker(null);
+        RuleChecker maxLevelChecker = new UnitUpgradeMaxLevelChecker(null);
         RuleChecker techResourceChecker = new UnitUpgradeTechResourceChecker(maxLevelChecker);
         RuleChecker techLevelChecker = new UnitUpgradeTechLevelChecker(techResourceChecker);
         RuleChecker unitNumChecker = new UnitUpgradeUnitNumChecker(techLevelChecker);
@@ -43,24 +41,16 @@ public class UnitUpgradeOrderService implements OrderFactory {
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
         ruleChecker.checkOrder(order, player);
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
-        executeLocally(source,
-                order.getUnitNum(),
-                order.getUnitType(),
-                player,
-                UnitUpgradeTechResourceChecker.getTechCost(order));
+        UnitEntity currentUnit = getUnitForType(source, order.getUnitType());
+        UnitEntity upgradedUnit = getUnitForType(source, getNextLevel(order.getUnitType()));
+
+        executeLocally(currentUnit, upgradedUnit, order.getUnitNum(), player, UnitUpgradeTechResourceChecker.getTechCost(order));
     }
 
-    private void executeLocally(TerritoryEntity sourceTerritoryEntity,
-                                int unitNum,
-                                UnitMappingEnum unitType,
-                                PlayerEntity player,
-                                int techCost) {
+    private void executeLocally(UnitEntity currentUnit, UnitEntity upgradedUnit, int unitNum, PlayerEntity player, int techCost) {
         player.setTechResource(player.getTechResource() - techCost);
         if (unitNum > 0) {
-            UnitEntity currentUnit = getUnitForType(sourceTerritoryEntity, unitType);
             currentUnit.setUnitNum(currentUnit.getUnitNum() - unitNum);
-            UnitMappingEnum upgradedUnitType = getNextLevel(unitType);
-            UnitEntity upgradedUnit = getUnitForType(sourceTerritoryEntity, upgradedUnitType);
             upgradedUnit.setUnitNum(upgradedUnit.getUnitNum() + unitNum);
         }
     }
@@ -69,13 +59,13 @@ public class UnitUpgradeOrderService implements OrderFactory {
     public void executeOnGame(OrderEntity order, GameEntity game) {
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
-        executeLocally(source,
-                order.getUnitNum(),
-                order.getUnitType(),
-                player,
-                UnitUpgradeTechResourceChecker.getTechCost(order));
-        territoryService.updateTerritoryUnits(source, source.getUnits());
-        playerService.updatePlayerTechResource(player,player.getTechResource());
+        UnitEntity currentUnit = getUnitForType(source, order.getUnitType());
+        UnitEntity upgradedUnit = getUnitForType(source, getNextLevel(order.getUnitType()));
+
+        executeLocally(currentUnit, upgradedUnit, order.getUnitNum(), player, UnitUpgradeTechResourceChecker.getTechCost(order));
+        unitService.updateUnit(currentUnit, currentUnit.getUnitNum());
+        unitService.updateUnit(upgradedUnit, upgradedUnit.getUnitNum());
+        playerService.updatePlayerTechResource(player, player.getTechResource());
     }
 
 }

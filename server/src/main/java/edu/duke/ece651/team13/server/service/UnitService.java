@@ -6,4 +6,6 @@ import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 
 public interface UnitService {
     UnitEntity createUnit(UnitMappingEnum unitType, TerritoryEntity entity, int unitNum);
+
+    UnitEntity updateUnit(UnitEntity unit, int unitNum);
 }
