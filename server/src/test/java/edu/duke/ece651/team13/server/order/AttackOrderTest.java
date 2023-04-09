@@ -5,6 +5,7 @@ import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.AttackerService;
 import edu.duke.ece651.team13.server.service.TerritoryService;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
-import static edu.duke.ece651.team13.server.MockDataUtil.getUnitEntity;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,7 +38,6 @@ class AttackOrderTest {
     void setUp() {
         service = new AttackOrderService(territoryService, attackerService);
     }
-
 
     @Test
     void test_validateAndExecuteLocallySuccess() throws IllegalArgumentException {
@@ -61,7 +60,8 @@ class AttackOrderTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(ATTACK);
-        order.addUnit(getUnitEntity(5));
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(5);
         order.setPlayer(owner);
 
         service.validateAndExecuteLocally(order, game);
@@ -90,7 +90,8 @@ class AttackOrderTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(ATTACK);
-        order.addUnit(getUnitEntity(5));
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(5);
         order.setPlayer(owner);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
@@ -117,7 +118,8 @@ class AttackOrderTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(ATTACK);
-        order.addUnit(getUnitEntity(25));
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(25);
         order.setPlayer(owner);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
@@ -144,7 +146,8 @@ class AttackOrderTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(ATTACK);
-        order.addUnit(getUnitEntity(5));
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(5);
         order.setPlayer(owner);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));

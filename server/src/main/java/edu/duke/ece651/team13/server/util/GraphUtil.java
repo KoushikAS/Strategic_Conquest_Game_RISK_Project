@@ -61,6 +61,7 @@ public class GraphUtil {
         for(TerritoryConnectionEntity connection: connections){
             TerritoryEntity neighbor = connection.getDestinationTerritory();
             if (!visited.contains(neighbor) && (owner == null || owner.equals(neighbor.getOwner()))) {
+                visited.add(neighbor);
                 int neighborCost = minimumCostPath(neighbor, destination, visited, owner);
 
                 // Check if we have reached the destination
@@ -68,6 +69,7 @@ public class GraphUtil {
                     // Min cost path
                     cost = Math.min(cost, connection.getDistance() + neighborCost);
                 }
+                visited.remove(neighbor);
             }
         }
         // Unmark the current node to make it available for other paths

@@ -5,6 +5,7 @@ import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.TerritoryService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,7 +58,8 @@ class MoveOrderServiceTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
-        order.addUnit(getUnitEntity(5));
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(5);
         order.setPlayer(player1);
 
         service.validateAndExecuteLocally(order, game);
@@ -82,7 +84,8 @@ class MoveOrderServiceTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
-        order.addUnit(getUnitEntity(5));
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(5);
         order.setPlayer(player1);
         //No Connection
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
@@ -103,7 +106,8 @@ class MoveOrderServiceTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
-        order.addUnit(getUnitEntity(25));
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(25);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
     }
@@ -127,7 +131,8 @@ class MoveOrderServiceTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
-        order.addUnit(getUnitEntity(5));
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(5);
         order.setPlayer(player2);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
@@ -157,7 +162,8 @@ class MoveOrderServiceTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
-        order.addUnit(getUnitEntity(1));
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(1);
         order.setPlayer(player1);
 
         assertThrows(IllegalArgumentException.class, ()->service.validateAndExecuteLocally(order, game));

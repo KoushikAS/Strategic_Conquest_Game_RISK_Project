@@ -18,4 +18,13 @@ public enum UnitMappingEnum {
     private final int bonus;
     private final int cost; //the cost to upgrade unit from level0 to the target level
     private final String type;
+
+    public static UnitMappingEnum findByValue(String value){
+        for(UnitMappingEnum unit : values()){
+            if(unit.getType().equals(value)){
+                return unit;
+            }
+        }
+        throw new IllegalArgumentException("The Unit Type mentioned is invalid");
+    }
 }

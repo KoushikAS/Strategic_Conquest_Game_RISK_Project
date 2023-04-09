@@ -19,6 +19,6 @@ public class MoveFoodResourceChecker extends RuleChecker {
     }
 
     public static int getFoodCost(OrderEntity order) {
-        return 2 * findMinCost(order.getSource(), order.getDestination()) * order.getTotalUnitNum();
+        return 2 * findMinCost(order.getSource(), order.getDestination()) * order.getUnitNum();
     }
 }

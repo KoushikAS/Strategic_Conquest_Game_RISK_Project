@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,6 +13,7 @@ public class OrderDTO {
 
     private Long sourceTerritoryId;
     private Long destinationTerritoryId;
-    private List<UnitDTO> units;
+    private int unitNum;
+    private String unitType;
     private String orderType;
 }
