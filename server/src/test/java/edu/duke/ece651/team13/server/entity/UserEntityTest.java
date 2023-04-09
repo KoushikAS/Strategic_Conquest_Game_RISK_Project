@@ -13,7 +13,7 @@ class UserEntityTest {
     private UserEntity user; //UserEntity under test
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         user = new UserEntity(0L, testName, testEmail, testPassword);
     }
 
@@ -59,5 +59,14 @@ class UserEntityTest {
     void test_setPassword() {
         user.setPassword("anotherPassword");
         assertEquals("anotherPassword", user.getPassword());
+    }
+
+    @Test
+    void test_springSecurityPlaceholderMethods() {
+        assertNull(user.getAuthorities());
+        assertTrue(user.isAccountNonExpired());
+        assertTrue(user.isEnabled());
+        assertTrue(user.isAccountNonLocked());
+        assertTrue(user.isCredentialsNonExpired());
     }
 }

@@ -49,4 +49,8 @@ public class TerritoryEntity {
     @OneToMany(mappedBy = "territory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<UnitEntity> units = new ArrayList<>();
+
+    public void addUnit(UnitEntity unit) {
+        units.add(unit);
+    }
 }

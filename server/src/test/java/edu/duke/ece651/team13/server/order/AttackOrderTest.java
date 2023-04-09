@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server.order;
 
 import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.AttackerService;
 import edu.duke.ece651.team13.server.service.TerritoryService;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
@@ -34,7 +35,6 @@ class AttackOrderTest {
         service = new AttackOrderService(territoryService, attackerService);
     }
 
-
     @Test
     void test_validateAndExecuteLocallySuccess() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
@@ -56,12 +56,13 @@ class AttackOrderTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(ATTACK);
+        order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(5);
         order.setPlayer(owner);
 
         service.validateAndExecuteLocally(order, game);
 
-        assertEquals(5, game.getMap().getTerritories().get(0).getUnits().size());
+        assertEquals(5, game.getMap().getTerritories().get(0).getUnits().get(0).getUnitNum());
     }
 
 
@@ -85,6 +86,7 @@ class AttackOrderTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(ATTACK);
+        order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(5);
         order.setPlayer(owner);
 
@@ -112,6 +114,7 @@ class AttackOrderTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(ATTACK);
+        order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(25);
         order.setPlayer(owner);
 
@@ -139,6 +142,7 @@ class AttackOrderTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(ATTACK);
+        order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(5);
         order.setPlayer(owner);
 

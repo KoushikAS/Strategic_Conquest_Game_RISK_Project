@@ -1,11 +1,11 @@
 package edu.duke.ece651.team13.server.controller;
 
-import edu.duke.ece651.team13.server.entity.UserEntity;
-import edu.duke.ece651.team13.server.security.JwtTokenUtil;
-import edu.duke.ece651.team13.server.service.UserService;
 import edu.duke.ece651.team13.server.auth.LoginRequest;
 import edu.duke.ece651.team13.server.auth.LoginResponse;
 import edu.duke.ece651.team13.server.auth.RegisterRequest;
+import edu.duke.ece651.team13.server.entity.UserEntity;
+import edu.duke.ece651.team13.server.security.JwtTokenUtil;
+import edu.duke.ece651.team13.server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

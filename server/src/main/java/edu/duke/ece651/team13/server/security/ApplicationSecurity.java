@@ -18,7 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 public class ApplicationSecurity {
-    @Autowired private JwtTokenFilter jwtTokenFilter;
+    @Autowired
+    private JwtTokenFilter jwtTokenFilter;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -40,7 +41,7 @@ public class ApplicationSecurity {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/","/login", "/register", "/createGame", "/getGame", "/getGame/*", "/submitOrder", "/getOrders/*").permitAll()
+                .antMatchers("/", "/login", "/register", "/createGame", "/getGame", "/getGame/*", "/submitOrder", "/getOrders/*").permitAll()
                 .anyRequest().authenticated();
 
         http.exceptionHandling()

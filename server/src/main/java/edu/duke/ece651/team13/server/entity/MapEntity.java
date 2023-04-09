@@ -35,7 +35,7 @@ public class MapEntity {
     @JsonManagedReference
     private List<TerritoryEntity> territories = new ArrayList<>();
 
-    public TerritoryEntity getTerritoryEntityById(Long Id){
+    public TerritoryEntity getTerritoryEntityById(Long Id) {
         return territories.stream().filter(territoryEntity -> Objects.equals(territoryEntity.getId(), Id))
                 .findFirst()
                 .orElseThrow(NoSuchElementException::new);

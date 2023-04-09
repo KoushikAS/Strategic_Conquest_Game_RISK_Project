@@ -10,5 +10,5 @@ public interface MapService {
 
     MapEntity getMap(Long mapId);
 
-    MapEntity createMap( GameEntity gameEntity, List<PlayerEntity> players);
+    MapEntity createMap(GameEntity gameEntity, List<PlayerEntity> players);
 }

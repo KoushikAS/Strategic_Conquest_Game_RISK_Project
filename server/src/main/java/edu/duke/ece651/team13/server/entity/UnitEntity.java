@@ -30,6 +30,11 @@ public class UnitEntity {
     @JsonBackReference
     private TerritoryEntity territory;
 
-    @Column(name = "units")
-    private Integer units;
+    @Column(name = "UNIT_NUM")
+    private Integer unitNum;
+
+    public UnitEntity(UnitMappingEnum unitType, Integer unitNum) {
+        this.unitType = unitType;
+        this.unitNum = unitNum;
+    }
 }

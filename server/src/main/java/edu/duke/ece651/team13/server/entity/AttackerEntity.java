@@ -15,7 +15,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttackerEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attackerSeq")
     @SequenceGenerator(name = "attackerSeq")
