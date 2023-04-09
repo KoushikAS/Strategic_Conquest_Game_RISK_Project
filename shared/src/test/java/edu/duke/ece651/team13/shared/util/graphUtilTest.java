@@ -15,7 +15,10 @@ import java.util.Iterator;
 import static edu.duke.ece651.team13.shared.MockDataUtil.getUnconnectedTerritories;
 import static edu.duke.ece651.team13.shared.util.graphUtil.DFS;
 import static edu.duke.ece651.team13.shared.util.graphUtil.isConnectedGraph;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class graphUtilTest {
 

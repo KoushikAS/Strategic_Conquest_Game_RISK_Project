@@ -1,6 +1,8 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.MapEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.repository.MapRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,11 +13,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.duke.ece651.team13.server.MockDataUtil.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.getMapEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.getPlayerEntity;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MapServiceImplTest {

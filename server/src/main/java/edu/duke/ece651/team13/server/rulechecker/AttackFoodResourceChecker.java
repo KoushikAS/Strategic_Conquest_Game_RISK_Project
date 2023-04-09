@@ -20,6 +20,6 @@ public class AttackFoodResourceChecker extends RuleChecker {
     }
 
     public static int getFoodCost(OrderEntity order) {
-        return 10 * order.getUnitNum();
+        return 10 * order.getTotalUnitNum();
     }
 }

@@ -14,7 +14,9 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import static edu.duke.ece651.team13.client.enums.RoundMapping.*;
+import static edu.duke.ece651.team13.client.enums.RoundMapping.INITIAL_ROUND;
+import static edu.duke.ece651.team13.client.enums.RoundMapping.NORMAL_ROUND;
+import static edu.duke.ece651.team13.client.enums.RoundMapping.SPECTATE_ROUND;
 import static edu.duke.ece651.team13.shared.enums.AckStatusEnum.SUCCESS;
 import static edu.duke.ece651.team13.shared.util.mapUtil.isPlayerLost;
 import static edu.duke.ece651.team13.shared.util.networkUtil.recvMessage;

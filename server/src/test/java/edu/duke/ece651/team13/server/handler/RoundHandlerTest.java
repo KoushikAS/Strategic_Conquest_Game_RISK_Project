@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import static edu.duke.ece651.team13.server.MockDataUtil.*;
+import static edu.duke.ece651.team13.server.MockDataUtil.getByteArray;
+import static edu.duke.ece651.team13.server.MockDataUtil.getMockGame;
+import static edu.duke.ece651.team13.server.MockDataUtil.mockInputStream;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;

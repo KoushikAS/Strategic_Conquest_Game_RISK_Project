@@ -3,7 +3,6 @@ package edu.duke.ece651.team13.shared.map;
 import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 

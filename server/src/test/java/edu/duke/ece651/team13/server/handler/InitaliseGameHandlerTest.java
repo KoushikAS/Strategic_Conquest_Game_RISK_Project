@@ -8,7 +8,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import static edu.duke.ece651.team13.server.MockDataUtil.*;
+import static edu.duke.ece651.team13.server.MockDataUtil.getByteArray;
+import static edu.duke.ece651.team13.server.MockDataUtil.getMockGame;
+import static edu.duke.ece651.team13.server.MockDataUtil.mockInputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

@@ -1,8 +1,6 @@
 package edu.duke.ece651.team13.shared.util;
 
-import edu.duke.ece651.team13.shared.player.Player;
 import edu.duke.ece651.team13.shared.player.PlayerRO;
-import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
 import java.util.ArrayList;

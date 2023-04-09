@@ -2,8 +2,8 @@ package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.entity.MapEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.repository.TerritoryConnectionRepository;
 import edu.duke.ece651.team13.server.repository.TerritoryRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,11 +17,16 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static edu.duke.ece651.team13.server.MockDataUtil.*;
+import static edu.duke.ece651.team13.server.MockDataUtil.getMapEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.getPlayerEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.getTerritoryEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)

@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 
 public class InitialRound extends GameRound {

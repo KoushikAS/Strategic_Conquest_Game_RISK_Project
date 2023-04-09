@@ -9,9 +9,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Locale;
 
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.*;
+import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.DONE;
 
 /**
  * This class handles the information of one human player
