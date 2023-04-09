@@ -33,8 +33,6 @@ public class GameController {
     @Autowired
     private OrderService orderService;
 
-    @Autowired
-    private PlayerService playerService;
 
     @GetMapping("/")
     public String index() {
@@ -97,9 +95,7 @@ public class GameController {
     }
 
     @PostMapping("/submitOrder")
-    public ResponseEntity<String> submitOrder(
-            @RequestBody OrdersDTO ordersDTO
-            , @RequestParam("playerId") Long playerId) {
+    public ResponseEntity<String> submitOrder(@RequestBody OrdersDTO ordersDTO, @RequestParam("playerId") Long playerId) {
         log.info("Received an /submitOrder");
         log.info("Player Id" + playerId);
         try {
@@ -112,13 +108,5 @@ public class GameController {
         }
     }
 
-    //TODO tmp just for changing
-    @GetMapping("/getOrders/{id}")
-    public ResponseEntity<List<OrderEntity>> getOrders(@PathVariable("id") Long id) {
-        log.info("The id recieved" + id);
-        PlayerEntity player = playerService.getPlayer(id);
-        List<OrderEntity> game = orderService.getOrdersByPlayer(player);
-        return ResponseEntity.ok().body(game);
-    }
 
 }
