@@ -1,8 +1,10 @@
 package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.dto.GameDTO;
+import edu.duke.ece651.team13.server.dto.GamesDTO;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.UserEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,9 @@ public class GameServiceImpl implements GameService {
 
     @Autowired
     private final PlayerService playerService;
+
+    @Autowired
+    private final UserService userService;
 
     @Autowired
     private final MapService mapService;
@@ -52,6 +57,36 @@ public class GameServiceImpl implements GameService {
                 .map(game -> new GameDTO(game.getId(), game.getPlayers().size()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public PlayerEntity joinGame(Long gameId, Long userId){
+        GameEntity game = getGame(gameId);
+        UserEntity user = userService.getUserById(userId);
+
+        for(PlayerEntity playerEntity: game.getPlayers()){
+            if(playerEntity.getUser() == null){
+                playerEntity.setUser(user);
+                return playerEntity;
+            }
+        }
+
+        throw new NoSuchElementException("Game does not have any free players");
+    }
+
+
+    @Override
+    public GamesDTO getGamesLinkedToPlayer(Long userId){
+        UserEntity user = userService.getUserById(userId);
+        List<PlayerEntity> players = playerService.getPlayersByUser(user);
+        List<GameDTO> gameDTOS = players.stream().map(PlayerEntity::getGame)
+                .map(game -> new GameDTO(game.getId(), game.getPlayers().size()))
+                .collect(Collectors.toList());
+        GamesDTO gamesDTO = new GamesDTO();
+        gamesDTO.setGames(gameDTOS);
+        return gamesDTO;
+    }
+
+
 
     @Override
     public GameEntity createGame(int no_players) {

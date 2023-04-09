@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -36,11 +36,14 @@ public class GameServiceTest {
     private PlayerService playerService;
 
     @Mock
+    private  UserService userService;
+
+    @Mock
     private MapService mapService;
 
     @BeforeEach
     void setUp(){
-        service = new GameServiceImpl(repository, playerService, mapService);
+        service = new GameServiceImpl(repository, playerService, userService, mapService);
     }
 
     @Test
@@ -96,4 +99,22 @@ public class GameServiceTest {
         GameEntity actual = service.updateGameRoundAndStatus(game, GameStatusEnum.PLAYING, 1);
         assertEquals(game, actual);
     }
+
+    @Test
+    void joinGameTest(){
+        PlayerEntity player = new PlayerEntity();
+        GameEntity game = getGameEntity();
+        game.getPlayers().add(player);
+        UserEntity user = getUserEntity();
+
+        when(repository.findById(1L)).thenReturn(Optional.of(game));
+        when(userService.getUserById(1L)).thenReturn(user);
+
+        PlayerEntity actual = service.joinGame(1L, 1L);
+        assertEquals(player, actual);
+
+
+        assertThrows(NoSuchElementException.class, ()->service.joinGame(1L,1L));
+    }
 }
+
