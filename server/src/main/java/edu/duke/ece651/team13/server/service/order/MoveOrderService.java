@@ -37,10 +37,11 @@ public class MoveOrderService implements OrderFactory {
     @Override
     public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException {
         RuleChecker ruleChecker = getDefaultRuleChecker();
-        ruleChecker.checkOrder(order);
+        PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
+        ruleChecker.checkOrder(order, player);
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         TerritoryEntity destination = game.getMap().getTerritoryEntityById(order.getDestination().getId());
-        executeLocally(source, destination, order.getUnitNum(), order.getUnitType(), order.getPlayer(), getFoodCost(order));
+        executeLocally(source, destination, order.getUnitNum(), order.getUnitType(), player, getFoodCost(order));
     }
 
     private void executeLocally(TerritoryEntity sourceTerritoryEntity, TerritoryEntity destinationTerritoryEntity,

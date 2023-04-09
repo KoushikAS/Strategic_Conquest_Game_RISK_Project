@@ -12,8 +12,7 @@ public class UnitUpgradeTechLevelChecker extends RuleChecker {
     }
 
     @Override
-    protected void checkMyRule(OrderEntity order) throws IllegalArgumentException {
-        PlayerEntity player = order.getPlayer();
+    protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
         if(order.getUnitType().getLevel() > player.getMaxTechLevel()){
             throw new IllegalArgumentException("Invalid unit upgrade order: Player doesn't have sufficient tech level to upgrade.");
         }

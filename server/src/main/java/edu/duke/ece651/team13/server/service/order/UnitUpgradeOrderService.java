@@ -38,12 +38,13 @@ public class UnitUpgradeOrderService implements OrderFactory {
     @Override
     public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException {
         RuleChecker ruleChecker = getDefaultRuleChecker();
-        ruleChecker.checkOrder(order);
+        PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
+        ruleChecker.checkOrder(order, player);
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         executeLocally(source,
                 order.getUnitNum(),
                 order.getUnitType(),
-                order.getPlayer(),
+                player,
                 UnitUpgradeTechResourceChecker.getTechCost(order));
     }
 

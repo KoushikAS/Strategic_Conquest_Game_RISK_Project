@@ -51,6 +51,7 @@ class AttackOrderTest {
         source.setOwner(owner);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
         destination.setOwner(opponent);
+        game.getPlayers().add(owner);
 
         List<TerritoryConnectionEntity> connections = new ArrayList<>();
         connections.add(new TerritoryConnectionEntity(source, destination, 5));
@@ -81,6 +82,7 @@ class AttackOrderTest {
         source.setOwner(owner);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
         destination.setOwner(opponent);
+        game.getPlayers().add(owner);
 
         List<TerritoryConnectionEntity> connections = new ArrayList<>();
 
@@ -109,6 +111,7 @@ class AttackOrderTest {
         source.setOwner(owner);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
         destination.setOwner(opponent);
+        game.getPlayers().add(owner);
 
         List<TerritoryConnectionEntity> connections = new ArrayList<>();
         connections.add(new TerritoryConnectionEntity(source, destination, 5));
@@ -137,6 +140,7 @@ class AttackOrderTest {
         source.setOwner(opponent);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
         destination.setOwner(opponent);
+        game.getPlayers().add(owner);
 
         List<TerritoryConnectionEntity> connections = new ArrayList<>();
         connections.add(new TerritoryConnectionEntity(source, destination, 5));

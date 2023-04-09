@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server.rulechecker;
 
 import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
 
 /**
  * Checks for correct ownership for the source and destination territories,
@@ -14,11 +15,11 @@ public class AttackOwnershipChecker extends RuleChecker {
 
 
     @Override
-    protected void checkMyRule(OrderEntity order) throws IllegalArgumentException {
-        if (order.getSource().getOwner() != order.getPlayer()) {
+    protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
+        if (order.getSource().getOwner() != player) {
             throw new IllegalArgumentException("Invalid attack order: The source territory is not owned by you.");
         }
-        if (order.getDestination().getOwner() == order.getPlayer()) {
+        if (order.getDestination().getOwner() == player) {
             throw new IllegalArgumentException("Invalid attack order: The destination territory cannot be owned by you.");
         }
 

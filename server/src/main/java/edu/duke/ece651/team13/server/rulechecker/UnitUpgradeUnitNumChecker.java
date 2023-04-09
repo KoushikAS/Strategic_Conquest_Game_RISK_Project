@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server.rulechecker;
 
 import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
 
 import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
 
@@ -14,7 +15,7 @@ public class UnitUpgradeUnitNumChecker extends RuleChecker {
     }
 
     @Override
-    protected void checkMyRule(OrderEntity order) throws IllegalArgumentException {
+    protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
         int territoryUnitNum = getUnitForType(order.getSource(), order.getUnitType()).getUnitNum();
         int upgradeUnitNum = order.getUnitNum();
         if (territoryUnitNum < upgradeUnitNum) {
