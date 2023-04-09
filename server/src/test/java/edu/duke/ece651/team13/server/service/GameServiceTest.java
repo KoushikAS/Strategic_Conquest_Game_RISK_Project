@@ -122,7 +122,15 @@ public class GameServiceTest {
         PlayerEntity actual = service.joinGame(1L, user.getId());
         assertEquals(player, actual);
 
+        PlayerEntity player2 = new PlayerEntity();
+        player2.setUser(user);
+        game.getPlayers().add(player2);
+        when(repository.findById(1L)).thenReturn(Optional.of(game));
+
         assertThrows(IllegalArgumentException.class, ()->service.joinGame(1L, user.getId()));
+
+        player.setUser(user);
+        when(repository.findById(1L)).thenReturn(Optional.of(game));
         assertThrows(NoSuchElementException.class, ()->service.joinGame(1L,2L));
     }
 }
