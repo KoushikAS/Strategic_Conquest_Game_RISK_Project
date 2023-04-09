@@ -13,6 +13,4 @@ public interface OrderService {
     void deleteOrdersByPlayer(PlayerEntity playerEntity);
 
     void validateAndAddOrders(OrdersDTO orders, Long playerId) throws IllegalArgumentException;
-
-    public void deleteOrdersByPlayer(PlayerEntity playerEntity);
 }
