@@ -59,6 +59,11 @@ public class OrderServiceImpl implements OrderService {
         return repository.findByPlayer(playerEntity);
     }
 
+    @Override
+    public void deleteOrdersByPlayer(PlayerEntity playerEntity) {
+        repository.deleteByPlayer(playerEntity);
+    }
+
     private Boolean isGameReadyForRoundExecution(GameEntity game) {
         //Checking if all the players who are active have submitted orders
         for (PlayerEntity player : game.getPlayers()) {
@@ -114,6 +119,13 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderEntity> orderEntityList = getOrderEntityList(orders, game, player);
 
+        //Validate Unit upgrade order
+        for (OrderEntity order : orderEntityList) {
+            if (order.getOrderType().equals(UNIT_UPGRADE)) {
+                unitUpgradeOrder.validateAndExecuteLocally(order, game);
+            }
+        }
+
         //Validate Move Order
         for (OrderEntity order : orderEntityList) {
             if (order.getOrderType().equals(MOVE)) {
@@ -125,13 +137,6 @@ public class OrderServiceImpl implements OrderService {
         for (OrderEntity order : orderEntityList) {
             if (order.getOrderType().equals(ATTACK)) {
                 attackOrder.validateAndExecuteLocally(order, game);
-            }
-        }
-
-        //Validate Unit upgrade order
-        for (OrderEntity order : orderEntityList) {
-            if (order.getOrderType().equals(UNIT_UPGRADE)) {
-                unitUpgradeOrder.validateAndExecuteLocally(order, game);
             }
         }
 

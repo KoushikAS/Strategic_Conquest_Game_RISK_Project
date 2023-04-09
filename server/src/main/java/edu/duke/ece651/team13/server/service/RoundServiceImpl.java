@@ -104,6 +104,12 @@ public class RoundServiceImpl implements RoundService {
         }
     }
 
+    private void clearOrders(GameEntity game){
+        for(PlayerEntity player:game.getPlayers()){
+            orderService.deleteOrdersByPlayer(player);
+        }
+    }
+
     @Override
     @Async
     @EventListener
@@ -119,6 +125,7 @@ public class RoundServiceImpl implements RoundService {
             updatePlayerStatus(game);
         }
 
+        clearOrders(game);
         updateGameStatus(game);
     }
 }
