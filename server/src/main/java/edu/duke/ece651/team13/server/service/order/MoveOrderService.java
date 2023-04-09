@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import static edu.duke.ece651.team13.server.rulechecker.MoveFoodResourceChecker.getFoodCost;
 import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MoveOrderService implements OrderFactory {
@@ -36,6 +38,10 @@ public class MoveOrderService implements OrderFactory {
 
     @Override
     public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException {
+        log.info("Locally validating order " + order.getId() + ": " + order.getOrderType().getValue() + " from " +
+        order.getSource().getName() + " to " + order.getDestination().getName() + " with " + order.getUnitNum()
+                + " units on game " + game.getId());
+
         RuleChecker ruleChecker = getDefaultRuleChecker();
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
         ruleChecker.checkOrder(order, player);
@@ -59,6 +65,10 @@ public class MoveOrderService implements OrderFactory {
 
     @Override
     public void executeOnGame(OrderEntity order, GameEntity game) {
+        log.info("Executing order " + order.getId() + ": " + order.getOrderType().getValue() + " from " +
+                order.getSource().getName() + " to " + order.getDestination().getName() + " with " + order.getUnitNum()
+                + " units on game " + game.getId());
+
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         TerritoryEntity destination = game.getMap().getTerritoryEntityById(order.getDestination().getId());
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());

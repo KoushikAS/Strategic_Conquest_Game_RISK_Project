@@ -109,6 +109,7 @@ public class GameController {
             orderService.validateAndAddOrders(ordersDTO, playerId);
             return ResponseEntity.ok().body("Submitted successful");
         } catch (IllegalArgumentException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());

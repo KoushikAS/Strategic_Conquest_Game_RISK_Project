@@ -68,6 +68,7 @@ public class TerritoryServiceImpl implements TerritoryService {
 
     @Override
     public TerritoryEntity updateTerritoryUnits(TerritoryEntity territory, List<UnitEntity> units) {
+        log.info("Updating territory " + territory.getId() + " units.");
         territory.setUnits(units);
         return repository.save(territory);
     }

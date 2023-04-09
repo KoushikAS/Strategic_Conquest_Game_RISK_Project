@@ -24,7 +24,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         UserEntity user = new UserEntity();
         user.setFullName(fullName);
         user.setEmail(email);
-        System.out.println(password);
         user.setPassword(password);
         return repository.save(user);
     }
