@@ -1,10 +1,12 @@
 package edu.duke.ece651.team13.client;
 
 import edu.duke.ece651.team13.shared.map.MapRO;
-import edu.duke.ece651.team13.shared.territory.Territory;
 import edu.duke.ece651.team13.shared.territory.TerritoryRO;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * This class is a text view representation of the RISC game board

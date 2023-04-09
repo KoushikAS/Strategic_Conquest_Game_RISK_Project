@@ -75,5 +75,4 @@ public class TerritoryServiceImpl implements TerritoryService {
         territory.setUnits(units);
         return repository.save(territory);
     }
-
 }

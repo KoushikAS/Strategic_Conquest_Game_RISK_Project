@@ -1,11 +1,11 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.util.Dice;
 import edu.duke.ece651.team13.server.entity.AttackerEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
+import edu.duke.ece651.team13.server.util.Dice;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -49,8 +51,8 @@ public class CombatResolutionServiceTest {
     void reduceUnitTest(){
         List<MutablePair<UnitMappingEnum, Integer>> units = new ArrayList<>();
 
-        units.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL0, 2));
-        units.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL1, 2));
+        units.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 2));
+        units.add(new MutablePair<>(UnitMappingEnum.LEVEL1, 2));
 
         service.reduceUnit(units, UnitMappingEnum.LEVEL0);
 
@@ -70,13 +72,13 @@ public class CombatResolutionServiceTest {
 
         List<MutablePair<UnitMappingEnum, Integer>> attacker = new ArrayList<>();
 
-        attacker.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL0, 1));
-        attacker.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL6, 1));
+        attacker.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 1));
+        attacker.add(new MutablePair<>(UnitMappingEnum.LEVEL6, 1));
 
         List<MutablePair<UnitMappingEnum, Integer>> defender = new ArrayList<>();
 
-        defender.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL0, 1));
-        defender.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL6, 1));
+        defender.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 1));
+        defender.add(new MutablePair<>(UnitMappingEnum.LEVEL6, 1));
 
         service.fight(attacker, defender, false, false);
 
@@ -91,13 +93,13 @@ public class CombatResolutionServiceTest {
 
         List<MutablePair<UnitMappingEnum, Integer>> attacker = new ArrayList<>();
 
-        attacker.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL0, 1));
-        attacker.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL1, 1));
+        attacker.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 1));
+        attacker.add(new MutablePair<>(UnitMappingEnum.LEVEL1, 1));
 
         List<MutablePair<UnitMappingEnum, Integer>> defender = new ArrayList<>();
 
-        defender.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL0, 1));
-        defender.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL6, 1));
+        defender.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 1));
+        defender.add(new MutablePair<>(UnitMappingEnum.LEVEL6, 1));
 
         service.fight(attacker, defender, false, false);
 
@@ -112,11 +114,11 @@ public class CombatResolutionServiceTest {
 
         List<MutablePair<UnitMappingEnum, Integer>> attacker = new ArrayList<>();
 
-        attacker.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL0, 1));
+        attacker.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 1));
 
         List<MutablePair<UnitMappingEnum, Integer>> defender = new ArrayList<>();
 
-        defender.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL0, 1));
+        defender.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 1));
 
         service.fight(attacker, defender, true, false);
 
@@ -130,11 +132,11 @@ public class CombatResolutionServiceTest {
 
         List<MutablePair<UnitMappingEnum, Integer>> attacker = new ArrayList<>();
 
-        attacker.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL0, 1));
+        attacker.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 1));
 
         List<MutablePair<UnitMappingEnum, Integer>> defender = new ArrayList<>();
 
-        defender.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL0, 1));
+        defender.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 1));
 
         service.fight(attacker, defender, false, true);
 
@@ -148,11 +150,11 @@ public class CombatResolutionServiceTest {
 
         List<MutablePair<UnitMappingEnum, Integer>> attacker = new ArrayList<>();
 
-        attacker.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL0, 1));
+        attacker.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 1));
 
         List<MutablePair<UnitMappingEnum, Integer>> defender = new ArrayList<>();
 
-        defender.add(new MutablePair<UnitMappingEnum, Integer>(UnitMappingEnum.LEVEL0, 1));
+        defender.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 1));
 
         service.fight(attacker, defender, false, false);
 
@@ -183,11 +185,11 @@ public class CombatResolutionServiceTest {
 
     @Test
     void resolveWinner_defenderWinTest(){
-
         when(dice.roll()).thenReturn(0);
         PlayerEntity defender = new PlayerEntity("defender");
         PlayerEntity attacker = new PlayerEntity("attacker");
-
+        defender.setId(1L);
+        attacker.setId(2L);
 
         TerritoryEntity territory = new TerritoryEntity();
         territory.setOwner(defender);
@@ -206,7 +208,8 @@ public class CombatResolutionServiceTest {
         when(dice.roll()).thenReturn(0);
         PlayerEntity defender = new PlayerEntity("defender");
         PlayerEntity attacker = new PlayerEntity("attacker");
-
+        defender.setId(1L);
+        attacker.setId(2L);
 
         TerritoryEntity territory = new TerritoryEntity();
         territory.setOwner(defender);
@@ -221,11 +224,10 @@ public class CombatResolutionServiceTest {
 
     @Test
     void resolveCombat(){
-
-
         PlayerEntity defender = new PlayerEntity("defender");
         PlayerEntity attacker = new PlayerEntity("attacker");
-
+        defender.setId(1L);
+        attacker.setId(2L);
 
         TerritoryEntity territory = new TerritoryEntity();
         territory.setOwner(defender);

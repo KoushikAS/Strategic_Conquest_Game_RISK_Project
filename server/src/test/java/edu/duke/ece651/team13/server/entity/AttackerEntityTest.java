@@ -3,9 +3,9 @@ package edu.duke.ece651.team13.server.entity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import org.junit.jupiter.api.Test;
 
-import static edu.duke.ece651.team13.server.MockDataUtil.*;
+import static edu.duke.ece651.team13.server.MockDataUtil.getPlayerEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.getTerritoryEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AttackerEntityTest {
 

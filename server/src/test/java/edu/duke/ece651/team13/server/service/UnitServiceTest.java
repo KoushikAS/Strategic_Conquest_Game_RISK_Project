@@ -10,12 +10,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static edu.duke.ece651.team13.server.MockDataUtil.*;
+import static edu.duke.ece651.team13.server.MockDataUtil.getTerritoryEntity;
 import static edu.duke.ece651.team13.server.MockDataUtil.getUnitEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UnitServiceTest {
@@ -33,7 +35,7 @@ class UnitServiceTest {
     @Test
     void createUnitTest() {
         TerritoryEntity territory= getTerritoryEntity();
-        UnitEntity unit = getUnitEntity();
+        UnitEntity unit = getUnitEntity(10);
         when(repository.save(any(UnitEntity.class))).thenReturn(unit);
         UnitEntity actual = service.createUnit(UnitMappingEnum.LEVEL0, territory, 1);
         assertEquals(unit,actual);

@@ -20,10 +20,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
-import static edu.duke.ece651.team13.server.MockDataUtil.getPlayerEntity;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -87,6 +86,8 @@ public class RoundServiceTest {
 
         PlayerEntity red = new PlayerEntity("red");
         PlayerEntity blue = new PlayerEntity("blue");
+        red.setId(1L);
+        blue.setId(2L);
         gameEntity.getPlayers().add(red);
         gameEntity.getPlayers().add(blue);
 
@@ -108,9 +109,10 @@ public class RoundServiceTest {
         GameEntity gameEntity = getGameEntity();
         gameEntity.setRoundNo(1);
 
-
         PlayerEntity red = new PlayerEntity("red");
         PlayerEntity blue = new PlayerEntity("blue");
+        red.setId(1L);
+        blue.setId(2L);
         gameEntity.getPlayers().add(red);
         gameEntity.getPlayers().add(blue);
 

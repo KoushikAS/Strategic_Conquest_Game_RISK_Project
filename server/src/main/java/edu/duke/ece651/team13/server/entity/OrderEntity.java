@@ -8,7 +8,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "GAME_ORDER")
@@ -43,6 +58,22 @@ public class OrderEntity {
     @JsonIgnore
     private TerritoryEntity destination;
 
-    @Column(name = "UNIT_NUM")
-    private int unitNum;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UnitEntity> units = new ArrayList<>();
+
+    public void addUnit(UnitEntity unit) {
+        units.add(unit);
+    }
+
+    public void removeUnit(UnitEntity unit) {
+        units.remove(unit);
+    }
+
+    public int getTotalUnitNum(){
+        int total = 0;
+        for(UnitEntity unit: units){
+            total += unit.getUnitNum();
+        }
+        return total;
+    }
 }

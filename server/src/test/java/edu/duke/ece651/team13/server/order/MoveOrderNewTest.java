@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.getUnitEntity;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -56,13 +57,13 @@ class MoveOrderNewTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
-        order.setUnitNum(5);
+        order.addUnit(getUnitEntity(5));
         order.setPlayer(player1);
 
         service.validateAndExecuteLocally(order, game);
 
-        assertEquals(5, game.getMap().getTerritories().get(0).getUnits().get(0).getUnits());
-        assertEquals(15, game.getMap().getTerritories().get(1).getUnits().get(0).getUnits());
+        assertEquals(5, game.getMap().getTerritories().get(0).getUnits().get(0).getUnitNum());
+        assertEquals(15, game.getMap().getTerritories().get(1).getUnits().get(0).getUnitNum());
     }
 
     @Test
@@ -75,10 +76,14 @@ class MoveOrderNewTest {
         source.setConnections(connections);
 
         OrderEntity order = new OrderEntity();
+        PlayerEntity player1 = new PlayerEntity();
+        player1.setId(1L);
+        player1.setFoodResource(140);
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
-        order.setUnitNum(5);
+        order.addUnit(getUnitEntity(5));
+        order.setPlayer(player1);
         //No Connection
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
     }
@@ -98,7 +103,7 @@ class MoveOrderNewTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
-        order.setUnitNum(25);
+        order.addUnit(getUnitEntity(25));
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
     }
@@ -122,7 +127,7 @@ class MoveOrderNewTest {
         order.setSource(source);
         order.setDestination(destination);
         order.setOrderType(MOVE);
-        order.setUnitNum(5);
+        order.addUnit(getUnitEntity(5));
         order.setPlayer(player2);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));

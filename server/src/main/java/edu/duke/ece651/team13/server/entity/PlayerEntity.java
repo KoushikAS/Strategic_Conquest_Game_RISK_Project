@@ -7,7 +7,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import java.util.Objects;
 
 /**
  * This class handles the information of one human player
@@ -51,5 +63,16 @@ public class PlayerEntity {
         this.status = PlayerStatusEnum.PLAYING;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlayerEntity that = (PlayerEntity) o;
+        return Id.equals(that.Id) && name.equals(that.name);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(Id, name);
+    }
 }

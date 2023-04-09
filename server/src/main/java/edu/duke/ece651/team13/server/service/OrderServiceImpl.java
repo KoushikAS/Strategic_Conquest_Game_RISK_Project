@@ -2,10 +2,12 @@ package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.dto.OrderDTO;
 import edu.duke.ece651.team13.server.dto.OrdersDTO;
+import edu.duke.ece651.team13.server.dto.UnitDTO;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
 import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
 import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
@@ -80,7 +82,9 @@ public class OrderServiceImpl implements OrderService {
             orderEntity.setOrderType(OrderMappingEnum.findByValue(orderDTO.getOrderType()));
             orderEntity.setSource(source.get());
             orderEntity.setDestination(destination.get());
-            orderEntity.setUnitNum(orderDTO.getUnits());
+            for(UnitDTO unitDTO: orderDTO.getUnits()){
+                orderEntity.addUnit(new UnitEntity(unitDTO.getUnitType(), unitDTO.getUnitNum()));
+            }
             orderEntities.add(orderEntity);
         }
         return orderEntities;

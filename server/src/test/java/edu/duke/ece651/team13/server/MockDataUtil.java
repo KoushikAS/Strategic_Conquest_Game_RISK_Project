@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server;
 
+import edu.duke.ece651.team13.server.dto.UnitDTO;
 import edu.duke.ece651.team13.server.entity.AttackerEntity;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.MapEntity;
@@ -54,13 +55,20 @@ public class MockDataUtil {
 
     public static TerritoryEntity getTerritoryEntity(){
         TerritoryEntity territory = new TerritoryEntity();
-        territory.getUnits().add(getUnitEntity());
+        territory.getUnits().add(getUnitEntity(10));
         return territory;
     }
 
-    public static UnitEntity getUnitEntity(){
+    public static UnitEntity getUnitEntity(int unitNum){
         UnitEntity basicUnit = new UnitEntity();
-        basicUnit.setUnits(10);
+        basicUnit.setUnitNum(unitNum);
+        basicUnit.setUnitType(LEVEL0);
+        return basicUnit;
+    }
+
+    public static UnitDTO getUnitDTO(int unitNum){
+        UnitDTO basicUnit = new UnitDTO();
+        basicUnit.setUnitNum(unitNum);
         basicUnit.setUnitType(LEVEL0);
         return basicUnit;
     }

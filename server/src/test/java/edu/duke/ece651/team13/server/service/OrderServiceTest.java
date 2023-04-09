@@ -2,7 +2,11 @@ package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.dto.OrderDTO;
 import edu.duke.ece651.team13.server.dto.OrdersDTO;
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.MapEntity;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
 import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
@@ -20,12 +24,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static edu.duke.ece651.team13.server.MockDataUtil.getUnitDTO;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -74,7 +81,7 @@ public class OrderServiceTest {
         when(playerService.getPlayer(any())).thenReturn(losePlayer);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
-        orderDTOS.add(new OrderDTO(1L, 2L, 5, MOVE.getValue()));
+        orderDTOS.add(new OrderDTO(1L, 2L, Collections.singletonList(getUnitDTO(5)), MOVE.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
         ordersDTO.setPlayerId(losePlayer.getId());
@@ -93,7 +100,7 @@ public class OrderServiceTest {
         when(playerService.getPlayer(any())).thenReturn(player);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
-        orderDTOS.add(new OrderDTO(1L, 2L, 5, MOVE.getValue()));
+        orderDTOS.add(new OrderDTO(1L, 2L, Collections.singletonList(getUnitDTO(5)), MOVE.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
         ordersDTO.setPlayerId(player.getId());
@@ -113,8 +120,8 @@ public class OrderServiceTest {
         when(playerService.getPlayer(any())).thenReturn(player);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
-        orderDTOS.add(new OrderDTO(1L, 1L, 5, MOVE.getValue()));
-        orderDTOS.add(new OrderDTO(1L, 1L, 5, ATTACK.getValue()));
+        orderDTOS.add(new OrderDTO(1L, 1L, Collections.singletonList(getUnitDTO(5)), MOVE.getValue()));
+        orderDTOS.add(new OrderDTO(1L, 1L, Collections.singletonList(getUnitDTO(5)), ATTACK.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
         ordersDTO.setPlayerId(player.getId());
@@ -139,7 +146,7 @@ public class OrderServiceTest {
         when(playerService.getPlayer(any())).thenReturn(player);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
-        orderDTOS.add(new OrderDTO(5L, 1L, 5, MOVE.getValue()));
+        orderDTOS.add(new OrderDTO(5L, 1L, Collections.singletonList(getUnitDTO(5)), MOVE.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
         ordersDTO.setPlayerId(player.getId());
@@ -148,7 +155,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    void validateAndAddOrders_OrdersContainInvalidDestinationTerritoryTest() throws IllegalAccessException {
+    void validateAndAddOrders_OrdersContainInvalidDestinationTerritoryTest() {
         TerritoryEntity territory = new TerritoryEntity();
         territory.setId(1L);
         MapEntity map = new MapEntity();
@@ -164,7 +171,7 @@ public class OrderServiceTest {
         when(playerService.getPlayer(any())).thenReturn(player);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
-        orderDTOS.add(new OrderDTO(1L, 5L, 5, MOVE.getValue()));
+        orderDTOS.add(new OrderDTO(1L, 5L, Collections.singletonList(getUnitDTO(5)), MOVE.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
         ordersDTO.setPlayerId(player.getId());
@@ -189,7 +196,7 @@ public class OrderServiceTest {
         when(playerService.getPlayer(any())).thenReturn(player);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
-        orderDTOS.add(new OrderDTO(1L, 1L, 5, "Invalid"));
+        orderDTOS.add(new OrderDTO(1L, 1L, Collections.singletonList(getUnitDTO(5)), "Invalid"));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
         ordersDTO.setPlayerId(player.getId());
@@ -218,8 +225,8 @@ public class OrderServiceTest {
         when(repository.findByPlayer(player)).thenReturn(Collections.emptyList());
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
-        orderDTOS.add(new OrderDTO(1L, 1L, 5, MOVE.getValue()));
-        orderDTOS.add(new OrderDTO(1L, 1L, 5, ATTACK.getValue()));
+        orderDTOS.add(new OrderDTO(1L, 1L, Collections.singletonList(getUnitDTO(5)), MOVE.getValue()));
+        orderDTOS.add(new OrderDTO(1L, 1L, Collections.singletonList(getUnitDTO(5)), ATTACK.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
         ordersDTO.setPlayerId(player.getId());
@@ -259,8 +266,8 @@ public class OrderServiceTest {
         when(repository.findByPlayer(player)).thenReturn(orderEntities);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
-        orderDTOS.add(new OrderDTO(1L, 1L, 5, MOVE.getValue()));
-        orderDTOS.add(new OrderDTO(1L, 1L, 5, ATTACK.getValue()));
+        orderDTOS.add(new OrderDTO(1L, 1L, Collections.singletonList(getUnitDTO(5)), MOVE.getValue()));
+        orderDTOS.add(new OrderDTO(1L, 1L, Collections.singletonList(getUnitDTO(5)), ATTACK.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
         ordersDTO.setPlayerId(player.getId());

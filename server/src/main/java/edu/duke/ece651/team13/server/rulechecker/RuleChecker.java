@@ -5,6 +5,10 @@ import edu.duke.ece651.team13.server.entity.OrderEntity;
 public abstract class RuleChecker {
     private final RuleChecker next;
 
+    public RuleChecker(){
+        this.next = null;
+    }
+
     public RuleChecker(RuleChecker next){
         this.next = next;
     }

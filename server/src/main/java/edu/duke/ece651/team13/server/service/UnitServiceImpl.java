@@ -21,7 +21,7 @@ public class UnitServiceImpl implements UnitService{
         unit.setTerritory(territory);
         territory.getUnits().add(unit);
         unit.setUnitType(unitType);
-        unit.setUnits(unitNum);
+        unit.setUnitNum(unitNum);
         return repository.save(unit);
     }
 

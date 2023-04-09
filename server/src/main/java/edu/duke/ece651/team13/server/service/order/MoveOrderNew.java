@@ -15,9 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL0;
 import static edu.duke.ece651.team13.server.rulechecker.MoveFoodResourceChecker.getFoodCost;
-import static edu.duke.ece651.team13.server.rulechecker.MoveUnitNumChecker.getUnitEntityHelper;
+import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
 
 @Service
 @RequiredArgsConstructor
@@ -42,34 +41,42 @@ public class MoveOrderNew implements OrderFactory {
     public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException {
         RuleChecker ruleChecker = getDefaultRuleChecker();
         ruleChecker.checkOrder(order);
-        executeLocally(game.getMap().getTerritoryEntityById(order.getSource().getId()),
-                game.getMap().getTerritoryEntityById(order.getDestination().getId()),
-                order.getUnitNum(),
-                order.getPlayer(),
-                getFoodCost(order));
+        TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
+        TerritoryEntity destination = game.getMap().getTerritoryEntityById(order.getDestination().getId());
+        for(UnitEntity unit: order.getUnits()){
+            executeLocally(source,
+                    destination,
+                    unit,
+                    order.getPlayer(),
+                    getFoodCost(order));
+        }
     }
 
     private void executeLocally(TerritoryEntity sourceTerritoryEntity,
                                 TerritoryEntity destinationTerritoryEntity,
-                                int unitNo,
+                                UnitEntity unit,
                                 PlayerEntity player,
                                 int foodCost) {
         player.setFoodResource(player.getFoodResource() - foodCost);
-        //TODO Remove the correct vairety of units
-        //Temporarily: only operate on basic units
-        UnitEntity sourceUnit = getUnitEntityHelper(sourceTerritoryEntity, LEVEL0);
-        UnitEntity destUnit = getUnitEntityHelper(destinationTerritoryEntity, LEVEL0);
-        sourceUnit.setUnits(sourceUnit.getUnits() - unitNo);
+        UnitEntity sourceUnit = getUnitForType(sourceTerritoryEntity, unit.getUnitType());
+        UnitEntity destUnit = getUnitForType(destinationTerritoryEntity, unit.getUnitType());
+        sourceUnit.setUnitNum(sourceUnit.getUnitNum() - unit.getUnitNum());
+        destUnit.setUnitNum(destUnit.getUnitNum() + unit.getUnitNum());
     }
 
 
     @Override
     public void executeOnGame(OrderEntity order, GameEntity game) {
-        TerritoryEntity sourceTerritoryEntity = game.getMap().getTerritoryEntityById(order.getSource().getId());
-        TerritoryEntity destinationTerritoryEntity = game.getMap().getTerritoryEntityById(order.getDestination().getId());
-        executeLocally(sourceTerritoryEntity, destinationTerritoryEntity, order.getUnitNum(), order.getPlayer(), getFoodCost(order));
-        territoryService.updateTerritoryUnits(sourceTerritoryEntity, sourceTerritoryEntity.getUnits());
-        territoryService.updateTerritoryUnits(destinationTerritoryEntity, destinationTerritoryEntity.getUnits());
+        TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
+        TerritoryEntity destination = game.getMap().getTerritoryEntityById(order.getDestination().getId());
+        for(UnitEntity unit: order.getUnits()){
+            executeLocally(source,
+                    destination,
+                    unit,
+                    order.getPlayer(),
+                    getFoodCost(order));
+        }
+        territoryService.updateTerritoryUnits(source, source.getUnits());
+        territoryService.updateTerritoryUnits(destination, destination.getUnits());
     }
-
 }
