@@ -2,9 +2,7 @@ import React, { useState, useContext } from "react";
 import { Card, Form, Button, Container } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import axios from "axios";
-import { API_URL } from "../config/config";
 import Alert from 'react-bootstrap/Alert';
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 
 const LoginView = () => {
@@ -21,9 +19,8 @@ const LoginView = () => {
         email: email,
         password: password
       });
-      console.log(response.data);
+      // console.log(response.data);
       setShowSuccess(true);
-      // login(response.data);
       login(response.data);
     } catch (error) {
       console.error(error);
