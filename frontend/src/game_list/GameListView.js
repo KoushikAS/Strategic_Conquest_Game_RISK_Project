@@ -4,7 +4,7 @@ import { AuthContext } from "../auth/AuthProvider";
 
 const GameListView = () => {
   const { user } = useContext(AuthContext);
-  console.log("auth: " + user);
+  console.log("auth: " + user.accessToken);
   return <div>GameListView</div>;
 };
 
