@@ -37,7 +37,7 @@ public class PlayerEntity {
 
     @Column(name = "Status")
     @Enumerated(EnumType.STRING)
-    private PlayerStatusEnum status;
+    private PlayerStatusEnum status = PlayerStatusEnum.PLAYING;
 
     @Column(name = "FOOD_RESOURCE")
     private int foodResource; //food resource totals of this player

@@ -9,6 +9,7 @@ import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,6 +39,9 @@ public class RoundServiceTest {
     private AttackOrderService attackOrder;
 
     @Mock
+    private UnitUpgradeOrderService unitUpgradeOrder;
+
+    @Mock
     private CombatResolutionService combatResolutionService;
 
     @Mock
@@ -51,31 +55,9 @@ public class RoundServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, combatResolutionService, territoryService, playerService, gameService);
+        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, unitUpgradeOrder, combatResolutionService, territoryService, playerService, gameService);
     }
 
-//    @Test
-//    void isGameReadyForRoundExecutionTest() {
-//        GameEntity gameEntity = getGameEntity();
-//        PlayerEntity red = getPlayerEntity();
-//        PlayerEntity blue = getPlayerEntity();
-//        PlayerEntity green = getPlayerEntity();
-//        green.setStatus(PlayerStatusEnum.LOSE);
-//
-//        gameEntity.getPlayers().add(red);
-//        gameEntity.getPlayers().add(blue);
-//        gameEntity.getPlayers().add(green);
-//
-//        List<OrderEntity> orders = new ArrayList<>();
-//        orders.add(new OrderEntity());
-//        when(orderService.getOrdersByPlayer(red)).thenReturn(Collections.emptyList());
-//        when(orderService.getOrdersByPlayer(blue)).thenReturn(orders);
-//        when(orderService.getOrdersByPlayer(red)).thenReturn(Collections.emptyList());
-//        assertFalse(service.isGameReadyForRoundExecution(gameEntity));
-//
-//        when(orderService.getOrdersByPlayer(red)).thenReturn(orders);
-//        assertTrue(service.isGameReadyForRoundExecution(gameEntity));
-//    }
 
     @Test
     void playOneRoundTest_InitialRound() {

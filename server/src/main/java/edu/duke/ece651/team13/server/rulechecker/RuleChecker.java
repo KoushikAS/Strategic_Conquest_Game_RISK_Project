@@ -18,7 +18,6 @@ public abstract class RuleChecker {
      * TODO: changed to pass in PlayerOrder, parametric polymorphism may not work here
      */
     protected abstract void checkMyRule(OrderEntity order) throws IllegalArgumentException;
-//    protected abstract String checkMyRule(AttackOrder order);
 
     /**
      * Handle chaining rules, Subclasses will generally NOT override

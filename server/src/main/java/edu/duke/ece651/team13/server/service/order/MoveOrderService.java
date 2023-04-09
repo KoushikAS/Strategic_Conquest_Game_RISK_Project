@@ -60,15 +60,16 @@ public class MoveOrderService implements OrderFactory {
     public void executeOnGame(OrderEntity order, GameEntity game) {
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         TerritoryEntity destination = game.getMap().getTerritoryEntityById(order.getDestination().getId());
+        PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
         executeLocally(source,
                 destination,
                 order.getUnitNum(),
                 order.getUnitType(),
-                order.getPlayer(),
+                player,
                 getFoodCost(order));
         territoryService.updateTerritoryUnits(source, source.getUnits());
         territoryService.updateTerritoryUnits(destination, destination.getUnits());
-        playerService.updatePlayerFoodResource(order.getPlayer(), order.getPlayer().getFoodResource());
+        playerService.updatePlayerFoodResource(player, player.getFoodResource());
     }
 
 }

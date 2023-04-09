@@ -10,6 +10,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Entity
 @Table(name = "GAME")
@@ -37,6 +39,11 @@ public class GameEntity {
 
     @Column(name = "Status")
     @Enumerated(EnumType.STRING)
-    private GameStatusEnum status;
+    private GameStatusEnum status = GameStatusEnum.PLAYING;
 
+    public PlayerEntity getPlayerEntityById(Long Id) {
+        return players.stream().filter(playerEntity -> Objects.equals(playerEntity.getId(), Id))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
+    }
 }

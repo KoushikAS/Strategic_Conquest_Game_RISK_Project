@@ -40,4 +40,5 @@ public class MapEntity {
                 .findFirst()
                 .orElseThrow(NoSuchElementException::new);
     }
+
 }

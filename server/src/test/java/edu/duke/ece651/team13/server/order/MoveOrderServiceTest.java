@@ -2,6 +2,7 @@ package edu.duke.ece651.team13.server.order;
 
 import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
+import edu.duke.ece651.team13.server.service.PlayerService;
 import edu.duke.ece651.team13.server.service.TerritoryService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +29,12 @@ class MoveOrderServiceTest {
     @Mock
     private TerritoryService territoryService;
 
+    @Mock
+    private PlayerService playerService;
 
     @BeforeEach
     void setUp() {
-        service = new MoveOrderService(territoryService);
+        service = new MoveOrderService(territoryService, playerService);
     }
 
 

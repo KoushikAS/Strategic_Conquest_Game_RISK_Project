@@ -8,6 +8,7 @@ import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,15 +48,14 @@ public class OrderServiceTest {
     private AttackOrderService attackOrder;
 
     @Mock
-    private ApplicationEventPublisher eventPublisher;
-
+    private UnitUpgradeOrderService unitUpgradeOrder;
     @Mock
-    private RoundService roundService;
+    private ApplicationEventPublisher eventPublisher;
 
 
     @BeforeEach
     void setUp() {
-        service = new OrderServiceImpl(repository, playerService, moveOrder, attackOrder, eventPublisher);
+        service = new OrderServiceImpl(repository, playerService, moveOrder, attackOrder,unitUpgradeOrder,  eventPublisher);
     }
 
     @Test

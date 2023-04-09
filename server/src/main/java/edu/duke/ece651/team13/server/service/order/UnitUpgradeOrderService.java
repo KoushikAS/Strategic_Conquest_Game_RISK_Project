@@ -62,13 +62,14 @@ public class UnitUpgradeOrderService implements OrderFactory {
     @Override
     public void executeOnGame(OrderEntity order, GameEntity game) {
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
+        PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
         executeLocally(source,
                 order.getUnitNum(),
                 order.getUnitType(),
-                order.getPlayer(),
+                player,
                 UnitUpgradeTechResourceChecker.getTechCost(order));
         territoryService.updateTerritoryUnits(source, source.getUnits());
-        playerService.updatePlayerTechResource(order.getPlayer(),order.getPlayer().getTechResource());
+        playerService.updatePlayerTechResource(player,player.getTechResource());
     }
 
 }

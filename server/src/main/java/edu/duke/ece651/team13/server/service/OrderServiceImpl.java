@@ -11,6 +11,7 @@ import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private final AttackOrderService attackOrder;
+
+    @Autowired
+    private final UnitUpgradeOrderService unitUpgradeOrder;
 
     @Autowired
     private final ApplicationEventPublisher eventPublisher;
@@ -122,6 +126,13 @@ public class OrderServiceImpl implements OrderService {
         for (OrderEntity order : orderEntityList) {
             if (order.getOrderType().equals(ATTACK)) {
                 attackOrder.validateAndExecuteLocally(order, game);
+            }
+        }
+
+        //Validate Unit Upgradation order
+        for (OrderEntity order : orderEntityList) {
+            if (order.getOrderType().equals(ATTACK)) {
+                unitUpgradeOrder.validateAndExecuteLocally(order, game);
             }
         }
 
