@@ -3,9 +3,9 @@ package edu.duke.ece651.team13.server.controller;
 import edu.duke.ece651.team13.server.entity.UserEntity;
 import edu.duke.ece651.team13.server.security.JwtTokenUtil;
 import edu.duke.ece651.team13.server.service.UserService;
-import edu.duke.ece651.team13.shared.auth.LoginRequest;
-import edu.duke.ece651.team13.shared.auth.LoginResponse;
-import edu.duke.ece651.team13.shared.auth.RegisterRequest;
+import edu.duke.ece651.team13.server.auth.LoginRequest;
+import edu.duke.ece651.team13.server.auth.LoginResponse;
+import edu.duke.ece651.team13.server.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +39,7 @@ public class AuthController {
      *
      * @param registerRequest the user input containing the full name, email, and password of the user.
      * @return a ResponseEntity with a success message and the ID of the registered user if successful,
-     *         or an error message if the user already exists.
+     * or an error message if the user already exists.
      */
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
@@ -60,8 +60,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request){
-        try{
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        try {
             Authentication authentication = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getEmail(), request.getPassword())
@@ -70,8 +70,7 @@ public class AuthController {
             String accessToken = jwtUtil.generateAccessToken(user);
             LoginResponse response = new LoginResponse(user.getEmail(), accessToken);
             return ResponseEntity.ok().body(response);
-        }
-        catch (BadCredentialsException ex) {
+        } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

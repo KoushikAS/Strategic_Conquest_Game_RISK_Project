@@ -5,10 +5,10 @@ import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
-import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
-import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
-import edu.duke.ece651.team13.shared.enums.OrderMappingEnum;
-import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
+import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.service.order.AttackOrderService;
+import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,10 +34,10 @@ public class RoundServiceTest {
     private OrderService orderService;
 
     @Mock
-    private MoveOrderNew moveOrder;
+    private MoveOrderService moveOrder;
 
     @Mock
-    private AttackOrderNew attackOrder;
+    private AttackOrderService attackOrder;
 
     @Mock
     private CombatResolutionService combatResolutionService;

@@ -3,7 +3,7 @@ package edu.duke.ece651.team13.server.service;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.repository.PlayerRepository;
-import edu.duke.ece651.team13.shared.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

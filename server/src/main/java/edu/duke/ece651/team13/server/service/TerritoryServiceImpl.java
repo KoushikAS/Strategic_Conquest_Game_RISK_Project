@@ -47,12 +47,12 @@ public class TerritoryServiceImpl implements TerritoryService {
             return territory.get();
         } else {
             log.error("Did not find Territory with Id " + Id);
-            throw new NoSuchElementException( "Territory with Id " + Id + " does not exists");
+            throw new NoSuchElementException("Territory with Id " + Id + " does not exists");
         }
     }
 
     @Override
-    public List<TerritoryEntity> getTerritoriesByPlayer(PlayerEntity player){
+    public List<TerritoryEntity> getTerritoriesByPlayer(PlayerEntity player) {
         return repository.findByOwner(player);
     }
 
@@ -71,7 +71,7 @@ public class TerritoryServiceImpl implements TerritoryService {
     }
 
     @Override
-    public TerritoryEntity updateTerritoryUnits(TerritoryEntity territory, List<UnitEntity> units){
+    public TerritoryEntity updateTerritoryUnits(TerritoryEntity territory, List<UnitEntity> units) {
         territory.setUnits(units);
         return repository.save(territory);
     }

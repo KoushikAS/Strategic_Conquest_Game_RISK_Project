@@ -9,9 +9,9 @@ import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
-import edu.duke.ece651.team13.server.service.order.AttackOrderNew;
-import edu.duke.ece651.team13.server.service.order.MoveOrderNew;
-import edu.duke.ece651.team13.shared.enums.OrderMappingEnum;
+import edu.duke.ece651.team13.server.service.order.AttackOrderService;
+import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,10 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static edu.duke.ece651.team13.server.enums.GameStatusEnum.ENDED;
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.ATTACK;
-import static edu.duke.ece651.team13.shared.enums.OrderMappingEnum.MOVE;
-import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.LOSE;
-import static edu.duke.ece651.team13.shared.enums.PlayerStatusEnum.PLAYING;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.LOSE;
+import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
 @Service
 @RequiredArgsConstructor
@@ -43,10 +43,10 @@ public class OrderServiceImpl implements OrderService {
     private final PlayerService playerService;
 
     @Autowired
-    private final MoveOrderNew moveOrder;
+    private final MoveOrderService moveOrder;
 
     @Autowired
-    private final AttackOrderNew attackOrder;
+    private final AttackOrderService attackOrder;
 
     @Autowired
     private final ApplicationEventPublisher eventPublisher;

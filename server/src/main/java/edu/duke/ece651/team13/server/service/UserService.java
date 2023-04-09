@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.entity.UserEntity;
-import edu.duke.ece651.team13.shared.auth.RegisterRequest;
+import edu.duke.ece651.team13.server.auth.RegisterRequest;
 
 public interface UserService {
     /**
