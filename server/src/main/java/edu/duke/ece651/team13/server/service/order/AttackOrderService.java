@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server.service.order;
 
+
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
@@ -19,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
+import static edu.duke.ece651.team13.server.rulechecker.AttackFoodResourceChecker.getFoodCost;
+
 
 @Service
 @RequiredArgsConstructor

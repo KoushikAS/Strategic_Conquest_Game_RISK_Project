@@ -44,16 +44,10 @@ public class MoveOrderService implements OrderFactory {
         ruleChecker.checkOrder(order);
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         TerritoryEntity destination = game.getMap().getTerritoryEntityById(order.getDestination().getId());
-        executeLocally(source,
-                destination,
-                order.getUnitNum(),
-                order.getUnitType(),
-                order.getPlayer(),
-                getFoodCost(order));
+        executeLocally(source, destination, order.getUnitNum(), order.getUnitType(), order.getPlayer(), getFoodCost(order));
     }
 
-    private void executeLocally(TerritoryEntity sourceTerritoryEntity,
-                                TerritoryEntity destinationTerritoryEntity,
+    private void executeLocally(TerritoryEntity sourceTerritoryEntity, TerritoryEntity destinationTerritoryEntity,
                                 int unitNum,
                                 UnitMappingEnum unitType,
                                 PlayerEntity player,
@@ -79,4 +73,5 @@ public class MoveOrderService implements OrderFactory {
         territoryService.updateTerritoryUnits(source, source.getUnits());
         territoryService.updateTerritoryUnits(destination, destination.getUnits());
     }
+
 }
