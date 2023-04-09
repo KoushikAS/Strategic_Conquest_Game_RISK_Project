@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.getNextLevel;
 import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
 
 
@@ -26,10 +27,11 @@ public class UnitUpgradeOrderService implements OrderFactory {
 
     /**
      * Get the default rule checker chain
-     * UnitUpgradeOwnershipChecker -> UnitUpgradeUnitNumChecker -> UnitUpgradeTechLevelChecker -> UnitUpgradeTechResourceChecker
+     * UnitUpgradeOwnershipChecker -> UnitUpgradeUnitNumChecker -> UnitUpgradeTechLevelChecker -> UnitUpgradeTechResourceChecker -> UnitUpgradeMaxLevelChecker
      */
     private static RuleChecker getDefaultRuleChecker() {
-        RuleChecker techResourceChecker = new UnitUpgradeTechResourceChecker(null);
+        RuleChecker maxLevelChecker =new UnitUpgradeMaxLevelChecker(null);
+        RuleChecker techResourceChecker = new UnitUpgradeTechResourceChecker(maxLevelChecker);
         RuleChecker techLevelChecker = new UnitUpgradeTechLevelChecker(techResourceChecker);
         RuleChecker unitNumChecker = new UnitUpgradeUnitNumChecker(techLevelChecker);
         return new UnitUpgradeOwnershipChecker(unitNumChecker);
@@ -55,8 +57,11 @@ public class UnitUpgradeOrderService implements OrderFactory {
                                 int techCost) {
         player.setTechResource(player.getTechResource() - techCost);
         if (unitNum > 0) {
-            UnitEntity sourceUnit = getUnitForType(sourceTerritoryEntity, unitType);
-            sourceUnit.setUnitNum(sourceUnit.getUnitNum() - unitNum);
+            UnitEntity currentUnit = getUnitForType(sourceTerritoryEntity, unitType);
+            currentUnit.setUnitNum(currentUnit.getUnitNum() - unitNum);
+            UnitMappingEnum upgradedUnitType = getNextLevel(unitType);
+            UnitEntity upgradedUnit = getUnitForType(sourceTerritoryEntity, upgradedUnitType);
+            upgradedUnit.setUnitNum(upgradedUnit.getUnitNum() + unitNum);
         }
     }
 
