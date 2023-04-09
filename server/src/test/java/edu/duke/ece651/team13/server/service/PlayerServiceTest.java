@@ -18,10 +18,7 @@ import static edu.duke.ece651.team13.server.MockDataUtil.getPlayerEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -33,18 +30,18 @@ public class PlayerServiceTest {
     private PlayerRepository repository;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         service = new PlayerServiceImpl(repository);
     }
 
     @Test
-    void getPlayerTest(){
+    void getPlayerTest() {
         PlayerEntity player = getPlayerEntity();
         when(repository.findById(1L)).thenReturn(Optional.of(player));
         when(repository.findById(2L)).thenReturn(Optional.empty());
 
         PlayerEntity actual = service.getPlayer(1L);
-        assertEquals(player,actual);
+        assertEquals(player, actual);
         verify(repository, times(1)).findById(1L);
         verifyNoMoreInteractions(repository);
 
@@ -52,24 +49,24 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void createPlayerTest(){
+    void createPlayerTest() {
         GameEntity game = getGameEntity();
         PlayerEntity player = getPlayerEntity();
         when(repository.save(any(PlayerEntity.class))).thenReturn(player);
         PlayerEntity actual = service.createPlayer(player.getName(), game);
-        assertEquals(player,actual);
+        assertEquals(player, actual);
         verify(repository, times(1)).save(any(PlayerEntity.class));
         verifyNoMoreInteractions(repository);
     }
 
     @Test
-    void updatePlayerStatusTest(){
+    void updatePlayerStatusTest() {
         PlayerEntity player = getPlayerEntity();
 
         when(repository.save(any(PlayerEntity.class))).thenReturn(player);
 
         PlayerEntity actual = service.updatePlayerStatus(player, PlayerStatusEnum.LOSE);
-        assertEquals(player,actual);
+        assertEquals(player, actual);
 
         verify(repository, times(1)).save(any(PlayerEntity.class));
         verifyNoMoreInteractions(repository);

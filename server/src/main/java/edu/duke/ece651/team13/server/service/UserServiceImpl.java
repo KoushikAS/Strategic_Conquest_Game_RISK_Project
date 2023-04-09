@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public String isUserPresent(RegisterRequest registerRequest){
+    public String isUserPresent(RegisterRequest registerRequest) {
         Optional<UserEntity> existingUserEmail = repository.findByEmail(registerRequest.getEmail());
-        if(existingUserEmail.isPresent()){
+        if (existingUserEmail.isPresent()) {
             return "An account with the same email already exists!";
         }
         return null;
@@ -66,9 +66,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return repository.findByEmail(username)
-                        .orElseThrow(
-                                () -> new UsernameNotFoundException("User " + username + " not found"));
-            }
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return repository.findByEmail(username)
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("User " + username + " not found"));
+    }
 }

@@ -2,11 +2,7 @@ package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.dto.OrderDTO;
 import edu.duke.ece651.team13.server.dto.OrdersDTO;
-import edu.duke.ece651.team13.server.entity.GameEntity;
-import edu.duke.ece651.team13.server.entity.MapEntity;
-import edu.duke.ece651.team13.server.entity.OrderEntity;
-import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
@@ -30,9 +26,7 @@ import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL0;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)

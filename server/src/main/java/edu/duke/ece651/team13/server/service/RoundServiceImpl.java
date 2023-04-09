@@ -47,8 +47,6 @@ public class RoundServiceImpl implements RoundService {
     private final GameService gameService;
 
 
-
-
     private void executePlayersOrders(GameEntity game) {
         for (PlayerEntity player : game.getPlayers()) {
             List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
@@ -84,17 +82,17 @@ public class RoundServiceImpl implements RoundService {
         }
     }
 
-    private void updateResourceForPlayers(List<PlayerEntity> players){
-        for(PlayerEntity player: players){
+    private void updateResourceForPlayers(List<PlayerEntity> players) {
+        for (PlayerEntity player : players) {
             List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
             int foodProduction = 0;
             int techProduction = 0;
-            for(TerritoryEntity territory: territoryEntities){
+            for (TerritoryEntity territory : territoryEntities) {
                 foodProduction += territory.getFoodProduction();
                 techProduction += territory.getTechProduction();
             }
-            player.setFoodResource(player.getFoodResource()+foodProduction);
-            player.setTechResource(player.getTechResource()+techProduction);
+            player.setFoodResource(player.getFoodResource() + foodProduction);
+            player.setTechResource(player.getTechResource() + techProduction);
         }
     }
 
@@ -106,7 +104,7 @@ public class RoundServiceImpl implements RoundService {
         GameEntity game = gameService.getGame(gameId);
         executePlayersOrders(game);
 
-        if(game.getRoundNo() >= 1) {
+        if (game.getRoundNo() >= 1) {
             resolveCombatForGame(game);
             //TODO Update Resources  like Units, Technology and Food
             updateResourceForPlayers(game.getPlayers());

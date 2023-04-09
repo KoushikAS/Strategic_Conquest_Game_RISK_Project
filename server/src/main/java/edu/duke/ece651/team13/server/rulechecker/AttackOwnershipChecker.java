@@ -14,12 +14,12 @@ public class AttackOwnershipChecker extends RuleChecker {
 
 
     @Override
-    protected void checkMyRule(OrderEntity order) throws IllegalArgumentException{
+    protected void checkMyRule(OrderEntity order) throws IllegalArgumentException {
         if (order.getSource().getOwner() != order.getPlayer()) {
-            throw new IllegalArgumentException( "Invalid attack order: The source territory is not owned by you.");
+            throw new IllegalArgumentException("Invalid attack order: The source territory is not owned by you.");
         }
         if (order.getDestination().getOwner() == order.getPlayer()) {
-            throw new IllegalArgumentException( "Invalid attack order: The destination territory cannot be owned by you.");
+            throw new IllegalArgumentException("Invalid attack order: The destination territory cannot be owned by you.");
         }
 
     }

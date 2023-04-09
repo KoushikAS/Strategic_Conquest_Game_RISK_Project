@@ -1,14 +1,6 @@
 package edu.duke.ece651.team13.server;
 
-import edu.duke.ece651.team13.server.entity.AttackerEntity;
-import edu.duke.ece651.team13.server.entity.GameEntity;
-import edu.duke.ece651.team13.server.entity.MapEntity;
-import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
-import edu.duke.ece651.team13.server.entity.UnitEntity;
-import edu.duke.ece651.team13.server.entity.UserEntity;
-import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
-
+import edu.duke.ece651.team13.server.entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,14 +43,14 @@ public class MockDataUtil {
         return territory;
     }
 
-    public static UnitEntity getUnitEntity(int unitNum){
+    public static UnitEntity getUnitEntity(int unitNum) {
         UnitEntity basicUnit = new UnitEntity();
         basicUnit.setUnitNum(unitNum);
         basicUnit.setUnitType(LEVEL0);
         return basicUnit;
     }
 
-    public static AttackerEntity getAttackerEntity(TerritoryEntity territory){
+    public static AttackerEntity getAttackerEntity(TerritoryEntity territory) {
         return new AttackerEntity(territory, getPlayerEntity(), LEVEL0, 5);
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UnitServiceImpl implements UnitService{
+public class UnitServiceImpl implements UnitService {
 
     @Autowired
     private final UnitRepository repository;

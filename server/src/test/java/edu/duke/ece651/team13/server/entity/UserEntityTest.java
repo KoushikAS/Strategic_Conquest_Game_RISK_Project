@@ -3,9 +3,7 @@ package edu.duke.ece651.team13.server.entity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class UserEntityTest {
 
@@ -15,7 +13,7 @@ class UserEntityTest {
     private UserEntity user; //UserEntity under test
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         user = new UserEntity(0L, testName, testEmail, testPassword);
     }
 

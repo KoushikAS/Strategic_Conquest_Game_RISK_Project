@@ -33,7 +33,7 @@ public class UnitEntity {
     @Column(name = "UNIT_NUM")
     private Integer unitNum;
 
-    public UnitEntity(UnitMappingEnum unitType, Integer unitNum){
+    public UnitEntity(UnitMappingEnum unitType, Integer unitNum) {
         this.unitType = unitType;
         this.unitNum = unitNum;
     }

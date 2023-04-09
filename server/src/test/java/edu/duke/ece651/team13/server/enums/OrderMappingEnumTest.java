@@ -2,10 +2,7 @@ package edu.duke.ece651.team13.server.enums;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.DONE;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.findByValue;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OrderMappingEnumTest {

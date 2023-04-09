@@ -19,9 +19,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -42,13 +40,13 @@ public class CombatResolutionServiceTest {
     private Dice dice;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         service = new CombatResolutionServiceImpl(attackerService, territoryService, unitService, dice);
     }
 
 
     @Test
-    void reduceUnitTest(){
+    void reduceUnitTest() {
         List<MutablePair<UnitMappingEnum, Integer>> units = new ArrayList<>();
 
         units.add(new MutablePair<>(UnitMappingEnum.LEVEL0, 2));
@@ -56,19 +54,19 @@ public class CombatResolutionServiceTest {
 
         service.reduceUnit(units, UnitMappingEnum.LEVEL0);
 
-        assertEquals(units.size(),2);
-        assertEquals(units.get(0).getLeft(),UnitMappingEnum.LEVEL0);
-        assertEquals(units.get(0).getRight(),Integer.valueOf(1));
+        assertEquals(units.size(), 2);
+        assertEquals(units.get(0).getLeft(), UnitMappingEnum.LEVEL0);
+        assertEquals(units.get(0).getRight(), Integer.valueOf(1));
 
         service.reduceUnit(units, UnitMappingEnum.LEVEL0);
 
-        assertEquals(units.size(),1);
-        assertEquals(units.get(0).getLeft(),UnitMappingEnum.LEVEL1);
+        assertEquals(units.size(), 1);
+        assertEquals(units.get(0).getLeft(), UnitMappingEnum.LEVEL1);
     }
 
     @Test
-    void fightTest_attackerWin(){
-        when(dice.roll()).thenReturn(1, 15 );
+    void fightTest_attackerWin() {
+        when(dice.roll()).thenReturn(1, 15);
 
         List<MutablePair<UnitMappingEnum, Integer>> attacker = new ArrayList<>();
 
@@ -82,14 +80,14 @@ public class CombatResolutionServiceTest {
 
         service.fight(attacker, defender, false, false);
 
-        assertEquals(attacker.size(),2);
+        assertEquals(attacker.size(), 2);
         assertEquals(defender.size(), 1);
         assertEquals(defender.get(0).getLeft(), UnitMappingEnum.LEVEL6);
     }
 
     @Test
-    void fightTest_defenderWin(){
-        when(dice.roll()).thenReturn(1, 3 );
+    void fightTest_defenderWin() {
+        when(dice.roll()).thenReturn(1, 3);
 
         List<MutablePair<UnitMappingEnum, Integer>> attacker = new ArrayList<>();
 
@@ -109,8 +107,8 @@ public class CombatResolutionServiceTest {
     }
 
     @Test
-    void fightTest_tieattackerownerWin(){
-        when(dice.roll()).thenReturn(1, 1 );
+    void fightTest_tieattackerownerWin() {
+        when(dice.roll()).thenReturn(1, 1);
 
         List<MutablePair<UnitMappingEnum, Integer>> attacker = new ArrayList<>();
 
@@ -127,8 +125,8 @@ public class CombatResolutionServiceTest {
     }
 
     @Test
-    void fightTest_tiedefenderownerWin(){
-        when(dice.roll()).thenReturn(1, 1 );
+    void fightTest_tiedefenderownerWin() {
+        when(dice.roll()).thenReturn(1, 1);
 
         List<MutablePair<UnitMappingEnum, Integer>> attacker = new ArrayList<>();
 
@@ -145,8 +143,8 @@ public class CombatResolutionServiceTest {
     }
 
     @Test
-    void fightTest_tiecontinue(){
-        when(dice.roll()).thenReturn(1, 1, 2, 1 );
+    void fightTest_tiecontinue() {
+        when(dice.roll()).thenReturn(1, 1, 2, 1);
 
         List<MutablePair<UnitMappingEnum, Integer>> attacker = new ArrayList<>();
 
@@ -163,7 +161,7 @@ public class CombatResolutionServiceTest {
     }
 
     @Test
-    void getWarPartiesTest(){
+    void getWarPartiesTest() {
         PlayerEntity red = new PlayerEntity("red");
         PlayerEntity blue = new PlayerEntity("blue");
         PlayerEntity green = new PlayerEntity("green");
@@ -184,7 +182,7 @@ public class CombatResolutionServiceTest {
     }
 
     @Test
-    void resolveWinner_defenderWinTest(){
+    void resolveWinner_defenderWinTest() {
         when(dice.roll()).thenReturn(0);
         PlayerEntity defender = new PlayerEntity("defender");
         PlayerEntity attacker = new PlayerEntity("attacker");
@@ -203,7 +201,7 @@ public class CombatResolutionServiceTest {
     }
 
     @Test
-    void resolveWinner_attackerWinTest(){
+    void resolveWinner_attackerWinTest() {
 
         when(dice.roll()).thenReturn(0);
         PlayerEntity defender = new PlayerEntity("defender");
@@ -223,7 +221,7 @@ public class CombatResolutionServiceTest {
     }
 
     @Test
-    void resolveCombat(){
+    void resolveCombat() {
         PlayerEntity defender = new PlayerEntity("defender");
         PlayerEntity attacker = new PlayerEntity("attacker");
         defender.setId(1L);
@@ -235,7 +233,7 @@ public class CombatResolutionServiceTest {
         List<AttackerEntity> attackerEntities = new ArrayList<>();
         attackerEntities.add(new AttackerEntity(territory, attacker, UnitMappingEnum.LEVEL0, 1));
 
-        when(dice.roll()).thenReturn(2, 1 );
+        when(dice.roll()).thenReturn(2, 1);
         when(attackerService.getAttackers(territory)).thenReturn(attackerEntities);
 
         service.resolveCombot(territory);

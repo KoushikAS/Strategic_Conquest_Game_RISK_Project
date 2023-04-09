@@ -52,7 +52,7 @@ public class GameServiceImpl implements GameService {
             players.add(playerService.createPlayer(playersName.get(i), gameEntity));
         }
 
-        mapService.createMap( gameEntity, players);
+        mapService.createMap(gameEntity, players);
         return gameEntity;
     }
 

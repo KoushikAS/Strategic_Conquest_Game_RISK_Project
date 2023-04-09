@@ -1,10 +1,6 @@
 package edu.duke.ece651.team13.server.order;
 
-import edu.duke.ece651.team13.server.entity.GameEntity;
-import edu.duke.ece651.team13.server.entity.OrderEntity;
-import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.TerritoryService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
@@ -142,7 +138,7 @@ class MoveOrderServiceTest {
     }
 
     @Test
-    void test_validateAndExecuteLocally_InsufficientFood(){
+    void test_validateAndExecuteLocally_InsufficientFood() {
         GameEntity game = getGameEntity();
         PlayerEntity player1 = new PlayerEntity();
         player1.setId(1L);
@@ -166,12 +162,11 @@ class MoveOrderServiceTest {
         order.setUnitNum(1);
         order.setPlayer(player1);
 
-        assertThrows(IllegalArgumentException.class, ()->service.validateAndExecuteLocally(order, game));
-        try{
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
+        try {
             service.validateAndExecuteLocally(order, game);
-        }
-        catch(IllegalArgumentException e){
-            assertEquals("Invalid move order: Player doesn't have sufficient food resource.",e.getMessage());
+        } catch (IllegalArgumentException e) {
+            assertEquals("Invalid move order: Player doesn't have sufficient food resource.", e.getMessage());
         }
     }
 

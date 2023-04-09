@@ -17,16 +17,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static edu.duke.ece651.team13.server.MockDataUtil.getMapEntity;
-import static edu.duke.ece651.team13.server.MockDataUtil.getPlayerEntity;
-import static edu.duke.ece651.team13.server.MockDataUtil.getTerritoryEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -41,18 +36,18 @@ public class TerritoryServiceTest {
     private TerritoryConnectionRepository neighbourMappingRepository;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         service = new TerritoryServiceImpl(repository, neighbourMappingRepository);
     }
 
     @Test
-    void getTerritoryTest(){
+    void getTerritoryTest() {
         TerritoryEntity territory = getTerritoryEntity();
         when(repository.findById(1L)).thenReturn(Optional.of(territory));
         when(repository.findById(2L)).thenReturn(Optional.empty());
 
         TerritoryEntity actual = service.getTerritoriesById(1L);
-        assertEquals(territory,actual);
+        assertEquals(territory, actual);
         verify(repository, times(1)).findById(1L);
         verifyNoMoreInteractions(repository);
 
@@ -60,7 +55,7 @@ public class TerritoryServiceTest {
     }
 
     @Test
-    void getTerritoryByOwnerTest(){
+    void getTerritoryByOwnerTest() {
         List<TerritoryEntity> territoryEntityList = new ArrayList<>();
         territoryEntityList.add(getTerritoryEntity());
         territoryEntityList.add(getTerritoryEntity());
@@ -77,32 +72,32 @@ public class TerritoryServiceTest {
     }
 
     @Test
-    void createTerritoryTest(){
+    void createTerritoryTest() {
         MapEntity map = getMapEntity();
         PlayerEntity player = getPlayerEntity();
         TerritoryEntity territory = getTerritoryEntity();
         when(repository.save(any(TerritoryEntity.class))).thenReturn(territory);
         TerritoryEntity actual = service.createTerritory(territory.getName(), map, player, 50, 50);
-        assertEquals(territory,actual);
+        assertEquals(territory, actual);
         verify(repository, times(1)).save(any(TerritoryEntity.class));
         verifyNoMoreInteractions(repository);
     }
 
     @Test
-    void updateTerritoryTest(){
+    void updateTerritoryTest() {
         PlayerEntity player = getPlayerEntity();
         TerritoryEntity territory = getTerritoryEntity();
         when(repository.save(any(TerritoryEntity.class))).thenReturn(territory);
 
         TerritoryEntity actual = service.updateTerritoryOwner(territory, player);
-        assertEquals(territory,actual);
+        assertEquals(territory, actual);
 
         verify(repository, times(1)).save(any(TerritoryEntity.class));
         verifyNoMoreInteractions(repository);
     }
 
     @Test
-    void addNeighbourTest(){
+    void addNeighbourTest() {
         TerritoryEntity territory = getTerritoryEntity();
         when(neighbourMappingRepository.save(any(TerritoryConnectionEntity.class))).thenReturn(new TerritoryConnectionEntity());
 

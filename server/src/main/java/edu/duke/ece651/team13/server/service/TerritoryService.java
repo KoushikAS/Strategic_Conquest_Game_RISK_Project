@@ -29,11 +29,11 @@ public interface TerritoryService {
      *
      * @return the UnitEntity of the unitType
      */
-    public static UnitEntity getUnitForType(TerritoryEntity territory, UnitMappingEnum unitType){
+    public static UnitEntity getUnitForType(TerritoryEntity territory, UnitMappingEnum unitType) {
         Optional<UnitEntity> unit = territory.getUnits().
                 stream().
                 filter(t -> t.getUnitType().equals(unitType)).findAny();
-        if(!unit.isPresent()){
+        if (!unit.isPresent()) {
             throw new IllegalArgumentException("The territory " + territory.getName() + " does not have" +
                     unitType + " type of unit.");
         }

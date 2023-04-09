@@ -27,7 +27,7 @@ public class AttackerServiceImpl implements AttackerService {
 
     @Override
     public AttackerEntity addAttacker(TerritoryEntity territory, PlayerEntity player, UnitMappingEnum unitType, Integer UnitNo) {
-        AttackerEntity attackerEntity = new AttackerEntity(territory, player,unitType, UnitNo);
+        AttackerEntity attackerEntity = new AttackerEntity(territory, player, unitType, UnitNo);
         return repository.save(attackerEntity);
     }
 

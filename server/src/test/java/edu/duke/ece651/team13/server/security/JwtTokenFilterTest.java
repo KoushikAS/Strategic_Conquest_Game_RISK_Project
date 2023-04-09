@@ -17,9 +17,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class JwtTokenFilterTest {
     private JwtTokenUtil jwtUtil;
@@ -97,7 +95,7 @@ public class JwtTokenFilterTest {
 
         UsernamePasswordAuthenticationToken authenticationToken = argumentCaptor.getValue();
         assertNotNull(authenticationToken);
-        UserEntity actual = (UserEntity)authenticationToken.getPrincipal();
+        UserEntity actual = (UserEntity) authenticationToken.getPrincipal();
         assertEquals(userDetails.getUsername(), actual.getUsername());
 
         verify(filterChain).doFilter(request, response);

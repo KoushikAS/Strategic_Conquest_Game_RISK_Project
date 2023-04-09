@@ -15,13 +15,13 @@ public class AttackUnitNumChecker extends RuleChecker {
 
     @Override
     protected void checkMyRule(OrderEntity order) throws IllegalArgumentException {
-            UnitMappingEnum unitType = order.getUnitType();
-            int sourceUnitNum = getUnitForType(order.getSource(), unitType).getUnitNum();
-            int attackUnitNum = order.getUnitNum();
-            if (sourceUnitNum < attackUnitNum) {
-                throw new IllegalArgumentException("Invalid attack order: Don't have sufficient unit number in the territory.");
-            } else if (attackUnitNum < 0) {
-                throw new IllegalArgumentException("Invalid attack order: The unit number to move should be >= 0.");
-            }
+        UnitMappingEnum unitType = order.getUnitType();
+        int sourceUnitNum = getUnitForType(order.getSource(), unitType).getUnitNum();
+        int attackUnitNum = order.getUnitNum();
+        if (sourceUnitNum < attackUnitNum) {
+            throw new IllegalArgumentException("Invalid attack order: Don't have sufficient unit number in the territory.");
+        } else if (attackUnitNum < 0) {
+            throw new IllegalArgumentException("Invalid attack order: The unit number to move should be >= 0.");
         }
+    }
 }

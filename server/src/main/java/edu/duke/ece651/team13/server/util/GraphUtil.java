@@ -29,10 +29,9 @@ public class GraphUtil {
     /**
      * Do a DFS from the source territory to find a path to the destination
      * Skip the paths where the owner is not the owner of source
-     *
      */
-    public static boolean hasPath(TerritoryEntity source, TerritoryEntity destination){
-        if(source == destination) return true;
+    public static boolean hasPath(TerritoryEntity source, TerritoryEntity destination) {
+        if (source == destination) return true;
 
         HashSet<TerritoryEntity> visited = new HashSet<>();
         DFS(source, visited, source.getOwner());
@@ -44,28 +43,28 @@ public class GraphUtil {
      * Find the minimum cost valid path between source and destination territory
      *
      * @return the minimum cost if a path exists
-     *         Integer.MAX_VALUE if no valid path exists
+     * Integer.MAX_VALUE if no valid path exists
      */
     public static int minimumCostPath(TerritoryEntity source,
                                       TerritoryEntity destination,
                                       HashSet<TerritoryEntity> visited,
-                                      PlayerEntity owner){
+                                      PlayerEntity owner) {
         // Base case: already reached destination, cost is 0
-        if(source.equals(destination)) return 0;
+        if (source.equals(destination)) return 0;
 
         // Mark the current node as visited
         visited.add(source);
         int cost = Integer.MAX_VALUE;
         // Traverse through neighbors
         List<TerritoryConnectionEntity> connections = source.getConnections();
-        for(TerritoryConnectionEntity connection: connections){
+        for (TerritoryConnectionEntity connection : connections) {
             TerritoryEntity neighbor = connection.getDestinationTerritory();
             if (!visited.contains(neighbor) && (owner == null || owner.equals(neighbor.getOwner()))) {
                 visited.add(neighbor);
                 int neighborCost = minimumCostPath(neighbor, destination, visited, owner);
 
                 // Check if we have reached the destination
-                if(neighborCost < Integer.MAX_VALUE){
+                if (neighborCost < Integer.MAX_VALUE) {
                     // Min cost path
                     cost = Math.min(cost, connection.getDistance() + neighborCost);
                 }
@@ -81,9 +80,9 @@ public class GraphUtil {
      * Find the minimum cost valid path between source and destination territory
      *
      * @return the minimum cost if a path exists
-     *         Integer.MAX_VALUE if no valid path exists
+     * Integer.MAX_VALUE if no valid path exists
      */
-    public static int findMinCost(TerritoryEntity source, TerritoryEntity destination){
+    public static int findMinCost(TerritoryEntity source, TerritoryEntity destination) {
         HashSet<TerritoryEntity> visited = new HashSet<>();
         return minimumCostPath(source, destination, visited, source.getOwner());
     }
