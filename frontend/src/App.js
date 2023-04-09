@@ -23,8 +23,24 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route exact path="/" element={<GameView />} />
-          <Route exact path="/attack" element={<AttackView />} />
+          <Route
+            exact
+            path="/"
+            element={
+              // <ProtectedRoute>
+                <GameView />
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/attack"
+            element={
+              // <ProtectedRoute>
+                <AttackView />
+              // </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<LoginView />} />
         </Routes>
       </AuthProvider>
