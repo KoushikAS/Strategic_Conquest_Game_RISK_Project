@@ -3,6 +3,7 @@ package edu.duke.ece651.team13.server.service.order;
 import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.rulechecker.*;
+import edu.duke.ece651.team13.server.service.PlayerService;
 import edu.duke.ece651.team13.server.service.TerritoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,12 @@ public class MoveOrderService implements OrderFactory {
     @Autowired
     private final TerritoryService territoryService;
 
+    @Autowired
+    private final PlayerService playerService;
+
     /**
      * Get the default rule checker chain
-     * MoveOwnershipChecker -> MoveUnitNumChecker -> MovePathChecker
+     * MoveOwnershipChecker -> MoveUnitNumChecker -> MoveFoodResourceChecker -> MovePathChecker
      */
     private static RuleChecker getDefaultRuleChecker() {
         RuleChecker pathChecker = new MovePathChecker(null);
@@ -64,6 +68,7 @@ public class MoveOrderService implements OrderFactory {
                 getFoodCost(order));
         territoryService.updateTerritoryUnits(source, source.getUnits());
         territoryService.updateTerritoryUnits(destination, destination.getUnits());
+        playerService.updatePlayerFoodResource(order.getPlayer(), order.getPlayer().getFoodResource());
     }
 
 }

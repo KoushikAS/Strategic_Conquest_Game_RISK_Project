@@ -44,6 +44,9 @@ public class PlayerEntity {
     @Column(name = "TECH_RESOURCE")
     private int techResource; //tech resource totals of this player
 
+    @Column(name = "MAX_TECH_LEVEL")
+    private int maxTechLevel; //tech level of this player
+
     /**
      * Construct a new Player
      */

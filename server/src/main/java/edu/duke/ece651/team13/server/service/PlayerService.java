@@ -10,4 +10,8 @@ public interface PlayerService {
     PlayerEntity getPlayer(Long Id);
 
     PlayerEntity updatePlayerStatus(PlayerEntity player, PlayerStatusEnum status);
+
+    PlayerEntity updatePlayerTechResource(PlayerEntity player, int techResource);
+
+    PlayerEntity updatePlayerFoodResource(PlayerEntity player, int foodResource);
 }

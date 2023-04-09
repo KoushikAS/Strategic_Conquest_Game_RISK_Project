@@ -16,26 +16,23 @@ import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForT
 
 @Service
 @RequiredArgsConstructor
-public class AttackOrderService implements OrderFactory {
+public class UnitUpgradeOrderService implements OrderFactory {
 
     @Autowired
     private final TerritoryService territoryService;
-
-    @Autowired
-    private final AttackerService attackerService;
 
     @Autowired
     private final PlayerService playerService;
 
     /**
      * Get the default rule checker chain
-     * AttackOwnershipChecker -> AttackUnitNumChecker -> AttackFoodResourceChecker -> AttackPathChecker
+     * UnitUpgradeOwnershipChecker -> UnitUpgradeUnitNumChecker -> UnitUpgradeTechLevelChecker -> UnitUpgradeTechResourceChecker
      */
     private static RuleChecker getDefaultRuleChecker() {
-        RuleChecker pathChecker = new AttackPathChecker(null);
-        RuleChecker foodResourceChecker = new AttackFoodResourceChecker(pathChecker);
-        RuleChecker unitNumChecker = new AttackUnitNumChecker(foodResourceChecker);
-        return new AttackOwnershipChecker(unitNumChecker);
+        RuleChecker techResourceChecker = new UnitUpgradeTechResourceChecker(null);
+        RuleChecker techLevelChecker = new UnitUpgradeTechLevelChecker(techResourceChecker);
+        RuleChecker unitNumChecker = new UnitUpgradeUnitNumChecker(techLevelChecker);
+        return new UnitUpgradeOwnershipChecker(unitNumChecker);
     }
 
     @Override
@@ -47,15 +44,15 @@ public class AttackOrderService implements OrderFactory {
                 order.getUnitNum(),
                 order.getUnitType(),
                 order.getPlayer(),
-                MoveFoodResourceChecker.getFoodCost(order));
+                UnitUpgradeTechResourceChecker.getTechCost(order));
     }
 
     private void executeLocally(TerritoryEntity sourceTerritoryEntity,
                                 int unitNum,
                                 UnitMappingEnum unitType,
                                 PlayerEntity player,
-                                int foodCost) {
-        player.setFoodResource(player.getFoodResource() - foodCost);
+                                int techCost) {
+        player.setTechResource(player.getTechResource() - techCost);
         if (unitNum > 0) {
             UnitEntity sourceUnit = getUnitForType(sourceTerritoryEntity, unitType);
             sourceUnit.setUnitNum(sourceUnit.getUnitNum() - unitNum);
@@ -69,13 +66,9 @@ public class AttackOrderService implements OrderFactory {
                 order.getUnitNum(),
                 order.getUnitType(),
                 order.getPlayer(),
-                MoveFoodResourceChecker.getFoodCost(order));
+                UnitUpgradeTechResourceChecker.getTechCost(order));
         territoryService.updateTerritoryUnits(source, source.getUnits());
-        attackerService.addAttacker(order.getDestination(),
-                order.getPlayer(),
-                order.getUnitType(),
-                order.getUnitNum());
-        playerService.updatePlayerFoodResource(order.getPlayer(), order.getPlayer().getFoodResource());
+        playerService.updatePlayerTechResource(order.getPlayer(),order.getPlayer().getTechResource());
     }
 
 }

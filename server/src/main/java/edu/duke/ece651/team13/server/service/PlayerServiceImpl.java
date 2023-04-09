@@ -44,4 +44,16 @@ public class PlayerServiceImpl implements PlayerService {
         player.setStatus(status);
         return repository.save(player);
     }
+
+    @Override
+    public PlayerEntity updatePlayerTechResource(PlayerEntity player, int techResource) {
+        player.setTechResource(techResource);
+        return repository.save(player);
+    }
+
+    @Override
+    public PlayerEntity updatePlayerFoodResource(PlayerEntity player, int foodResource) {
+        player.setFoodResource(foodResource);
+        return repository.save(player);
+    }
 }
