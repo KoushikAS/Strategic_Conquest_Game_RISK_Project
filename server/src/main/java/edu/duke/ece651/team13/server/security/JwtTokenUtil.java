@@ -2,11 +2,15 @@ package edu.duke.ece651.team13.server.security;
 
 import edu.duke.ece651.team13.server.entity.UserEntity;
 import io.jsonwebtoken.*;
+import jdk.internal.net.http.common.Log;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 
+@Slf4j
 @Component
 public class JwtTokenUtil {
     private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
@@ -29,13 +33,13 @@ public class JwtTokenUtil {
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException ex) {
-            System.out.println("JWT expired" + ex.getMessage());
+            log.error("JWT expired" + ex.getMessage());
         } catch (IllegalArgumentException ex) {
-            System.out.println("Token is null, empty or only whitespace" + ex.getMessage());
+            log.error("Token is null, empty or only whitespace" + ex.getMessage());
         } catch (MalformedJwtException ex) {
-            System.out.println("JWT is invalid" + ex);
+            log.error("JWT is invalid" + ex);
         } catch (UnsupportedJwtException ex) {
-            System.out.println("JWT is not supported" + ex);
+            log.error("JWT is not supported" + ex);
         }
         return false;
     }

@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 
 import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
 
+import java.util.NoSuchElementException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AttackOrderService implements OrderFactory {
@@ -42,9 +45,10 @@ public class AttackOrderService implements OrderFactory {
         RuleChecker ruleChecker = getDefaultRuleChecker();
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
         ruleChecker.checkOrder(order, player);
+        
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         UnitEntity sourceUnit = getUnitForType(source, order.getUnitType());
-        executeLocally(sourceUnit, order.getUnitNum(), player, MoveFoodResourceChecker.getFoodCost(order));
+        executeLocally(sourceUnit, order.getUnitNum(), player, AttackFoodResourceChecker.getFoodCost(order));
     }
 
     private void executeLocally(UnitEntity sourceUnit, int unitNum, PlayerEntity player, int foodCost) {
