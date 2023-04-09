@@ -2,9 +2,8 @@ package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.repository.PlayerRepository;
-
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.repository.PlayerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
