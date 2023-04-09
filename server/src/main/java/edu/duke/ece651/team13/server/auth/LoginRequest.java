@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
  * This class is used to organize and send user login
  * information between client side and server side
  */
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequest {
     private String email;

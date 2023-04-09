@@ -78,9 +78,8 @@ public class OrderServiceTest {
         orderDTOS.add(new OrderDTO(1L, 2L, 5, LEVEL0.getType(), MOVE.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
-        ordersDTO.setPlayerId(losePlayer.getId());
 
-        assertThrows(IllegalArgumentException.class, () -> service.validateAndAddOrders(ordersDTO));
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndAddOrders(ordersDTO, losePlayer.getId()));
     }
 
     @Test
@@ -97,9 +96,8 @@ public class OrderServiceTest {
         orderDTOS.add(new OrderDTO(1L, 2L, 5, LEVEL0.getType(), MOVE.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
-        ordersDTO.setPlayerId(player.getId());
 
-        assertThrows(IllegalArgumentException.class, () -> service.validateAndAddOrders(ordersDTO));
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndAddOrders(ordersDTO, player.getId()));
     }
 
     @Test
@@ -118,9 +116,8 @@ public class OrderServiceTest {
         orderDTOS.add(new OrderDTO(1L, 1L, 5, LEVEL0.getType(), ATTACK.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
-        ordersDTO.setPlayerId(player.getId());
 
-        assertThrows(IllegalArgumentException.class, () -> service.validateAndAddOrders(ordersDTO));
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndAddOrders(ordersDTO, player.getId()));
     }
 
     @Test
@@ -143,9 +140,8 @@ public class OrderServiceTest {
         orderDTOS.add(new OrderDTO(5L, 1L, 5, LEVEL0.getType(), MOVE.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
-        ordersDTO.setPlayerId(player.getId());
 
-        assertThrows(NoSuchElementException.class, () -> service.validateAndAddOrders(ordersDTO));
+        assertThrows(NoSuchElementException.class, () -> service.validateAndAddOrders(ordersDTO, player.getId()));
     }
 
     @Test
@@ -168,9 +164,8 @@ public class OrderServiceTest {
         orderDTOS.add(new OrderDTO(1L, 5L, 5, LEVEL0.getType(), MOVE.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
-        ordersDTO.setPlayerId(player.getId());
 
-        assertThrows(NoSuchElementException.class, () -> service.validateAndAddOrders(ordersDTO));
+        assertThrows(NoSuchElementException.class, () -> service.validateAndAddOrders(ordersDTO, player.getId()));
     }
 
     @Test
@@ -193,9 +188,8 @@ public class OrderServiceTest {
         orderDTOS.add(new OrderDTO(1L, 1L, 5, LEVEL0.getType(), "Invalid"));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
-        ordersDTO.setPlayerId(player.getId());
 
-        assertThrows(IllegalArgumentException.class, () -> service.validateAndAddOrders(ordersDTO));
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndAddOrders(ordersDTO, player.getId()));
     }
 
     @Test
@@ -223,9 +217,8 @@ public class OrderServiceTest {
         orderDTOS.add(new OrderDTO(1L, 1L, 5, LEVEL0.getType(), ATTACK.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
-        ordersDTO.setPlayerId(player.getId());
 
-        service.validateAndAddOrders(ordersDTO);
+        service.validateAndAddOrders(ordersDTO, player.getId());
         verify(repository, times(2)).save(any(OrderEntity.class));
         verify(eventPublisher, times(0)).publishEvent(any(Long.class));
     }
@@ -264,9 +257,8 @@ public class OrderServiceTest {
         orderDTOS.add(new OrderDTO(1L, 1L, 5, LEVEL0.getType(), ATTACK.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
-        ordersDTO.setPlayerId(player.getId());
 
-        service.validateAndAddOrders(ordersDTO);
+        service.validateAndAddOrders(ordersDTO, player.getId());
         verify(repository, times(2)).save(any(OrderEntity.class));
         verify(eventPublisher, times(1)).publishEvent(any(Long.class));
 
