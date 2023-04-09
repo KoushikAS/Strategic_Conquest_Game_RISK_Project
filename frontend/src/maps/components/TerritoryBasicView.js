@@ -26,7 +26,7 @@ const TerritoryBasicView = (props) => {
   };
 
   return (
-    <div style={{fontSize: "12px"}}>
+    <div style={{ fontSize: "12px" }}>
       <div
         className="text-center"
         onClick={handleClick}
