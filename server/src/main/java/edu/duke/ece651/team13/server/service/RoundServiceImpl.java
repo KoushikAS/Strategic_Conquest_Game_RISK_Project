@@ -66,6 +66,9 @@ public class RoundServiceImpl implements RoundService {
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.UNIT_UPGRADE))
                     .forEach(order -> unitUpgradeOrder.executeOnGame(order, game));
+
+            //Delete all the orders of this player after executing
+            orderService.deleteOrdersByPlayer(player);
         }
     }
 
