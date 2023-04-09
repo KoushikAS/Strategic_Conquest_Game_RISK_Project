@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrdersDTO {
-    List<OrderDTO> orders;
+public class GamesDTO {
+    List<GameDTO> games;
 }

@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 @Getter
 @Setter
 @NoArgsConstructor

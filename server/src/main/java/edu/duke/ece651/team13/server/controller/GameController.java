@@ -1,5 +1,7 @@
 package edu.duke.ece651.team13.server.controller;
 
+import edu.duke.ece651.team13.server.dto.GameDTO;
+import edu.duke.ece651.team13.server.dto.GamesDTO;
 import edu.duke.ece651.team13.server.dto.OrdersDTO;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
@@ -31,26 +33,68 @@ public class GameController {
     @Autowired
     private OrderService orderService;
 
-    @Autowired
-    private PlayerService playerService;
 
     @GetMapping("/")
     public String index() {
         return "Greetings from Spring Boot!";
     }
 
-    @GetMapping("/createGame")
-    public ResponseEntity<GameEntity> getGame() {
+    @PostMapping("/createGame/{noOfPlayer}")
+    public ResponseEntity<GameDTO> createGame(@PathVariable("noOfPlayer") Integer noOfPlayer) {
         log.info("Received an /createGame");
-        GameEntity gameEntity = gameService.createGame(3);
-        return ResponseEntity.ok().body(gameEntity);
+        try {
+            if (noOfPlayer != 2 && noOfPlayer != 3 && noOfPlayer != 4) {
+                throw new IllegalArgumentException("No of players should be either 2, 3, 4");
+            }
+            GameEntity gameEntity = gameService.createGame(noOfPlayer);
+            return ResponseEntity.ok().body(new GameDTO(gameEntity.getId(),gameEntity.getPlayers().size()));
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+        }
     }
 
-    @GetMapping("/getGame/{id}")
-    public ResponseEntity<GameEntity> getMap(@PathVariable("id") Long id) {
+    @GetMapping("/getFreeGames")
+    public ResponseEntity<GamesDTO> getAvailableFreeGames(@RequestParam("userId") Long userId) {
+        log.info("Received a request /getFreeGames ");
+        try {
+            List<GameDTO> games = gameService.getFreeGames(userId);
+            return ResponseEntity.ok().body(new GamesDTO(games));
+        }  catch (NoSuchElementException e) {
+            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @GetMapping("/userGames")
+    public ResponseEntity<GamesDTO> getGamesOfUser(@RequestParam("userId") Long userId) {
+        log.info("Received a request /userGames ");
+        try {
+            List<GameDTO> games = gameService.getGamesLinkedToPlayer(userId);
+            return ResponseEntity.ok().body(new GamesDTO(games));
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @PostMapping("/joinGame/{gameId}")
+    public ResponseEntity<PlayerEntity> joinGame(@PathVariable("gameId") Long gameId, @RequestParam("userId") Long userId) {
+        log.info("Received a request /joinGame/{gameId} ");
+        try {
+            PlayerEntity player = gameService.joinGame(gameId, userId);
+            return ResponseEntity.ok().body(player);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @GetMapping("/getGame/{gameId}")
+    public ResponseEntity<GameEntity> getMap(@PathVariable("gameId") Long gameId) {
         log.info("Received an /getGame/");
         try {
-            GameEntity game = gameService.getGame(id);
+            GameEntity game = gameService.getGame(gameId);
             return ResponseEntity.ok().body(game);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
@@ -58,12 +102,11 @@ public class GameController {
     }
 
     @PostMapping("/submitOrder")
-    public ResponseEntity<String> submitOrder(
-            @RequestBody OrdersDTO ordersDTO) {
+    public ResponseEntity<String> submitOrder(@RequestBody OrdersDTO ordersDTO, @RequestParam("playerId") Long playerId) {
         log.info("Received an /submitOrder");
-        log.info("Player Id" + ordersDTO.getPlayerId());
+        log.info("Player Id" + playerId);
         try {
-            orderService.validateAndAddOrders(ordersDTO);
+            orderService.validateAndAddOrders(ordersDTO, playerId);
             return ResponseEntity.ok().body("Submitted successful");
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
@@ -72,13 +115,5 @@ public class GameController {
         }
     }
 
-    //TODO tmp just for changing
-    @GetMapping("/getOrders/{id}")
-    public ResponseEntity<List<OrderEntity>> getOrders(@PathVariable("id") Long id) {
-        log.info("The id recieved" + id);
-        PlayerEntity player = playerService.getPlayer(id);
-        List<OrderEntity> game = orderService.getOrdersByPlayer(player);
-        return ResponseEntity.ok().body(game);
-    }
 
 }
