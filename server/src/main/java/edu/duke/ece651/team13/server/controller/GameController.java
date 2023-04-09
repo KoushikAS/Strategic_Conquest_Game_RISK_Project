@@ -40,30 +40,35 @@ public class GameController {
     }
 
     @GetMapping("/createGame/{noOfPlayer}")
-    public ResponseEntity<GameEntity> createGame(@PathVariable("noOfPlayer") Integer noOfPlayer) {
+    public ResponseEntity<GameDTO> createGame(@PathVariable("noOfPlayer") Integer noOfPlayer) {
         log.info("Received an /createGame");
         try {
+            if (noOfPlayer != 2 && noOfPlayer != 3 && noOfPlayer != 4) {
+                throw new IllegalArgumentException("No of players should be either 2, 3, 4");
+            }
             GameEntity gameEntity = gameService.createGame(noOfPlayer);
-            return ResponseEntity.ok().body(gameEntity);
+            return ResponseEntity.ok().body(new GameDTO(gameEntity.getId(),gameEntity.getPlayers().size()));
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
         }
     }
 
     @GetMapping("/getFreeGames")
-    public ResponseEntity<GamesDTO> getAvailableFreeGames() {
+    public ResponseEntity<GamesDTO> getAvailableFreeGames(@RequestParam("userid") Long userId) {
         log.info("Received a request /getFreeGames ");
         try {
-            List<GameDTO> games = gameService.getFreeGames();
+            List<GameDTO> games = gameService.getFreeGames(userId);
             return ResponseEntity.ok().body(new GamesDTO(games));
-        } catch (NoSuchElementException e) {
+        }  catch (NoSuchElementException e) {
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
         }
     }
 
-    @GetMapping("/games/{userid}")
-    public ResponseEntity<GamesDTO> getGamesOfUser(@PathVariable("userid") Long userId) {
-        log.info("Received a request /games/{playerid} ");
+    @GetMapping("/usergames")
+    public ResponseEntity<GamesDTO> getGamesOfUser(@RequestParam("userid") Long userId) {
+        log.info("Received a request /usergames ");
         try {
             List<GameDTO> games = gameService.getGamesLinkedToPlayer(userId);
             return ResponseEntity.ok().body(new GamesDTO(games));
@@ -78,6 +83,8 @@ public class GameController {
         try {
             PlayerEntity player = gameService.joinGame(gameId, userId);
             return ResponseEntity.ok().body(player);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
         }

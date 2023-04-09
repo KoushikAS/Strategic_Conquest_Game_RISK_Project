@@ -45,9 +45,11 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<GameDTO> getFreeGames() {
+    public List<GameDTO> getFreeGames(Long userId) {
         List<GameEntity> games = repository.findByRoundNo(0);
+        UserEntity loggedInUser = userService.getUserById(userId);
         return games.stream()
+                .filter(game -> game.getPlayers().stream().noneMatch(u-> loggedInUser.equals(u.getUser())))
                 .filter(game -> game.getPlayers().stream()
                         .anyMatch(player -> player.getUser() == null))
                 .map(game -> new GameDTO(game.getId(), game.getPlayers().size()))
@@ -57,11 +59,15 @@ public class GameServiceImpl implements GameService {
     @Override
     public PlayerEntity joinGame(Long gameId, Long userId) {
         GameEntity game = getGame(gameId);
-        UserEntity user = userService.getUserById(userId);
+        UserEntity loggedInUser = userService.getUserById(userId);
+
+        if(game.getPlayers().stream().anyMatch(player -> loggedInUser.equals(player.getUser()))){
+            throw new IllegalArgumentException("User has already joined this game.");
+        }
 
         for (PlayerEntity playerEntity : game.getPlayers()) {
             if (playerEntity.getUser() == null) {
-                playerEntity.setUser(user);
+                playerEntity.setUser(loggedInUser);
                 return playerEntity;
             }
         }

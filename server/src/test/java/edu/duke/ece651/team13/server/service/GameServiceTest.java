@@ -60,6 +60,8 @@ public class GameServiceTest {
 
     @Test
     void getFreeGamesTest(){
+        UserEntity loggedInUser = new UserEntity();
+        loggedInUser.setId(1L);
         GameEntity game = getGameEntity();
         PlayerEntity player = getPlayerEntity();
         player.setUser(new UserEntity());
@@ -69,16 +71,21 @@ public class GameServiceTest {
         games.add(game);
 
         when(repository.findByRoundNo(0)).thenReturn(games);
+        when(userService.getUserById(loggedInUser.getId())).thenReturn(loggedInUser);
 
-        List<GameDTO> freeGames = service.getFreeGames();
+        List<GameDTO> freeGames = service.getFreeGames(loggedInUser.getId());
         assertEquals(0, freeGames.size());
 
         PlayerEntity player1 = getPlayerEntity();
         player1.setUser(null);
         game.getPlayers().add(player1);
 
-        List<GameDTO> freeGames1 = service.getFreeGames();
+        List<GameDTO> freeGames1 = service.getFreeGames(loggedInUser.getId());
         assertEquals(1, freeGames1.size());
+
+        game.getPlayers().get(0).setUser(loggedInUser);
+        List<GameDTO> freeGames2 = service.getFreeGames(loggedInUser.getId());
+        assertEquals(0, freeGames2.size());
     }
 
     @Test
@@ -106,15 +113,17 @@ public class GameServiceTest {
         GameEntity game = getGameEntity();
         game.getPlayers().add(player);
         UserEntity user = getUserEntity();
+        user.setId(1L);
 
         when(repository.findById(1L)).thenReturn(Optional.of(game));
         when(userService.getUserById(1L)).thenReturn(user);
+        when(userService.getUserById(2L)).thenReturn(new UserEntity());
 
-        PlayerEntity actual = service.joinGame(1L, 1L);
+        PlayerEntity actual = service.joinGame(1L, user.getId());
         assertEquals(player, actual);
 
-
-        assertThrows(NoSuchElementException.class, ()->service.joinGame(1L,1L));
+        assertThrows(IllegalArgumentException.class, ()->service.joinGame(1L, user.getId()));
+        assertThrows(NoSuchElementException.class, ()->service.joinGame(1L,2L));
     }
 }
 
