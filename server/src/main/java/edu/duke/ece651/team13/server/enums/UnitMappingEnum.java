@@ -27,4 +27,21 @@ public enum UnitMappingEnum {
         }
         throw new IllegalArgumentException("The Unit Type mentioned is invalid");
     }
+
+    public static UnitMappingEnum getNextLevel(UnitMappingEnum level) {
+        switch (level) {
+            case LEVEL0:
+                return LEVEL1;
+            case LEVEL1:
+                return LEVEL2;
+            case LEVEL2:
+                return LEVEL3;
+            case LEVEL3:
+                return LEVEL4;
+            case LEVEL4:
+                return LEVEL5;
+            default:
+                return LEVEL6;
+        }
+    }
 }

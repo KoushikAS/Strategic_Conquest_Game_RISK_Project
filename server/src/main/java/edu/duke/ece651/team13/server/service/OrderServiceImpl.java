@@ -25,8 +25,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static edu.duke.ece651.team13.server.enums.GameStatusEnum.ENDED;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.*;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.LOSE;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
@@ -129,9 +128,9 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        //Validate Unit Upgradation order
+        //Validate Unit upgrade order
         for (OrderEntity order : orderEntityList) {
-            if (order.getOrderType().equals(ATTACK)) {
+            if (order.getOrderType().equals(UNIT_UPGRADE)) {
                 unitUpgradeOrder.validateAndExecuteLocally(order, game);
             }
         }
