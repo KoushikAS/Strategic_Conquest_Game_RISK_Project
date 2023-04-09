@@ -45,7 +45,7 @@ public class PlayerEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private GameEntity user;
+    private UserEntity user;
 
     /**
      * Construct a new Player

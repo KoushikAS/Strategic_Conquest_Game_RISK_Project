@@ -39,7 +39,7 @@ public class GameServiceImpl implements GameService {
             return game.get();
         } else {
             log.error("Did not find Game with Id " + gameId);
-            throw new ResponseStatusException(NOT_FOUND, "Game with Id " + gameId + " does not exists");
+            throw new NoSuchElementException("Game with Id " + gameId + " does not exists");
         }
     }
 
