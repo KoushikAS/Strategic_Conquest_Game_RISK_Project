@@ -73,20 +73,14 @@ public class GameServiceImpl implements GameService {
         throw new NoSuchElementException("Game does not have any free players");
     }
 
-
     @Override
-    public GamesDTO getGamesLinkedToPlayer(Long userId){
+    public List<GameDTO> getGamesLinkedToPlayer(Long userId){
         UserEntity user = userService.getUserById(userId);
         List<PlayerEntity> players = playerService.getPlayersByUser(user);
-        List<GameDTO> gameDTOS = players.stream().map(PlayerEntity::getGame)
+        return players.stream().map(PlayerEntity::getGame)
                 .map(game -> new GameDTO(game.getId(), game.getPlayers().size()))
                 .collect(Collectors.toList());
-        GamesDTO gamesDTO = new GamesDTO();
-        gamesDTO.setGames(gameDTOS);
-        return gamesDTO;
     }
-
-
 
     @Override
     public GameEntity createGame(int no_players) {

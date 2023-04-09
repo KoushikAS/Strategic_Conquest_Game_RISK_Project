@@ -14,7 +14,7 @@ public interface GameService {
 
     PlayerEntity joinGame(Long gameId, Long userId);
 
-    GamesDTO getGamesLinkedToPlayer(Long userId);
+    List<GameDTO> getGamesLinkedToPlayer(Long userId);
 
     GameEntity createGame(int unitNo);
 

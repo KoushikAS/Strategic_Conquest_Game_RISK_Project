@@ -12,7 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrdersDTO {
-
     List<OrderDTO> orders;
-    private Long playerId;
 }

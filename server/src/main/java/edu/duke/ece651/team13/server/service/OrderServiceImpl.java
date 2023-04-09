@@ -88,8 +88,8 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void validateAndAddOrders(OrdersDTO orders) throws IllegalArgumentException {
-        PlayerEntity player = playerService.getPlayer(orders.getPlayerId());
+    public void validateAndAddOrders(OrdersDTO orders, Long playerId) throws IllegalArgumentException {
+        PlayerEntity player = playerService.getPlayer(playerId);
 
         if (player.getStatus().equals(LOSE)) {
             throw new IllegalArgumentException("Player has already lost he cannot issue a order.");
