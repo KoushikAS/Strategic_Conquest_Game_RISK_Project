@@ -37,7 +37,7 @@ public class TerritoryEntity {
     @JsonBackReference
     private MapEntity map;
 
-    @OneToMany(mappedBy = "sourceTerritory", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "sourceTerritory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TerritoryConnectionEntity> connections = new ArrayList<>();
 
     @Column(name = "FOOD_PRODUCTION")
@@ -46,7 +46,7 @@ public class TerritoryEntity {
     @Column(name = "TECH_PRODUCTION")
     private int techProduction; //tech resource production this territory generate each round
 
-    @OneToMany(mappedBy = "territory", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "territory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<UnitEntity> units = new ArrayList<>();
 

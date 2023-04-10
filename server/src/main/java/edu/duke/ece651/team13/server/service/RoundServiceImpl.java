@@ -17,6 +17,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
@@ -49,7 +50,6 @@ public class RoundServiceImpl implements RoundService {
 
     @Autowired
     private final GameService gameService;
-
 
     private void executePlayersOrders(GameEntity game) {
         for (PlayerEntity player : game.getPlayers()) {

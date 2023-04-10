@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AttackerServiceImpl implements AttackerService {
 
     @Autowired
@@ -26,12 +25,14 @@ public class AttackerServiceImpl implements AttackerService {
     }
 
     @Override
+    @Transactional
     public AttackerEntity addAttacker(TerritoryEntity territory, PlayerEntity player, UnitMappingEnum unitType, Integer UnitNo) {
         AttackerEntity attackerEntity = new AttackerEntity(territory, player, unitType, UnitNo);
         return repository.save(attackerEntity);
     }
 
     @Override
+    @Transactional
     public void clearAttackers(TerritoryEntity territory) {
         repository.deleteByTerritory(territory);
     }

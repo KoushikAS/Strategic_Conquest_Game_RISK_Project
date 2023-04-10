@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -85,6 +86,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    @Transactional
     public GameEntity createGame(int no_players) {
         GameEntity gameEntity = repository.save(new GameEntity());
         List<PlayerEntity> players = new ArrayList<>();
@@ -97,6 +99,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    @Transactional
     public GameEntity updateGameRoundAndStatus(GameEntity game, GameStatusEnum status, int roundNo) {
         game.setStatus(status);
         game.setRoundNo(roundNo);

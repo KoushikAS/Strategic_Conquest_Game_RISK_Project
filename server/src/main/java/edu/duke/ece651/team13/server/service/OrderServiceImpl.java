@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -63,6 +64,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void deleteOrdersByPlayer(PlayerEntity playerEntity) {
         repository.deleteByPlayer(playerEntity);
     }
@@ -99,6 +101,7 @@ public class OrderServiceImpl implements OrderService {
         return orderEntities;
     }
 
+    @Transactional
     private  void saveOrders(List<OrderEntity> orderEntityList){
         //Save order list
         for (OrderEntity order : orderEntityList) {
@@ -150,12 +153,8 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        log.info("Just after detach Game in before detach get" + entityManager.contains(game));
-        entityManager.detach(game);
-        log.info("Just after detach Game in after detach get" + entityManager.contains(game));
-
+        entityManager.detach(game); //Added to detach game entity from Persistent manager so that changes in game is not updated to db
         saveOrders(orderEntityList);
-
 
         if (isGameReadyForRoundExecution(game)) {
             eventPublisher.publishEvent(game.getId());
