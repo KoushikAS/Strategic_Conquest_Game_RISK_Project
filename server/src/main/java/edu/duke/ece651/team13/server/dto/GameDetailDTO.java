@@ -14,4 +14,5 @@ import lombok.Setter;
 public class GameDetailDTO {
     private GameEntity game;
     private PlayerEntity player;
+    private boolean isPlayerDone;
 }

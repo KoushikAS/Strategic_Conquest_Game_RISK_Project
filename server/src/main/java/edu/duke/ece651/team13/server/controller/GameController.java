@@ -128,7 +128,8 @@ public class GameController {
             UserEntity user = userService.getUserById(userId);
             GameEntity game = gameService.getGame(gameId);
             PlayerEntity player = playerService.getPlayerByUserAndGame(user, game);
-            GameDetailDTO gameDetailDTO = new GameDetailDTO(game, player);
+            boolean isPlayerDone = (orderService.getOrdersByPlayer(player).size() != 0);
+            GameDetailDTO gameDetailDTO = new GameDetailDTO(game, player, isPlayerDone);
             return ResponseEntity.ok().body(gameDetailDTO);
         } catch (NoSuchElementException e) {
             log.error(e.getMessage());
