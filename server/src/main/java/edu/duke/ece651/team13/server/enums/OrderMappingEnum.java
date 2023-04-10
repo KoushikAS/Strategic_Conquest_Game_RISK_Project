@@ -12,6 +12,7 @@ import lombok.Getter;
 public enum OrderMappingEnum {
     MOVE("MOVE"),
     ATTACK("ATTACK"),
+    UNIT_UPGRADE("UNIT_UPGRADE"),
     DONE("DONE");
 
     private final String value;

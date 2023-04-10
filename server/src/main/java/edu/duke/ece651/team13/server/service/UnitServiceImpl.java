@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @RequiredArgsConstructor
 public class UnitServiceImpl implements UnitService {
@@ -16,6 +18,7 @@ public class UnitServiceImpl implements UnitService {
     private final UnitRepository repository;
 
     @Override
+    @Transactional
     public UnitEntity createUnit(UnitMappingEnum unitType, TerritoryEntity territory, int unitNum) {
         UnitEntity unit = new UnitEntity();
         unit.setTerritory(territory);
@@ -25,5 +28,11 @@ public class UnitServiceImpl implements UnitService {
         return repository.save(unit);
     }
 
+    @Override
+    @Transactional
+    public UnitEntity updateUnit(UnitEntity unit, int unitNum){
+        unit.setUnitNum(unitNum);
+        return repository.save(unit);
+    }
 
 }

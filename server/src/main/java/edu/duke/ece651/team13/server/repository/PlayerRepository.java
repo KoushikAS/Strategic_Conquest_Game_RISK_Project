@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PlayerRepository extends CrudRepository<PlayerEntity, Long> {
+public interface PlayerRepository extends CrudRepository<PlayerEntity, Long>{
 
     List<PlayerEntity> findByUser(UserEntity user);
 

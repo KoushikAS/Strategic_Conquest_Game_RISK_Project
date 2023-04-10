@@ -4,9 +4,9 @@ import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.AttackerService;
 import edu.duke.ece651.team13.server.service.PlayerService;
-import edu.duke.ece651.team13.server.service.TerritoryService;
 import edu.duke.ece651.team13.server.service.UnitService;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
+import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,26 +18,24 @@ import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.UNIT_UPGRADE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
-class AttackOrderTest {
+class UnitUpgradeOrderTest {
 
-    private AttackOrderService service; //service under test
+    private UnitUpgradeOrderService service; //service under test
 
     @Mock
     private UnitService unitService;
-
-    @Mock
-    private AttackerService attackerService;
 
     @Mock
     private PlayerService playerService;
 
     @BeforeEach
     void setUp() {
-        service = new AttackOrderService(unitService, attackerService, playerService);
+        service = new UnitUpgradeOrderService(unitService, playerService);
     }
 
     @Test
@@ -45,30 +43,27 @@ class AttackOrderTest {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
         owner.setId(1L);
-        owner.setFoodResource(150);
-        PlayerEntity opponent = new PlayerEntity();
-        opponent.setId(2L);
+        owner.setTechResource(150);
+
         TerritoryEntity source = game.getMap().getTerritories().get(0);
         source.setOwner(owner);
-        TerritoryEntity destination = game.getMap().getTerritories().get(1);
-        destination.setOwner(opponent);
+        source.getUnits().get(0).setUnitNum(5);
+        source.getUnits().add(new UnitEntity(UnitMappingEnum.LEVEL1, 1));
         game.getPlayers().add(owner);
 
-        List<TerritoryConnectionEntity> connections = new ArrayList<>();
-        connections.add(new TerritoryConnectionEntity(source, destination, 5));
-        source.setConnections(connections);
 
         OrderEntity order = new OrderEntity();
         order.setSource(source);
-        order.setDestination(destination);
-        order.setOrderType(ATTACK);
+        order.setDestination(null);
+        order.setOrderType(UNIT_UPGRADE);
         order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(5);
         order.setPlayer(owner);
 
         service.validateAndExecuteLocally(order, game);
 
-        assertEquals(5, game.getMap().getTerritories().get(0).getUnits().get(0).getUnitNum());
+        assertEquals(0, game.getMap().getTerritories().get(0).getUnits().get(0).getUnitNum());
+        assertEquals(6, game.getMap().getTerritories().get(0).getUnits().get(1).getUnitNum());
     }
 
 
@@ -98,7 +93,6 @@ class AttackOrderTest {
         order.setPlayer(owner);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
-
     }
 
     @Test

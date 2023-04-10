@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -20,11 +21,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     final UserRepository repository;
 
     @Override
+    @Transactional
     public UserEntity createUser(String fullName, String email, String password) {
         UserEntity user = new UserEntity();
         user.setFullName(fullName);
         user.setEmail(email);
-        System.out.println(password);
         user.setPassword(password);
         return repository.save(user);
     }
@@ -59,6 +60,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserEntity updateUserPassword(Long id, String password) {
         UserEntity user = getUserById(id);
         user.setPassword(password);

@@ -16,5 +16,10 @@ public interface PlayerService {
 
     PlayerEntity updatePlayerStatus(PlayerEntity player, PlayerStatusEnum status);
 
+    PlayerEntity updatePlayerTechResource(PlayerEntity player, int techResource);
+
+    PlayerEntity updatePlayerFoodResource(PlayerEntity player, int foodResource);
+
     PlayerEntity updatePlayerUser(PlayerEntity player, UserEntity userEntity);
+
 }

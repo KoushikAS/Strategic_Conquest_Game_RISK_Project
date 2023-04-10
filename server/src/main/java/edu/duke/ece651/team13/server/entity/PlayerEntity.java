@@ -37,13 +37,16 @@ public class PlayerEntity {
 
     @Column(name = "Status")
     @Enumerated(EnumType.STRING)
-    private PlayerStatusEnum status;
+    private PlayerStatusEnum status = PlayerStatusEnum.PLAYING;
 
     @Column(name = "FOOD_RESOURCE")
     private int foodResource; //food resource totals of this player
 
     @Column(name = "TECH_RESOURCE")
     private int techResource; //tech resource totals of this player
+
+    @Column(name = "MAX_TECH_LEVEL")
+    private int maxTechLevel; //tech level of this player
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")

@@ -49,8 +49,10 @@ public class GameController {
             GameEntity gameEntity = gameService.createGame(noOfPlayer);
             return ResponseEntity.ok().body(new GameDTO(gameEntity.getId(),gameEntity.getPlayers().size()));
         } catch (IllegalArgumentException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
         } catch (NoSuchElementException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
         }
     }
@@ -62,6 +64,7 @@ public class GameController {
             List<GameDTO> games = gameService.getFreeGames(userId);
             return ResponseEntity.ok().body(new GamesDTO(games));
         }  catch (NoSuchElementException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
         }
     }
@@ -73,6 +76,7 @@ public class GameController {
             List<GameDTO> games = gameService.getGamesLinkedToPlayer(userId);
             return ResponseEntity.ok().body(new GamesDTO(games));
         } catch (NoSuchElementException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
         }
     }
@@ -84,8 +88,10 @@ public class GameController {
             PlayerEntity player = gameService.joinGame(gameId, userId);
             return ResponseEntity.ok().body(player);
         } catch (IllegalArgumentException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
         } catch (NoSuchElementException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
         }
     }
@@ -97,6 +103,7 @@ public class GameController {
             GameEntity game = gameService.getGame(gameId);
             return ResponseEntity.ok().body(game);
         } catch (NoSuchElementException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
         }
     }
@@ -109,8 +116,10 @@ public class GameController {
             orderService.validateAndAddOrders(ordersDTO, playerId);
             return ResponseEntity.ok().body("Submitted successful");
         } catch (IllegalArgumentException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
         } catch (NoSuchElementException e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());
         }
     }

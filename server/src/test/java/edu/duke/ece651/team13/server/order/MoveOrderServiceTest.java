@@ -2,13 +2,16 @@ package edu.duke.ece651.team13.server.order;
 
 import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
+import edu.duke.ece651.team13.server.service.PlayerService;
 import edu.duke.ece651.team13.server.service.TerritoryService;
+import edu.duke.ece651.team13.server.service.UnitService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +28,14 @@ class MoveOrderServiceTest {
     private MoveOrderService service; //service under test
 
     @Mock
-    private TerritoryService territoryService;
+    private UnitService unitService;
 
+    @Mock
+    private PlayerService playerService;
 
     @BeforeEach
     void setUp() {
-        service = new MoveOrderService(territoryService);
+        service = new MoveOrderService(unitService, playerService);
     }
 
 
@@ -45,6 +50,7 @@ class MoveOrderServiceTest {
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
         source.setOwner(player1);
         destination.setOwner(player1);
+        game.getPlayers().add(player1);
 
         List<TerritoryConnectionEntity> connections = new ArrayList<>();
         connections.add(new TerritoryConnectionEntity(source, destination, 5));
@@ -83,6 +89,7 @@ class MoveOrderServiceTest {
         order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(5);
         order.setPlayer(player1);
+        game.getPlayers().add(player1);
         //No Connection
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
     }
@@ -91,6 +98,9 @@ class MoveOrderServiceTest {
     @Test
     void test_validateAndExecuteLocallyExtraUnits() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
+        PlayerEntity player1 = new PlayerEntity();
+        player1.setId(1L);
+        game.getPlayers().add(player1);
         TerritoryEntity source = game.getMap().getTerritories().get(0);
         TerritoryEntity destination = game.getMap().getTerritories().get(1);
 
@@ -104,6 +114,7 @@ class MoveOrderServiceTest {
         order.setOrderType(MOVE);
         order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(25);
+        order.setPlayer(player1);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
     }
@@ -130,6 +141,7 @@ class MoveOrderServiceTest {
         order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(5);
         order.setPlayer(player2);
+        game.getPlayers().add(player2);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
         source.setOwner(player2);
@@ -161,6 +173,7 @@ class MoveOrderServiceTest {
         order.setUnitType(UnitMappingEnum.LEVEL0);
         order.setUnitNum(1);
         order.setPlayer(player1);
+        game.getPlayers().add(player1);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
         try {

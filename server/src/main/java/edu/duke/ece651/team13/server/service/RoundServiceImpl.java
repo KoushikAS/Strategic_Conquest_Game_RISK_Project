@@ -9,6 +9,7 @@ import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
@@ -35,6 +37,9 @@ public class RoundServiceImpl implements RoundService {
     private final AttackOrderService attackOrder;
 
     @Autowired
+    private final UnitUpgradeOrderService unitUpgradeOrder;
+
+    @Autowired
     private final CombatResolutionService combatResolutionService;
 
     @Autowired
@@ -46,10 +51,13 @@ public class RoundServiceImpl implements RoundService {
     @Autowired
     private final GameService gameService;
 
-
     private void executePlayersOrders(GameEntity game) {
         for (PlayerEntity player : game.getPlayers()) {
             List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
+
+            orders.stream()
+                    .filter(order -> order.getOrderType().equals(OrderMappingEnum.UNIT_UPGRADE))
+                    .forEach(order -> unitUpgradeOrder.executeOnGame(order, game));
 
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.MOVE))
@@ -58,6 +66,9 @@ public class RoundServiceImpl implements RoundService {
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.ATTACK))
                     .forEach(order -> attackOrder.executeOnGame(order, game));
+
+            //Delete all the orders of this player after executing
+            orderService.deleteOrdersByPlayer(player);
         }
     }
 
@@ -91,8 +102,14 @@ public class RoundServiceImpl implements RoundService {
                 foodProduction += territory.getFoodProduction();
                 techProduction += territory.getTechProduction();
             }
-            player.setFoodResource(player.getFoodResource() + foodProduction);
-            player.setTechResource(player.getTechResource() + techProduction);
+            playerService.updatePlayerFoodResource(player, player.getFoodResource() + foodProduction);
+            playerService.updatePlayerTechResource(player, player.getTechResource() + techProduction);
+        }
+    }
+
+    private void clearOrders(GameEntity game){
+        for(PlayerEntity player:game.getPlayers()){
+            orderService.deleteOrdersByPlayer(player);
         }
     }
 
@@ -111,6 +128,7 @@ public class RoundServiceImpl implements RoundService {
             updatePlayerStatus(game);
         }
 
+        clearOrders(game);
         updateGameStatus(game);
     }
 }

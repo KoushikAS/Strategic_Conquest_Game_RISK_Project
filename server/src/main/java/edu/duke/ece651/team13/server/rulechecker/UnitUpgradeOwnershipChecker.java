@@ -6,10 +6,10 @@ import edu.duke.ece651.team13.server.entity.PlayerEntity;
 /**
  * Checks for correct ownership for the source and destination territories,
  * i.e., source territory is controlled by the player, and
- * destination territory is controlled by a different player
+ * destination territory is null as Unit upgrade doesn't depend on destination
  */
-public class AttackOwnershipChecker extends RuleChecker {
-    public AttackOwnershipChecker(RuleChecker next) {
+public class UnitUpgradeOwnershipChecker extends RuleChecker {
+    public UnitUpgradeOwnershipChecker(RuleChecker next) {
         super(next);
     }
 
@@ -17,10 +17,10 @@ public class AttackOwnershipChecker extends RuleChecker {
     @Override
     protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
         if (order.getSource().getOwner() != player) {
-            throw new IllegalArgumentException("Invalid attack order: The source territory is not owned by you.");
+            throw new IllegalArgumentException("Invalid unit upgrade order: The source territory is not owned by you.");
         }
-        if (order.getDestination().getOwner() == player) {
-            throw new IllegalArgumentException("Invalid attack order: The destination territory cannot be owned by you.");
+        if (order.getDestination() != null) {
+            throw new IllegalArgumentException("Invalid unit upgrade order: The destination territory should be null for unit upgrade.");
         }
 
     }

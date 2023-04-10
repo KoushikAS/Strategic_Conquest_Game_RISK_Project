@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server.rulechecker;
 
 import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 
@@ -17,7 +18,7 @@ public class AttackPathChecker extends RuleChecker {
     }
 
     @Override
-    protected void checkMyRule(OrderEntity order) throws IllegalArgumentException {
+    protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
         if (!isAdjacentToTerritory(order.getSource(), order.getDestination())) {
             throw new IllegalArgumentException("Invalid attack order: You can only attack an adjacent territory owned by another player.");
         }
