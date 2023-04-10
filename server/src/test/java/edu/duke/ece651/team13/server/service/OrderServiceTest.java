@@ -22,7 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,7 +68,7 @@ public class OrderServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new OrderServiceImpl(repository, playerService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, eventPublisher);
+        service = new OrderServiceImpl(entityManager, repository, playerService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, eventPublisher);
     }
 
     @Test

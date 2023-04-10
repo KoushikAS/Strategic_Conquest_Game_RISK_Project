@@ -30,6 +30,7 @@ import java.util.Optional;
 import static edu.duke.ece651.team13.server.enums.GameStatusEnum.ENDED;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.DONE;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.TECH_RESEARCH;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.UNIT_UPGRADE;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.LOSE;
