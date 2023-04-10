@@ -75,4 +75,10 @@ public class PlayerServiceImpl implements PlayerService {
         player.setUser(userEntity);
         return repository.save(player);
     }
+
+    @Override
+    public PlayerEntity updatePlayerMaxTechLevel(PlayerEntity player, int techLevel){
+        player.setMaxTechLevel(techLevel);
+        return repository.save(player);
+    }
 }

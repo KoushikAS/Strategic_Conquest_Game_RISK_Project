@@ -1,27 +1,29 @@
 package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.dto.GameDTO;
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.UserEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
-import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
-import edu.duke.ece651.team13.server.repository.AttackerRepository;
 import edu.duke.ece651.team13.server.repository.GameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static edu.duke.ece651.team13.server.MockDataUtil.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.getPlayerEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.getUserEntity;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)

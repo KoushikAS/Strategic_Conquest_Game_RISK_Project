@@ -2,12 +2,17 @@ package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.dto.OrderDTO;
 import edu.duke.ece651.team13.server.dto.OrdersDTO;
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.MapEntity;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
 import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +33,9 @@ import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL0;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -53,13 +59,16 @@ public class OrderServiceTest {
 
     @Mock
     private UnitUpgradeOrderService unitUpgradeOrder;
+
+    @Mock
+    private TechResearchOrderService techResearchOrder;
     @Mock
     private ApplicationEventPublisher eventPublisher;
 
 
     @BeforeEach
     void setUp() {
-        service = new OrderServiceImpl(entityManager, repository, playerService, moveOrder, attackOrder,unitUpgradeOrder,  eventPublisher);
+        service = new OrderServiceImpl(entityManager, repository, playerService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, eventPublisher);
     }
 
     @Test

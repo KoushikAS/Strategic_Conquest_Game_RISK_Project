@@ -14,7 +14,10 @@ import static edu.duke.ece651.team13.server.MockDataUtil.getTerritoryEntity;
 import static edu.duke.ece651.team13.server.MockDataUtil.getUnitEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UnitServiceTest {
