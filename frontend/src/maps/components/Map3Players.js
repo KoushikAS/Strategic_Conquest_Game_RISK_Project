@@ -19,7 +19,7 @@ const Map3Players = (props) => {
           <TerritoryView
             key="Labrador"
             territory={getTerritory("Labrador")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col></Col>
@@ -27,7 +27,7 @@ const Map3Players = (props) => {
           <TerritoryView
             key="Bulldog"
             territory={getTerritory("Bulldog")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col></Col>
@@ -40,21 +40,21 @@ const Map3Players = (props) => {
           <TerritoryView
             key="Rottweiler"
             territory={getTerritory("Rottweiler")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col>
           <TerritoryView
             key="Dachshund"
             territory={getTerritory("Dachshund")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col>
           <TerritoryView
             key="Beagle"
             territory={getTerritory("Beagle")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col></Col>
@@ -65,14 +65,14 @@ const Map3Players = (props) => {
           <TerritoryView
             key="Boxer"
             territory={getTerritory("Boxer")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col>
           <TerritoryView
             key="Spaniel"
             territory={getTerritory("Spaniel")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col></Col>
@@ -80,7 +80,7 @@ const Map3Players = (props) => {
           <TerritoryView
             key="Poodle"
             territory={getTerritory("Poodle")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col></Col>
@@ -88,14 +88,14 @@ const Map3Players = (props) => {
           <TerritoryView
             key="Pug"
             territory={getTerritory("Pug")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col>
           <TerritoryView
             key="Mastiff"
             territory={getTerritory("Mastiff")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
       </Row>
@@ -105,14 +105,14 @@ const Map3Players = (props) => {
           <TerritoryView
             key="Brittany"
             territory={getTerritory("Brittany")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col>
           <TerritoryView
             key="Havanese"
             territory={getTerritory("Havanese")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col></Col>
@@ -120,14 +120,14 @@ const Map3Players = (props) => {
           <TerritoryView
             key="Vizsla"
             territory={getTerritory("Vizsla")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col>
           <TerritoryView
             key="Chihuahua"
             territory={getTerritory("Chihuahua")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col></Col>
@@ -137,14 +137,14 @@ const Map3Players = (props) => {
           <TerritoryView
             key="Akita"
             territory={getTerritory("Akita")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col>
           <TerritoryView
             key="Sheepdog"
             territory={getTerritory("Sheepdog")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col></Col>
@@ -154,14 +154,14 @@ const Map3Players = (props) => {
           <TerritoryView
             key="Maltese"
             territory={getTerritory("Maltese")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
         <Col>
           <TerritoryView
             key="Collie"
             territory={getTerritory("Collie")}
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
           />
         </Col>
       </Row>

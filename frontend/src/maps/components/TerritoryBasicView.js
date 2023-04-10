@@ -16,13 +16,13 @@ const TerritoryBasicView = (props) => {
 
   const handleClick = (e) => {
     // stop propagation if attacking
-    if (props.handleSource) {
+    if (props.handleSourceOrTarget) {
       e.stopPropagation();
     } else {
       return;
     }
     console.log(e.target.innerText);
-    props.handleSource(e.target.innerText);
+    props.handleSourceOrTarget(e.target.innerText);
   };
 
   return (

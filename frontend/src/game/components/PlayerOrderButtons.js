@@ -9,11 +9,20 @@ const PlayerOrderButtons = () => {
     navigate("/attack");
   };
 
+  const handleMove = () => {
+    navigate("/move");
+  }
+
   return (
     <>
       <Row className="text-center">
         <Col md={6}>
-          <Button className="rounded-circle" style={moveButtonStyles} size="lg">
+          <Button
+              onClick={handleMove}
+              className="rounded-circle"
+              style={attackButtonStyles}
+              size="lg"
+          >
             Move
           </Button>
         </Col>

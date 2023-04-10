@@ -26,7 +26,7 @@ const Map = (props) => {
     backgroundImage: getBgImg(playerNum),
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    backgroundSize: "120%",
+    //backgroundSize: "120%",
     backgroundPosition: "50% 50%",
   };
 
@@ -35,7 +35,7 @@ const Map = (props) => {
       <div style={backgroundStyles}>
         <Map2Players
           territories={territories}
-          handleSource={props.handleSource}
+          handleSourceOrTarget={props.handleSourceOrTarget}
         />
       </div>
     );
@@ -44,7 +44,7 @@ const Map = (props) => {
       <div style={backgroundStyles}>
         <Map3Players
           territories={territories}
-          handleSource={props.handleSource}
+          handleSourceOrTarget={props.handleSourceOrTarget}
         />
       </div>
     );
@@ -53,7 +53,7 @@ const Map = (props) => {
     <div style={backgroundStyles}>
       <Map4Players
         territories={territories}
-        handleSource={props.handleSource}
+        handleSourceOrTarget={props.handleSourceOrTarget}
       />
     </div>
   );

@@ -18,7 +18,7 @@ const TerritoryView = (props) => {
 
   const handleClick = (e) => {
     console.log(e.target);
-    props.handleSource(territory);
+    props.handleSourceOrTarget(territory);
   };
 
   return (
@@ -31,7 +31,7 @@ const TerritoryView = (props) => {
       >
         <Container>
           <TerritoryBasicView
-            handleSource={props.handleSource}
+            handleSourceOrTarget={props.handleSourceOrTarget}
             handleClose={handleClose}
             territory={territory}
           />
