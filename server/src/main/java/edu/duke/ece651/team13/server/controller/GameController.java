@@ -121,7 +121,7 @@ public class GameController {
         }
     }
 
-    @GetMapping("/getGame/{gameId}")
+    @GetMapping("/getGameForUser/{gameId}")
     public ResponseEntity<GameDetailDTO> getMap(@PathVariable("gameId") Long gameId, @RequestParam("userId") Long userId) {
         log.info("Received an /getGame/ for a particular user");
         try {

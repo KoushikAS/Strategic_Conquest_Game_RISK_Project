@@ -7,12 +7,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PlayerRepository extends CrudRepository<PlayerEntity, Long>{
 
     List<PlayerEntity> findByUser(UserEntity user);
 
-    PlayerEntity findByUserAndGame(UserEntity user, GameEntity game);
-
+    Optional<PlayerEntity> findByUserAndGame(UserEntity user, GameEntity game);
 }
