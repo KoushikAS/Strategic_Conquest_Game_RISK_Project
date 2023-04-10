@@ -43,7 +43,7 @@ public class MoveOrderService implements OrderFactory {
 
         RuleChecker ruleChecker = getDefaultRuleChecker();
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
-        //ruleChecker.checkOrder(order, player);
+        ruleChecker.checkOrder(order, player);
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         TerritoryEntity destination = game.getMap().getTerritoryEntityById(order.getDestination().getId());
         UnitEntity sourceUnit = getUnitForType(source, order.getUnitType());

@@ -33,14 +33,13 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerEntity getPlayer(Long Id) {
-//        Optional<PlayerEntity> player = repository.findById(Id);
-        return repository.getDetachedPlayer(Id);
-//        if (player.isPresent()) {
-//            return player.get();
-//        } else {
-//            log.error("Did not find Player Id " + Id);
-//            throw new NoSuchElementException("Player with Id " + Id + " does not exists");
-//        }
+        Optional<PlayerEntity> player = repository.findById(Id);
+        if (player.isPresent()) {
+            return player.get();
+        } else {
+            log.error("Did not find Player Id " + Id);
+            throw new NoSuchElementException("Player with Id " + Id + " does not exists");
+        }
     }
 
     @Override
