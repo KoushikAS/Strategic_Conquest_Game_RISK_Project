@@ -8,13 +8,18 @@ import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import { useContext } from "react";
 import { AuthContext } from "../auth/AuthProvider";
+import { OrderContext } from "./context/OrderProvider";
 
 const GameView = () => {
   const { user } = useContext(AuthContext);
+  const { orders } = useContext(OrderContext);
   const [game, setGame] = React.useState();
   const [isLoading, setIsLoading] = React.useState(true);
   const location = useLocation();
   const gameId = location.state.gameId;
+  // const gamePlayerMap = location.state.gamePlayerMap;
+  // console.log(gamePlayerMap)
+  // const [player, setPlayer] = React.useState(gamePlayerMap[gameId]);
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` }
   }
@@ -45,9 +50,9 @@ const GameView = () => {
           <Map game={game} />
         </Col>
         <Col md={3}>
-          <PlayerInfoCard />
+          <PlayerInfoCard game={game} />
           <br />
-          <PlayerOrderButtons />
+          <PlayerOrderButtons gameId={gameId} />
         </Col>
       </Row>
     </Container>

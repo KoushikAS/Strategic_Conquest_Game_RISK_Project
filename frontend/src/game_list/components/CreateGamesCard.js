@@ -46,17 +46,17 @@ const CreateGamesCard = () => {
                 </Card.Title>
                 <p className="mt-3 mb-0 text-center" style={textStyles}>Create a new game for other players to join!</p>
                 <div className="text-center" style={{ marginTop: "10%" }} >
-                    <Button onClick={handleCreateTwoPlayers} variant="primary" style={buttonStyles} size="lg" block>
+                    <Button onClick={handleCreateTwoPlayers} variant="primary" style={buttonStyles} size="lg" block="true">
                         2 Players
                     </Button>
                 </div>
                 <div className="text-center" style={{ marginTop: "10%" }} >
-                    <Button onClick={handleCreateThreePlayers} variant="primary" style={buttonStyles} size="lg" block>
+                    <Button onClick={handleCreateThreePlayers} variant="primary" style={buttonStyles} size="lg" block="true">
                         3 Players
                     </Button>
                 </div>
                 <div className="text-center" style={{ marginTop: "10%" }} >
-                    <Button onClick={handleCreateFourPlayers} variant="primary" style={buttonStyles} size="lg" block>
+                    <Button onClick={handleCreateFourPlayers} variant="primary" style={buttonStyles} size="lg" block="true">
                         4 Players
                     </Button>
                 </div>

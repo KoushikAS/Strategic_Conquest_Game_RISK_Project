@@ -1,5 +1,5 @@
 .territory {
-    min-width: 100px;
+    min-width: 120px;
     min-height: 100px;
     position: relative;
     transform-style: preserve-3d;
@@ -19,4 +19,8 @@
 .territory:hover {
     transform: scale(1.2) ;
     z-index: 1;
+}
+
+.territory-name:hover {
+    color: blue;
 }

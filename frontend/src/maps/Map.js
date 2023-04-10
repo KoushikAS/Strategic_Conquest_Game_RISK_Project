@@ -25,8 +25,7 @@ const Map = (props) => {
   const backgroundStyles = {
     backgroundImage: getBgImg(playerNum),
     backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    //backgroundSize: "120%",
+    backgroundSize: "120%",
     backgroundPosition: "50% 50%",
   };
 

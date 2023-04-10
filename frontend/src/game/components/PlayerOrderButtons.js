@@ -2,15 +2,16 @@ import React from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const PlayerOrderButtons = () => {
+const PlayerOrderButtons = (props) => {
   const navigate = useNavigate();
 
   const handleAttack = () => {
-    navigate("/attack");
+    navigate("/attack", { state: { gameId: props.gameId } });
   };
 
   const handleMove = () => {
-    navigate("/move");
+    navigate("/move", { state: { gameId: props.gameId } });
+
   }
 
   return (
