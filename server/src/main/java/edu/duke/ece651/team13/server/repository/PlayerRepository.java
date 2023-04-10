@@ -1,5 +1,6 @@
 package edu.duke.ece651.team13.server.repository;
 
+import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
@@ -11,5 +12,7 @@ import java.util.List;
 public interface PlayerRepository extends CrudRepository<PlayerEntity, Long>{
 
     List<PlayerEntity> findByUser(UserEntity user);
+
+    PlayerEntity findByUserAndGame(UserEntity user, GameEntity game);
 
 }
