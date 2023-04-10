@@ -102,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional
-    private  void saveOrders(List<OrderEntity> orderEntityList){
+    private void saveOrders(List<OrderEntity> orderEntityList) {
         //Save order list
         for (OrderEntity order : orderEntityList) {
             repository.save(order);
@@ -126,8 +126,8 @@ public class OrderServiceImpl implements OrderService {
 
         if (game.getRoundNo() == 0 && orders
                 .getOrders().stream()
-                .anyMatch(orderDTO -> !orderDTO.getOrderType().equals(MOVE.getValue()))) {
-            throw new IllegalArgumentException("Only Move Orders can be issued during initialising round.");
+                .anyMatch(orderDTO -> !(orderDTO.getOrderType().equals(MOVE.getValue()) || orderDTO.getOrderType().equals(DONE.getValue())))) {
+            throw new IllegalArgumentException("Only Move or Done Orders can be issued during initialising round.");
         }
 
         List<OrderEntity> orderEntityList = getOrderEntityList(orders, game, player);
