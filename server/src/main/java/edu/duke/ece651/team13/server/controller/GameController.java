@@ -1,12 +1,16 @@
 package edu.duke.ece651.team13.server.controller;
 
 import edu.duke.ece651.team13.server.dto.GameDTO;
+import edu.duke.ece651.team13.server.dto.GameDetailDTO;
 import edu.duke.ece651.team13.server.dto.GamesDTO;
 import edu.duke.ece651.team13.server.dto.OrdersDTO;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.UserEntity;
 import edu.duke.ece651.team13.server.service.GameService;
 import edu.duke.ece651.team13.server.service.OrderService;
+import edu.duke.ece651.team13.server.service.PlayerService;
+import edu.duke.ece651.team13.server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +39,12 @@ public class GameController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private PlayerService playerService;
+
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping("/")
@@ -105,6 +115,22 @@ public class GameController {
         try {
             GameEntity game = gameService.getGame(gameId);
             return ResponseEntity.ok().body(game);
+        } catch (NoSuchElementException e) {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @GetMapping("/getGameForUser/{gameId}")
+    public ResponseEntity<GameDetailDTO> getMap(@PathVariable("gameId") Long gameId, @RequestParam("userId") Long userId) {
+        log.info("Received an /getGame/ for a particular user");
+        try {
+            UserEntity user = userService.getUserById(userId);
+            GameEntity game = gameService.getGame(gameId);
+            PlayerEntity player = playerService.getPlayerByUserAndGame(user, game);
+            boolean isPlayerDone = (orderService.getOrdersByPlayer(player).size() != 0);
+            GameDetailDTO gameDetailDTO = new GameDetailDTO(game, player, isPlayerDone);
+            return ResponseEntity.ok().body(gameDetailDTO);
         } catch (NoSuchElementException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(NOT_FOUND, e.getMessage());

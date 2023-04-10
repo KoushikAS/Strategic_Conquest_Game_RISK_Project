@@ -49,6 +49,9 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public PlayerEntity getPlayerByUserAndGame(UserEntity user, GameEntity game){ return repository.findByUserAndGame(user, game).get(); }
+
+    @Override
     @Transactional
     public PlayerEntity updatePlayerStatus(PlayerEntity player, PlayerStatusEnum status) {
         player.setStatus(status);

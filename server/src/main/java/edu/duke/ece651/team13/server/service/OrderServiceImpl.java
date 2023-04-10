@@ -126,6 +126,10 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalArgumentException("Player has already lost he cannot issue a order.");
         }
 
+        if(getOrdersByPlayer(player).size() != 0){
+            throw new IllegalArgumentException("Player has already submitted orders for this round.");
+        }
+
         GameEntity game = player.getGame();
 
         if (game.getStatus().equals(ENDED)) {
@@ -181,6 +185,11 @@ public class OrderServiceImpl implements OrderService {
             eventPublisher.publishEvent(game.getId());
         }
 
+    }
+
+    @Override
+    public void deleteAllOrders() {
+        repository.deleteAll();
     }
 
 }
