@@ -4,9 +4,11 @@ import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
@@ -54,6 +56,9 @@ public class RoundServiceTest {
     private TerritoryService territoryService;
 
     @Mock
+    private UnitService unitService;
+
+    @Mock
     private PlayerService playerService;
 
     @Mock
@@ -61,7 +66,7 @@ public class RoundServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, combatResolutionService, territoryService, playerService, gameService);
+        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, combatResolutionService, territoryService, unitService, playerService, gameService);
     }
 
 
@@ -112,6 +117,10 @@ public class RoundServiceTest {
         territoryEntity.setOwner(red);
         territoryEntityList.add(territoryEntity);
 
+        UnitEntity basicUnit = new UnitEntity(UnitMappingEnum.LEVEL0, 1);
+        basicUnit.setTerritory(territoryEntity);
+        territoryEntity.addUnit(basicUnit);
+
         when(orderService.getOrdersByPlayer(red)).thenReturn(orders);
         when(orderService.getOrdersByPlayer(blue)).thenReturn(Collections.emptyList());
         when(gameService.getGame(1L)).thenReturn(gameEntity);
@@ -122,6 +131,7 @@ public class RoundServiceTest {
 
         verify(playerService, times(1)).updatePlayerStatus(blue, PlayerStatusEnum.LOSE);
         verify(gameService, times(1)).updateGameRoundAndStatus(gameEntity, GameStatusEnum.PLAYING, 2);
+        verify(unitService, times(1)).updateUnit(basicUnit, 2);
     }
 
     @Test
