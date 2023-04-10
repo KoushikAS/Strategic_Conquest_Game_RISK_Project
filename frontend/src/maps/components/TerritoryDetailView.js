@@ -28,6 +28,26 @@ const TerritoryDetailView = (props) => {
         return <GiSwordman size={iconSize} />;
     }
   };
+  const getUnitTypeName = (unitType) => {
+    switch (unitType) {
+      case "LEVEL0":
+        return "Basic";
+      case "LEVEL1":
+        return "Infantry";
+      case "LEVEL2":
+        return "Cavalry";
+      case "LEVEL3":
+        return "Artillery";
+      case "LEVEL4":
+        return "Army Aviation";
+      case "LEVEL5":
+        return "Special Forces";
+      case "LEVEL6":
+        return "Combat Engineer";
+      default:
+        return "Basic";
+    }
+  }
   return (
     <div>
       {units.map((unit) => {
@@ -36,7 +56,7 @@ const TerritoryDetailView = (props) => {
             <Col md={4}>
               {getUnitIcon(unit.unitType)}
             </Col>
-            <Col md={4}>{unit.unitType} Units</Col>
+            <Col md={4}>{getUnitTypeName(unit.unitType)}</Col>
             <Col md={4}>{unit.unitNum}</Col>
           </Row>
         )

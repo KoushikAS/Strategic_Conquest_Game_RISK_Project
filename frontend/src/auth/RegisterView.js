@@ -89,7 +89,7 @@ const RegisterView = () => {
                 />
               </Form.Group>
               <div className="text-center" style={{ marginTop: "5%" }} >
-                <Button variant="primary" style={buttonStyles} size="lg" type="submit" block>
+                <Button variant="primary" style={buttonStyles} size="lg" type="submit" block="true">
                   Register
                 </Button>
               </div>

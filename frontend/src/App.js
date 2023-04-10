@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.css";
 import { AuthProvider } from "./auth/AuthProvider";
+import { OrderProvider } from "./game/context/OrderProvider";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import GameView from "./game/GameView";
@@ -15,46 +16,48 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-          <Route
-            exact
-            path="/gameList"
-            element={
-              <ProtectedRoute>
-                <GameListView />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            exact
-            path="/"
-            element={
-              <ProtectedRoute>
-                <GameView />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            exact
-            path="/attack"
-            element={
-              <ProtectedRoute>
-                <AttackView />
-              </ProtectedRoute>
-            }
-          />
+        <OrderProvider>
+          <Routes>
             <Route
-                exact
-                path="/move"
-                element={
-                    <ProtectedRoute>
-                    <MoveView />
-                    </ProtectedRoute>
-                }
+              exact
+              path="/gameList"
+              element={
+                <ProtectedRoute>
+                  <GameListView />
+                </ProtectedRoute>
+              }
             />
-          <Route path="/login" element={<LoginView />} />
-          <Route path="/register" element={<RegisterView />} />
-        </Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <GameView />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="/attack"
+              element={
+                <ProtectedRoute>
+                  <AttackView />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="/move"
+              element={
+                <ProtectedRoute>
+                  <MoveView />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/login" element={<LoginView />} />
+            <Route path="/register" element={<RegisterView />} />
+          </Routes>
+        </OrderProvider>
       </AuthProvider>
     </Router>
   );

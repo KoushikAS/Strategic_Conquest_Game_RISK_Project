@@ -59,7 +59,7 @@ const FindGamesCard = (props) => {
                     ))}
                 </Container>
                 <div className="text-center" style={{ marginTop: "10%" }} >
-                    <Button onClick={handleFind} variant="primary" style={buttonStyles} size="lg" block>
+                    <Button onClick={handleFind} variant="primary" style={buttonStyles} size="lg" block="true">
                         Find
                     </Button>
                 </div>

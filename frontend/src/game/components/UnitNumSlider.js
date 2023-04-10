@@ -17,7 +17,7 @@ const UnitNumSlider = (props) => {
     return (
         <Row className="text-center" style={rowStyles}>
             <Col md={4}>{unitType}</Col>
-            <Col md={4}>
+            <Col md={8}>
                 <div>
                     <input type="range" min={0} max={unitNum} value={sliderValue} onChange={handleSliderChange} />
                     <p>number of units: {sliderValue}</p>
