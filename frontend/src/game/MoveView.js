@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import Map from "../maps/Map";
 import GameBanner from "./components/GameBanner";
 import PlayerInfoCard from "./components/PlayerInfoCard";
 import UnitSelectModal from "./components/UnitSelectModal";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import AttackToInfoCard from "./components/AttackToInfoCard";
-import { useContext } from "react";
+import MoveToInfoCard from "./components/MoveToInfoCard";
 import { AuthContext } from "../auth/AuthProvider";
 import { useLocation } from 'react-router-dom';
+import LoadingView from "./components/LoadingView";
 
 const MoveView = () => {
     const { user } = useContext(AuthContext);
@@ -19,11 +19,12 @@ const MoveView = () => {
     const [sourceTerritory, setSourceTerritory] = useState();
     const [targetTerritory, setTargetTerritory] = useState();
 
-    const config = {
-        headers: { Authorization: `Bearer ${user.accessToken}` }
-    }
-    const fetchGame = async () => {
+
+    const fetchGame = useCallback(async () => {
         try {
+            const config = {
+                headers: { Authorization: `Bearer ${user.accessToken}` }
+            }
             let response = await axios.get(`getGame/${gameId}`, config);
             console.log(`Current game: ${response.data}`);
             setGame(response.data);
@@ -31,19 +32,18 @@ const MoveView = () => {
         } catch (error) {
             console.log(error);
         }
-    }
+    }, [gameId, user.accessToken])
 
     useEffect(() => {
         fetchGame();
-    }, []);
+    }, [fetchGame]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <LoadingView />;
     }
 
     const currentView = sourceTerritory ? "move-to" : "move-from";
     const setSourceOrTarget = sourceTerritory ? setTargetTerritory : setSourceTerritory;
-
 
     return (
         <>
@@ -56,15 +56,11 @@ const MoveView = () => {
                     <Col md={3}>
                         <PlayerInfoCard game={game} />
                         <br />
-                        <div>Move from: {sourceTerritory}</div>
-                        <br />
-                        {/*<AttackToInfoCard source={sourceTerritory} territories={game.map.territories}/>*/}
-                        {/*<br />*/}
-                        <div>To: {targetTerritory}</div>
+                        <MoveToInfoCard source={sourceTerritory} target={targetTerritory} />
                     </Col>
                 </Row>
             </Container>
-            <UnitSelectModal gameId={gameId} source={sourceTerritory} target={targetTerritory} territories={game.map.territories} />
+            <UnitSelectModal gameId={gameId} source={sourceTerritory} target={targetTerritory} territories={game.map.territories} orderType="MOVE" />
         </>
     );
 };
