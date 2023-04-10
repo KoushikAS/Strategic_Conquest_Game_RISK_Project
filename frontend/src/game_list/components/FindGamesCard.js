@@ -32,8 +32,11 @@ const FindGamesCard = (props) => {
         try {
             let response = await axios.post(`joinGame/${gameId}?userId=${user.userId}`, {}, config);
             console.log(`Joined a new game: ${response.data}`);
+            const updatedGamePlayerMap = { ...props.gamePlayerMap };
+            updatedGamePlayerMap[gameId] = response.data;
+            props.setGamePlayerMap(updatedGamePlayerMap);
             await findFreeGames();
-            props.fetchUserGames();
+            await props.fetchUserGames();
         } catch (error) {
             console.log(error);
         }

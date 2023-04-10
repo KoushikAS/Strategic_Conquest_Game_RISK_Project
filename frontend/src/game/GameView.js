@@ -15,6 +15,9 @@ const GameView = () => {
   const [isLoading, setIsLoading] = React.useState(true);
   const location = useLocation();
   const gameId = location.state.gameId;
+  const gamePlayerMap = location.state.gamePlayerMap;
+  console.log(gamePlayerMap)
+  const [player, setPlayer] = React.useState(gamePlayerMap[gameId]);
   const config = {
     headers: { Authorization: `Bearer ${user.accessToken}` }
   }
@@ -45,7 +48,7 @@ const GameView = () => {
           <Map game={game} />
         </Col>
         <Col md={3}>
-          <PlayerInfoCard />
+          <PlayerInfoCard game={game} player={player} />
           <br />
           <PlayerOrderButtons />
         </Col>

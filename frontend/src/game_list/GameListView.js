@@ -13,6 +13,7 @@ const GameListView = () => {
   console.log("auth: " + user.accessToken);
   const [userGames, setUserGames] = useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [gamePlayerMap, setGamePlayerMap] = useState({});
 
   const fetchUserGames = async () => {
     console.log(user.accessToken)
@@ -41,10 +42,10 @@ const GameListView = () => {
     <Container className="vh-100 d-flex align-items-center justify-content-center">
       <Row>
         <Col>
-          <UserGamesCard userGames={userGames} />
+          <UserGamesCard userGames={userGames} gamePlayerMap={gamePlayerMap} />
         </Col>
         <Col>
-          <FindGamesCard fetchUserGames={fetchUserGames} />
+          <FindGamesCard fetchUserGames={fetchUserGames} gamePlayerMap={gamePlayerMap} setGamePlayerMap={setGamePlayerMap} />
         </Col>
         <Col>
           <CreateGamesCard />

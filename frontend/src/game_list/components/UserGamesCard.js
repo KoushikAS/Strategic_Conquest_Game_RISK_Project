@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const UserGamesCard = (props) => {
     const navigate = useNavigate();
     const handlePlay = async (gameId) => {
-        navigate('/', { state: { gameId } });
+        navigate('/', { state: { gameId, gamePlayerMap: props.gamePlayerMap } });
         console.log(gameId);
     }
     return (
