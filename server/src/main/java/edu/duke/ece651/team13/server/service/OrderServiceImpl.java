@@ -8,6 +8,7 @@ import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
+import edu.duke.ece651.team13.server.repository.CustomPlayerRepository;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
@@ -18,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +34,11 @@ import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class OrderServiceImpl implements OrderService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private final OrderRepository repository;
@@ -96,10 +101,17 @@ public class OrderServiceImpl implements OrderService {
         return orderEntities;
     }
 
+    private  void saveOrders(List<OrderEntity> orderEntityList){
+        //Save order list
+        for (OrderEntity order : orderEntityList) {
+            repository.save(order);
+        }
+    }
 
     @Override
     public void validateAndAddOrders(OrdersDTO orders, Long playerId) throws IllegalArgumentException {
         PlayerEntity player = playerService.getPlayer(playerId);
+        log.info("Just after detach Entity in order get" + entityManager.contains(player));
 
         if (player.getStatus().equals(LOSE)) {
             throw new IllegalArgumentException("Player has already lost he cannot issue a order.");
@@ -140,10 +152,12 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        //Save order list
-        for (OrderEntity order : orderEntityList) {
-            repository.save(order);
-        }
+        log.info("Just after detach Game in before detach get" + entityManager.contains(game));
+        entityManager.detach(game);
+        log.info("Just after detach Game in after detach get" + entityManager.contains(game));
+
+        saveOrders(orderEntityList);
+
 
         if (isGameReadyForRoundExecution(game)) {
             eventPublisher.publishEvent(game.getId());

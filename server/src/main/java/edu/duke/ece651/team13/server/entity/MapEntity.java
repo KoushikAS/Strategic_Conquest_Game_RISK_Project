@@ -31,7 +31,7 @@ public class MapEntity {
     @JsonBackReference
     private GameEntity game;
 
-    @OneToMany(mappedBy = "map", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "map", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JsonManagedReference
     private List<TerritoryEntity> territories = new ArrayList<>();
 

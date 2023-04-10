@@ -26,11 +26,11 @@ public class GameEntity {
     @SequenceGenerator(name = "gameSeq")
     private Long Id;
 
-    @OneToMany(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JsonManagedReference
     private List<PlayerEntity> players = new ArrayList<>();
 
-    @OneToOne(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JsonManagedReference
     private MapEntity map;
 
