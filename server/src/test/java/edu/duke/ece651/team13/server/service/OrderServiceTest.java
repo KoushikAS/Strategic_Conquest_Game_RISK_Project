@@ -21,6 +21,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,6 +43,8 @@ import static org.mockito.Mockito.when;
 public class OrderServiceTest {
 
     private OrderService service; //service under test
+    @Mock
+    private EntityManager entityManager;
 
     @Mock
     private OrderRepository repository;

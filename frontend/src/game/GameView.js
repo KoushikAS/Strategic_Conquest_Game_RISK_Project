@@ -5,25 +5,31 @@ import PlayerInfoCard from "./components/PlayerInfoCard";
 import PlayerOrderButtons from "./components/PlayerOrderButtons";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import { API_URL } from "../config/config";
+import { useLocation } from 'react-router-dom';
+import { useContext } from "react";
+import { AuthContext } from "../auth/AuthProvider";
 
 const GameView = () => {
+  const { user } = useContext(AuthContext);
   const [game, setGame] = React.useState();
   const [isLoading, setIsLoading] = React.useState(true);
+  const location = useLocation();
+  const gameId = location.state.gameId;
+  const config = {
+    headers: { Authorization: `Bearer ${user.accessToken}` }
+  }
+  const fetchGame = async () => {
+    try {
+      let response = await axios.get(`getGame/${gameId}`, config);
+      console.log(`Current game: ${response.data}`);
+      setGame(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    const fetchGame = async () => {
-      try {
-        let response = await axios.get(`${API_URL}/createGame`);
-        const gameId = response.data.id;
-        console.log(`Game ID: ${gameId}`);
-        response = await axios.get(`${API_URL}/getGame/${gameId}`);
-        setGame(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    }
     fetchGame();
   }, []);
 

@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class CombatResolutionServiceImpl implements CombatResolutionService {
 
     @Autowired

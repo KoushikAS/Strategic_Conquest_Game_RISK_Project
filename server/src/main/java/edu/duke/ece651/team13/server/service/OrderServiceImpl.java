@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +37,11 @@ import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class OrderServiceImpl implements OrderService {
+
+    @PersistenceContext
+    private final EntityManager entityManager;
 
     @Autowired
     private final OrderRepository repository;
@@ -67,6 +71,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void deleteOrdersByPlayer(PlayerEntity playerEntity) {
         repository.deleteByPlayer(playerEntity);
     }
@@ -103,10 +108,18 @@ public class OrderServiceImpl implements OrderService {
         return orderEntities;
     }
 
+    @Transactional
+    private void saveOrders(List<OrderEntity> orderEntityList) {
+        //Save order list
+        for (OrderEntity order : orderEntityList) {
+            repository.save(order);
+        }
+    }
 
     @Override
     public void validateAndAddOrders(OrdersDTO orders, Long playerId) throws IllegalArgumentException {
         PlayerEntity player = playerService.getPlayer(playerId);
+        log.info("Just after detach Entity in order get" + entityManager.contains(player));
 
         if (player.getStatus().equals(LOSE)) {
             throw new IllegalArgumentException("Player has already lost he cannot issue a order.");
@@ -120,8 +133,8 @@ public class OrderServiceImpl implements OrderService {
 
         if (game.getRoundNo() == 0 && orders
                 .getOrders().stream()
-                .anyMatch(orderDTO -> !orderDTO.getOrderType().equals(MOVE.getValue()))) {
-            throw new IllegalArgumentException("Only Move Orders can be issued during initialising round.");
+                .anyMatch(orderDTO -> !(orderDTO.getOrderType().equals(MOVE.getValue()) || orderDTO.getOrderType().equals(DONE.getValue())))) {
+            throw new IllegalArgumentException("Only Move or Done Orders can be issued during initialising round.");
         }
 
         List<OrderEntity> orderEntityList = getOrderEntityList(orders, game, player);
@@ -160,10 +173,8 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        //Save order list
-        for (OrderEntity order : orderEntityList) {
-            repository.save(order);
-        }
+        entityManager.detach(game); //Added to detach game entity from Persistent manager so that changes in game is not updated to db
+        saveOrders(orderEntityList);
 
         if (isGameReadyForRoundExecution(game)) {
             eventPublisher.publishEvent(game.getId());

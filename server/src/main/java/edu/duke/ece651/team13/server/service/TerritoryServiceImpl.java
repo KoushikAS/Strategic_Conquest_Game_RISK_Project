@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class TerritoryServiceImpl implements TerritoryService {
     private final TerritoryConnectionRepository territoryConnectionRepository;
 
     @Override
+    @Transactional
     public TerritoryEntity createTerritory(String name, MapEntity map, PlayerEntity player, int foodProduction, int techProduction) {
         TerritoryEntity territory = new TerritoryEntity();
         territory.setMap(map);
@@ -57,12 +59,14 @@ public class TerritoryServiceImpl implements TerritoryService {
     }
 
     @Override
+    @Transactional
     public TerritoryEntity updateTerritoryOwner(TerritoryEntity territory, PlayerEntity owner) {
         territory.setOwner(owner);
         return repository.save(territory);
     }
 
     @Override
+    @Transactional
     public void addNeighbour(TerritoryEntity territory1, TerritoryEntity territory2, Integer distance) {
         TerritoryConnectionEntity connection1 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory2, territory1, distance));
         territory1.getConnections().add(connection1);
@@ -71,6 +75,7 @@ public class TerritoryServiceImpl implements TerritoryService {
     }
 
     @Override
+    @Transactional
     public TerritoryEntity updateTerritoryUnits(TerritoryEntity territory, List<UnitEntity> units) {
         log.info("Updating territory " + territory.getId() + " units.");
         territory.setUnits(units);

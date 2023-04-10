@@ -1,11 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../auth/AuthProvider";
+import axios from "axios";
+import { Container, Row, Col } from "react-bootstrap";
+import CreateGamesCard from "./components/CreateGamesCard";
+import FindGamesCard from "./components/FindGamesCard";
+import UserGamesCard from "./components/UserGamesCard";
+import LoadingView from "../game/components/LoadingView";
 
 const GameListView = () => {
   const { user } = useContext(AuthContext);
-  console.log("auth: " + user);
-  return <div>GameListView</div>;
+  console.log("auth: " + user.accessToken);
+  const [userGames, setUserGames] = useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  const fetchUserGames = async () => {
+    console.log(user.accessToken)
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${user.accessToken}` }
+      }
+      let response = await axios.get(`userGames?userId=${user.userId}`, config);
+      console.log(`User games: ${response.data}`);
+      setUserGames(response.data.games);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    fetchUserGames();
+  }, []);
+
+  if (isLoading) {
+    return <LoadingView />;
+  }
+
+
+  return (
+    <Container className="vh-100 d-flex align-items-center justify-content-center">
+      <Row>
+        <Col>
+          <UserGamesCard userGames={userGames} />
+        </Col>
+        <Col>
+          <FindGamesCard fetchUserGames={fetchUserGames} />
+        </Col>
+        <Col>
+          <CreateGamesCard />
+        </Col>
+      </Row>
+    </Container >
+  );
 };
 
 export default GameListView;
