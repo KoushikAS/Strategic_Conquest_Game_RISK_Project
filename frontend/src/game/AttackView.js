@@ -40,7 +40,7 @@ const AttackView = () => {
       <Row>
         <Col md={9}>
           <GameBanner view={currentView} />
-          <Map game={game} handleSource={setSourceTerritory} />
+          <Map game={game} handleSourceOrTarget={setSourceTerritory} />
         </Col>
         <Col md={3}>
           <PlayerInfoCard />

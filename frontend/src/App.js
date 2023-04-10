@@ -5,6 +5,7 @@ import { AuthProvider } from "./auth/AuthProvider";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import GameView from "./game/GameView";
 import AttackView from "./game/AttackView";
+import MoveView from "./game/MoveView";
 import LoginView from "./auth/LoginView";
 import GameListView from "./game_list/GameListView";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
@@ -42,6 +43,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+            <Route
+                exact
+                path="/move"
+                element={
+                    <ProtectedRoute>
+                    <MoveView />
+                    </ProtectedRoute>
+                }
+            />
           <Route path="/login" element={<LoginView />} />
           <Route path="/register" element={<RegisterView />} />
         </Routes>
