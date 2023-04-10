@@ -9,6 +9,7 @@ import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
 import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -42,6 +45,9 @@ public class RoundServiceTest {
     private UnitUpgradeOrderService unitUpgradeOrder;
 
     @Mock
+    private TechResearchOrderService techResearchOrder;
+
+    @Mock
     private CombatResolutionService combatResolutionService;
 
     @Mock
@@ -55,7 +61,7 @@ public class RoundServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, unitUpgradeOrder, combatResolutionService, territoryService, playerService, gameService);
+        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, combatResolutionService, territoryService, playerService, gameService);
     }
 
 

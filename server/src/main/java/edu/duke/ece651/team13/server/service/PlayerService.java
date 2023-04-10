@@ -22,4 +22,6 @@ public interface PlayerService {
 
     PlayerEntity updatePlayerUser(PlayerEntity player, UserEntity userEntity);
 
+    PlayerEntity updatePlayerMaxTechLevel(PlayerEntity player, int techLevel);
+
 }

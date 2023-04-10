@@ -11,6 +11,7 @@ import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
 import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,10 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static edu.duke.ece651.team13.server.enums.GameStatusEnum.ENDED;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.*;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.TECH_RESEARCH;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.UNIT_UPGRADE;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.LOSE;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
@@ -49,6 +53,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private final UnitUpgradeOrderService unitUpgradeOrder;
+
+    @Autowired
+    private final TechResearchOrderService techResearchOrder;
 
     @Autowired
     private final ApplicationEventPublisher eventPublisher;
@@ -123,6 +130,19 @@ public class OrderServiceImpl implements OrderService {
         for (OrderEntity order : orderEntityList) {
             if (order.getOrderType().equals(UNIT_UPGRADE)) {
                 unitUpgradeOrder.validateAndExecuteLocally(order, game);
+            }
+        }
+
+        //Validate Tech research order
+        boolean hasResearch = false;
+        for (OrderEntity order : orderEntityList) {
+            if (order.getOrderType().equals(TECH_RESEARCH)) {
+                if (hasResearch) {
+                    throw new IllegalArgumentException("Invalid technology research order: The player " +
+                            "issues more than one technology resource orders this round.");
+                }
+                hasResearch = true;
+                techResearchOrder.validateAndExecuteLocally(order, game);
             }
         }
 

@@ -1,16 +1,24 @@
 package edu.duke.ece651.team13.server.service.order;
 
-import edu.duke.ece651.team13.server.entity.*;
-import edu.duke.ece651.team13.server.rulechecker.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
+import edu.duke.ece651.team13.server.rulechecker.MoveFoodResourceChecker;
+import edu.duke.ece651.team13.server.rulechecker.MoveOwnershipChecker;
+import edu.duke.ece651.team13.server.rulechecker.MovePathChecker;
+import edu.duke.ece651.team13.server.rulechecker.MoveUnitNumChecker;
+import edu.duke.ece651.team13.server.rulechecker.RuleChecker;
 import edu.duke.ece651.team13.server.service.PlayerService;
 import edu.duke.ece651.team13.server.service.UnitService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static edu.duke.ece651.team13.server.rulechecker.MoveFoodResourceChecker.getFoodCost;
 import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service

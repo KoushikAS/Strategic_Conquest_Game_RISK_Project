@@ -9,6 +9,7 @@ import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
 import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,9 @@ public class RoundServiceImpl implements RoundService {
     private final UnitUpgradeOrderService unitUpgradeOrder;
 
     @Autowired
+    private final TechResearchOrderService techResearchOrder;
+
+    @Autowired
     private final CombatResolutionService combatResolutionService;
 
     @Autowired
@@ -66,6 +70,10 @@ public class RoundServiceImpl implements RoundService {
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.UNIT_UPGRADE))
                     .forEach(order -> unitUpgradeOrder.executeOnGame(order, game));
+
+            orders.stream()
+                    .filter(order -> order.getOrderType().equals(OrderMappingEnum.TECH_RESEARCH))
+                    .forEach(order -> techResearchOrder.executeOnGame(order, game));
 
             //Delete all the orders of this player after executing
             orderService.deleteOrdersByPlayer(player);

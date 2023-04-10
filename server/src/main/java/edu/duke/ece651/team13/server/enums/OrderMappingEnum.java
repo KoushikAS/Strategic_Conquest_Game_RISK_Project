@@ -13,6 +13,7 @@ public enum OrderMappingEnum {
     MOVE("MOVE"),
     ATTACK("ATTACK"),
     UNIT_UPGRADE("UNIT_UPGRADE"),
+    TECH_RESEARCH("TECH_RESEARCH"),
     DONE("DONE");
 
     private final String value;

@@ -1,10 +1,13 @@
 package edu.duke.ece651.team13.server.order;
 
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.AttackerService;
 import edu.duke.ece651.team13.server.service.PlayerService;
-import edu.duke.ece651.team13.server.service.TerritoryService;
 import edu.duke.ece651.team13.server.service.UnitService;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import org.junit.jupiter.api.BeforeEach;
