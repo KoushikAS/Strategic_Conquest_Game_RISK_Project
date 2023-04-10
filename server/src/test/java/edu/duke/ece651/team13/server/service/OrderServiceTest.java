@@ -260,10 +260,11 @@ public class OrderServiceTest {
         loosePlayer.setGame(game);
         game.getPlayers().add(loosePlayer);
 
-        List<OrderEntity> orderEntities = new ArrayList<>();
-        orderEntities.add(new OrderEntity());
+        List<OrderEntity> orderEntities_0 = new ArrayList<>();
+        List<OrderEntity> orderEntities_1 = new ArrayList<>();
+        orderEntities_1.add(new OrderEntity());
         when(playerService.getPlayer(any())).thenReturn(player);
-        when(repository.findByPlayer(player)).thenReturn(orderEntities);
+        when(repository.findByPlayer(player)).thenReturn(orderEntities_0).thenReturn(orderEntities_1);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
         orderDTOS.add(new OrderDTO(1L, 1L, 5, LEVEL0.getType(), MOVE.getValue()));
