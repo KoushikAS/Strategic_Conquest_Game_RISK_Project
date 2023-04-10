@@ -1,6 +1,4 @@
 import Modal from "react-bootstrap/Modal";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import UnitNumSlider from "./UnitNumSlider";
 import { Button } from "react-bootstrap";
 import React, { useState } from "react";
@@ -59,7 +57,6 @@ const UnitSelectModal = (props) => {
         navigate("/", { state: { gameId: props.gameId } });
     };
 
-    // const [orderArray, setOrderArray] = useState([]);
     const orderArray = []
     const packageData = (sliderValue, unitType) => {
         if (sliderValue != 0) {
@@ -68,9 +65,8 @@ const UnitSelectModal = (props) => {
                 destinationTerritoryId: getTerritory(targetName).id,
                 unitNum: sliderValue,
                 unitType: unitType,
-                orderType: "MOVE"
+                orderType: props.orderType
             }
-            // setOrderArray(prevState => [...prevState, data]);
             orderArray.push(data);
         }
     };
@@ -98,7 +94,7 @@ const UnitSelectModal = (props) => {
             <Modal show={showModal}>
                 <Modal.Header>
                     <Modal.Title>
-                        Select units to move from {sourceName} to {targetName}
+                        Select units to {props.orderType} from {sourceName} to {targetName}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

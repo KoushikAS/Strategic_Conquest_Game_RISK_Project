@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../auth/AuthProvider";
 import axios from "axios";
@@ -15,7 +15,7 @@ const GameListView = () => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [gamePlayerMap, setGamePlayerMap] = useState({});
 
-  const fetchUserGames = async () => {
+  const fetchUserGames = useCallback(async () => {
     console.log(user.accessToken)
     try {
       const config = {
@@ -28,10 +28,11 @@ const GameListView = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  }, [user.accessToken, user.userId]);
+
   useEffect(() => {
     fetchUserGames();
-  }, []);
+  }, [fetchUserGames]);
 
   if (isLoading) {
     return <LoadingView />;

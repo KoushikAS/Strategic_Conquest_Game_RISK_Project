@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import Map from "../maps/Map";
 import GameBanner from "./components/GameBanner";
 import PlayerInfoCard from "./components/PlayerInfoCard";
@@ -13,6 +13,7 @@ import { OrderContext } from "./context/OrderProvider";
 const GameView = () => {
   const { user } = useContext(AuthContext);
   const { orders } = useContext(OrderContext);
+  console.log("orders in GameView: ", orders);
   const [game, setGame] = React.useState();
   const [isLoading, setIsLoading] = React.useState(true);
   const location = useLocation();
@@ -20,11 +21,12 @@ const GameView = () => {
   // const gamePlayerMap = location.state.gamePlayerMap;
   // console.log(gamePlayerMap)
   // const [player, setPlayer] = React.useState(gamePlayerMap[gameId]);
-  const config = {
-    headers: { Authorization: `Bearer ${user.accessToken}` }
-  }
-  const fetchGame = async () => {
+
+  const fetchGame = useCallback(async () => {
     try {
+      const config = {
+        headers: { Authorization: `Bearer ${user.accessToken}` }
+      }
       let response = await axios.get(`getGame/${gameId}`, config);
       console.log(`Current game: ${response.data}`);
       setGame(response.data);
@@ -32,11 +34,11 @@ const GameView = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  }, [gameId, user.accessToken])
 
   useEffect(() => {
     fetchGame();
-  }, []);
+  }, [fetchGame]);
 
   if (isLoading) {
     return <div>Loading...</div>;

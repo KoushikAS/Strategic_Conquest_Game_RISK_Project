@@ -16,11 +16,6 @@ const TerritoryView = (props) => {
     cursor: "pointer",
   };
 
-  const handleClick = (e) => {
-    console.log(e.target);
-    props.handleSourceOrTarget(territory);
-  };
-
   return (
     <>
       <div

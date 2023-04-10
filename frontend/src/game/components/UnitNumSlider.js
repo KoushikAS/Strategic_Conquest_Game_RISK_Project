@@ -1,5 +1,4 @@
 import React from "react";
-import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../auth/AuthProvider";
 import axios from "axios";
-import { API_URL } from "../../config/config";
-import { Card, Button, Modal, Container, Row, Col } from "react-bootstrap";
+import { Card, Button, Container, Row, Col } from "react-bootstrap";
 
 const FindGamesCard = (props) => {
     const { user } = useContext(AuthContext);
