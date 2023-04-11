@@ -84,22 +84,24 @@ public class OrderServiceImpl implements OrderService {
     private List<OrderEntity> getOrderEntityList(OrdersDTO orders, GameEntity game, PlayerEntity player) {
         List<OrderEntity> orderEntities = new ArrayList<>();
         for (OrderDTO orderDTO : orders.getOrders()) {
-            TerritoryEntity source = null;
-            if(!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()))) {
-                  source  =game.getMap().getTerritoryEntityById(orderDTO.getSourceTerritoryId());
-            }
-            TerritoryEntity destination = null;
-            if(!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) ||orderDTO.getOrderType().equals(UNIT_UPGRADE.getValue()))) {
-                destination= game.getMap().getTerritoryEntityById(orderDTO.getDestinationTerritoryId());
-            }
-
             OrderEntity orderEntity = new OrderEntity();
             orderEntity.setPlayer(player);
             orderEntity.setOrderType(OrderMappingEnum.findByValue(orderDTO.getOrderType()));
-            orderEntity.setSource(source);
-            orderEntity.setDestination(destination);
-            orderEntity.setUnitNum(orderDTO.getUnitNum());
-            orderEntity.setUnitType(UnitMappingEnum.findByValue(orderDTO.getUnitType()));
+
+            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()))) {
+                TerritoryEntity source = game.getMap().getTerritoryEntityById(orderDTO.getSourceTerritoryId());
+                orderEntity.setSource(source);
+            }
+
+            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(UNIT_UPGRADE.getValue()))) {
+                TerritoryEntity destination = game.getMap().getTerritoryEntityById(orderDTO.getDestinationTerritoryId());
+                orderEntity.setDestination(destination);
+            }
+
+            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()))) {
+                orderEntity.setUnitNum(orderDTO.getUnitNum());
+                orderEntity.setUnitType(UnitMappingEnum.findByValue(orderDTO.getUnitType()));
+            }
             orderEntities.add(orderEntity);
         }
         return orderEntities;
