@@ -1,4 +1,4 @@
-package edu.duke.ece651.team13.server.order;
+package edu.duke.ece651.team13.server.service.order;
 
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
-class AttackOrderTest {
+class AttackOrderServiceTest {
 
     private AttackOrderService service; //service under test
 
@@ -164,5 +164,37 @@ class AttackOrderTest {
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
 
     }
+
+    @Test
+    void test_executeOnGame() throws IllegalArgumentException {
+        GameEntity game = getGameEntity();
+        PlayerEntity owner = new PlayerEntity();
+        owner.setId(1L);
+        owner.setFoodResource(150);
+        PlayerEntity opponent = new PlayerEntity();
+        opponent.setId(2L);
+        TerritoryEntity source = game.getMap().getTerritories().get(0);
+        source.setOwner(owner);
+        TerritoryEntity destination = game.getMap().getTerritories().get(1);
+        destination.setOwner(opponent);
+        game.getPlayers().add(owner);
+
+        List<TerritoryConnectionEntity> connections = new ArrayList<>();
+        connections.add(new TerritoryConnectionEntity(source, destination, 5));
+        source.setConnections(connections);
+
+        OrderEntity order = new OrderEntity();
+        order.setSource(source);
+        order.setDestination(destination);
+        order.setOrderType(ATTACK);
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(5);
+        order.setPlayer(owner);
+
+        service.executeOnGame(order, game);
+
+        assertEquals(5, game.getMap().getTerritories().get(0).getUnits().get(0).getUnitNum());
+    }
+
 
 }

@@ -39,9 +39,9 @@ public class MoveOrderService implements OrderFactory {
      * MoveOwnershipChecker -> MoveUnitNumChecker -> MoveFoodResourceChecker -> MovePathChecker
      */
     private static RuleChecker getDefaultRuleChecker() {
-        RuleChecker pathChecker = new MovePathChecker(null);
-        RuleChecker foodResourceChecker = new MoveFoodResourceChecker(pathChecker);
-        RuleChecker unitnumChecker = new MoveUnitNumChecker(foodResourceChecker);
+        RuleChecker foodResourceChecker = new MoveFoodResourceChecker(null);
+        RuleChecker pathChecker = new MovePathChecker(foodResourceChecker);
+        RuleChecker unitnumChecker = new MoveUnitNumChecker(pathChecker);
         return new MoveOwnershipChecker(unitnumChecker);
     }
 
