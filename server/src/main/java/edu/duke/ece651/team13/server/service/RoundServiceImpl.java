@@ -1,10 +1,6 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.GameEntity;
-import edu.duke.ece651.team13.server.entity.OrderEntity;
-import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
-import edu.duke.ece651.team13.server.entity.UnitEntity;
+import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
@@ -23,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
-import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
 
 @Service
 @RequiredArgsConstructor
@@ -129,7 +124,7 @@ public class RoundServiceImpl implements RoundService {
         for (PlayerEntity player : players) {
             List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
             for (TerritoryEntity territory : territoryEntities){
-                UnitEntity basicUnitEntity = getUnitForType(territory, UnitMappingEnum.LEVEL0);
+                UnitEntity basicUnitEntity = territory.getUnitForType( UnitMappingEnum.LEVEL0);
                 unitService.updateUnit(basicUnitEntity, basicUnitEntity.getUnitNum() + 1);
             }
         }

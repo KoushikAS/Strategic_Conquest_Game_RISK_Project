@@ -24,15 +24,9 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static edu.duke.ece651.team13.server.enums.GameStatusEnum.ENDED;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.DONE;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.TECH_RESEARCH;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.UNIT_UPGRADE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.*;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.LOSE;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
@@ -90,18 +84,15 @@ public class OrderServiceImpl implements OrderService {
     private List<OrderEntity> getOrderEntityList(OrdersDTO orders, GameEntity game, PlayerEntity player) {
         List<OrderEntity> orderEntities = new ArrayList<>();
         for (OrderDTO orderDTO : orders.getOrders()) {
-            Optional<TerritoryEntity> source = game.getMap().getTerritories().stream().filter(territoryEntity -> territoryEntity.getId().equals(orderDTO.getSourceTerritoryId())).findFirst();
-            Optional<TerritoryEntity> destination = game.getMap().getTerritories().stream().filter(territoryEntity -> territoryEntity.getId().equals(orderDTO.getDestinationTerritoryId())).findFirst();
-            if (!source.isPresent() || !destination.isPresent()) {
-                log.error("Either did not find the source territory Id" + orderDTO.getSourceTerritoryId() + " or did not find destination territory Id " + orderDTO.getDestinationTerritoryId());
-                throw new NoSuchElementException("Source or Destination Territory does not exists");
-            }
+            TerritoryEntity source = game.getMap().getTerritoryEntityById(orderDTO.getSourceTerritoryId());
+            TerritoryEntity destination = game.getMap().getTerritoryEntityById(orderDTO.getDestinationTerritoryId());
+
 
             OrderEntity orderEntity = new OrderEntity();
             orderEntity.setPlayer(player);
             orderEntity.setOrderType(OrderMappingEnum.findByValue(orderDTO.getOrderType()));
-            orderEntity.setSource(source.get());
-            orderEntity.setDestination(destination.get());
+            orderEntity.setSource(source);
+            orderEntity.setDestination(destination);
             orderEntity.setUnitNum(orderDTO.getUnitNum());
             orderEntity.setUnitType(UnitMappingEnum.findByValue(orderDTO.getUnitType()));
             orderEntities.add(orderEntity);
@@ -126,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalArgumentException("Player has already lost he cannot issue a order.");
         }
 
-        if(getOrdersByPlayer(player).size() != 0){
+        if (getOrdersByPlayer(player).size() != 0) {
             throw new IllegalArgumentException("Player has already submitted orders for this round.");
         }
 

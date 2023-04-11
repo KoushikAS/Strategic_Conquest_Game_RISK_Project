@@ -7,13 +7,16 @@ import edu.duke.ece651.team13.server.service.PlayerService;
 import edu.duke.ece651.team13.server.service.UnitService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.TECH_RESEARCH;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@ExtendWith(MockitoExtension.class)
 class TechResearchOrderServiceTest {
 
     private TechResearchOrderService service; //service under test
@@ -80,6 +83,21 @@ class TechResearchOrderServiceTest {
     }
 
     @Test
-    void executeOnGame() {
+    void test_executeOnGame() {
+        PlayerEntity player1 = new PlayerEntity();
+        player1.setId(1L);
+        player1.setMaxTechLevel(1);
+        player1.setTechResource(20);
+        OrderEntity order = new OrderEntity();
+        order.setOrderType(TECH_RESEARCH);
+        order.setPlayer(player1);
+
+        GameEntity game = getGameEntity();
+        game.getPlayers().add(player1);
+        service.executeOnGame(order, game);
+
+        assertEquals(0, game.getPlayerEntityById(1L).getTechResource());
+        assertEquals(2, game.getPlayerEntityById(1L).getMaxTechLevel());
     }
+
 }

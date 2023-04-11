@@ -34,20 +34,4 @@ public interface TerritoryService {
 
     TerritoryEntity updateTerritoryUnits(TerritoryEntity territory, List<UnitEntity> units);
 
-    /**
-     * This is a helper function that gets the UnitEntity with the specified unit type in the
-     * specified territory
-     *
-     * @return the UnitEntity of the unitType
-     */
-    public static UnitEntity getUnitForType(TerritoryEntity territory, UnitMappingEnum unitType) {
-        Optional<UnitEntity> unit = territory.getUnits().
-                stream().
-                filter(t -> t.getUnitType().equals(unitType)).findAny();
-        if (!unit.isPresent()) {
-            throw new IllegalArgumentException("The territory " + territory.getName() + " does not have" +
-                    unitType + " type of unit.");
-        }
-        return unit.get();
-    }
 }
