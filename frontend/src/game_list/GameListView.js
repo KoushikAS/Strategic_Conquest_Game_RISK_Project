@@ -11,6 +11,7 @@ import LoadingView from "../game/components/LoadingView";
 const GameListView = () => {
   const { user } = useContext(AuthContext);
   console.log("auth: " + user.accessToken);
+  console.log("user: " + user.userId);
   const [userGames, setUserGames] = useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [gamePlayerMap, setGamePlayerMap] = useState({});
