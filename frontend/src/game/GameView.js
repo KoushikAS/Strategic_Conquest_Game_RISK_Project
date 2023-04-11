@@ -14,7 +14,7 @@ import { PlayerContext } from "./context/PlayerProvider";
 const GameView = () => {
   const { user } = useContext(AuthContext);
   const { orders, removeAllOrders } = useContext(OrderContext);
-  const { hasDone, setHasDone } = useContext(PlayerContext);
+  const { hasDone, setHasDone, setHasResearched } = useContext(PlayerContext);
   console.log("orders in GameView: ", orders);
   const [game, setGame] = useState();
   const [player, setPlayer] = useState();
@@ -57,6 +57,7 @@ const GameView = () => {
       console.log(response.data)
       if (!response.data.playerDone) {
         setHasDone(false);
+        setHasResearched(false);
         removeAllOrders();
         await fetchGame();
       }

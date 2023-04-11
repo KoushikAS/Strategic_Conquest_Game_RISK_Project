@@ -32,6 +32,7 @@ const Map = (props) => {
   const map3PlayersStyles = {
     position: 'relative',
     left: '-50px',
+    transform: 'scale(0.9)',
   }
 
   const map4PlayersStyles = {
