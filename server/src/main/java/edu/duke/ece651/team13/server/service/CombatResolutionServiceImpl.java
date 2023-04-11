@@ -1,24 +1,28 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.util.Dice;
 import edu.duke.ece651.team13.server.entity.AttackerEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
+import edu.duke.ece651.team13.server.util.Dice;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class CombatResolutionServiceImpl implements CombatResolutionService {
 
     @Autowired
@@ -111,7 +115,7 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
         PlayerEntity defender = territory.getOwner();
         warParties.put(defender, new ArrayList<>());
         for (UnitEntity unit : territory.getUnits()) {
-            warParties.get(defender).add(new MutablePair<UnitMappingEnum, Integer>(unit.getUnitType(), unit.getUnits()));
+            warParties.get(defender).add(new MutablePair<UnitMappingEnum, Integer>(unit.getUnitType(), unit.getUnitNum()));
         }
 
         return warParties;
@@ -171,7 +175,7 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
         territory.setOwner(winner.getKey());
         List<UnitEntity> unitEntities = new ArrayList<>();
         for (UnitEntity unit : territory.getUnits()) {
-            unit.setUnits(unitMapping.get(unit.getUnitType()));
+            unit.setUnitNum(unitMapping.get(unit.getUnitType()));
             unitEntities.add(unit);
         }
 

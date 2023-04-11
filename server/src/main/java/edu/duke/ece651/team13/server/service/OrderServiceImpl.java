@@ -6,36 +6,43 @@ import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
-import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
+import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
+import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static edu.duke.ece651.team13.server.enums.GameStatusEnum.ENDED;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.*;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.LOSE;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class OrderServiceImpl implements OrderService {
 
+    @PersistenceContext
+    private final EntityManager entityManager;
+
     @Autowired
     private final OrderRepository repository;
+
+    @Autowired
+    private final GameService gameService;
 
     @Autowired
     private final PlayerService playerService;
@@ -47,6 +54,12 @@ public class OrderServiceImpl implements OrderService {
     private final AttackOrderService attackOrder;
 
     @Autowired
+    private final UnitUpgradeOrderService unitUpgradeOrder;
+
+    @Autowired
+    private final TechResearchOrderService techResearchOrder;
+
+    @Autowired
     private final ApplicationEventPublisher eventPublisher;
 
 
@@ -55,7 +68,14 @@ public class OrderServiceImpl implements OrderService {
         return repository.findByPlayer(playerEntity);
     }
 
-    private Boolean isGameReadyForRoundExecution(GameEntity game) {
+    @Override
+    @Transactional
+    public void deleteOrdersByPlayer(PlayerEntity playerEntity) {
+        repository.deleteByPlayer(playerEntity);
+    }
+
+    private Boolean isGameReadyForRoundExecution(Long Id) {
+        GameEntity game = gameService.getGame(Id); //Fetching a new game after detaching from the service.
         //Checking if all the players who are active have submitted orders
         for (PlayerEntity player : game.getPlayers()) {
             if (player.getStatus().equals(PLAYING) && getOrdersByPlayer(player).size() == 0) {
@@ -68,31 +88,48 @@ public class OrderServiceImpl implements OrderService {
     private List<OrderEntity> getOrderEntityList(OrdersDTO orders, GameEntity game, PlayerEntity player) {
         List<OrderEntity> orderEntities = new ArrayList<>();
         for (OrderDTO orderDTO : orders.getOrders()) {
-            Optional<TerritoryEntity> source = game.getMap().getTerritories().stream().filter(territoryEntity -> territoryEntity.getId().equals(orderDTO.getSourceTerritoryId())).findFirst();
-            Optional<TerritoryEntity> destination = game.getMap().getTerritories().stream().filter(territoryEntity -> territoryEntity.getId().equals(orderDTO.getDestinationTerritoryId())).findFirst();
-            if (!source.isPresent() || !destination.isPresent()) {
-                log.error("Either did not find the source territory Id" + orderDTO.getSourceTerritoryId() + " or did not find destination territory Id " + orderDTO.getDestinationTerritoryId());
-                throw new NoSuchElementException("Source or Destination Territory does not exists");
-            }
-
             OrderEntity orderEntity = new OrderEntity();
             orderEntity.setPlayer(player);
             orderEntity.setOrderType(OrderMappingEnum.findByValue(orderDTO.getOrderType()));
-            orderEntity.setSource(source.get());
-            orderEntity.setDestination(destination.get());
-            orderEntity.setUnitNum(orderDTO.getUnits());
+
+            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()))) {
+                TerritoryEntity source = game.getMap().getTerritoryEntityById(orderDTO.getSourceTerritoryId());
+                orderEntity.setSource(source);
+            }
+
+            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(UNIT_UPGRADE.getValue()))) {
+                TerritoryEntity destination = game.getMap().getTerritoryEntityById(orderDTO.getDestinationTerritoryId());
+                orderEntity.setDestination(destination);
+            }
+
+            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()))) {
+                orderEntity.setUnitNum(orderDTO.getUnitNum());
+                orderEntity.setUnitType(UnitMappingEnum.findByValue(orderDTO.getUnitType()));
+            }
             orderEntities.add(orderEntity);
         }
         return orderEntities;
     }
 
+    @Transactional
+    private void saveOrders(List<OrderEntity> orderEntityList) {
+        //Save order list
+        for (OrderEntity order : orderEntityList) {
+            repository.save(order);
+        }
+    }
 
     @Override
-    public void validateAndAddOrders(OrdersDTO orders) throws IllegalArgumentException {
-        PlayerEntity player = playerService.getPlayer(orders.getPlayerId());
+    public void validateAndAddOrders(OrdersDTO orders, Long playerId) throws IllegalArgumentException {
+        PlayerEntity player = playerService.getPlayer(playerId);
+        log.info("Just after detach Entity in order get" + entityManager.contains(player));
 
         if (player.getStatus().equals(LOSE)) {
             throw new IllegalArgumentException("Player has already lost he cannot issue a order.");
+        }
+
+        if (getOrdersByPlayer(player).size() != 0) {
+            throw new IllegalArgumentException("Player has already submitted orders for this round.");
         }
 
         GameEntity game = player.getGame();
@@ -103,11 +140,31 @@ public class OrderServiceImpl implements OrderService {
 
         if (game.getRoundNo() == 0 && orders
                 .getOrders().stream()
-                .anyMatch(orderDTO -> !orderDTO.getOrderType().equals(MOVE.getValue()))) {
-            throw new IllegalArgumentException("Only Move Orders can be issued during initialising round.");
+                .anyMatch(orderDTO -> !(orderDTO.getOrderType().equals(MOVE.getValue()) || orderDTO.getOrderType().equals(DONE.getValue())))) {
+            throw new IllegalArgumentException("Only Move or Done Orders can be issued during initialising round.");
         }
 
         List<OrderEntity> orderEntityList = getOrderEntityList(orders, game, player);
+
+        //Validate Unit upgrade order
+        for (OrderEntity order : orderEntityList) {
+            if (order.getOrderType().equals(UNIT_UPGRADE)) {
+                unitUpgradeOrder.validateAndExecuteLocally(order, game);
+            }
+        }
+
+        //Validate Tech research order
+        boolean hasResearch = false;
+        for (OrderEntity order : orderEntityList) {
+            if (order.getOrderType().equals(TECH_RESEARCH)) {
+                if (hasResearch) {
+                    throw new IllegalArgumentException("Invalid technology research order: The player " +
+                            "issues more than one technology resource orders this round.");
+                }
+                hasResearch = true;
+                techResearchOrder.validateAndExecuteLocally(order, game);
+            }
+        }
 
         //Validate Move Order
         for (OrderEntity order : orderEntityList) {
@@ -123,14 +180,19 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        //Save order list
-        for (OrderEntity order : orderEntityList) {
-            repository.save(order);
-        }
+        Long gameId = game.getId(); //etching gameId before detaching
+        entityManager.detach(game); //Added to detach game entity from Persistent manager so that changes in game is not updated to db
+        saveOrders(orderEntityList);
 
-        if (isGameReadyForRoundExecution(game)) {
-            eventPublisher.publishEvent(game.getId());
+        if (isGameReadyForRoundExecution(gameId)) {
+            eventPublisher.publishEvent(gameId);
         }
 
     }
+
+    @Override
+    public void deleteAllOrders() {
+        repository.deleteAll();
+    }
+
 }

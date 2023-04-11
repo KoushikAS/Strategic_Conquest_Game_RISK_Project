@@ -1,8 +1,8 @@
 package edu.duke.ece651.team13.server.service;
 
+import edu.duke.ece651.team13.server.auth.RegisterRequest;
 import edu.duke.ece651.team13.server.entity.UserEntity;
 import edu.duke.ece651.team13.server.repository.UserRepository;
-import edu.duke.ece651.team13.server.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -20,11 +21,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     final UserRepository repository;
 
     @Override
+    @Transactional
     public UserEntity createUser(String fullName, String email, String password) {
         UserEntity user = new UserEntity();
         user.setFullName(fullName);
         user.setEmail(email);
-        System.out.println(password);
         user.setPassword(password);
         return repository.save(user);
     }
@@ -50,15 +51,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public String isUserPresent(RegisterRequest registerRequest){
+    public String isUserPresent(RegisterRequest registerRequest) {
         Optional<UserEntity> existingUserEmail = repository.findByEmail(registerRequest.getEmail());
-        if(existingUserEmail.isPresent()){
+        if (existingUserEmail.isPresent()) {
             return "An account with the same email already exists!";
         }
         return null;
     }
 
     @Override
+    @Transactional
     public UserEntity updateUserPassword(Long id, String password) {
         UserEntity user = getUserById(id);
         user.setPassword(password);
@@ -66,9 +68,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return repository.findByEmail(username)
-                        .orElseThrow(
-                                () -> new UsernameNotFoundException("User " + username + " not found"));
-            }
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return repository.findByEmail(username)
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("User " + username + " not found"));
+    }
 }

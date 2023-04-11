@@ -2,13 +2,16 @@ package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.repository.PlayerRepository;
+import edu.duke.ece651.team13.server.entity.UserEntity;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -21,6 +24,7 @@ public class PlayerServiceImpl implements PlayerService {
     private final PlayerRepository repository;
 
     @Override
+    @Transactional
     public PlayerEntity createPlayer(String name, GameEntity game) {
         PlayerEntity player = new PlayerEntity(name);
         player.setGame(game);
@@ -40,8 +44,44 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public List<PlayerEntity> getPlayersByUser(UserEntity user) {
+        return repository.findByUser(user);
+    }
+
+    @Override
+    public PlayerEntity getPlayerByUserAndGame(UserEntity user, GameEntity game){ return repository.findByUserAndGame(user, game).get(); }
+
+    @Override
+    @Transactional
     public PlayerEntity updatePlayerStatus(PlayerEntity player, PlayerStatusEnum status) {
         player.setStatus(status);
+        return repository.save(player);
+    }
+
+    @Override
+    @Transactional
+    public PlayerEntity updatePlayerTechResource(PlayerEntity player, int techResource) {
+        player.setTechResource(techResource);
+        return repository.save(player);
+    }
+
+    @Override
+    @Transactional
+    public PlayerEntity updatePlayerFoodResource(PlayerEntity player, int foodResource) {
+        player.setFoodResource(foodResource);
+        return repository.save(player);
+    }
+
+    @Override
+    @Transactional
+    public PlayerEntity updatePlayerUser(PlayerEntity player, UserEntity userEntity) {
+        player.setUser(userEntity);
+        return repository.save(player);
+    }
+
+    @Override
+    public PlayerEntity updatePlayerMaxTechLevel(PlayerEntity player, int techLevel){
+        player.setMaxTechLevel(techLevel);
         return repository.save(player);
     }
 }

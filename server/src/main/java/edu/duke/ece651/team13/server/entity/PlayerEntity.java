@@ -1,13 +1,26 @@
 package edu.duke.ece651.team13.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import java.util.Objects;
 
 /**
  * This class handles the information of one human player
@@ -35,7 +48,7 @@ public class PlayerEntity {
 
     @Column(name = "Status")
     @Enumerated(EnumType.STRING)
-    private PlayerStatusEnum status;
+    private PlayerStatusEnum status = PlayerStatusEnum.PLAYING;
 
     @Column(name = "FOOD_RESOURCE")
     private int foodResource; //food resource totals of this player
@@ -43,13 +56,33 @@ public class PlayerEntity {
     @Column(name = "TECH_RESOURCE")
     private int techResource; //tech resource totals of this player
 
+    @Column(name = "MAX_TECH_LEVEL")
+    private int maxTechLevel; //tech level of this player
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    @JsonIgnore
+    private UserEntity user;
+
     /**
      * Construct a new Player
      */
     public PlayerEntity(String name) {
         this.name = name;
         this.status = PlayerStatusEnum.PLAYING;
+        this.maxTechLevel = 1;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlayerEntity that = (PlayerEntity) o;
+        return Id.equals(that.Id) && name.equals(that.name);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(Id, name);
+    }
 }

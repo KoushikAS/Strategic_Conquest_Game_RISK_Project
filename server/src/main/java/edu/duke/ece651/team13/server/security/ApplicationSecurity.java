@@ -16,15 +16,30 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Configuration class for application security.
+ */
 @Configuration
 public class ApplicationSecurity {
-    @Autowired private JwtTokenFilter jwtTokenFilter;
+    @Autowired
+    private JwtTokenFilter jwtTokenFilter;
 
+    /**
+     * Provides a bean for BCryptPasswordEncoder.
+     * @return BCryptPasswordEncoder instance
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Provides a bean for AuthenticationManager.
+     * @param myUserDetailsService user details service for authentication
+     * @param encoder password encoder
+     * @return AuthenticationManager instance
+     * @throws Exception if an error occurs
+     */
     @Bean
     public AuthenticationManager authenticationManager(
             UserDetailsService myUserDetailsService, PasswordEncoder encoder) throws Exception {
@@ -34,13 +49,20 @@ public class ApplicationSecurity {
         return new ProviderManager(provider);
     }
 
+    /**
+     * Configures HttpSecurity for application security.
+     * @param http HttpSecurity instance
+     * @return SecurityFilterChain instance
+     * @throws Exception if an error occurs
+     */
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers("/","/login", "/register", "/createGame", "/getGame", "/getGame/*", "/submitOrder", "/getOrders/*").permitAll()
+                .antMatchers("/","/login", "/register", "/createGame/*", "/getGame", "/getGame/*",
+                        "/submitOrder", "/getOrders/*", "/getFreeGames", "getGameForUser/*").permitAll()
                 .anyRequest().authenticated();
 
         http.exceptionHandling()

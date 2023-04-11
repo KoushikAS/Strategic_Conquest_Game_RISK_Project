@@ -7,9 +7,17 @@ const GameBanner = (props) => {
       case "game":
         return "What would you like to do?";
       case "attack-from":
-        return "Select one of your territories to attack from.";
+        return "Click the name of one of your territories to attack from.";
       case "attack-to":
-        return "Select an adjacent territory to attack.";
+        return "Click the name of an adjacent territory to attack.";
+      case "move-from":
+        return "Click the name of one of your territories to move units from.";
+      case "move-to":
+        return "Click the name of one of your territories to move units to.";
+      case "research":
+        return "Click the Confirm button to place your research order.";
+      case "upgrade":
+        return "Click the name of one of your territories to upgrade units in."
       default:
         return "Welcome to Really Interesting Strategic Conquest (RISC)!";
     }

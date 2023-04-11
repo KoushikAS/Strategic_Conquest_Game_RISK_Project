@@ -14,11 +14,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.duke.ece651.team13.server.MockDataUtil.*;
+import static edu.duke.ece651.team13.server.MockDataUtil.getAttackerEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.getPlayerEntity;
+import static edu.duke.ece651.team13.server.MockDataUtil.getTerritoryEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -30,12 +34,12 @@ public class AttackerServiceTest {
     private AttackerRepository repository;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         service = new AttackerServiceImpl(repository);
     }
 
     @Test
-    void getAttackerTest(){
+    void getAttackerTest() {
         TerritoryEntity territory = getTerritoryEntity();
         List<AttackerEntity> attackers = new ArrayList<>();
         attackers.add(getAttackerEntity(territory));
@@ -44,13 +48,13 @@ public class AttackerServiceTest {
 
 
         List<AttackerEntity> actual = service.getAttackers(territory);
-        assertEquals(attackers,actual);
+        assertEquals(attackers, actual);
         verify(repository, times(1)).findByTerritory(territory);
         verifyNoMoreInteractions(repository);
     }
 
     @Test
-    void addAttackerTest(){
+    void addAttackerTest() {
         TerritoryEntity territory = getTerritoryEntity();
         PlayerEntity player = getPlayerEntity();
         AttackerEntity attacker = getAttackerEntity(territory);
@@ -58,14 +62,14 @@ public class AttackerServiceTest {
         when(repository.save(any(AttackerEntity.class))).thenReturn(attacker);
 
         AttackerEntity actual = service.addAttacker(territory, player, UnitMappingEnum.LEVEL0, 5);
-        assertEquals(attacker,actual);
+        assertEquals(attacker, actual);
         verify(repository, times(1)).save(any(AttackerEntity.class));
         verifyNoMoreInteractions(repository);
     }
 
 
     @Test
-    void deleteAttackerTest(){
+    void deleteAttackerTest() {
         TerritoryEntity territory = getTerritoryEntity();
 
         service.clearAttackers(territory);

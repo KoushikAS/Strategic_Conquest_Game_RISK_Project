@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This is the DTO contained in OrdersDTO
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,7 +16,7 @@ public class OrderDTO {
 
     private Long sourceTerritoryId;
     private Long destinationTerritoryId;
-    //TODO Update to indicate type of units and add value
-    private int units;
+    private int unitNum;
+    private String unitType;
     private String orderType;
 }

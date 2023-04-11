@@ -26,36 +26,49 @@ const Map = (props) => {
     backgroundImage: getBgImg(playerNum),
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    backgroundSize: "120%",
     backgroundPosition: "50% 50%",
   };
 
+  const map3PlayersStyles = {
+    position: 'relative',
+    left: '-50px',
+    transform: 'scale(0.9)',
+  }
+
+  const map4PlayersStyles = {
+    position: 'relative',
+    top: '-150px',
+    left: '-120px',
+    transform: 'scale(0.7)',
+    width: '120%',
+  }
+
   if (playerNum === 2) {
     return (
-      <div style={backgroundStyles}>
-        <Map2Players
-          territories={territories}
-          handleSource={props.handleSource}
-        />
-      </div>
+        <div style={backgroundStyles}>
+          <Map2Players
+              territories={territories}
+              handleSourceOrTarget={props.handleSourceOrTarget}
+          />
+        </div>
     );
   } else if (playerNum === 3) {
     return (
-      <div style={backgroundStyles}>
-        <Map3Players
-          territories={territories}
-          handleSource={props.handleSource}
-        />
-      </div>
+        <div style={{...backgroundStyles, ...map3PlayersStyles}}>
+          <Map3Players
+              territories={territories}
+              handleSourceOrTarget={props.handleSourceOrTarget}
+          />
+        </div>
     );
   }
   return (
-    <div style={backgroundStyles}>
-      <Map4Players
-        territories={territories}
-        handleSource={props.handleSource}
-      />
-    </div>
+      <div style={{...backgroundStyles, ...map4PlayersStyles}}>
+        <Map4Players
+            territories={territories}
+            handleSourceOrTarget={props.handleSourceOrTarget}
+        />
+      </div>
   );
 };
 

@@ -1,7 +1,7 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.UserEntity;
 import edu.duke.ece651.team13.server.auth.RegisterRequest;
+import edu.duke.ece651.team13.server.entity.UserEntity;
 
 public interface UserService {
     /**
@@ -34,5 +34,8 @@ public interface UserService {
      */
     String isUserPresent(RegisterRequest registerRequest);
 
+    /**
+     * Updates the password of a user.
+     */
     UserEntity updateUserPassword(Long id, String password);
 }

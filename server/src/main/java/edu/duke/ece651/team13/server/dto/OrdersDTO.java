@@ -7,12 +7,13 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * This is the DTO sent when /submitOrder
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrdersDTO {
-
     List<OrderDTO> orders;
-    private Long playerId;
 }

@@ -4,11 +4,15 @@ import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
-import edu.duke.ece651.team13.server.service.order.AttackOrderService;
-import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
+import edu.duke.ece651.team13.server.service.order.AttackOrderService;
+import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
+import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,9 +24,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -40,10 +44,19 @@ public class RoundServiceTest {
     private AttackOrderService attackOrder;
 
     @Mock
+    private UnitUpgradeOrderService unitUpgradeOrder;
+
+    @Mock
+    private TechResearchOrderService techResearchOrder;
+
+    @Mock
     private CombatResolutionService combatResolutionService;
 
     @Mock
     private TerritoryService territoryService;
+
+    @Mock
+    private UnitService unitService;
 
     @Mock
     private PlayerService playerService;
@@ -53,31 +66,9 @@ public class RoundServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, combatResolutionService, territoryService, playerService, gameService);
+        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, combatResolutionService, territoryService, unitService, playerService, gameService);
     }
 
-//    @Test
-//    void isGameReadyForRoundExecutionTest() {
-//        GameEntity gameEntity = getGameEntity();
-//        PlayerEntity red = getPlayerEntity();
-//        PlayerEntity blue = getPlayerEntity();
-//        PlayerEntity green = getPlayerEntity();
-//        green.setStatus(PlayerStatusEnum.LOSE);
-//
-//        gameEntity.getPlayers().add(red);
-//        gameEntity.getPlayers().add(blue);
-//        gameEntity.getPlayers().add(green);
-//
-//        List<OrderEntity> orders = new ArrayList<>();
-//        orders.add(new OrderEntity());
-//        when(orderService.getOrdersByPlayer(red)).thenReturn(Collections.emptyList());
-//        when(orderService.getOrdersByPlayer(blue)).thenReturn(orders);
-//        when(orderService.getOrdersByPlayer(red)).thenReturn(Collections.emptyList());
-//        assertFalse(service.isGameReadyForRoundExecution(gameEntity));
-//
-//        when(orderService.getOrdersByPlayer(red)).thenReturn(orders);
-//        assertTrue(service.isGameReadyForRoundExecution(gameEntity));
-//    }
 
     @Test
     void playOneRoundTest_InitialRound() {
@@ -86,6 +77,8 @@ public class RoundServiceTest {
 
         PlayerEntity red = new PlayerEntity("red");
         PlayerEntity blue = new PlayerEntity("blue");
+        red.setId(1L);
+        blue.setId(2L);
         gameEntity.getPlayers().add(red);
         gameEntity.getPlayers().add(blue);
 
@@ -107,9 +100,10 @@ public class RoundServiceTest {
         GameEntity gameEntity = getGameEntity();
         gameEntity.setRoundNo(1);
 
-
         PlayerEntity red = new PlayerEntity("red");
         PlayerEntity blue = new PlayerEntity("blue");
+        red.setId(1L);
+        blue.setId(2L);
         gameEntity.getPlayers().add(red);
         gameEntity.getPlayers().add(blue);
 
@@ -123,6 +117,10 @@ public class RoundServiceTest {
         territoryEntity.setOwner(red);
         territoryEntityList.add(territoryEntity);
 
+        UnitEntity basicUnit = new UnitEntity(UnitMappingEnum.LEVEL0, 1);
+        basicUnit.setTerritory(territoryEntity);
+        territoryEntity.addUnit(basicUnit);
+
         when(orderService.getOrdersByPlayer(red)).thenReturn(orders);
         when(orderService.getOrdersByPlayer(blue)).thenReturn(Collections.emptyList());
         when(gameService.getGame(1L)).thenReturn(gameEntity);
@@ -133,13 +131,13 @@ public class RoundServiceTest {
 
         verify(playerService, times(1)).updatePlayerStatus(blue, PlayerStatusEnum.LOSE);
         verify(gameService, times(1)).updateGameRoundAndStatus(gameEntity, GameStatusEnum.PLAYING, 2);
+        verify(unitService, times(1)).updateUnit(basicUnit, 2);
     }
 
     @Test
     void playOneRoundTest_EndRound() {
         GameEntity gameEntity = getGameEntity();
         gameEntity.setRoundNo(1);
-
 
         PlayerEntity red = new PlayerEntity("red");
 
@@ -155,6 +153,10 @@ public class RoundServiceTest {
         TerritoryEntity territoryEntity = new TerritoryEntity();
         territoryEntity.setOwner(red);
         territoryEntityList.add(territoryEntity);
+
+        UnitEntity basicUnit = new UnitEntity(UnitMappingEnum.LEVEL0, 1);
+        basicUnit.setTerritory(territoryEntity);
+        territoryEntity.addUnit(basicUnit);
 
         when(orderService.getOrdersByPlayer(red)).thenReturn(orders);
         when(gameService.getGame(1L)).thenReturn(gameEntity);

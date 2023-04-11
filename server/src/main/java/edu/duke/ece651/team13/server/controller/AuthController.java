@@ -1,12 +1,13 @@
 package edu.duke.ece651.team13.server.controller;
 
-import edu.duke.ece651.team13.server.entity.UserEntity;
-import edu.duke.ece651.team13.server.security.JwtTokenUtil;
-import edu.duke.ece651.team13.server.service.UserService;
 import edu.duke.ece651.team13.server.auth.LoginRequest;
 import edu.duke.ece651.team13.server.auth.LoginResponse;
 import edu.duke.ece651.team13.server.auth.RegisterRequest;
+import edu.duke.ece651.team13.server.entity.UserEntity;
+import edu.duke.ece651.team13.server.security.JwtTokenUtil;
+import edu.duke.ece651.team13.server.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
     @Autowired
     private UserService userService;
@@ -43,6 +45,7 @@ public class AuthController {
      */
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
+        log.info("Received request on /register");
         // check if the user already exists in the database
         String existResult = userService.isUserPresent(registerRequest);
         if (existResult != null) {
@@ -59,19 +62,28 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 
+    /**
+     * Endpoint to handle user login requests.
+     * @param request a LoginRequest object containing the user's email and password
+     * @return a ResponseEntity object with a LoginResponse object in the body if the login is successful,
+     * or a ResponseEntity object with an HTTP status of UNAUTHORIZED if the login fails
+     * @throws BadCredentialsException if the user's credentials are invalid
+     */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         try {
+            log.info("Received request on /login");
             Authentication authentication = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getEmail(), request.getPassword())
             );
             UserEntity user = (UserEntity) authentication.getPrincipal();
             String accessToken = jwtUtil.generateAccessToken(user);
-            LoginResponse response = new LoginResponse(user.getEmail(), accessToken);
+            LoginResponse response = new LoginResponse(user.getId(), user.getEmail(), accessToken);
             return ResponseEntity.ok().body(response);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
 }

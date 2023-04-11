@@ -1,25 +1,32 @@
 package edu.duke.ece651.team13.server.service.order;
 
+
 import edu.duke.ece651.team13.server.entity.*;
-import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.rulechecker.*;
 import edu.duke.ece651.team13.server.service.AttackerService;
-import edu.duke.ece651.team13.server.service.TerritoryService;
+import edu.duke.ece651.team13.server.service.PlayerService;
+import edu.duke.ece651.team13.server.service.UnitService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static edu.duke.ece651.team13.server.rulechecker.AttackFoodResourceChecker.getFoodCost;
-
+/**
+ * Attack order
+ */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AttackOrderService implements OrderFactory {
 
     @Autowired
-    private final TerritoryService territoryService;
+    private final UnitService unitService;
 
     @Autowired
     private final AttackerService attackerService;
+
+    @Autowired
+    private final PlayerService playerService;
 
     /**
      * Get the default rule checker chain
@@ -32,27 +39,52 @@ public class AttackOrderService implements OrderFactory {
         return new AttackOwnershipChecker(unitNumChecker);
     }
 
+    /**
+     * Validates and executes the given order locally, without sending it to the server.
+     * Checks that the given order is valid according to the default rule checker and the current game state,
+     * and executes it if it is valid. If the order is invalid, throws an IllegalArgumentException with a message
+     * describing the problem.
+     * @param order the OrderEntity object representing the order to be executed
+     * @param game the GameEntity object representing the current state of the game
+     * @throws IllegalArgumentException if the given order is invalid according to the default rule checker
+     * or the current game state
+     */
     @Override
     public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException {
         RuleChecker ruleChecker = getDefaultRuleChecker();
-        ruleChecker.checkOrder(order);
-        executeLocally(game.getMap().getTerritoryEntityById(order.getSource().getId()), order.getUnitNum(), order.getPlayer(), getFoodCost(order));
+        PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
+        ruleChecker.checkOrder(order, player);
+
+        TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
+        UnitEntity sourceUnit = source.getUnitForType( order.getUnitType());
+        executeLocally(sourceUnit, order.getUnitNum(), player, AttackFoodResourceChecker.getFoodCost(order));
     }
 
-    private void executeLocally(TerritoryEntity sourceTerritoryEntity, int unitNo, PlayerEntity player, int foodCost) {
-        player.setFoodResource(player.getFoodResource()-foodCost);
-        //TODO remove correct unit type
-        if (unitNo > 0) {
-            sourceTerritoryEntity.getUnits().subList(0, unitNo).clear();
-        }
+    /**
+     * Deducts the specified amount of food resources from the player and reduces the number of units
+     * for the given source unit entity by the specified number of units.
+     * @param sourceUnit the source unit entity for which the units will be reduced
+     * @param unitNum the number of units to be reduced
+     * @param player the player entity for which the food resources will be deducted
+     * @param foodCost the amount of food resources to be deducted
+     */
+    private void executeLocally(UnitEntity sourceUnit, int unitNum, PlayerEntity player, int foodCost) {
+        player.setFoodResource(player.getFoodResource() - foodCost);
+        sourceUnit.setUnitNum(sourceUnit.getUnitNum() - unitNum);
     }
 
+    /**
+     * Executes an order on the game entity and save to database
+     */
     @Override
     public void executeOnGame(OrderEntity order, GameEntity game) {
-        TerritoryEntity sourceTerritoryEntity = game.getMap().getTerritoryEntityById(order.getSource().getId());
-        executeLocally(sourceTerritoryEntity, order.getUnitNum(), order.getPlayer(), getFoodCost(order));
-        territoryService.updateTerritoryUnits(sourceTerritoryEntity, sourceTerritoryEntity.getUnits());
-        attackerService.addAttacker(order.getDestination(), order.getPlayer(), UnitMappingEnum.LEVEL0, order.getUnitNum());
+        TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
+        PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
+        UnitEntity sourceUnit = source.getUnitForType( order.getUnitType());
+        executeLocally(sourceUnit, order.getUnitNum(), player, AttackFoodResourceChecker.getFoodCost(order));
+        unitService.updateUnit(sourceUnit, sourceUnit.getUnitNum());
+        attackerService.addAttacker(order.getDestination(), player, order.getUnitType(), order.getUnitNum());
+        playerService.updatePlayerFoodResource(player, player.getFoodResource());
     }
 
 }

@@ -1,12 +1,16 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.MapEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.MapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -35,7 +39,8 @@ public class MapServiceImpl implements MapService {
     }
 
     @Override
-    public MapEntity createMap( GameEntity gameEntity, List<PlayerEntity> players) {
+    @Transactional
+    public MapEntity createMap(GameEntity gameEntity, List<PlayerEntity> players) {
 
         MapEntity mapEntity = new MapEntity();
         mapEntity.setGame(gameEntity);
@@ -150,7 +155,7 @@ public class MapServiceImpl implements MapService {
         initResourceForPlayers(players);
     }
 
-    private void createMapFor3players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum){
+    private void createMapFor3players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum) {
         TerritoryEntity rottweiler = territoryService.createTerritory("Rottweiler", mapEntity, players.get(0), 100, 100);
         TerritoryEntity dachshund = territoryService.createTerritory("Dachshund", mapEntity, players.get(0), 100, 100);
         TerritoryEntity beagle = territoryService.createTerritory("Beagle", mapEntity, players.get(0), 100, 100);
@@ -220,20 +225,20 @@ public class MapServiceImpl implements MapService {
         initResourceForPlayers(players);
     }
 
-    private void createMapFor2players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum){
-        TerritoryEntity rottweiler = territoryService.createTerritory ("Rottweiler", mapEntity, players.get(0), 100, 100);
-        TerritoryEntity dachshund = territoryService.createTerritory ("Dachshund", mapEntity, players.get(0), 100, 100);
-        TerritoryEntity beagle = territoryService.createTerritory ("Beagle", mapEntity, players.get(0), 100, 100);
-        TerritoryEntity labrador = territoryService.createTerritory ("Labrador", mapEntity, players.get(0), 50, 50);
-        TerritoryEntity poodle = territoryService.createTerritory ("Poodle", mapEntity, players.get(0), 50, 50);
-        TerritoryEntity bulldog = territoryService.createTerritory ("Bulldog", mapEntity, players.get(0), 50, 50);
+    private void createMapFor2players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum) {
+        TerritoryEntity rottweiler = territoryService.createTerritory("Rottweiler", mapEntity, players.get(0), 100, 100);
+        TerritoryEntity dachshund = territoryService.createTerritory("Dachshund", mapEntity, players.get(0), 100, 100);
+        TerritoryEntity beagle = territoryService.createTerritory("Beagle", mapEntity, players.get(0), 100, 100);
+        TerritoryEntity labrador = territoryService.createTerritory("Labrador", mapEntity, players.get(0), 50, 50);
+        TerritoryEntity poodle = territoryService.createTerritory("Poodle", mapEntity, players.get(0), 50, 50);
+        TerritoryEntity bulldog = territoryService.createTerritory("Bulldog", mapEntity, players.get(0), 50, 50);
 
-        TerritoryEntity boxer = territoryService.createTerritory ("Boxer", mapEntity, players.get(1), 50, 50);
-        TerritoryEntity havanese = territoryService.createTerritory ("Havanese", mapEntity, players.get(1), 50, 50);
-        TerritoryEntity spaniel = territoryService.createTerritory ("Spaniel", mapEntity, players.get(1), 50, 50);
-        TerritoryEntity sheepdog = territoryService.createTerritory ("Sheepdog", mapEntity, players.get(1), 100, 100);
-        TerritoryEntity akita = territoryService.createTerritory ("Akita", mapEntity, players.get(1), 100, 100);
-        TerritoryEntity brittany = territoryService.createTerritory ("Brittany", mapEntity, players.get(1), 100, 100);
+        TerritoryEntity boxer = territoryService.createTerritory("Boxer", mapEntity, players.get(1), 50, 50);
+        TerritoryEntity havanese = territoryService.createTerritory("Havanese", mapEntity, players.get(1), 50, 50);
+        TerritoryEntity spaniel = territoryService.createTerritory("Spaniel", mapEntity, players.get(1), 50, 50);
+        TerritoryEntity sheepdog = territoryService.createTerritory("Sheepdog", mapEntity, players.get(1), 100, 100);
+        TerritoryEntity akita = territoryService.createTerritory("Akita", mapEntity, players.get(1), 100, 100);
+        TerritoryEntity brittany = territoryService.createTerritory("Brittany", mapEntity, players.get(1), 100, 100);
 
         territoryService.addNeighbour(rottweiler, dachshund, 3);
         territoryService.addNeighbour(dachshund, beagle, 3);
@@ -267,11 +272,12 @@ public class MapServiceImpl implements MapService {
 
     /**
      * The initial units are "basic" units
-     * @param mapEntity map to be initialized
+     *
+     * @param mapEntity      map to be initialized
      * @param initialUnitNum initial unit number of each territory
      */
-    private void initUnitForMap(MapEntity mapEntity, int initialUnitNum){
-        for(TerritoryEntity territory: mapEntity.getTerritories()){
+    private void initUnitForMap(MapEntity mapEntity, int initialUnitNum) {
+        for (TerritoryEntity territory : mapEntity.getTerritories()) {
             unitService.createUnit(UnitMappingEnum.LEVEL0, territory, initialUnitNum);
             unitService.createUnit(UnitMappingEnum.LEVEL1, territory, 0);
             unitService.createUnit(UnitMappingEnum.LEVEL2, territory, 0);
@@ -282,12 +288,12 @@ public class MapServiceImpl implements MapService {
         }
     }
 
-    private void initResourceForPlayers(List<PlayerEntity> players){
-        for(PlayerEntity playerEntity: players){
+    private void initResourceForPlayers(List<PlayerEntity> players) {
+        for (PlayerEntity playerEntity : players) {
             List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(playerEntity);
             int foodResource = 0;
             int techResource = 0;
-            for(TerritoryEntity territoryEntity: territoryEntities){
+            for (TerritoryEntity territoryEntity : territoryEntities) {
                 foodResource += territoryEntity.getFoodProduction();
                 techResource += territoryEntity.getTechProduction();
             }

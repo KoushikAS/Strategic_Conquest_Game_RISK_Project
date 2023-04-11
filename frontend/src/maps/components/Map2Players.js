@@ -11,61 +11,76 @@ const Map2Players = (props) => {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <TerritoryView
-            key="Rottweiler"
-            territory={getTerritory("Rottweiler")}
-          />
-        </Col>
-        <Col>
-          <TerritoryView
-            key="Dachshund"
-            territory={getTerritory("Dachshund")}
-          />
-        </Col>
-        <Col>
-          <TerritoryView key="Beagle" territory={getTerritory("Beagle")} />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col>
-          <TerritoryView key="Labrador" territory={getTerritory("Labrador")} />
-        </Col>
-        <Col>
-          <TerritoryView key="Poodle" territory={getTerritory("Poodle")} />
-        </Col>
-        <Col>
-          <TerritoryView key="Bulldog" territory={getTerritory("Bulldog")} />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col>
-          <TerritoryView key="Boxer" territory={getTerritory("Boxer")} />
-        </Col>
-        <Col>
-          <TerritoryView key="Havanese" territory={getTerritory("Havanese")} />
-        </Col>
-        <Col>
-          <TerritoryView key="Spaniel" territory={getTerritory("Spaniel")} />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col>
-          <TerritoryView key="Sheepdog" territory={getTerritory("Sheepdog")} />
-        </Col>
-        <Col>
-          <TerritoryView key="Akita" territory={getTerritory("Akita")} />
-        </Col>
-        <Col>
-          <TerritoryView key="Brittany" territory={getTerritory("Brittany")} />
-        </Col>
-      </Row>
-    </Container>
+      <Container>
+        <br />
+        <br />
+        <Row>
+          <Col md={3}>
+            <TerritoryView
+                key="Rottweiler"
+                territory={getTerritory("Rottweiler")}
+                handleSourceOrTarget={props.handleSourceOrTarget}
+            />
+          </Col>
+          <Col md={1}> </Col>
+          <Col md={3}>
+            <TerritoryView
+                key="Dachshund"
+                territory={getTerritory("Dachshund")}
+                handleSourceOrTarget={props.handleSourceOrTarget}
+            />
+          </Col>
+          <Col md={1}> </Col>
+          <Col md={3}>
+            <TerritoryView key="Beagle" territory={getTerritory("Beagle")} handleSourceOrTarget={props.handleSourceOrTarget}/>
+          </Col>
+        </Row>
+        <br />
+        <br />
+        <Row>
+          <Col md={3}>
+            <TerritoryView key="Labrador" territory={getTerritory("Labrador")} handleSourceOrTarget={props.handleSourceOrTarget}/>
+          </Col>
+          <Col md={1}> </Col>
+          <Col md={3}>
+            <TerritoryView key="Poodle" territory={getTerritory("Poodle")} handleSourceOrTarget={props.handleSourceOrTarget}/>
+          </Col>
+          <Col md={1}> </Col>
+          <Col md={3}>
+            <TerritoryView key="Bulldog" territory={getTerritory("Bulldog")} handleSourceOrTarget={props.handleSourceOrTarget}/>
+          </Col>
+        </Row>
+        <br />
+        <br />
+        <Row>
+          <Col md={3}>
+            <TerritoryView key="Boxer" territory={getTerritory("Boxer")} handleSourceOrTarget={props.handleSourceOrTarget}/>
+          </Col>
+          <Col md={1}> </Col>
+          <Col md={3}>
+            <TerritoryView key="Havanese" territory={getTerritory("Havanese")} handleSourceOrTarget={props.handleSourceOrTarget}/>
+          </Col>
+          <Col md={1}> </Col>
+          <Col md={3}>
+            <TerritoryView key="Spaniel" territory={getTerritory("Spaniel")} handleSourceOrTarget={props.handleSourceOrTarget}/>
+          </Col>
+        </Row>
+        <br />
+        <br />
+        <Row>
+          <Col md={3}>
+            <TerritoryView key="Sheepdog" territory={getTerritory("Sheepdog")} handleSourceOrTarget={props.handleSourceOrTarget}/>
+          </Col>
+          <Col md={1}> </Col>
+          <Col md={3}>
+            <TerritoryView key="Akita" territory={getTerritory("Akita")} handleSourceOrTarget={props.handleSourceOrTarget}/>
+          </Col>
+          <Col md={1}> </Col>
+          <Col md={3}>
+            <TerritoryView key="Brittany" territory={getTerritory("Brittany")} handleSourceOrTarget={props.handleSourceOrTarget}/>
+          </Col>
+        </Row>
+      </Container>
   );
 };
 
