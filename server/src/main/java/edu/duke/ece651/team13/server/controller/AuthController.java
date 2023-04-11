@@ -62,6 +62,13 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 
+    /**
+     * Endpoint to handle user login requests.
+     * @param request a LoginRequest object containing the user's email and password
+     * @return a ResponseEntity object with a LoginResponse object in the body if the login is successful,
+     * or a ResponseEntity object with an HTTP status of UNAUTHORIZED if the login fails
+     * @throws BadCredentialsException if the user's credentials are invalid
+     */
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         try {

@@ -11,6 +11,17 @@ import java.util.Optional;
 
 public interface TerritoryService {
 
+    /**
+     * Creates and returns a new TerritoryEntity object with the specified name, MapEntity, PlayerEntity,
+     * food production, and tech production values.
+     *
+     * @param name            the name of the new territory
+     * @param map             the MapEntity the territory belongs to
+     * @param player          the PlayerEntity that owns the territory
+     * @param foodProduction  the amount of food produced by the territory per round
+     * @param techProduction  the amount of tech produced by the territory per round
+     * @return the newly created TerritoryEntity object
+     */
     TerritoryEntity createTerritory(String name, MapEntity map, PlayerEntity player, int foodProduction, int techProduction);
 
     TerritoryEntity getTerritoriesById(Long Id);

@@ -18,6 +18,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ * Attacker information
+ */
 @Entity
 @Table(name = "ATTACKER")
 @Getter
@@ -45,6 +48,13 @@ public class AttackerEntity {
     @Column(name = "units")
     private Integer units;
 
+    /**
+     * Constructor for creating a new AttackerEntity with the given TerritoryEntity, PlayerEntity, UnitMappingEnum, and number of units.
+     * @param territory the TerritoryEntity being attacked.
+     * @param attacker the PlayerEntity launching the attack.
+     * @param unitType the UnitMappingEnum representing the type of unit being used in the attack.
+     * @param units the number of units being used in the attack.
+     */
     public AttackerEntity(TerritoryEntity territory, PlayerEntity attacker, UnitMappingEnum unitType, Integer units) {
         this.territory = territory;
         this.attacker = attacker;

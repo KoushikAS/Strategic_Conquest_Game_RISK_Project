@@ -22,6 +22,9 @@ import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Territory
+ */
 @Entity
 @Table(name = "TERRITORY")
 @Getter
@@ -61,6 +64,10 @@ public class TerritoryEntity {
     @JsonManagedReference
     private List<UnitEntity> units = new ArrayList<>();
 
+    /**
+     * Adds a UnitEntity object to the collection of units.
+     * @param unit the UnitEntity object to be added
+     */
     public void addUnit(UnitEntity unit) {
         units.add(unit);
     }

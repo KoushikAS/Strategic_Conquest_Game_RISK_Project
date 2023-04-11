@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+/**
+ * Map
+ */
 @Entity
 @Table(name = "MAP")
 @Getter
@@ -47,6 +50,12 @@ public class MapEntity {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
     private List<TerritoryEntity> territories = new ArrayList<>();
 
+    /**
+     * Returns the TerritoryEntity with the given ID.
+     * @param Id the ID of the territory to retrieve
+     * @return the TerritoryEntity with the given ID
+     * @throws NoSuchElementException if there is no territory with the given ID
+     */
     public TerritoryEntity getTerritoryEntityById(Long Id) {
         return territories.stream().filter(territoryEntity -> Objects.equals(territoryEntity.getId(), Id))
                 .findFirst()

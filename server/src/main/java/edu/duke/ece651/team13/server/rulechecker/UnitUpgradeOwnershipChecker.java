@@ -13,7 +13,6 @@ public class UnitUpgradeOwnershipChecker extends RuleChecker {
         super(next);
     }
 
-
     @Override
     protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
         if (order.getSource().getOwner() != player) {

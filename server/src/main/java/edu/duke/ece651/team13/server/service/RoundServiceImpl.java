@@ -4,9 +4,11 @@ import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
@@ -18,10 +20,10 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
+import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +50,9 @@ public class RoundServiceImpl implements RoundService {
 
     @Autowired
     private final TerritoryService territoryService;
+
+    @Autowired
+    private final UnitService unitService;
 
     @Autowired
     private final PlayerService playerService;
@@ -78,9 +83,6 @@ public class RoundServiceImpl implements RoundService {
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.TECH_RESEARCH))
                     .forEach(order -> techResearchOrder.executeOnGame(order, game));
-
-            //Delete all the orders of this player after executing
-            orderService.deleteOrdersByPlayer(player);
         }
     }
 
@@ -119,6 +121,20 @@ public class RoundServiceImpl implements RoundService {
         }
     }
 
+    /**
+     * Increment the basic unit number for the players
+     * @param players is the set of players
+     */
+    private void addUnitForPlayers(List<PlayerEntity> players){
+        for (PlayerEntity player : players) {
+            List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
+            for (TerritoryEntity territory : territoryEntities){
+                UnitEntity basicUnitEntity = getUnitForType(territory, UnitMappingEnum.LEVEL0);
+                unitService.updateUnit(basicUnitEntity, basicUnitEntity.getUnitNum() + 1);
+            }
+        }
+    }
+
     private void clearOrders(GameEntity game){
         for(PlayerEntity player:game.getPlayers()){
             orderService.deleteOrdersByPlayer(player);
@@ -137,6 +153,7 @@ public class RoundServiceImpl implements RoundService {
             resolveCombatForGame(game);
             //TODO Update Resources  like Units, Technology and Food
             updateResourceForPlayers(game.getPlayers());
+            addUnitForPlayers(game.getPlayers());
             updatePlayerStatus(game);
         }
 

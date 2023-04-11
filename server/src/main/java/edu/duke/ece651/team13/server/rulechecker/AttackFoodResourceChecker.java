@@ -20,6 +20,11 @@ public class AttackFoodResourceChecker extends RuleChecker {
         }
     }
 
+    /**
+     * Calculates the total food cost for the given order based on the number of units ordered.
+     * @param order the order entity for which to calculate the food cost
+     * @return the total food cost for the given order
+     */
     public static int getFoodCost(OrderEntity order) {
         return 10 * order.getUnitNum();
     }

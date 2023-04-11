@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Research order
+ */
 @Service
 @RequiredArgsConstructor
 public class TechResearchOrderService implements OrderFactory {
@@ -31,6 +34,9 @@ public class TechResearchOrderService implements OrderFactory {
         return new TechResearchTechLevelChecker(resourceChecker);
     }
 
+    /**
+     * Validates and executes an order locally within the game.
+     */
     @Override
     public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException {
         RuleChecker ruleChecker = getDefaultRuleChecker();
@@ -39,11 +45,17 @@ public class TechResearchOrderService implements OrderFactory {
         executeLocally(player, TechResearchTechResourceChecker.getTechCost(player));
     }
 
+    /**
+     * Executes the given order on the game locally, updating the necessary game entities.
+     */
     private void executeLocally(PlayerEntity player, int techCost){
         player.setTechResource(player.getTechResource() - techCost);
         player.setMaxTechLevel(player.getMaxTechLevel() + 1);
     }
 
+    /**
+     * Executes an order on the game entity and save to database
+     */
     @Override
     public void executeOnGame(OrderEntity order, GameEntity game) {
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());

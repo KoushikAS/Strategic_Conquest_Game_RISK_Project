@@ -19,6 +19,11 @@ public class MoveFoodResourceChecker extends RuleChecker {
         }
     }
 
+    /**
+     * Calculates the food cost of a given order.
+     * @param order the order entity for which to calculate the food cost
+     * @return the food cost of the given order
+     */
     public static int getFoodCost(OrderEntity order) {
         return 2 * findMinCost(order.getSource(), order.getDestination()) * order.getUnitNum();
     }

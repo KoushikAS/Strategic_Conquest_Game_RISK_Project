@@ -7,10 +7,22 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Spring Data repository for AttackerEntity objects.
+ */
 @Repository
 public interface AttackerRepository extends CrudRepository<AttackerEntity, Long> {
 
+    /**
+     * Returns a list of AttackerEntities associated with the given TerritoryEntity.
+     * @param territory the TerritoryEntity to find associated AttackerEntities for.
+     * @return a list of AttackerEntities associated with the given TerritoryEntity.
+     */
     List<AttackerEntity> findByTerritory(TerritoryEntity territory);
 
+    /**
+     * Deletes all AttackerEntities associated with the given TerritoryEntity.
+     * @param territory the TerritoryEntity to delete associated AttackerEntities for.
+     */
     void deleteByTerritory(TerritoryEntity territory);
 }

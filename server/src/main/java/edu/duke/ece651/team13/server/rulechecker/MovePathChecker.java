@@ -4,6 +4,10 @@ import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.util.GraphUtil;
 
+/**
+ * Checks if there is a valid path between the source and
+ * destination territories in a move order.
+ */
 public class MovePathChecker extends RuleChecker {
     public MovePathChecker(RuleChecker next) {
         super(next);

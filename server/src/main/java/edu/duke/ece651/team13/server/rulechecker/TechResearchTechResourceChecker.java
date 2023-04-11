@@ -32,6 +32,12 @@ public class TechResearchTechResourceChecker extends RuleChecker {
         }
     }
 
+    /**
+     * Returns the technology cost for a player to upgrade to next tech level
+     * based on their current techn level
+     * @param player The player to calculate the technology cost for
+     * @return The technology cost
+     */
     public static int getTechCost(PlayerEntity player){
         return techResourceCostMap.get(player.getMaxTechLevel());
     }
