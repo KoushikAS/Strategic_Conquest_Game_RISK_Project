@@ -20,11 +20,13 @@ import org.springframework.stereotype.Service;
 import static edu.duke.ece651.team13.server.rulechecker.MoveFoodResourceChecker.getFoodCost;
 import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
 
+/**
+ * Move order
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MoveOrderService implements OrderFactory {
-
 
     @Autowired
     private final UnitService unitService;
@@ -43,6 +45,9 @@ public class MoveOrderService implements OrderFactory {
         return new MoveOwnershipChecker(unitnumChecker);
     }
 
+    /**
+     * Validates and executes an order locally within the game.
+     */
     @Override
     public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException {
         log.info("Locally validating order " + order.getId() + ": " + order.getOrderType().getValue() + " from " +
@@ -59,13 +64,18 @@ public class MoveOrderService implements OrderFactory {
         executeLocally(sourceUnit, destUnit, order.getUnitNum(), player, getFoodCost(order));
     }
 
+    /**
+     * Executes the given order on the game locally, updating the necessary game entities.
+     */
     private void executeLocally(UnitEntity sourceUnit, UnitEntity destUnit, int unitNum, PlayerEntity player, int foodCost) {
         player.setFoodResource(player.getFoodResource() - foodCost);
         sourceUnit.setUnitNum(sourceUnit.getUnitNum() - unitNum);
         destUnit.setUnitNum(destUnit.getUnitNum() + unitNum);
     }
 
-
+    /**
+     * Executes an order on the game entity and save to database
+     */
     @Override
     public void executeOnGame(OrderEntity order, GameEntity game) {
         log.info("Executing order " + order.getId() + ": " + order.getOrderType().getValue() + " from " +

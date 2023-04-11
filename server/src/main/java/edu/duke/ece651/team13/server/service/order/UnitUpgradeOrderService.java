@@ -21,7 +21,9 @@ import org.springframework.stereotype.Service;
 import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.getNextLevel;
 import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
 
-
+/**
+ * Unit upgrade order
+ */
 @Service
 @RequiredArgsConstructor
 public class UnitUpgradeOrderService implements OrderFactory {
@@ -44,6 +46,9 @@ public class UnitUpgradeOrderService implements OrderFactory {
         return new UnitUpgradeOwnershipChecker(unitNumChecker);
     }
 
+    /**
+     * Validates and executes an order locally within the game.
+     */
     @Override
     public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException {
         RuleChecker ruleChecker = getDefaultRuleChecker();
@@ -56,6 +61,9 @@ public class UnitUpgradeOrderService implements OrderFactory {
         executeLocally(currentUnit, upgradedUnit, order.getUnitNum(), player, UnitUpgradeTechResourceChecker.getTechCost(order));
     }
 
+    /**
+     * Executes the given order on the game locally, updating the necessary game entities.
+     */
     private void executeLocally(UnitEntity currentUnit, UnitEntity upgradedUnit, int unitNum, PlayerEntity player, int techCost) {
         player.setTechResource(player.getTechResource() - techCost);
         if (unitNum > 0) {
@@ -64,6 +72,9 @@ public class UnitUpgradeOrderService implements OrderFactory {
         }
     }
 
+    /**
+     * Executes an order on the game entity and save to database
+     */
     @Override
     public void executeOnGame(OrderEntity order, GameEntity game) {
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
