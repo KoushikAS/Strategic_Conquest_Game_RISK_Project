@@ -50,7 +50,7 @@ const PlayerOrderButtons = (props) => {
       handleShowFailure();
       removeAllOrders();
     }
-  }, [props.player.id, user.accessToken, user.userId])
+  }, [props.player.id, user.accessToken, orders, setHasDone, removeAllOrders])
 
   return (
     <>

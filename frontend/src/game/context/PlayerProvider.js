@@ -1,4 +1,4 @@
-import React, { createContext, useState, useMemo, useCallback } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 
 export const PlayerContext = createContext();
 
@@ -11,7 +11,7 @@ export const PlayerProvider = ({ children }) => {
             hasResearched,
             hasDone,
             setHasResearched,
-            setHasDone
+            setHasDone,
         }),
         [hasResearched, hasDone, setHasResearched, setHasDone]
     );
