@@ -6,12 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { OrderContext } from "../context/OrderProvider";
 
-const UnitSelectModal = (props) => {
+const UpgradeUnitSelectModal = (props) => {
     const { addManyOrders } = useContext(OrderContext);
 
     const territories = props.territories;
     const sourceName = props.source;
-    const targetName = props.target;
 
     const getTerritory = (name) => {
         return territories.find((territory) => territory.name === name);
@@ -62,7 +61,7 @@ const UnitSelectModal = (props) => {
         if (sliderValue !== 0) {
             const data = {
                 sourceTerritoryId: getTerritory(sourceName).id,
-                destinationTerritoryId: getTerritory(targetName).id,
+                destinationTerritoryId: null,
                 unitNum: sliderValue,
                 unitType: unitType,
                 orderType: props.orderType
@@ -87,14 +86,14 @@ const UnitSelectModal = (props) => {
         navigate("/", { state: { gameId: props.gameId } });
     }
 
-    if (!sourceName || !targetName) return;
+    if (!sourceName) return;
 
     return (
         <>
             <Modal show={showModal}>
                 <Modal.Header>
                     <Modal.Title>
-                        Select units to {props.orderType} from {sourceName} to {targetName}
+                        Select units to {props.orderType} in {sourceName}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -127,4 +126,4 @@ const cancelButtonStyles = {
     backgroundColor: "#D33431"
 }
 
-export default UnitSelectModal;
+export default UpgradeUnitSelectModal;

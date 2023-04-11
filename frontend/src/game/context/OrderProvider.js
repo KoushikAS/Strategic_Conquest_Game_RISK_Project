@@ -18,14 +18,19 @@ export const OrderProvider = ({ children }) => {
         setOrders(updatedOrders);
     }, [orders])
 
+    const removeAllOrders = useCallback(() => {
+        setOrders([]);
+    }, [])
+
     const value = useMemo(
         () => ({
             orders,
             addOneOrder,
             addManyOrders,
             removeOrder,
+            removeAllOrders
         }),
-        [orders, addOneOrder, addManyOrders, removeOrder]
+        [orders, addOneOrder, addManyOrders, removeOrder, removeAllOrders]
     );
 
     return (

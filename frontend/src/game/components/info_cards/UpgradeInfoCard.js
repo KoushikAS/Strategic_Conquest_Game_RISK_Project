@@ -1,9 +1,9 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-const MoveToInfoCard = (props) => {
+const UpgradeInfoCard = (props) => {
 
-    const { source, target, player } = props;
+    const { source, player } = props;
 
     if (!source) return;
 
@@ -31,8 +31,7 @@ const MoveToInfoCard = (props) => {
     return (
         <Card>
             <Card.Body style={cardStyles}>
-                <Card.Text>You are moving units from: <span style={territoryNameStyles}>{source}</span></Card.Text>
-                <Card.Text>To: <span style={territoryNameStyles}>{target}</span></Card.Text>
+                <Card.Text>You are upgrading units in: <span style={territoryNameStyles}>{source}</span></Card.Text>
             </Card.Body>
         </Card>
     );
@@ -42,4 +41,4 @@ const territoryNameStyles = {
     fontWeight: "bold",
 }
 
-export default MoveToInfoCard;
+export default UpgradeInfoCard;

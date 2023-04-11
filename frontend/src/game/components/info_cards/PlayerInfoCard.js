@@ -5,6 +5,7 @@ import { HiOutlineDesktopComputer } from "react-icons/hi";
 
 const PlayerInfoCard = (props) => {
   const { game, player } = props;
+  console.log("Player ID: ", player.id);
   // TODO: Remove this dummy data
   // const player = {
   //   "name": "Red",
@@ -14,6 +15,25 @@ const PlayerInfoCard = (props) => {
   //   "maxTechLevel": 1,
   //   "id": 1
   // }
+  const getCardColor = (owner) => {
+    switch (owner) {
+      case "Red":
+        return "#FFCCCB";
+      case "Blue":
+        return "#ADD8E6";
+      case "Green":
+        return "#90EE90";
+      case "Yellow":
+        return "#FFFFE0";
+      default:
+        return "#F5F5F5";
+    }
+  };
+  const playerInfoCardStyles = {
+    backgroundColor: getCardColor(player.name),
+    textAlign: "center",
+    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
+  };
   return (
     <Card>
       <Card.Body style={playerInfoCardStyles}>
@@ -36,12 +56,6 @@ const PlayerInfoCard = (props) => {
       </Card.Body>
     </Card>
   )
-};
-
-const playerInfoCardStyles = {
-  backgroundColor: "#FFCCCB",
-  textAlign: "center",
-  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
 };
 
 export default PlayerInfoCard;

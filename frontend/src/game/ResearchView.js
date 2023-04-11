@@ -8,20 +8,14 @@ import ResearchInfoCard from "./components/info_cards/ResearchInfoCard";
 import { AuthContext } from "../auth/AuthProvider";
 import { useLocation } from 'react-router-dom';
 import LoadingView from "./components/LoadingView";
-import { OrderContext } from "./context/OrderProvider";
-import { useNavigate } from "react-router-dom";
-import { PlayerContext } from "./context/PlayerProvider";
 
 const ResearchView = () => {
     const { user } = useContext(AuthContext);
-    const { setHasResearched } = useContext(PlayerContext);
     const location = useLocation();
     const gameId = location.state.gameId;
     const [game, setGame] = useState();
     const [player, setPlayer] = React.useState();
     const [isLoading, setIsLoading] = useState(true);
-    const { addOneOrder } = useContext(OrderContext);
-    const navigate = useNavigate();
 
     const fetchGame = useCallback(async () => {
         try {
@@ -47,19 +41,6 @@ const ResearchView = () => {
         return <LoadingView />;
     }
 
-    const handleConfirm = () => {
-        const order = {
-            sourceTerritoryId: null,
-            destinationTerritoryId: null,
-            unitNum: null,
-            unitType: null,
-            orderType: "UNIT_UPGRADE"
-        }
-        addOneOrder(order);
-        setHasResearched(true);
-        navigate("/", { state: { gameId } });
-    }
-
     return (
         <>
             <Container>
@@ -71,7 +52,7 @@ const ResearchView = () => {
                     <Col md={3}>
                         <PlayerInfoCard player={player} game={game} />
                         <br />
-                        <ResearchInfoCard handleConfirm={handleConfirm} />
+                        <ResearchInfoCard player={player} gameId={gameId} />
                     </Col>
                 </Row>
             </Container>

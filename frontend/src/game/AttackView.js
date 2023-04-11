@@ -58,7 +58,7 @@ const AttackView = () => {
           <Col md={3}>
             <PlayerInfoCard player={player} game={game} />
             <br />
-            <AttackToInfoCard source={sourceTerritory} territories={game.map.territories} />
+            <AttackToInfoCard player={player} source={sourceTerritory} territories={game.map.territories} />
             <br />
           </Col>
         </Row>

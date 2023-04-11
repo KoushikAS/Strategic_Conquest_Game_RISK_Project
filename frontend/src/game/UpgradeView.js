@@ -2,15 +2,15 @@ import React, { useEffect, useState, useContext, useCallback } from "react";
 import Map from "../maps/Map";
 import GameBanner from "./components/GameBanner";
 import PlayerInfoCard from "./components/info_cards/PlayerInfoCard";
-import UnitSelectModal from "./components/UnitSelectModal";
+import UpgradeUnitSelectModal from "./components/UpgradeUnitSelectModal";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import MoveToInfoCard from "./components/info_cards/MoveToInfoCard";
+import UpgradeInfoCard from "./components/info_cards/UpgradeInfoCard";
 import { AuthContext } from "../auth/AuthProvider";
 import { useLocation } from 'react-router-dom';
 import LoadingView from "./components/LoadingView";
 
-const MoveView = () => {
+const UpgradeView = () => {
     const { user } = useContext(AuthContext);
     const location = useLocation();
     const gameId = location.state.gameId;
@@ -18,8 +18,6 @@ const MoveView = () => {
     const [player, setPlayer] = React.useState();
     const [isLoading, setIsLoading] = useState(true);
     const [sourceTerritory, setSourceTerritory] = useState();
-    const [targetTerritory, setTargetTerritory] = useState();
-
 
     const fetchGame = useCallback(async () => {
         try {
@@ -45,27 +43,24 @@ const MoveView = () => {
         return <LoadingView />;
     }
 
-    const currentView = sourceTerritory ? "move-to" : "move-from";
-    const setSourceOrTarget = sourceTerritory ? setTargetTerritory : setSourceTerritory;
-
     return (
         <>
             <Container>
                 <Row>
                     <Col md={9}>
-                        <GameBanner view={currentView} />
-                        <Map game={game} handleSourceOrTarget={setSourceOrTarget} />
+                        <GameBanner view="upgrade" />
+                        <Map game={game} handleSourceOrTarget={setSourceTerritory} />
                     </Col>
                     <Col md={3}>
                         <PlayerInfoCard player={player} game={game} />
                         <br />
-                        <MoveToInfoCard player={player} source={sourceTerritory} target={targetTerritory} />
+                        <UpgradeInfoCard player={player} source={sourceTerritory} />
                     </Col>
                 </Row>
             </Container>
-            <UnitSelectModal gameId={gameId} source={sourceTerritory} target={targetTerritory} territories={game.map.territories} orderType="MOVE" />
+            <UpgradeUnitSelectModal gameId={gameId} source={sourceTerritory} territories={game.map.territories} orderType="UNIT_UPGRADE" />
         </>
     );
 };
 
-export default MoveView;
+export default UpgradeView;
