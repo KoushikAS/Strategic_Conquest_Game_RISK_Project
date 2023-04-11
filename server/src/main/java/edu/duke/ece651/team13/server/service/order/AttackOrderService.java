@@ -81,7 +81,7 @@ public class AttackOrderService implements OrderFactory {
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
         UnitEntity sourceUnit = source.getUnitForType( order.getUnitType());
-        executeLocally(sourceUnit, order.getUnitNum(), player, MoveFoodResourceChecker.getFoodCost(order));
+        executeLocally(sourceUnit, order.getUnitNum(), player, AttackFoodResourceChecker.getFoodCost(order));
         unitService.updateUnit(sourceUnit, sourceUnit.getUnitNum());
         attackerService.addAttacker(order.getDestination(), player, order.getUnitType(), order.getUnitNum());
         playerService.updatePlayerFoodResource(player, player.getFoodResource());
