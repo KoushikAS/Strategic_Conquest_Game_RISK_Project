@@ -11,11 +11,11 @@ const ResearchInfoCard = (props) => {
     const { player } = props;
     const handleConfirm = () => {
         const order = {
-            sourceTerritoryId: null,
-            destinationTerritoryId: null,
-            unitNum: null,
-            unitType: null,
-            orderType: "UNIT_UPGRADE"
+            // sourceTerritoryId: null,
+            // destinationTerritoryId: null,
+            // unitNum: null,
+            // unitType: null,
+            orderType: "TECH_RESEARCH"
         }
         addOneOrder(order);
         setHasResearched(true);
@@ -55,22 +55,22 @@ const ResearchInfoCard = (props) => {
             <Row className="text-center" style={{ marginTop: "80%" }}>
                 <Col>
                     <Button
-                        onClick={handleConfirm}
-                        variant="success"
-                        size="lg"
-                        style={{ fontWeight: "bold" }}
-                    >
-                        Confirm
-                    </Button>
-                </Col>
-                <Col>
-                    <Button
                         onClick={handleCancel}
                         variant="danger"
                         size="lg"
                         style={{ fontWeight: "bold" }}
                     >
                         Cancel
+                    </Button>
+                </Col>
+                <Col>
+                    <Button
+                        onClick={handleConfirm}
+                        variant="success"
+                        size="lg"
+                        style={{ fontWeight: "bold" }}
+                    >
+                        Confirm
                     </Button>
                 </Col>
             </Row>

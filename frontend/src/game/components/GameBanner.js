@@ -16,6 +16,8 @@ const GameBanner = (props) => {
         return "Click the name of one of your territories to move units to.";
       case "research":
         return "Click the Confirm button to place your research order.";
+      case "upgrade":
+        return "Click the name of one of your territories to upgrade units in."
       default:
         return "Welcome to Really Interesting Strategic Conquest (RISC)!";
     }

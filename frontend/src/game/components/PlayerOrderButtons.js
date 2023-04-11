@@ -32,6 +32,10 @@ const PlayerOrderButtons = (props) => {
     navigate("/research", { state: { gameId: props.gameId } });
   }
 
+  const handleUpgrade = () => {
+    navigate("/upgrade", { state: { gameId: props.gameId } });
+  }
+
   const handleBack = () => {
     navigate("/gameList");
   }
@@ -41,7 +45,10 @@ const PlayerOrderButtons = (props) => {
       const config = {
         headers: { Authorization: `Bearer ${user.accessToken}` }
       }
-      const response = await axios.post(`submitOrder/?playerId=${props.player.id}`, { orders }, config);
+      const response = await axios.post(`submitOrder/?playerId=${props.player.id}`,
+        {
+          orders: orders.length === 0 ? [{ "orderType": "DONE" }] : orders
+        }, config);
       console.log(`Done response: ${response.data}`);
       setHasDone(true);
       handleShowSuccess();
@@ -90,7 +97,7 @@ const PlayerOrderButtons = (props) => {
         </Col>
         <Col md={6}>
           <Button
-            // onClick={handleUpgrade}
+            onClick={handleUpgrade}
             className="rounded-circle"
             style={upgradeButtonStyles}
             size="lg"

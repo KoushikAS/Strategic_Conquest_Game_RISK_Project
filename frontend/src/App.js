@@ -13,6 +13,7 @@ import GameListView from "./game_list/GameListView";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
 import RegisterView from "./auth/RegisterView";
 import ResearchView from "./game/ResearchView";
+import UpgradeView from "./game/UpgradeView";
 
 function App() {
   return (
@@ -63,6 +64,15 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <ResearchView />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                exact
+                path="/upgrade"
+                element={
+                  <ProtectedRoute>
+                    <UpgradeView />
                   </ProtectedRoute>
                 }
               />

@@ -48,7 +48,8 @@ const AttackToInfoCard = (props) => {
     return (
         <Card>
             <Card.Body style={cardStyles}>
-                <Card.Text>Territories you can move from <span style={territoryNameStyles}>{source}</span>:</Card.Text>
+                <Card.Text>Make sure not to attack your own territory.</Card.Text>
+                <Card.Text>Territories that are connected to <span style={territoryNameStyles}>{source}</span>:</Card.Text>
                 <ul>
                     {listTerritories}
                 </ul>

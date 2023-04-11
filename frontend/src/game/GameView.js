@@ -33,11 +33,12 @@ const GameView = () => {
       console.log(`Current player: ${response.data.player}`);
       setGame(response.data.game);
       setPlayer(response.data.player)
+      setHasDone(response.data.playerDone);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [gameId, user.accessToken, user.userId])
+  }, [gameId, user.accessToken, user.userId, setHasDone])
 
   useEffect(() => {
     fetchGame();
@@ -70,17 +71,21 @@ const GameView = () => {
         <Card style={cardStyles}>
           <Card.Body>
             <Card.Title style={titleStyles}>Waiting for other players to complete their round...</Card.Title>
-            <Button
-              onClick={handleRefresh}
-              variant="success"
-              size="lg"
-              style={buttonStyles}
-            >
-              Refresh
-            </Button>
+            <Row className="text-center" style={{ marginTop: "30%" }}>
+              <Col>
+                <Button
+                  onClick={handleRefresh}
+                  variant="success"
+                  size="lg"
+                  style={buttonStyles}
+                >
+                  Refresh
+                </Button>
+              </Col>
+            </Row>
           </Card.Body>
         </Card>
-      </Container>
+      </Container >
     )
   }
 
