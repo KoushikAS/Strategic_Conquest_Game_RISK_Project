@@ -65,12 +65,12 @@ const CreateGamesCard = () => {
 
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>
-                    New game has been created!
+                <Modal.Title style={{ color: "green" }}>
+                    Success!
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Please find the game so you can join it!
+                New game has been created. Please find the game so you can join it!
             </Modal.Body>
         </Modal>
     </>

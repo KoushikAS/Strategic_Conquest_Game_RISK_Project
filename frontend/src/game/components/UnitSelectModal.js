@@ -17,7 +17,7 @@ const UnitSelectModal = (props) => {
         return territories.find((territory) => territory.name === name);
     };
     const getUnit = (unitType, territoryName) => {
-        return getTerritory(territoryName).units.find((unit) => unit.unitType = unitType);
+        return getTerritory(territoryName).units.find((unit) => unit.unitType === unitType);
     };
 
     const [sliderValue0, setSliderValue0] = useState(0);
