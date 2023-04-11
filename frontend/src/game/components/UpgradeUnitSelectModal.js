@@ -61,7 +61,6 @@ const UpgradeUnitSelectModal = (props) => {
         if (sliderValue !== 0) {
             const data = {
                 sourceTerritoryId: getTerritory(sourceName).id,
-                destinationTerritoryId: null,
                 unitNum: sliderValue,
                 unitType: unitType,
                 orderType: props.orderType
