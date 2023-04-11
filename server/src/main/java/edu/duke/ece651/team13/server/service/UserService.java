@@ -34,5 +34,8 @@ public interface UserService {
      */
     String isUserPresent(RegisterRequest registerRequest);
 
+    /**
+     * Updates the password of a user.
+     */
     UserEntity updateUserPassword(Long id, String password);
 }

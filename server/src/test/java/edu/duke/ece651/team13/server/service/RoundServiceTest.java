@@ -139,7 +139,6 @@ public class RoundServiceTest {
         GameEntity gameEntity = getGameEntity();
         gameEntity.setRoundNo(1);
 
-
         PlayerEntity red = new PlayerEntity("red");
 
         gameEntity.getPlayers().add(red);
@@ -154,6 +153,10 @@ public class RoundServiceTest {
         TerritoryEntity territoryEntity = new TerritoryEntity();
         territoryEntity.setOwner(red);
         territoryEntityList.add(territoryEntity);
+
+        UnitEntity basicUnit = new UnitEntity(UnitMappingEnum.LEVEL0, 1);
+        basicUnit.setTerritory(territoryEntity);
+        territoryEntity.addUnit(basicUnit);
 
         when(orderService.getOrdersByPlayer(red)).thenReturn(orders);
         when(gameService.getGame(1L)).thenReturn(gameEntity);
