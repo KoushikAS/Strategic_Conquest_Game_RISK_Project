@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import Map from "../maps/Map";
 import GameBanner from "./components/GameBanner";
-import PlayerInfoCard from "./components/PlayerInfoCard";
+import PlayerInfoCard from "./components/info_cards/PlayerInfoCard";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import AttackToInfoCard from "./components/AttackToInfoCard";
+import AttackToInfoCard from "./components/info_cards/AttackToInfoCard";
 import { AuthContext } from "../auth/AuthProvider";
 import { useLocation } from 'react-router-dom';
 import UnitSelectModal from "./components/UnitSelectModal";
@@ -14,6 +14,7 @@ const AttackView = () => {
   const location = useLocation();
   const gameId = location.state.gameId;
   const [game, setGame] = useState();
+  const [player, setPlayer] = React.useState();
   const [isLoading, setIsLoading] = useState(true);
   const [sourceTerritory, setSourceTerritory] = useState();
   const [targetTerritory, setTargetTerritory] = useState();
@@ -24,14 +25,16 @@ const AttackView = () => {
       const config = {
         headers: { Authorization: `Bearer ${user.accessToken}` }
       }
-      let response = await axios.get(`getGame/${gameId}`, config);
-      console.log(`Current game: ${response.data}`);
-      setGame(response.data);
+      let response = await axios.get(`getGameForUser/${gameId}?userId=${user.userId}`, config);
+      console.log(`Current game: ${response.data.game}`);
+      console.log(`Current player: ${response.data.player}`);
+      setGame(response.data.game);
+      setPlayer(response.data.player)
       setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [gameId, user.accessToken])
+  }, [gameId, user.accessToken, user.userId])
 
   useEffect(() => {
     fetchGame();
@@ -53,7 +56,7 @@ const AttackView = () => {
             <Map game={game} handleSourceOrTarget={setSourceOrTarget} />
           </Col>
           <Col md={3}>
-            <PlayerInfoCard game={game} />
+            <PlayerInfoCard player={player} game={game} />
             <br />
             <AttackToInfoCard source={sourceTerritory} territories={game.map.territories} />
             <br />

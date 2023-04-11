@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { PlayerContext } from "../context/PlayerProvider";
 
 const PlayerOrderButtons = (props) => {
   const navigate = useNavigate();
+  const { hasResearched } = useContext(PlayerContext);
 
   const handleAttack = () => {
     navigate("/attack", { state: { gameId: props.gameId } });
@@ -11,7 +13,10 @@ const PlayerOrderButtons = (props) => {
 
   const handleMove = () => {
     navigate("/move", { state: { gameId: props.gameId } });
+  }
 
+  const handleResearch = () => {
+    navigate("/research", { state: { gameId: props.gameId } });
   }
 
   return (
@@ -19,10 +24,10 @@ const PlayerOrderButtons = (props) => {
       <Row className="text-center">
         <Col md={6}>
           <Button
-              onClick={handleMove}
-              className="rounded-circle"
-              style={attackButtonStyles}
-              size="lg"
+            onClick={handleMove}
+            className="rounded-circle"
+            style={moveButtonStyles}
+            size="lg"
           >
             Move
           </Button>
@@ -41,16 +46,18 @@ const PlayerOrderButtons = (props) => {
       <br />
       <Row className="text-center">
         <Col md={6}>
-          <Button
+          {!hasResearched && <Button
+            onClick={handleResearch}
             className="rounded-circle"
             style={researchButtonStyles}
             size="lg"
           >
             Research
-          </Button>
+          </Button>}
         </Col>
         <Col md={6}>
           <Button
+            // onClick={handleUpgrade}
             className="rounded-circle"
             style={upgradeButtonStyles}
             size="lg"
@@ -64,7 +71,7 @@ const PlayerOrderButtons = (props) => {
           variant="success"
           size="lg"
           style={{ fontWeight: "bold" }}
-          block
+          block="true"
         >
           Done
         </Button>

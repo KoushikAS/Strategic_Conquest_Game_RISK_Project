@@ -59,7 +59,7 @@ const UnitSelectModal = (props) => {
 
     const orderArray = []
     const packageData = (sliderValue, unitType) => {
-        if (sliderValue != 0) {
+        if (sliderValue !== 0) {
             const data = {
                 sourceTerritoryId: getTerritory(sourceName).id,
                 destinationTerritoryId: getTerritory(targetName).id,
@@ -71,7 +71,7 @@ const UnitSelectModal = (props) => {
         }
     };
 
-    const handleConfirmOrder = async (e) => {
+    const handleConfirmOrder = (e) => {
         e.preventDefault();
         packageData(sliderValue0, "Basic");
         packageData(sliderValue1, "Infantry");
@@ -106,9 +106,10 @@ const UnitSelectModal = (props) => {
                         <UnitNumSlider unitType="Army Aviation" unitNum={getUnit("LEVEL4", sourceName).unitNum} sliderValue={sliderValue4} handleSliderChange={handleSlider4Change} />
                         <UnitNumSlider unitType="Special Forces" unitNum={getUnit("LEVEL5", sourceName).unitNum} sliderValue={sliderValue5} handleSliderChange={handleSlider5Change} />
                         <UnitNumSlider unitType="Combat Engineer" unitNum={getUnit("LEVEL6", sourceName).unitNum} sliderValue={sliderValue6} handleSliderChange={handleSlider6Change} />
+                        <br />
                         <div style={{ display: "flex", justifyContent: "center" }}>
-                            <Button onClick={handleConfirmOrder} style={{ backgroundColor: "#26BC26", marginRight: "50px", border: "none" }}>Confirm</Button>
-                            <Button onClick={closeModal} style={{ backgroundColor: "#D33431", marginLeft: "50px", border: "none" }}>Cancel</Button>
+                            <Button onClick={handleConfirmOrder} style={confirmButtonStyles} size="lg">Confirm</Button>
+                            <Button onClick={closeModal} style={cancelButtonStyles} size="lg">Cancel</Button>
                         </div>
                     </div>
                 </Modal.Body>
@@ -116,5 +117,14 @@ const UnitSelectModal = (props) => {
         </>
     );
 };
+
+const confirmButtonStyles = {
+    backgroundColor: "#26BC26", marginRight: "50px", border: "none"
+}
+
+const cancelButtonStyles = {
+    ...confirmButtonStyles,
+    backgroundColor: "#D33431"
+}
 
 export default UnitSelectModal;
