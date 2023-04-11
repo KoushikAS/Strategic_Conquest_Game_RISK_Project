@@ -112,4 +112,18 @@ public class TerritoryServiceTest {
         verifyNoMoreInteractions(repository);
         verifyNoMoreInteractions(neighbourMappingRepository);
     }
+
+    @Test
+    void updateTerritoryUnitsTest() {
+
+        TerritoryEntity territory = getTerritoryEntity();
+        when(repository.save(any(TerritoryEntity.class))).thenReturn(territory);
+
+
+        TerritoryEntity actual = service.updateTerritoryUnits(territory, new ArrayList<>());
+        assertEquals(territory, actual);
+
+        verify(repository, times(1)).save(any(TerritoryEntity.class));
+        verifyNoMoreInteractions(repository);
+    }
 }

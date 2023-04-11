@@ -2,6 +2,7 @@ package edu.duke.ece651.team13.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Territory
@@ -70,5 +72,19 @@ public class TerritoryEntity {
      */
     public void addUnit(UnitEntity unit) {
         units.add(unit);
+    }
+
+    /**
+     * This is a helper function that gets the UnitEntity with the specified unit type in the
+     * specified territory
+     *
+     * @return the UnitEntity of the unitType
+     */
+    public UnitEntity getUnitForType(UnitMappingEnum unitType) {
+        return this.units.
+                stream()
+                .filter(t -> t.getUnitType().equals(unitType))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
     }
 }

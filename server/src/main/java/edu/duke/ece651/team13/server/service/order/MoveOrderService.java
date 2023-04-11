@@ -1,15 +1,7 @@
 package edu.duke.ece651.team13.server.service.order;
 
-import edu.duke.ece651.team13.server.entity.GameEntity;
-import edu.duke.ece651.team13.server.entity.OrderEntity;
-import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
-import edu.duke.ece651.team13.server.entity.UnitEntity;
-import edu.duke.ece651.team13.server.rulechecker.MoveFoodResourceChecker;
-import edu.duke.ece651.team13.server.rulechecker.MoveOwnershipChecker;
-import edu.duke.ece651.team13.server.rulechecker.MovePathChecker;
-import edu.duke.ece651.team13.server.rulechecker.MoveUnitNumChecker;
-import edu.duke.ece651.team13.server.rulechecker.RuleChecker;
+import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.rulechecker.*;
 import edu.duke.ece651.team13.server.service.PlayerService;
 import edu.duke.ece651.team13.server.service.UnitService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static edu.duke.ece651.team13.server.rulechecker.MoveFoodResourceChecker.getFoodCost;
-import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
 
 /**
  * Move order
@@ -39,9 +30,9 @@ public class MoveOrderService implements OrderFactory {
      * MoveOwnershipChecker -> MoveUnitNumChecker -> MoveFoodResourceChecker -> MovePathChecker
      */
     private static RuleChecker getDefaultRuleChecker() {
-        RuleChecker pathChecker = new MovePathChecker(null);
-        RuleChecker foodResourceChecker = new MoveFoodResourceChecker(pathChecker);
-        RuleChecker unitnumChecker = new MoveUnitNumChecker(foodResourceChecker);
+        RuleChecker foodResourceChecker = new MoveFoodResourceChecker(null);
+        RuleChecker pathChecker = new MovePathChecker(foodResourceChecker);
+        RuleChecker unitnumChecker = new MoveUnitNumChecker(pathChecker);
         return new MoveOwnershipChecker(unitnumChecker);
     }
 
@@ -59,8 +50,8 @@ public class MoveOrderService implements OrderFactory {
         ruleChecker.checkOrder(order, player);
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         TerritoryEntity destination = game.getMap().getTerritoryEntityById(order.getDestination().getId());
-        UnitEntity sourceUnit = getUnitForType(source, order.getUnitType());
-        UnitEntity destUnit = getUnitForType(destination, order.getUnitType());
+        UnitEntity sourceUnit = source.getUnitForType( order.getUnitType());
+        UnitEntity destUnit = destination.getUnitForType( order.getUnitType());
         executeLocally(sourceUnit, destUnit, order.getUnitNum(), player, getFoodCost(order));
     }
 
@@ -85,8 +76,8 @@ public class MoveOrderService implements OrderFactory {
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         TerritoryEntity destination = game.getMap().getTerritoryEntityById(order.getDestination().getId());
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
-        UnitEntity sourceUnit = getUnitForType(source, order.getUnitType());
-        UnitEntity destUnit = getUnitForType(destination, order.getUnitType());
+        UnitEntity sourceUnit = source.getUnitForType( order.getUnitType());
+        UnitEntity destUnit = destination.getUnitForType( order.getUnitType());
 
         executeLocally(sourceUnit, destUnit, order.getUnitNum(), player, getFoodCost(order));
 

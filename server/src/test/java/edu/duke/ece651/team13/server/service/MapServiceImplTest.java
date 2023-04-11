@@ -12,11 +12,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
 import static edu.duke.ece651.team13.server.MockDataUtil.getMapEntity;
 import static edu.duke.ece651.team13.server.MockDataUtil.getPlayerEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -79,5 +82,19 @@ class MapServiceImplTest {
             players.add(getPlayerEntity());
         }
         return players;
+    }
+
+    @Test
+    void getMapTest() {
+        MapEntity map = getMapEntity();
+        when(repository.findById(1L)).thenReturn(Optional.of(map));
+        when(repository.findById(2L)).thenReturn(Optional.empty());
+
+        MapEntity actual = service.getMap(1L);
+        assertEquals(map, actual);
+        verify(repository, times(1)).findById(1L);
+        verifyNoMoreInteractions(repository);
+
+        assertThrows(NoSuchElementException.class, () -> service.getMap(2L));
     }
 }

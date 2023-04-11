@@ -1,17 +1,8 @@
 package edu.duke.ece651.team13.server.service.order;
 
 
-import edu.duke.ece651.team13.server.entity.GameEntity;
-import edu.duke.ece651.team13.server.entity.OrderEntity;
-import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
-import edu.duke.ece651.team13.server.entity.UnitEntity;
-import edu.duke.ece651.team13.server.rulechecker.AttackFoodResourceChecker;
-import edu.duke.ece651.team13.server.rulechecker.AttackOwnershipChecker;
-import edu.duke.ece651.team13.server.rulechecker.AttackPathChecker;
-import edu.duke.ece651.team13.server.rulechecker.AttackUnitNumChecker;
-import edu.duke.ece651.team13.server.rulechecker.MoveFoodResourceChecker;
-import edu.duke.ece651.team13.server.rulechecker.RuleChecker;
+import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.rulechecker.*;
 import edu.duke.ece651.team13.server.service.AttackerService;
 import edu.duke.ece651.team13.server.service.PlayerService;
 import edu.duke.ece651.team13.server.service.UnitService;
@@ -19,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import static edu.duke.ece651.team13.server.service.TerritoryService.getUnitForType;
 
 /**
  * Attack order
@@ -65,9 +54,9 @@ public class AttackOrderService implements OrderFactory {
         RuleChecker ruleChecker = getDefaultRuleChecker();
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
         ruleChecker.checkOrder(order, player);
-        
+
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
-        UnitEntity sourceUnit = getUnitForType(source, order.getUnitType());
+        UnitEntity sourceUnit = source.getUnitForType( order.getUnitType());
         executeLocally(sourceUnit, order.getUnitNum(), player, AttackFoodResourceChecker.getFoodCost(order));
     }
 
@@ -81,9 +70,7 @@ public class AttackOrderService implements OrderFactory {
      */
     private void executeLocally(UnitEntity sourceUnit, int unitNum, PlayerEntity player, int foodCost) {
         player.setFoodResource(player.getFoodResource() - foodCost);
-        if (unitNum > 0) {
-            sourceUnit.setUnitNum(sourceUnit.getUnitNum() - unitNum);
-        }
+        sourceUnit.setUnitNum(sourceUnit.getUnitNum() - unitNum);
     }
 
     /**
@@ -93,7 +80,7 @@ public class AttackOrderService implements OrderFactory {
     public void executeOnGame(OrderEntity order, GameEntity game) {
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
-        UnitEntity sourceUnit = getUnitForType(source, order.getUnitType());
+        UnitEntity sourceUnit = source.getUnitForType( order.getUnitType());
         executeLocally(sourceUnit, order.getUnitNum(), player, MoveFoodResourceChecker.getFoodCost(order));
         unitService.updateUnit(sourceUnit, sourceUnit.getUnitNum());
         attackerService.addAttacker(order.getDestination(), player, order.getUnitType(), order.getUnitNum());
