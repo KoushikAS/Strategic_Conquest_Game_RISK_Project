@@ -49,6 +49,9 @@ public class OrderServiceTest {
     private OrderRepository repository;
 
     @Mock
+    private GameService gameService;
+
+    @Mock
     private PlayerService playerService;
 
     @Mock
@@ -68,7 +71,7 @@ public class OrderServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new OrderServiceImpl(entityManager, repository, playerService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, eventPublisher);
+        service = new OrderServiceImpl(entityManager, repository, gameService, playerService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, eventPublisher);
     }
 
     @Test
@@ -224,6 +227,7 @@ public class OrderServiceTest {
 
         when(playerService.getPlayer(any())).thenReturn(player);
         when(repository.findByPlayer(player)).thenReturn(Collections.emptyList());
+        when(gameService.getGame(any())).thenReturn(game);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
         orderDTOS.add(new OrderDTO(1L, 1L, 5, LEVEL0.getType(), MOVE.getValue()));
@@ -265,6 +269,7 @@ public class OrderServiceTest {
         orderEntities_1.add(new OrderEntity());
         when(playerService.getPlayer(any())).thenReturn(player);
         when(repository.findByPlayer(player)).thenReturn(orderEntities_0).thenReturn(orderEntities_1);
+        when(gameService.getGame(any())).thenReturn(game);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
         orderDTOS.add(new OrderDTO(1L, 1L, 5, LEVEL0.getType(), MOVE.getValue()));

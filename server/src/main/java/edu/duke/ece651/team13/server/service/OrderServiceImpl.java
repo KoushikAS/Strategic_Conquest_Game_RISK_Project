@@ -42,6 +42,9 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository repository;
 
     @Autowired
+    private final GameService gameService;
+
+    @Autowired
     private final PlayerService playerService;
 
     @Autowired
@@ -71,7 +74,8 @@ public class OrderServiceImpl implements OrderService {
         repository.deleteByPlayer(playerEntity);
     }
 
-    private Boolean isGameReadyForRoundExecution(GameEntity game) {
+    private Boolean isGameReadyForRoundExecution(Long Id) {
+        GameEntity game = gameService.getGame(Id); //Fetching a new game after detaching from the service.
         //Checking if all the players who are active have submitted orders
         for (PlayerEntity player : game.getPlayers()) {
             if (player.getStatus().equals(PLAYING) && getOrdersByPlayer(player).size() == 0) {
@@ -176,11 +180,12 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
+        Long gameId = game.getId(); //etching gameId before detaching
         entityManager.detach(game); //Added to detach game entity from Persistent manager so that changes in game is not updated to db
         saveOrders(orderEntityList);
 
-        if (isGameReadyForRoundExecution(game)) {
-            eventPublisher.publishEvent(game.getId());
+        if (isGameReadyForRoundExecution(gameId)) {
+            eventPublisher.publishEvent(gameId);
         }
 
     }
