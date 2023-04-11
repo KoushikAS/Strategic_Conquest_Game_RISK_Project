@@ -54,7 +54,7 @@ public class AttackOrderService implements OrderFactory {
         RuleChecker ruleChecker = getDefaultRuleChecker();
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
         ruleChecker.checkOrder(order, player);
-        
+
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         UnitEntity sourceUnit = source.getUnitForType( order.getUnitType());
         executeLocally(sourceUnit, order.getUnitNum(), player, AttackFoodResourceChecker.getFoodCost(order));
@@ -70,9 +70,7 @@ public class AttackOrderService implements OrderFactory {
      */
     private void executeLocally(UnitEntity sourceUnit, int unitNum, PlayerEntity player, int foodCost) {
         player.setFoodResource(player.getFoodResource() - foodCost);
-        if (unitNum > 0) {
-            sourceUnit.setUnitNum(sourceUnit.getUnitNum() - unitNum);
-        }
+        sourceUnit.setUnitNum(sourceUnit.getUnitNum() - unitNum);
     }
 
     /**

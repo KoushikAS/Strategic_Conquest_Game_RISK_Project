@@ -56,10 +56,8 @@ public class UnitUpgradeOrderService implements OrderFactory {
      */
     private void executeLocally(UnitEntity currentUnit, UnitEntity upgradedUnit, int unitNum, PlayerEntity player, int techCost) {
         player.setTechResource(player.getTechResource() - techCost);
-        if (unitNum > 0) {
-            currentUnit.setUnitNum(currentUnit.getUnitNum() - unitNum);
-            upgradedUnit.setUnitNum(upgradedUnit.getUnitNum() + unitNum);
-        }
+        currentUnit.setUnitNum(currentUnit.getUnitNum() - unitNum);
+        upgradedUnit.setUnitNum(upgradedUnit.getUnitNum() + unitNum);
     }
 
     /**
@@ -69,8 +67,8 @@ public class UnitUpgradeOrderService implements OrderFactory {
     public void executeOnGame(OrderEntity order, GameEntity game) {
         TerritoryEntity source = game.getMap().getTerritoryEntityById(order.getSource().getId());
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
-        UnitEntity currentUnit = source.getUnitForType( order.getUnitType());
-        UnitEntity upgradedUnit = source.getUnitForType( getNextLevel(order.getUnitType()));
+        UnitEntity currentUnit = source.getUnitForType(order.getUnitType());
+        UnitEntity upgradedUnit = source.getUnitForType(getNextLevel(order.getUnitType()));
 
         executeLocally(currentUnit, upgradedUnit, order.getUnitNum(), player, UnitUpgradeTechResourceChecker.getTechCost(order));
         unitService.updateUnit(currentUnit, currentUnit.getUnitNum());

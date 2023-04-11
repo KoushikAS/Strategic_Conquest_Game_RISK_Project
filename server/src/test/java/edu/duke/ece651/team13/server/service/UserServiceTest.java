@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -25,8 +27,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
-    @Autowired
-    private UserService service; //Service under test
+
+    private UserServiceImpl service; //Service under test
 
     @Mock
     private UserRepository repository;
@@ -108,5 +110,18 @@ class UserServiceTest {
         verify(repository, times(1)).findById(1L);
         verify(repository, times(1)).save(any(UserEntity.class));
         verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void test_loadUserByUsername() {
+        UserEntity user = getUserEntity();
+        when(repository.findByEmail(any())).thenReturn(Optional.of(user));
+        service.loadUserByUsername("newPassword");
+        verify(repository, times(1)).findByEmail(any());
+        verifyNoMoreInteractions(repository);
+
+        when(repository.findByEmail(any())).thenReturn(Optional.empty());
+        assertThrows(UsernameNotFoundException.class, ()-> service.loadUserByUsername("newPassword"));
+
     }
 }

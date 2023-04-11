@@ -125,6 +125,59 @@ class UnitUpgradeOrderServiceTest {
     }
 
     @Test
+    void test_negativeunitNo_error() throws IllegalArgumentException {
+        GameEntity game = getGameEntity();
+        PlayerEntity owner = new PlayerEntity();
+        owner.setId(1L);
+        owner.setTechResource(150);
+        owner.setMaxTechLevel(6);
+
+        TerritoryEntity source = game.getMap().getTerritories().get(0);
+        source.setOwner(owner);
+        source.getUnits().add(new UnitEntity(UnitMappingEnum.LEVEL2, 2));
+        game.getPlayers().add(owner);
+
+
+
+        OrderEntity order = new OrderEntity();
+        order.setSource(source);
+        order.setDestination(null);
+        order.setOrderType(UNIT_UPGRADE);
+        order.setUnitType(UnitMappingEnum.LEVEL2);
+        order.setUnitNum(-5);
+        order.setPlayer(owner);
+
+        assertThrows(IllegalArgumentException.class, ()->service.validateAndExecuteLocally(order, game));
+    }
+
+    @Test
+    void test_destinationTerritory_error() throws IllegalArgumentException {
+        GameEntity game = getGameEntity();
+        PlayerEntity owner = new PlayerEntity();
+        owner.setId(1L);
+        owner.setTechResource(150);
+        owner.setMaxTechLevel(6);
+
+        TerritoryEntity source = game.getMap().getTerritories().get(0);
+        source.setOwner(owner);
+        source.getUnits().add(new UnitEntity(UnitMappingEnum.LEVEL2, 15));
+        game.getPlayers().add(owner);
+
+
+
+        OrderEntity order = new OrderEntity();
+        order.setSource(source);
+        order.setDestination(null);
+        order.setOrderType(UNIT_UPGRADE);
+        order.setUnitType(UnitMappingEnum.LEVEL2);
+        order.setUnitNum(5);
+        order.setPlayer(owner);
+        order.setDestination(new TerritoryEntity());
+
+        assertThrows(IllegalArgumentException.class, ()->service.validateAndExecuteLocally(order, game));
+    }
+
+    @Test
     void test_territorynotownedby_error() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
@@ -147,7 +200,6 @@ class UnitUpgradeOrderServiceTest {
 
         assertThrows(IllegalArgumentException.class, ()->service.validateAndExecuteLocally(order, game));
     }
-
 
     @Test
     void test_insufficenttechlevel_error() throws IllegalArgumentException {
@@ -180,7 +232,7 @@ class UnitUpgradeOrderServiceTest {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
         owner.setId(1L);
-        owner.setTechResource(20);
+        owner.setTechResource(0);
         owner.setMaxTechLevel(1);
 
         TerritoryEntity source = game.getMap().getTerritories().get(0);
