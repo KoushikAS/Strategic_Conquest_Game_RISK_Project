@@ -22,6 +22,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ * Order
+ */
 @Entity
 @Table(name = "GAME_ORDER")
 @Getter

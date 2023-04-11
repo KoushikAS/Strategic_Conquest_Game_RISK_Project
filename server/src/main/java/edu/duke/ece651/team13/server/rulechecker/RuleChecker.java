@@ -3,6 +3,10 @@ package edu.duke.ece651.team13.server.rulechecker;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 
+/**
+ * A class that provides a base for implementing a chain of responsibility pattern
+ * for validating game rules in the game engine.
+ */
 public abstract class RuleChecker {
     private final RuleChecker next;
 

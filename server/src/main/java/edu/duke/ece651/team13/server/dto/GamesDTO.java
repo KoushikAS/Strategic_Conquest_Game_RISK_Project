@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * This is the DTO sent when /createGame
+ */
 @Getter
 @Setter
 @NoArgsConstructor

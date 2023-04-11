@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This is the DTO sent when /getGameForUser
+ */
 @Getter
 @Setter
 @NoArgsConstructor

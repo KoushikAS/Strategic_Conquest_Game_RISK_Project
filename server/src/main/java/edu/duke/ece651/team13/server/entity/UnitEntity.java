@@ -20,6 +20,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ * Unit
+ */
 @Entity
 @Table(name = "UNIT")
 @Getter
@@ -44,6 +47,11 @@ public class UnitEntity {
     @Column(name = "UNIT_NUM")
     private Integer unitNum;
 
+    /**
+     * Constructs a UnitEntity object with the given unit type and unit number.
+     * @param unitType the type of the unit
+     * @param unitNum the number of units of the given type
+     */
     public UnitEntity(UnitMappingEnum unitType, Integer unitNum) {
         this.unitType = unitType;
         this.unitNum = unitNum;

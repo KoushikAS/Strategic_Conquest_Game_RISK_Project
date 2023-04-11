@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This is the DTO contained in GamesDTO
+ */
 @Getter
 @Setter
 @NoArgsConstructor

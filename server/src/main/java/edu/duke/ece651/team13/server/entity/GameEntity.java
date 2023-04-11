@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+/**
+ * Game information
+ */
 @Entity
 @Table(name = "GAME")
 @Getter
@@ -53,6 +56,13 @@ public class GameEntity {
     @Enumerated(EnumType.STRING)
     private GameStatusEnum status = GameStatusEnum.PLAYING;
 
+    /**
+     * Returns a PlayerEntity object with the given ID.
+     * Throws NoSuchElementException if no player with the given ID is found.
+     * @param Id the ID of the player to retrieve.
+     * @return a PlayerEntity object with the given ID.
+     * @throws NoSuchElementException if no player with the given ID is found.
+     */
     public PlayerEntity getPlayerEntityById(Long Id) {
         return players.stream().filter(playerEntity -> Objects.equals(playerEntity.getId(), Id))
                 .findFirst()
