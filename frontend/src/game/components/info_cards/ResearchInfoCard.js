@@ -8,6 +8,7 @@ const ResearchInfoCard = (props) => {
     const navigate = useNavigate();
     const { setHasResearched } = useContext(PlayerContext);
     const { addOneOrder } = useContext(OrderContext);
+    const { player } = props;
     const handleConfirm = () => {
         const order = {
             sourceTerritoryId: null,
@@ -23,6 +24,27 @@ const ResearchInfoCard = (props) => {
     const handleCancel = () => {
         navigate("/", { state: { gameId: props.gameId } });
     }
+    const getCardColor = (owner) => {
+        switch (owner) {
+            case "Red":
+                return "#FFCCCB";
+            case "Blue":
+                return "#ADD8E6";
+            case "Green":
+                return "#90EE90";
+            case "Yellow":
+                return "#FFFFE0";
+            default:
+                return "#F5F5F5";
+        }
+    };
+
+    const cardStyles = {
+        backgroundColor: getCardColor(player.name),
+        textAlign: "left",
+        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
+    };
+
     return (
         <>
             <Card>
@@ -54,12 +76,6 @@ const ResearchInfoCard = (props) => {
             </Row>
         </>
     );
-};
-
-const cardStyles = {
-    backgroundColor: "#FFCCCB",
-    textAlign: "left",
-    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
 };
 
 export default ResearchInfoCard;

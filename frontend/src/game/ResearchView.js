@@ -52,7 +52,7 @@ const ResearchView = () => {
                     <Col md={3}>
                         <PlayerInfoCard player={player} game={game} />
                         <br />
-                        <ResearchInfoCard gameId={gameId} />
+                        <ResearchInfoCard player={player} gameId={gameId} />
                     </Col>
                 </Row>
             </Container>

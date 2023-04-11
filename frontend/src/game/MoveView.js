@@ -59,7 +59,7 @@ const MoveView = () => {
                     <Col md={3}>
                         <PlayerInfoCard player={player} game={game} />
                         <br />
-                        <MoveToInfoCard source={sourceTerritory} target={targetTerritory} />
+                        <MoveToInfoCard player={player} source={sourceTerritory} target={targetTerritory} />
                     </Col>
                 </Row>
             </Container>
