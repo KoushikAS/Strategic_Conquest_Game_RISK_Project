@@ -2,6 +2,7 @@ package edu.duke.ece651.team13.server.rulechecker;
 
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import lombok.extern.slf4j.Slf4j;
 
 import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.getNextLevel;
 import static edu.duke.ece651.team13.server.util.GraphUtil.findMinCost;
@@ -24,6 +25,6 @@ public class UnitUpgradeTechResourceChecker extends RuleChecker {
     }
 
     public static int getTechCost(OrderEntity order) {
-        return order.getUnitNum() * getNextLevel(order.getUnitType()).getCost();
+        return order.getUnitNum() * (getNextLevel(order.getUnitType()).getCost() - order.getUnitType().getCost());
     }
 }

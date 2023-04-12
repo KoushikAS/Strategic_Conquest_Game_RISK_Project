@@ -69,6 +69,35 @@ class UnitUpgradeOrderServiceTest {
         assertEquals(6, game.getMap().getTerritories().get(0).getUnits().get(1).getUnitNum());
     }
 
+    @Test
+    void test_validateAndExecute_verify() throws IllegalArgumentException {
+        GameEntity game = getGameEntity();
+        PlayerEntity owner = new PlayerEntity();
+        owner.setId(1L);
+        owner.setTechResource(124);
+
+        TerritoryEntity source = game.getMap().getTerritories().get(0);
+        source.setOwner(owner);
+        source.getUnits().get(0).setUnitNum(18);
+        source.getUnits().add(new UnitEntity(UnitMappingEnum.LEVEL1, 0));
+        game.getPlayers().add(owner);
+
+
+        OrderEntity order = new OrderEntity();
+        order.setSource(source);
+        order.setDestination(null);
+        order.setOrderType(UNIT_UPGRADE);
+        order.setUnitType(UnitMappingEnum.LEVEL0);
+        order.setUnitNum(8);
+        order.setPlayer(owner);
+
+        service.validateAndExecuteLocally(order, game);
+
+        assertEquals(10, source.getUnitForType(UnitMappingEnum.LEVEL0).getUnitNum());
+        assertEquals(8, source.getUnitForType(UnitMappingEnum.LEVEL1).getUnitNum());
+        assertEquals(100, owner.getTechResource());
+    }
+
 
     @Test
     void test_executeOnGameSuccess() throws IllegalArgumentException {
