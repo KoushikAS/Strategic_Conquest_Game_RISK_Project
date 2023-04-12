@@ -28,9 +28,9 @@ const LostInfoCard = (props) => {
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
     };
 
-    const handleRefresh = () => {
-        navigate("/", { state: { gameId: props.gameId } });
-    };
+    // const handleRefresh = () => {
+    //     navigate("/", { state: { gameId: props.gameId } });
+    // };
 
     return (
         <><Card>
@@ -41,7 +41,7 @@ const LostInfoCard = (props) => {
             <Row className="text-center" style={{ marginTop: "80%" }}>
                 <Col>
                     <Button
-                        onClick={handleRefresh}
+                        onClick={props.handleRefresh}
                         variant="success"
                         size="lg"
                         style={{ fontWeight: "bold" }}
