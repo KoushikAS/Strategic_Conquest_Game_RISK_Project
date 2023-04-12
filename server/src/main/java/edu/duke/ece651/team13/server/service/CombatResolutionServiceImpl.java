@@ -11,7 +11,6 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -104,18 +103,22 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
 
         //Add all attackers to the war party
         for (AttackerEntity attacker : attackers) {
-            PlayerEntity player = attacker.getAttacker();
-            if (!warParties.containsKey(player)) {
-                warParties.put(player, new ArrayList<>());
+            if(attacker.getUnits() > 0){
+                PlayerEntity player = attacker.getAttacker();
+                if (!warParties.containsKey(player)) {
+                    warParties.put(player, new ArrayList<>());
+                }
+                warParties.get(player).add(new MutablePair<UnitMappingEnum, Integer>(attacker.getUnitType(), attacker.getUnits()));
             }
-            warParties.get(player).add(new MutablePair<UnitMappingEnum, Integer>(attacker.getUnitType(), attacker.getUnits()));
         }
 
         //Adding the defender to the war party
         PlayerEntity defender = territory.getOwner();
         warParties.put(defender, new ArrayList<>());
         for (UnitEntity unit : territory.getUnits()) {
-            warParties.get(defender).add(new MutablePair<UnitMappingEnum, Integer>(unit.getUnitType(), unit.getUnitNum()));
+            if(unit.getUnitNum() > 0){
+                warParties.get(defender).add(new MutablePair<UnitMappingEnum, Integer>(unit.getUnitType(), unit.getUnitNum()));
+            }
         }
 
         return warParties;
