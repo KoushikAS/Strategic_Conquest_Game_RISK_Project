@@ -98,6 +98,18 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
         }
     }
 
+    public void addUnitsToMutablePairList(List<MutablePair<UnitMappingEnum, Integer>> unitPairs, UnitMappingEnum unitType, Integer unitNum ){
+        for (MutablePair<UnitMappingEnum, Integer> unitPair : unitPairs) {
+            if (unitPair.getLeft().equals(unitType)) {
+                //Appending to the already existing units
+                unitPair.setRight(unitPair.getRight() + unitNum);
+                return;
+            }
+        }
+
+        //If the Unit pair does not exist then create a new entry in the list.
+        unitPairs.add(new MutablePair<UnitMappingEnum, Integer>(unitType, unitNum));
+    }
 
     //Making public to test
     public Map<PlayerEntity, List<MutablePair<UnitMappingEnum, Integer>>> getWarParties(List<AttackerEntity> attackers, TerritoryEntity territory) {
@@ -110,7 +122,7 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
                 if (!warParties.containsKey(player)) {
                     warParties.put(player, new ArrayList<>());
                 }
-                warParties.get(player).add(new MutablePair<UnitMappingEnum, Integer>(attacker.getUnitType(), attacker.getUnits()));
+                addUnitsToMutablePairList(warParties.get(player), attacker.getUnitType(), attacker.getUnits());
             }
         }
 
@@ -119,7 +131,7 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
         warParties.put(defender, new ArrayList<>());
         for (UnitEntity unit : territory.getUnits()) {
             if(unit.getUnitNum() > 0){
-                warParties.get(defender).add(new MutablePair<UnitMappingEnum, Integer>(unit.getUnitType(), unit.getUnitNum()));
+                addUnitsToMutablePairList(warParties.get(defender), unit.getUnitType(), unit.getUnitNum());
             }
         }
 
