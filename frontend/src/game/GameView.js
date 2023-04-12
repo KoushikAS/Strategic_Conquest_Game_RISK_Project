@@ -103,7 +103,7 @@ const GameView = () => {
           <PlayerInfoCard player={player} game={game} />
           <br />
           {player.status === "PLAYING" && game.status !== "ENDED" && <PlayerOrderButtons player={player} gameId={gameId} />}
-          {player.status === "LOSE" && <LostInfoCard player={player} gameId={gameId} />}
+          {player.status === "LOSE" && <LostInfoCard player={player} gameId={gameId} handleRefresh={handleRefresh} />}
           {game.status === "ENDED" && player.status === "PLAYING" && <WinInfoCard player={player} />}
         </Col>
       </Row>
