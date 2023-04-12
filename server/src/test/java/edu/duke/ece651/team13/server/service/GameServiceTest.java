@@ -91,6 +91,27 @@ public class GameServiceTest {
     }
 
     @Test
+    void  getGamesLinkedToPlayeTest(){
+        UserEntity loggedInUser = new UserEntity();
+        loggedInUser.setId(1L);
+        GameEntity game = getGameEntity();
+        game.setId(1L);
+        List<PlayerEntity> players = new ArrayList<>();
+        PlayerEntity player = getPlayerEntity();
+        player.setUser(new UserEntity());
+        player.setGame(game);
+        players.add(player);
+        game.getPlayers().add(player);
+
+        when(userService.getUserById(loggedInUser.getId())).thenReturn(loggedInUser);
+        when(playerService.getPlayersByUser(any())).thenReturn(players);
+
+        List<GameDTO> games = service.getGamesLinkedToPlayer(loggedInUser.getId());
+        assertEquals(1, games.size());
+
+    }
+
+    @Test
     void createGamesTest(){
         GameEntity game = getGameEntity();
         when(repository.save(any(GameEntity.class))).thenReturn(game);
