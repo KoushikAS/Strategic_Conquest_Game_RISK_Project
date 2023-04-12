@@ -142,9 +142,7 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
 
             if (warPartyMap.get(attacker).size() <= 0) {
                 warParties.remove(i);
-            }
-
-            if (warPartyMap.get(defender).size() <= 0) {
+            } else if (warPartyMap.get(defender).size() <= 0) {
                 warParties.remove(j);
             }
 
@@ -175,7 +173,7 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
         territory.setOwner(winner.getKey());
         List<UnitEntity> unitEntities = new ArrayList<>();
         for (UnitEntity unit : territory.getUnits()) {
-            unit.setUnitNum(unitMapping.get(unit.getUnitType()));
+            unit.setUnitNum(unitMapping.getOrDefault(unit.getUnitType(), 0));
             unitEntities.add(unit);
         }
 
