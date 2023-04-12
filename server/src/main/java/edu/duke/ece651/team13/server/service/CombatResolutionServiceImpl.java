@@ -105,18 +105,27 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
 
         //Add all attackers to the war party
         for (AttackerEntity attacker : attackers) {
-            PlayerEntity player = attacker.getAttacker();
-            if (!warParties.containsKey(player)) {
-                warParties.put(player, new ArrayList<>());
+            if(attacker.getUnits() >0 ) { //Add to the list only if the attacker has units
+                PlayerEntity player = attacker.getAttacker();
+                if (!warParties.containsKey(player)) {
+                    warParties.put(player, new ArrayList<>());
+                }
+                warParties.get(player).add(new MutablePair<UnitMappingEnum, Integer>(attacker.getUnitType(), attacker.getUnits()));
             }
-            warParties.get(player).add(new MutablePair<UnitMappingEnum, Integer>(attacker.getUnitType(), attacker.getUnits()));
         }
 
         //Adding the defender to the war party
         PlayerEntity defender = territory.getOwner();
         warParties.put(defender, new ArrayList<>());
         for (UnitEntity unit : territory.getUnits()) {
-            warParties.get(defender).add(new MutablePair<UnitMappingEnum, Integer>(unit.getUnitType(), unit.getUnitNum()));
+            if(unit.getUnitNum() > 0){
+                warParties.get(defender).add(new MutablePair<UnitMappingEnum, Integer>(unit.getUnitType(), unit.getUnitNum()));
+            }
+        }
+
+        //If the defender has no units then removing him from the war parties list.
+        if(warParties.get(defender).size() == 0){
+            warParties.remove(defender);
         }
 
         return warParties;
