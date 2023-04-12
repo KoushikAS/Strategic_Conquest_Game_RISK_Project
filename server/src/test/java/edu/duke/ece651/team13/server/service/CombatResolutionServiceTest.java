@@ -223,6 +223,25 @@ public class CombatResolutionServiceTest {
     }
 
     @Test
+    void resolveCombat_NoAttacker() {
+        PlayerEntity defender = new PlayerEntity("defender");
+
+        defender.setId(1L);
+
+
+        TerritoryEntity territory = new TerritoryEntity();
+        territory.setOwner(defender);
+        territory.getUnits().add(new UnitEntity(1L, UnitMappingEnum.LEVEL0, territory, 1));
+
+        when(attackerService.getAttackers(territory)).thenReturn(new ArrayList<>());
+
+        service.resolveCombot(territory);
+        verify(territoryService, times(0)).updateTerritoryUnits(any(TerritoryEntity.class), any());
+        verify(territoryService, times(0)).updateTerritoryOwner(any(TerritoryEntity.class), any());
+        verify(attackerService, times(0)).clearAttackers(any(TerritoryEntity.class));
+    }
+
+    @Test
     void resolveCombat() {
         PlayerEntity defender = new PlayerEntity("defender");
         PlayerEntity attacker = new PlayerEntity("attacker");

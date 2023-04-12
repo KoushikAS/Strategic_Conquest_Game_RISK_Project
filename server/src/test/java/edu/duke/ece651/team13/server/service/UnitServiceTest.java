@@ -42,4 +42,15 @@ class UnitServiceTest {
         verify(repository, times(1)).save(any(UnitEntity.class));
         verifyNoMoreInteractions(repository);
     }
+
+    @Test
+    void updateUnitTest() {
+        TerritoryEntity territory = getTerritoryEntity();
+        UnitEntity unit = getUnitEntity(10);
+        when(repository.save(any(UnitEntity.class))).thenReturn(unit);
+        UnitEntity actual = service.updateUnit(unit, 5);
+        assertEquals(unit, actual);
+        verify(repository, times(1)).save(any(UnitEntity.class));
+        verifyNoMoreInteractions(repository);
+    }
 }

@@ -69,6 +69,20 @@ public class PlayerServiceTest {
     }
 
     @Test
+    void getPlayerByUserGameTest() {
+        GameEntity game = getGameEntity();
+        UserEntity user = new UserEntity();
+        PlayerEntity player = getPlayerEntity();
+        when(repository.findByUserAndGame(user, game)).thenReturn(Optional.of(player));
+
+
+        PlayerEntity actual = service.getPlayerByUserAndGame(user, game);
+        assertEquals(player, actual);
+        verify(repository, times(1)).findByUserAndGame(user, game);
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
     void createPlayerTest() {
         GameEntity game = getGameEntity();
         PlayerEntity player = getPlayerEntity();

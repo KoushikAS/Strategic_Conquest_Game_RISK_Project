@@ -29,8 +29,4 @@ public interface OrderService {
      */
     void validateAndAddOrders(OrdersDTO orders, Long playerId) throws IllegalArgumentException;
 
-    /**
-     * Deletes all orders from the database.
-     */
-    void deleteAllOrders();
 }
