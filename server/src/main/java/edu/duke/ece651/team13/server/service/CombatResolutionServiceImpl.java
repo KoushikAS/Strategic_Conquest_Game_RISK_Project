@@ -123,7 +123,6 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
                 }
                 addUnitsToMutablePairList(warParties.get(player), attacker.getUnitType(), attacker.getUnits());
             }
-            warParties.get(player).add(new MutablePair<UnitMappingEnum, Integer>(attacker.getUnitType(), attacker.getUnits()));
         }
 
         //Adding the defender to the war party
