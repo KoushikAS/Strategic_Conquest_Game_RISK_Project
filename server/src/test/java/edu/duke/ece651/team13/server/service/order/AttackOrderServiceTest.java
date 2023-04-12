@@ -80,6 +80,7 @@ class AttackOrderServiceTest {
         GameEntity game = getGameEntity();
         PlayerEntity owner = new PlayerEntity();
         owner.setId(1L);
+        owner.setFoodResource(150);
         PlayerEntity opponent = new PlayerEntity();
         opponent.setId(2L);
         TerritoryEntity source = game.getMap().getTerritories().get(0);

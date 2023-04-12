@@ -223,6 +223,25 @@ public class CombatResolutionServiceTest {
     }
 
     @Test
+    void resolveCombat_NoAttacker() {
+        PlayerEntity defender = new PlayerEntity("defender");
+
+        defender.setId(1L);
+
+
+        TerritoryEntity territory = new TerritoryEntity();
+        territory.setOwner(defender);
+        territory.getUnits().add(new UnitEntity(1L, UnitMappingEnum.LEVEL0, territory, 1));
+
+        when(attackerService.getAttackers(territory)).thenReturn(new ArrayList<>());
+
+        service.resolveCombot(territory);
+        verify(territoryService, times(0)).updateTerritoryUnits(any(TerritoryEntity.class), any());
+        verify(territoryService, times(0)).updateTerritoryOwner(any(TerritoryEntity.class), any());
+        verify(attackerService, times(0)).clearAttackers(any(TerritoryEntity.class));
+    }
+
+    @Test
     void resolveCombat() {
         PlayerEntity defender = new PlayerEntity("defender");
         PlayerEntity attacker = new PlayerEntity("attacker");
@@ -243,4 +262,30 @@ public class CombatResolutionServiceTest {
         verify(territoryService, times(1)).updateTerritoryOwner(any(TerritoryEntity.class), any());
         verify(attackerService, times(1)).clearAttackers(any(TerritoryEntity.class));
     }
+
+    @Test
+    void addUnitsToMutablePairListTest() {
+        List<MutablePair<UnitMappingEnum, Integer>> units = new ArrayList<>();
+
+
+
+        service.addUnitsToMutablePairList(units, UnitMappingEnum.LEVEL0, 5);
+
+        assertEquals(1, units.size());
+        assertEquals(UnitMappingEnum.LEVEL0, units.get(0).getLeft() );
+        assertEquals(5, units.get(0).getRight() );
+
+        service.addUnitsToMutablePairList(units, UnitMappingEnum.LEVEL1, 2);
+
+        assertEquals(2, units.size());
+        assertEquals(UnitMappingEnum.LEVEL1, units.get(1).getLeft() );
+        assertEquals(2, units.get(1).getRight() );
+
+        service.addUnitsToMutablePairList(units, UnitMappingEnum.LEVEL1, 2);
+
+        assertEquals(2, units.size());
+        assertEquals(UnitMappingEnum.LEVEL1, units.get(1).getLeft() );
+        assertEquals(4, units.get(1).getRight() );
+    }
+
 }

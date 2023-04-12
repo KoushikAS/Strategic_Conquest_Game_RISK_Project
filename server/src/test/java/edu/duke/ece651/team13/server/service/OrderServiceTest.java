@@ -27,15 +27,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.*;
 import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL0;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -84,10 +81,36 @@ public class OrderServiceTest {
     }
 
     @Test
+    void deleteOrdersByPlayerTest() {
+
+        service.deleteOrdersByPlayer(new PlayerEntity("Red"));
+        verify(repository, times(1)).deleteByPlayer(any());
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
     void validateAndAddOrders_LoosingPlayerIssueOrderTest() {
         PlayerEntity losePlayer = new PlayerEntity();
         losePlayer.setStatus(PlayerStatusEnum.LOSE);
         losePlayer.setId(1L);
+        when(playerService.getPlayer(any())).thenReturn(losePlayer);
+
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        orderDTOS.add(new OrderDTO(1L, 2L, 5, LEVEL0.getType(), MOVE.getValue()));
+        OrdersDTO ordersDTO = new OrdersDTO();
+        ordersDTO.setOrders(orderDTOS);
+
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndAddOrders(ordersDTO, losePlayer.getId()));
+    }
+
+    @Test
+    void validateAndAddOrders_PlayerAlreadyIssuedOrderTest() {
+        PlayerEntity losePlayer = new PlayerEntity();
+        losePlayer.setStatus(PlayerStatusEnum.PLAYING);
+        losePlayer.setId(1L);
+        List<OrderEntity> orders = new ArrayList<>();
+        orders.add(new OrderEntity());
+        when(repository.findByPlayer(any())).thenReturn(orders);
         when(playerService.getPlayer(any())).thenReturn(losePlayer);
 
         List<OrderDTO> orderDTOS = new ArrayList<>();
@@ -209,6 +232,31 @@ public class OrderServiceTest {
     }
 
     @Test
+    void validateAndAddOrders_OrdersContain2TechUpgradeOrderTest() throws IllegalAccessException {
+        TerritoryEntity territory = new TerritoryEntity();
+        territory.setId(1L);
+        MapEntity map = new MapEntity();
+        map.getTerritories().add(territory);
+        GameEntity game = new GameEntity();
+        game.setMap(map);
+        game.setStatus(GameStatusEnum.PLAYING);
+        game.setRoundNo(1);
+        PlayerEntity player = new PlayerEntity();
+        player.setStatus(PlayerStatusEnum.PLAYING);
+        player.setId(1L);
+        player.setGame(game);
+        when(playerService.getPlayer(any())).thenReturn(player);
+
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        orderDTOS.add(new OrderDTO(1L, null, 0, null, TECH_RESEARCH.getValue()));
+        orderDTOS.add(new OrderDTO(1L, null, 0, null, TECH_RESEARCH.getValue()));
+        OrdersDTO ordersDTO = new OrdersDTO();
+        ordersDTO.setOrders(orderDTOS);
+
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndAddOrders(ordersDTO, player.getId()));
+    }
+
+    @Test
     void validateAndAddOrders_SuccessButNoReadyForRoundExecutionTest() throws IllegalAccessException {
         TerritoryEntity territory = new TerritoryEntity();
         territory.setId(1L);
@@ -232,11 +280,13 @@ public class OrderServiceTest {
         List<OrderDTO> orderDTOS = new ArrayList<>();
         orderDTOS.add(new OrderDTO(1L, 1L, 5, LEVEL0.getType(), MOVE.getValue()));
         orderDTOS.add(new OrderDTO(1L, 1L, 5, LEVEL0.getType(), ATTACK.getValue()));
+        orderDTOS.add(new OrderDTO(1L, null, 5, LEVEL0.getType(), UNIT_UPGRADE.getValue()));
+        orderDTOS.add(new OrderDTO(1L, null, 0, null, TECH_RESEARCH.getValue()));
         OrdersDTO ordersDTO = new OrdersDTO();
         ordersDTO.setOrders(orderDTOS);
 
         service.validateAndAddOrders(ordersDTO, player.getId());
-        verify(repository, times(2)).save(any(OrderEntity.class));
+        verify(repository, times(4)).save(any(OrderEntity.class));
         verify(eventPublisher, times(0)).publishEvent(any(Long.class));
     }
 
