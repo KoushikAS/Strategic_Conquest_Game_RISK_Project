@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const LostInfoCard = (props) => {
+const WinInfoCard = (props) => {
 
     const { player } = props;
     const navigate = useNavigate();
@@ -28,29 +28,29 @@ const LostInfoCard = (props) => {
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
     };
 
-    // const handleRefresh = () => {
-    //     navigate("/", { state: { gameId: props.gameId } });
-    // };
+    const handleRedirect = () => {
+        navigate("/gameList");
+    };
 
     return (
         <><Card>
             <Card.Body style={cardStyles}>
-                <Card.Text>You have already lost! You can only spectate the game now. Click the refresh button below to watch the lastest game.</Card.Text>
+                <Card.Text>Congratulations! You have won! Feel free to start a new game.</Card.Text>
             </Card.Body>
         </Card>
             <Row className="text-center" style={{ marginTop: "80%" }}>
                 <Col>
                     <Button
-                        onClick={props.handleRefresh}
-                        variant="success"
+                        onClick={handleRedirect}
+                        variant="danger"
                         size="lg"
                         style={{ fontWeight: "bold" }}
                     >
-                        Refresh
+                        Game List
                     </Button>
                 </Col>
             </Row></>
 
     );
 };
-export default LostInfoCard;
+export default WinInfoCard;
