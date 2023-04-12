@@ -1,9 +1,12 @@
 package edu.duke.ece651.team13.server.rulechecker;
 
-import edu.duke.ece651.team13.server.order.Order;
-import edu.duke.ece651.team13.shared.territory.TerritoryRO;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 
 import java.util.Iterator;
+import java.util.stream.Collectors;
 
 /**
  * Checks if an attack order has the correct path, i.e.,
@@ -14,15 +17,11 @@ public class AttackPathChecker extends RuleChecker {
         super(next);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected String checkMyRule(Order order) {
-        if (!isValidPath(order.getSource(), order.getDestination())) {
-            return "Invalid attack order: You can only attack an adjacent territory owned by another player.";
+    protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
+        if (!isAdjacentToTerritory(order.getSource(), order.getDestination())) {
+            throw new IllegalArgumentException("Invalid attack order: You can only attack an adjacent territory owned by another player.");
         }
-        return null;
     }
 
     /**
@@ -32,15 +31,16 @@ public class AttackPathChecker extends RuleChecker {
      * @param destination the destination territory
      * @return true if it is a valid path and false otherwise
      */
-    private boolean isValidPath(TerritoryRO source, TerritoryRO destination) {
-        Iterator<TerritoryRO> it = source.getNeighbourIterartor();
+    private boolean isAdjacentToTerritory(TerritoryEntity source, TerritoryEntity destination) {
+        Iterator<TerritoryEntity> it = source.getConnections().stream().map(TerritoryConnectionEntity::getDestinationTerritory).collect(Collectors.toList()).iterator();
 
         while (it.hasNext()) {
-            TerritoryRO neighbor = it.next();
+            TerritoryEntity neighbor = it.next();
             if (destination == neighbor) {
                 return true;
             }
         }
         return false;
     }
+
 }

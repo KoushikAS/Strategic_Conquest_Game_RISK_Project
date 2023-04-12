@@ -49,6 +49,7 @@ class UnitUpgradeOrderServiceTest {
         owner.setTechResource(150);
         owner.setMaxTechLevel(1);
 
+
         TerritoryEntity source = game.getMap().getTerritories().get(0);
         source.setOwner(owner);
         source.getUnits().get(0).setUnitNum(5);
@@ -77,6 +78,7 @@ class UnitUpgradeOrderServiceTest {
         owner.setId(1L);
         owner.setTechResource(124);
         owner.setMaxTechLevel(1);
+
 
         TerritoryEntity source = game.getMap().getTerritories().get(0);
         source.setOwner(owner);
@@ -108,6 +110,7 @@ class UnitUpgradeOrderServiceTest {
         owner.setId(1L);
         owner.setTechResource(150);
         owner.setMaxTechLevel(1);
+
 
         TerritoryEntity source = game.getMap().getTerritories().get(0);
         source.setOwner(owner);
@@ -216,6 +219,7 @@ class UnitUpgradeOrderServiceTest {
         owner.setId(1L);
         owner.setTechResource(150);
         owner.setMaxTechLevel(1);
+
 
         TerritoryEntity source = game.getMap().getTerritories().get(0);
         source.setOwner(new PlayerEntity());
