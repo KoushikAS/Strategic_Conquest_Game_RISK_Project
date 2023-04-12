@@ -97,6 +97,18 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
         }
     }
 
+    public void addUnitsToMutablePairList(List<MutablePair<UnitMappingEnum, Integer>> unitPairs, UnitMappingEnum unitType, Integer unitNum ){
+        for (MutablePair<UnitMappingEnum, Integer> unitPair : unitPairs) {
+            if (unitPair.getLeft().equals(unitType)) {
+                //Appending to the already existing units
+                unitPair.setRight(unitPair.getRight() + unitNum);
+                return;
+            }
+        }
+
+        //If the Unit pair does not exist then create a new entry in the list.
+        unitPairs.add(new MutablePair<UnitMappingEnum, Integer>(unitType, unitNum));
+    }
 
     //Making public to test
     public Map<PlayerEntity, List<MutablePair<UnitMappingEnum, Integer>>> getWarParties(List<AttackerEntity> attackers, TerritoryEntity territory) {
@@ -104,9 +116,12 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
 
         //Add all attackers to the war party
         for (AttackerEntity attacker : attackers) {
-            PlayerEntity player = attacker.getAttacker();
-            if (!warParties.containsKey(player)) {
-                warParties.put(player, new ArrayList<>());
+            if(attacker.getUnits() >0 ) { //Add to the list only if the attacker has units
+                PlayerEntity player = attacker.getAttacker();
+                if (!warParties.containsKey(player)) {
+                    warParties.put(player, new ArrayList<>());
+                }
+                addUnitsToMutablePairList(warParties.get(player), attacker.getUnitType(), attacker.getUnits());
             }
             warParties.get(player).add(new MutablePair<UnitMappingEnum, Integer>(attacker.getUnitType(), attacker.getUnits()));
         }
@@ -115,7 +130,14 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
         PlayerEntity defender = territory.getOwner();
         warParties.put(defender, new ArrayList<>());
         for (UnitEntity unit : territory.getUnits()) {
-            warParties.get(defender).add(new MutablePair<UnitMappingEnum, Integer>(unit.getUnitType(), unit.getUnitNum()));
+            if(unit.getUnitNum() > 0){
+                addUnitsToMutablePairList(warParties.get(defender), unit.getUnitType(), unit.getUnitNum());
+            }
+        }
+
+        //If the defender has no units then removing him from the war parties list.
+        if(warParties.get(defender).size() == 0){
+            warParties.remove(defender);
         }
 
         return warParties;

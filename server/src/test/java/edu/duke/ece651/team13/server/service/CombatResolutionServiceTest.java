@@ -243,4 +243,30 @@ public class CombatResolutionServiceTest {
         verify(territoryService, times(1)).updateTerritoryOwner(any(TerritoryEntity.class), any());
         verify(attackerService, times(1)).clearAttackers(any(TerritoryEntity.class));
     }
+
+    @Test
+    void addUnitsToMutablePairListTest() {
+        List<MutablePair<UnitMappingEnum, Integer>> units = new ArrayList<>();
+
+
+
+        service.addUnitsToMutablePairList(units, UnitMappingEnum.LEVEL0, 5);
+
+        assertEquals(1, units.size());
+        assertEquals(UnitMappingEnum.LEVEL0, units.get(0).getLeft() );
+        assertEquals(5, units.get(0).getRight() );
+
+        service.addUnitsToMutablePairList(units, UnitMappingEnum.LEVEL1, 2);
+
+        assertEquals(2, units.size());
+        assertEquals(UnitMappingEnum.LEVEL1, units.get(1).getLeft() );
+        assertEquals(2, units.get(1).getRight() );
+
+        service.addUnitsToMutablePairList(units, UnitMappingEnum.LEVEL1, 2);
+
+        assertEquals(2, units.size());
+        assertEquals(UnitMappingEnum.LEVEL1, units.get(1).getLeft() );
+        assertEquals(4, units.get(1).getRight() );
+    }
+
 }
