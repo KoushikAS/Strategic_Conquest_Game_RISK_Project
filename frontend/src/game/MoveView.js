@@ -63,7 +63,7 @@ const MoveView = () => {
                     </Col>
                 </Row>
             </Container>
-            <UnitSelectModal gameId={gameId} source={sourceTerritory} target={targetTerritory} territories={game.map.territories} orderType="MOVE" />
+            <UnitSelectModal player={player} gameId={gameId} source={sourceTerritory} target={targetTerritory} territories={game.map.territories} orderType="MOVE" />
         </>
     );
 };

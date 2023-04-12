@@ -72,10 +72,6 @@ public class RoundServiceImpl implements RoundService {
                     .forEach(order -> attackOrder.executeOnGame(order, game));
 
             orders.stream()
-                    .filter(order -> order.getOrderType().equals(OrderMappingEnum.UNIT_UPGRADE))
-                    .forEach(order -> unitUpgradeOrder.executeOnGame(order, game));
-
-            orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.TECH_RESEARCH))
                     .forEach(order -> techResearchOrder.executeOnGame(order, game));
         }

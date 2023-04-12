@@ -21,8 +21,8 @@ public class AttackUnitNumChecker extends RuleChecker {
         int attackUnitNum = order.getUnitNum();
         if (sourceUnitNum < attackUnitNum) {
             throw new IllegalArgumentException("Invalid attack order: Don't have sufficient unit number in the territory.");
-        } else if (attackUnitNum < 0) {
-            throw new IllegalArgumentException("Invalid attack order: The unit number to move should be >= 0.");
+        } else if (attackUnitNum <= 0) {
+            throw new IllegalArgumentException("Invalid attack order: The unit number to move should be > 0.");
         }
     }
 }

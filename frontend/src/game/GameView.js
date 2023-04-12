@@ -10,6 +10,8 @@ import { useContext } from "react";
 import { AuthContext } from "../auth/AuthProvider";
 import { OrderContext } from "./context/OrderProvider";
 import { PlayerContext } from "./context/PlayerProvider";
+import LostInfoCard from "./components/info_cards/LostInfoCard";
+import WinInfoCard from "./components/info_cards/WinInfoCard";
 
 const GameView = () => {
   const { user } = useContext(AuthContext);
@@ -100,7 +102,9 @@ const GameView = () => {
         <Col md={3}>
           <PlayerInfoCard player={player} game={game} />
           <br />
-          <PlayerOrderButtons player={player} gameId={gameId} />
+          {player.status === "PLAYING" && game.status !== "ENDED" && <PlayerOrderButtons player={player} gameId={gameId} />}
+          {player.status === "LOSE" && <LostInfoCard player={player} gameId={gameId} handleRefresh={handleRefresh} />}
+          {game.status === "ENDED" && player.status === "PLAYING" && <WinInfoCard player={player} />}
         </Col>
       </Row>
     </Container>
