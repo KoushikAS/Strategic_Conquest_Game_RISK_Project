@@ -7,6 +7,7 @@ import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.util.Dice;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CombatResolutionServiceImpl implements CombatResolutionService {
 
     @Autowired
@@ -142,9 +144,7 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
 
             if (warPartyMap.get(attacker).size() <= 0) {
                 warParties.remove(i);
-            }
-
-            if (warPartyMap.get(defender).size() <= 0) {
+            } else if (warPartyMap.get(defender).size() <= 0) {
                 warParties.remove(j);
             }
 
@@ -175,7 +175,7 @@ public class CombatResolutionServiceImpl implements CombatResolutionService {
         territory.setOwner(winner.getKey());
         List<UnitEntity> unitEntities = new ArrayList<>();
         for (UnitEntity unit : territory.getUnits()) {
-            unit.setUnitNum(unitMapping.get(unit.getUnitType()));
+            unit.setUnitNum(unitMapping.getOrDefault(unit.getUnitType(), 0));
             unitEntities.add(unit);
         }
 
