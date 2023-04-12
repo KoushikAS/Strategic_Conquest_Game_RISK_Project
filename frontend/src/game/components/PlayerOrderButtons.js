@@ -20,6 +20,9 @@ const PlayerOrderButtons = (props) => {
   const handleCloseFailure = () => setShowFailure(false);
   const handleShowFailure = () => setShowFailure(true);
 
+  // order error messages
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleAttack = () => {
     navigate("/attack", { state: { gameId: props.gameId } });
   };
@@ -53,7 +56,8 @@ const PlayerOrderButtons = (props) => {
       setHasDone(true);
       handleShowSuccess();
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
+      setErrorMessage(error.response.data.message);
       handleShowFailure();
       removeAllOrders();
     }
@@ -147,7 +151,7 @@ const PlayerOrderButtons = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Please check your orders to make sure they comply with the game rules.
+          The error is: {errorMessage}
         </Modal.Body>
       </Modal>
     </>
