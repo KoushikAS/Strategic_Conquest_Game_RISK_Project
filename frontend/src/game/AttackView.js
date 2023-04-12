@@ -63,7 +63,7 @@ const AttackView = () => {
           </Col>
         </Row>
       </Container>
-      <UnitSelectModal gameId={gameId} source={sourceTerritory} target={targetTerritory} territories={game.map.territories} orderType="ATTACK" />
+      <UnitSelectModal player={player} gameId={gameId} source={sourceTerritory} target={targetTerritory} territories={game.map.territories} orderType="ATTACK" />
     </>
   );
 };
