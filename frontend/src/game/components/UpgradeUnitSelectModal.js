@@ -15,9 +15,6 @@ const UpgradeUnitSelectModal = (props) => {
     const getTerritory = (name) => {
         return territories.find((territory) => territory.name === name);
     };
-    const getUnit = (unitType, territoryName) => {
-        return getTerritory(territoryName).units.find((unit) => unit.unitType === unitType);
-    };
 
     const [sliderValue0, setSliderValue0] = useState(0);
     const [sliderValue1, setSliderValue1] = useState(0);

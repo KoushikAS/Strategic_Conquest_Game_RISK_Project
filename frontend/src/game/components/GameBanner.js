@@ -18,6 +18,8 @@ const GameBanner = (props) => {
         return "Click the Confirm button to place your research order.";
       case "upgrade":
         return "Click the name of one of your territories to upgrade units in."
+      case "cloak":
+        return "Click the name of one of your territories to cloak it."
       default:
         return "Welcome to Really Interesting Strategic Conquest (RISC)!";
     }

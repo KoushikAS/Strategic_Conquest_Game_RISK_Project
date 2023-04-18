@@ -62,4 +62,12 @@ const getTerritoryColor = (owner, highlight) => {
   }
 };
 
+const oldTerritoryInfoStyles = {
+  filter: "grayscale(50%)",
+};
+
+const unknownTerritoryStyles = {
+  backgroundColor: "#77A6F7",
+}
+
 export default TerritoryView;
