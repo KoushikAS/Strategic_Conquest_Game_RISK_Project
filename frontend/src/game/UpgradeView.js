@@ -58,7 +58,7 @@ const UpgradeView = () => {
                     </Col>
                 </Row>
             </Container>
-            <UpgradeUnitSelectModal gameId={gameId} source={sourceTerritory} territories={game.map.territories} orderType="UNIT_UPGRADE" />
+            <UpgradeUnitSelectModal player={player} gameId={gameId} source={sourceTerritory} territories={game.map.territories} orderType="UNIT_UPGRADE" />
         </>
     );
 };
