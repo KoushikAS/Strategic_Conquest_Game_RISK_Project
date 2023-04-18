@@ -39,6 +39,20 @@ const PlayerOrderButtons = (props) => {
     navigate("/upgrade", { state: { gameId: props.gameId } });
   }
 
+  const handleSpy = () => {
+    // TODO: implement spy operation
+    console.log("Doing spy operation!")
+  }
+
+  const handleCloak = () => {
+    navigate("/cloak", { state: { gameId: props.gameId } });
+  }
+
+  const handleDraw = () => {
+    // TODO: implement draw card operation
+    console.log("You have drawn a card!")
+  }
+
   const handleBack = () => {
     navigate("/gameList");
   }
@@ -70,7 +84,7 @@ const PlayerOrderButtons = (props) => {
           <Button
             onClick={handleMove}
             className="rounded-circle"
-            style={moveButtonStyles}
+            style={basicOrderButtonStyles}
             size="lg"
           >
             Move
@@ -78,38 +92,80 @@ const PlayerOrderButtons = (props) => {
         </Col>
         <Col md={6}>
           <Button
+            onClick={handleDraw}
+            className="rounded-circle"
+            style={advancedOrderButtonStyles}
+            size="lg"
+          >
+            Card
+          </Button>
+        </Col>
+      </Row>
+
+      <br />
+      <Row className="text-center">
+        <Col md={6}>
+          <Button
             onClick={handleAttack}
             className="rounded-circle"
-            style={moveButtonStyles}
+            style={basicOrderButtonStyles}
             size="lg"
           >
             Attack
           </Button>
         </Col>
+        <Col md={6}>
+          <Button
+            onClick={handleSpy}
+            className="rounded-circle"
+            style={advancedOrderButtonStyles}
+            size="lg"
+          >
+            Spy
+          </Button>
+        </Col>
       </Row>
+
       <br />
       <Row className="text-center">
         <Col md={6}>
           {!hasResearched && <Button
             onClick={handleResearch}
             className="rounded-circle"
-            style={researchButtonStyles}
+            style={basicOrderButtonStyles}
             size="lg"
           >
             Research
           </Button>}
         </Col>
+        {props.player.maxTechLevel >= 3 &&
+          <Col md={6}>
+            <Button
+              onClick={handleCloak}
+              className="rounded-circle"
+              style={advancedOrderButtonStyles}
+              size="lg"
+            >
+              Cloak
+            </Button>
+          </Col>}
+      </Row>
+
+      <br />
+      <Row className="text-center">
         <Col md={6}>
           <Button
             onClick={handleUpgrade}
             className="rounded-circle"
-            style={upgradeButtonStyles}
+            style={basicOrderButtonStyles}
             size="lg"
           >
             Upgrade
           </Button>
         </Col>
       </Row>
+
+
       <Row className="text-center" style={{ marginTop: "80%" }}>
         <Col>
           <Button
@@ -168,12 +224,12 @@ const orderButtonStyles = {
   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
 };
 
-const moveButtonStyles = {
+const basicOrderButtonStyles = {
   ...orderButtonStyles,
   backgroundColor: "#17A2B8",
 };
 
-const researchButtonStyles = {
+const advancedOrderButtonStyles = {
   ...orderButtonStyles,
   backgroundColor: "#FFC107",
 };
