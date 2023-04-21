@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_UNBREAKABLE_DEFENCE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.*;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
 @Service
@@ -89,6 +89,7 @@ public class RoundServiceImpl implements RoundService {
     }
 
     private void resolveCombatForGame(GameEntity game) {
+        executeUnbreakableDefense(game);
         game.getMap().getTerritories().forEach(combatResolutionService::resolveCombot);
     }
 
@@ -111,15 +112,19 @@ public class RoundServiceImpl implements RoundService {
 
     private void updateResourceForPlayers(List<PlayerEntity> players) {
         for (PlayerEntity player : players) {
-            List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
-            int foodProduction = 0;
-            int techProduction = 0;
-            for (TerritoryEntity territory : territoryEntities) {
-                foodProduction += territory.getFoodProduction();
-                techProduction += territory.getTechProduction();
+            List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
+            //Adding units only if there is no Famine
+            if (orders.stream().noneMatch(order -> order.getOrderType().equals(CARD_FAMINE))) {
+                List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
+                int foodProduction = 0;
+                int techProduction = 0;
+                for (TerritoryEntity territory : territoryEntities) {
+                    foodProduction += territory.getFoodProduction();
+                    techProduction += territory.getTechProduction();
+                }
+                playerService.updatePlayerFoodResource(player, player.getFoodResource() + foodProduction);
+                playerService.updatePlayerTechResource(player, player.getTechResource() + techProduction);
             }
-            playerService.updatePlayerFoodResource(player, player.getFoodResource() + foodProduction);
-            playerService.updatePlayerTechResource(player, player.getTechResource() + techProduction);
         }
     }
 
@@ -129,11 +134,20 @@ public class RoundServiceImpl implements RoundService {
      */
     private void addUnitForPlayers(List<PlayerEntity> players){
         for (PlayerEntity player : players) {
+            //Checking for Level 6  bonus upgrade
+            List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
+            boolean conqueringWarriorsUpdate = orders.stream().anyMatch(order -> order.getOrderType().equals(CARD_CONQUERING_WARRIORS));
+
             List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
             for (TerritoryEntity territory : territoryEntities){
                 UnitEntity basicUnitEntity = territory.getUnitForType( UnitMappingEnum.LEVEL0);
                 unitService.updateUnit(basicUnitEntity, basicUnitEntity.getUnitNum() + 1);
 
+                //adding Level 6 for the conquering Warriors update
+                if(conqueringWarriorsUpdate){
+                    UnitEntity conqueringWarriorsUnitEntity = territory.getUnitForType( UnitMappingEnum.LEVEL6);
+                    unitService.updateUnit(conqueringWarriorsUnitEntity, conqueringWarriorsUnitEntity.getUnitNum() + 1);
+                }
             }
         }
     }
@@ -153,7 +167,6 @@ public class RoundServiceImpl implements RoundService {
         executePlayersOrders(game);
 
         if (game.getRoundNo() >= 1) {
-            executeUnbreakableDefense(game);
             resolveCombatForGame(game);
             updateResourceForPlayers(game.getPlayers());
             addUnitForPlayers(game.getPlayers());
