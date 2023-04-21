@@ -75,6 +75,12 @@ public class RoundServiceImpl implements RoundService {
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.TECH_RESEARCH))
                     .forEach(order -> techResearchOrder.executeOnGame(order, game));
+        }
+    }
+
+    private void executeUnbreakableDefense(GameEntity game){
+        for (PlayerEntity player : game.getPlayers()) {
+            List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
 
             orders.stream()
                     .filter(order -> order.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE))
@@ -147,6 +153,7 @@ public class RoundServiceImpl implements RoundService {
         executePlayersOrders(game);
 
         if (game.getRoundNo() >= 1) {
+            executeUnbreakableDefense(game);
             resolveCombatForGame(game);
             updateResourceForPlayers(game.getPlayers());
             addUnitForPlayers(game.getPlayers());
