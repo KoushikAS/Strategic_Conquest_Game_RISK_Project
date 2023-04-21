@@ -37,6 +37,26 @@ class CardUnbreakableDefenceServiceTest {
 
 
     @Test
+    void test_validateAndExecuteLocallyNotOnwedAttackingSame() throws IllegalArgumentException {
+        GameEntity game = getGameEntity();
+        PlayerEntity owner = new PlayerEntity();
+        owner.setId(1L);
+        PlayerEntity opponent = new PlayerEntity();
+        opponent.setId(2L);
+        TerritoryEntity source = game.getMap().getTerritories().get(0);
+        source.setOwner(opponent);
+        game.getPlayers().add(owner);
+
+        OrderEntity order = new OrderEntity();
+        order.setSource(source);
+        order.setOrderType(CARD_UNBREAKABLE_DEFENCE);
+        order.setPlayer(owner);
+
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
+    }
+
+
+    @Test
     void test_executeOnGame() throws IllegalArgumentException {
         GameEntity game = getGameEntity();
         TerritoryEntity source = game.getMap().getTerritories().get(0);
