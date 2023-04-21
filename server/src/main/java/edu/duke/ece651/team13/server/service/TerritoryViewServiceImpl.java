@@ -46,8 +46,7 @@ public class TerritoryViewServiceImpl implements TerritoryViewService{
             territoryView.setOwnerDisplay(territoryView.getToDisplay().getOwner());
             for(int i=0; i<territoryView.getUnitsDisplay().size(); i++){
                 UnitViewEntity unitView = territoryView.getUnitsDisplay().get(i);
-                UnitEntity unit = territoryView.getToDisplay().getUnits().get(i);
-                unitViewService.updateUnitView(unitView, unit);
+                unitViewService.updateUnitView(unitView);
             }
         }
         // from VISIBLE_NEW to VISIBLE_OLD
@@ -57,7 +56,7 @@ public class TerritoryViewServiceImpl implements TerritoryViewService{
 
     /**
      * check whether the territory is visible to the viewer
-     * -> whether territory belongs to or is an immediately adjacent enemy territory to viewer
+     * -> whether territory belongs to viewer or is an immediately adjacent enemy territory to viewer
      * @param territory territory
      * @param viewer viewer
      * @return true if it is, otherwise false
@@ -65,9 +64,7 @@ public class TerritoryViewServiceImpl implements TerritoryViewService{
     private boolean isVisible(TerritoryEntity territory, PlayerEntity viewer){
         if(territory.getOwner().equals(viewer)) return true;
         for(TerritoryConnectionEntity t: territory.getConnections()){
-            if(t.getDestinationTerritory().getOwner().equals(viewer)){
-                return true;
-            }
+            if(t.getDestinationTerritory().getOwner().equals(viewer)) return true;
         }
         return false;
     }

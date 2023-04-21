@@ -28,10 +28,15 @@ public class UnitViewServiceImpl implements UnitViewService{
         return repository.save(unitView);
     }
 
+    /**
+     * make input unitView up-to-dated (has the same unitNum with its "toDisplay")
+     * @param unitView unitView to be updated
+     * @return up-to-date unitView
+     */
     @Override
     @Transactional
-    public UnitViewEntity updateUnitView(UnitViewEntity unitView, UnitEntity unitEntity){
-        unitView.setUnitNum(unitEntity.getUnitNum());
+    public UnitViewEntity updateUnitView(UnitViewEntity unitView){
+        unitView.setUnitNum(unitView.getToDisplay().getUnitNum());
         return repository.save(unitView);
     }
 }

@@ -309,7 +309,7 @@ public class MapServiceImpl implements MapService {
     }
 
     /**
-     * Each territory has playersNum territoryViews for different players respectively
+     * Each territory has (playersNum) territoryViews for different players respectively
      */
     private void initTerritoryViewForTerritories(MapEntity map, List<PlayerEntity> players){
         for(TerritoryEntity territoryToDisplay: map.getTerritories()){

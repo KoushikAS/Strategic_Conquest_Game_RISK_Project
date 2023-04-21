@@ -7,5 +7,5 @@ import edu.duke.ece651.team13.server.entity.UnitViewEntity;
 public interface UnitViewService {
     UnitViewEntity initUnitView(TerritoryViewEntity territoryView, UnitEntity unit);
 
-    UnitViewEntity updateUnitView(UnitViewEntity unitView, UnitEntity unitEntity);
+    UnitViewEntity updateUnitView(UnitViewEntity unitView);
 }

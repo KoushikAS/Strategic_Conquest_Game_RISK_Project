@@ -135,6 +135,10 @@ public class RoundServiceImpl implements RoundService {
         }
     }
 
+    /**
+     * update territoryViews for each territory after each round
+     * @param territoryEntities list of all territories in the map
+     */
     private void updateTerritoryViewForTerritories(List<TerritoryEntity> territoryEntities){
         for(TerritoryEntity territory: territoryEntities){
             for(TerritoryViewEntity territoryView: territory.getTerritoryViews()){
