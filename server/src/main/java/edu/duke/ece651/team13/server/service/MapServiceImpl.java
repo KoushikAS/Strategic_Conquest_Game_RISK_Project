@@ -156,7 +156,7 @@ public class MapServiceImpl implements MapService {
 
         initUnitForMap(mapEntity, initialUnitNum);
         initResourceForPlayers(players);
-        initTerritoryViewForPlayers(mapEntity, players);
+        initTerritoryViewForTerritories(mapEntity, players);
     }
 
     private void createMapFor3players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum) {
@@ -227,7 +227,7 @@ public class MapServiceImpl implements MapService {
 
         initUnitForMap(mapEntity, initialUnitNum);
         initResourceForPlayers(players);
-        initTerritoryViewForPlayers(mapEntity, players);
+        initTerritoryViewForTerritories(mapEntity, players);
     }
 
     private void createMapFor2players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum) {
@@ -273,7 +273,7 @@ public class MapServiceImpl implements MapService {
 
         initUnitForMap(mapEntity, initialUnitNum);
         initResourceForPlayers(players);
-        initTerritoryViewForPlayers(mapEntity, players);
+        initTerritoryViewForTerritories(mapEntity, players);
     }
 
     /**
@@ -309,12 +309,11 @@ public class MapServiceImpl implements MapService {
     }
 
     /**
-     * Each territory has (playersNum-1) territoryViews for other players respectively
+     * Each territory has playersNum territoryViews for different players respectively
      */
-    private void initTerritoryViewForPlayers(MapEntity map, List<PlayerEntity> players){
+    private void initTerritoryViewForTerritories(MapEntity map, List<PlayerEntity> players){
         for(TerritoryEntity territoryToDisplay: map.getTerritories()){
             for(PlayerEntity viewer: players){
-                if(territoryToDisplay.getOwner().equals(viewer)) continue;
                 TerritoryViewEntity territoryView = territoryViewService.initTerritoryView(territoryToDisplay, viewer);
                 for(UnitEntity unitToDisplay: territoryToDisplay.getUnits()){
                     unitViewService.initUnitView(territoryView, unitToDisplay);

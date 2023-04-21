@@ -68,9 +68,9 @@ public class TerritoryServiceImpl implements TerritoryService {
     @Override
     @Transactional
     public void addNeighbour(TerritoryEntity territory1, TerritoryEntity territory2, Integer distance) {
-        TerritoryConnectionEntity connection1 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory2, territory1, distance));
+        TerritoryConnectionEntity connection1 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory1, territory2, distance));
         territory1.getConnections().add(connection1);
-        TerritoryConnectionEntity connection2 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory1, territory2, distance));
+        TerritoryConnectionEntity connection2 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory2, territory1, distance));
         territory2.getConnections().add(connection2);
     }
 

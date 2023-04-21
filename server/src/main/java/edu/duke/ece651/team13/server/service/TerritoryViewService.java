@@ -6,4 +6,6 @@ import edu.duke.ece651.team13.server.entity.TerritoryViewEntity;
 
 public interface TerritoryViewService {
     TerritoryViewEntity initTerritoryView(TerritoryEntity territory, PlayerEntity viewer);
+
+    TerritoryViewEntity updateTerritoryView(TerritoryViewEntity territoryView);
 }

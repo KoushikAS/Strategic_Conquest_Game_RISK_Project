@@ -27,4 +27,11 @@ public class UnitViewServiceImpl implements UnitViewService{
         unitView.setUnitNum(toDisplay.getUnitNum());
         return repository.save(unitView);
     }
+
+    @Override
+    @Transactional
+    public UnitViewEntity updateUnitView(UnitViewEntity unitView, UnitEntity unitEntity){
+        unitView.setUnitNum(unitEntity.getUnitNum());
+        return repository.save(unitView);
+    }
 }
