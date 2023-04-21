@@ -25,23 +25,14 @@ public class TerritoryViewEntity {
     private Long Id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TERRITORY")
-    @JsonBackReference
-    private TerritoryEntity territory;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "VIEWER_ID")
     @JsonManagedReference
     private PlayerEntity viewer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DISPLAY_OWNER_ID")
-    @JsonManagedReference
-    private PlayerEntity displayOwner;
-
-    @OneToMany(mappedBy = "territoryView", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<UnitViewEntity> unitViews = new ArrayList<>(); //size=7; used to indicate the number of different types of unit (level0~level6);
+    @JoinColumn(name = "TERRITORY_ID")
+    @JsonBackReference
+    private TerritoryEntity toDisplay;
 
     /**
      * if INVISIBLE -> only the outline should be displayed
@@ -51,4 +42,13 @@ public class TerritoryViewEntity {
     @Column(name = "DISPLAY_TYPE")
     @Enumerated(EnumType.STRING)
     private TerritoryDisplayEnum displayType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "OWNER_DISPLAY_ID")
+    @JsonManagedReference
+    private PlayerEntity ownerDisplay;
+
+    @OneToMany(mappedBy = "territoryView", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<UnitViewEntity> unitsDisplay = new ArrayList<>(); //size=7; used to indicate the number of different types of unit (level0~level6);
 }

@@ -1,6 +1,7 @@
 package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryViewEntity;
 import edu.duke.ece651.team13.server.enums.TerritoryDisplayEnum;
@@ -19,13 +20,28 @@ public class TerritoryViewServiceImpl implements TerritoryViewService{
 
     @Override
     @Transactional
-    public TerritoryViewEntity createTerritoryView(TerritoryEntity territory, PlayerEntity viewer, PlayerEntity displayOwner, TerritoryDisplayEnum displayType){
+    public TerritoryViewEntity initTerritoryView(TerritoryEntity toDisplay, PlayerEntity viewer){
         TerritoryViewEntity territoryView = new TerritoryViewEntity();
-        territoryView.setTerritory(territory);
-        territory.getTerritoryViews().add(territoryView);
+        territoryView.setToDisplay(toDisplay);
+        toDisplay.getTerritoryViews().add(territoryView);
         territoryView.setViewer(viewer);
-        territoryView.setDisplayOwner(displayOwner);
-        territoryView.setDisplayType(displayType);
+        territoryView.setOwnerDisplay(toDisplay.getOwner());
+        if(isVisible(toDisplay, viewer)) territoryView.setDisplayType(TerritoryDisplayEnum.VISIBLE_NEW);
+        else territoryView.setDisplayType(TerritoryDisplayEnum.INVISIBLE);
         return repository.save(territoryView);
+    }
+
+    /**
+     * check whether the territory is visible to the viewer
+     * -> territory is an immediately adjacent enemy territory to the viewer
+     * @param territory territory
+     * @param viewer viewer
+     * @return true if it is, otherwise false
+     */
+    private boolean isVisible(TerritoryEntity territory, PlayerEntity viewer){
+        for(TerritoryConnectionEntity t: territory.getConnections()){
+            if(t.getSourceTerritory().getOwner().equals(viewer)) return true;
+        }
+        return false;
     }
 }

@@ -26,6 +26,11 @@ public class UnitViewEntity {
     @JsonBackReference
     private TerritoryViewEntity territoryView;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UNIT_ID")
+    @JsonBackReference
+    private UnitEntity toDisplay;
+
     @Column(name = "UNIT_TYPE")
     @Enumerated(EnumType.STRING)
     private UnitMappingEnum unitType;

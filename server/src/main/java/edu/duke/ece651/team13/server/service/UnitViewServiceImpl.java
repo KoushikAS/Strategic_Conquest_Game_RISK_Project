@@ -1,8 +1,8 @@
 package edu.duke.ece651.team13.server.service;
 
 import edu.duke.ece651.team13.server.entity.TerritoryViewEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.entity.UnitViewEntity;
-import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.UnitViewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,13 @@ public class UnitViewServiceImpl implements UnitViewService{
 
     @Override
     @Transactional
-    public UnitViewEntity createUnitView(TerritoryViewEntity territoryView, UnitMappingEnum unitType, int unitNum) {
+    public UnitViewEntity initUnitView(TerritoryViewEntity territoryView, UnitEntity toDisplay) {
         UnitViewEntity unitView = new UnitViewEntity();
         unitView.setTerritoryView(territoryView);
-        territoryView.getUnitViews().add(unitView);
-        unitView.setUnitType(unitType);
-        unitView.setUnitNum(unitNum);
+        territoryView.getUnitsDisplay().add(unitView);
+        unitView.setToDisplay(toDisplay);
+        unitView.setUnitType(toDisplay.getUnitType());
+        unitView.setUnitNum(toDisplay.getUnitNum());
         return repository.save(unitView);
     }
 }

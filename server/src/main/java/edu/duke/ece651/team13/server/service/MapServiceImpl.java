@@ -1,9 +1,6 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.GameEntity;
-import edu.duke.ece651.team13.server.entity.MapEntity;
-import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.*;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.MapRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +24,12 @@ public class MapServiceImpl implements MapService {
 
     @Autowired
     private final UnitService unitService;
+
+    @Autowired
+    private final TerritoryViewService territoryViewService;
+
+    @Autowired
+    private final UnitViewService unitViewService;
 
     @Override
     public MapEntity getMap(Long mapId) {
@@ -153,6 +156,7 @@ public class MapServiceImpl implements MapService {
 
         initUnitForMap(mapEntity, initialUnitNum);
         initResourceForPlayers(players);
+        initTerritoryViewForPlayers(mapEntity, players);
     }
 
     private void createMapFor3players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum) {
@@ -223,6 +227,7 @@ public class MapServiceImpl implements MapService {
 
         initUnitForMap(mapEntity, initialUnitNum);
         initResourceForPlayers(players);
+        initTerritoryViewForPlayers(mapEntity, players);
     }
 
     private void createMapFor2players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum) {
@@ -268,6 +273,7 @@ public class MapServiceImpl implements MapService {
 
         initUnitForMap(mapEntity, initialUnitNum);
         initResourceForPlayers(players);
+        initTerritoryViewForPlayers(mapEntity, players);
     }
 
     /**
@@ -299,6 +305,21 @@ public class MapServiceImpl implements MapService {
             }
             playerEntity.setFoodResource(foodResource);
             playerEntity.setTechResource(techResource);
+        }
+    }
+
+    /**
+     * Each territory has (playersNum-1) territoryViews for other players respectively
+     */
+    private void initTerritoryViewForPlayers(MapEntity map, List<PlayerEntity> players){
+        for(TerritoryEntity territoryToDisplay: map.getTerritories()){
+            for(PlayerEntity viewer: players){
+                if(territoryToDisplay.getOwner().equals(viewer)) continue;
+                TerritoryViewEntity territoryView = territoryViewService.initTerritoryView(territoryToDisplay, viewer);
+                for(UnitEntity unitToDisplay: territoryToDisplay.getUnits()){
+                    unitViewService.initUnitView(territoryView, unitToDisplay);
+                }
+            }
         }
     }
 }

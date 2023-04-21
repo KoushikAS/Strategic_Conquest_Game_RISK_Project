@@ -66,7 +66,7 @@ public class TerritoryEntity {
     @JsonManagedReference
     private List<UnitEntity> units = new ArrayList<>();
 
-    @OneToMany(mappedBy = "territory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "toDisplay", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<TerritoryViewEntity> territoryViews = new ArrayList<>();
 
