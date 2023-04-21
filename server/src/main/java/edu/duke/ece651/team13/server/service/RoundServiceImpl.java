@@ -5,10 +5,7 @@ import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
-import edu.duke.ece651.team13.server.service.order.AttackOrderService;
-import edu.duke.ece651.team13.server.service.order.MoveOrderService;
-import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
-import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
+import edu.duke.ece651.team13.server.service.order.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_UNBREAKABLE_DEFENCE;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
 @Service
@@ -39,6 +37,9 @@ public class RoundServiceImpl implements RoundService {
 
     @Autowired
     private final TechResearchOrderService techResearchOrder;
+
+    @Autowired
+    private final CardUnbreakableDefenseService cardUnbreakableDefenseService;
 
     @Autowired
     private final CombatResolutionService combatResolutionService;
@@ -74,6 +75,10 @@ public class RoundServiceImpl implements RoundService {
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.TECH_RESEARCH))
                     .forEach(order -> techResearchOrder.executeOnGame(order, game));
+
+            orders.stream()
+                    .filter(order -> order.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE))
+                    .forEach(order -> cardUnbreakableDefenseService.executeOnGame(order, game));
         }
     }
 
@@ -122,6 +127,7 @@ public class RoundServiceImpl implements RoundService {
             for (TerritoryEntity territory : territoryEntities){
                 UnitEntity basicUnitEntity = territory.getUnitForType( UnitMappingEnum.LEVEL0);
                 unitService.updateUnit(basicUnitEntity, basicUnitEntity.getUnitNum() + 1);
+
             }
         }
     }
@@ -142,7 +148,6 @@ public class RoundServiceImpl implements RoundService {
 
         if (game.getRoundNo() >= 1) {
             resolveCombatForGame(game);
-            //TODO Update Resources  like Units, Technology and Food
             updateResourceForPlayers(game.getPlayers());
             addUnitForPlayers(game.getPlayers());
             updatePlayerStatus(game);
