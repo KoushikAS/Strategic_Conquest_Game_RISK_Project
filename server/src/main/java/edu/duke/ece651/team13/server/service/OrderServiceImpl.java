@@ -9,10 +9,7 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
-import edu.duke.ece651.team13.server.service.order.AttackOrderService;
-import edu.duke.ece651.team13.server.service.order.MoveOrderService;
-import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
-import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
+import edu.duke.ece651.team13.server.service.order.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +57,9 @@ public class OrderServiceImpl implements OrderService {
     private final TechResearchOrderService techResearchOrder;
 
     @Autowired
+    private final CardUnbreakableDefenseService cardUnbreakableDefenseOrder;
+
+    @Autowired
     private final ApplicationEventPublisher eventPublisher;
 
 
@@ -92,17 +92,17 @@ public class OrderServiceImpl implements OrderService {
             orderEntity.setPlayer(player);
             orderEntity.setOrderType(OrderMappingEnum.findByValue(orderDTO.getOrderType()));
 
-            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()))) {
+            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
                 TerritoryEntity source = game.getMap().getTerritoryEntityById(orderDTO.getSourceTerritoryId());
                 orderEntity.setSource(source);
             }
 
-            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(UNIT_UPGRADE.getValue()))) {
+            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(UNIT_UPGRADE.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
                 TerritoryEntity destination = game.getMap().getTerritoryEntityById(orderDTO.getDestinationTerritoryId());
                 orderEntity.setDestination(destination);
             }
 
-            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()))) {
+            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
                 orderEntity.setUnitNum(orderDTO.getUnitNum());
                 orderEntity.setUnitType(UnitMappingEnum.findByValue(orderDTO.getUnitType()));
             }
@@ -177,6 +177,13 @@ public class OrderServiceImpl implements OrderService {
         for (OrderEntity order : orderEntityList) {
             if (order.getOrderType().equals(ATTACK)) {
                 attackOrder.validateAndExecuteLocally(order, game);
+            }
+        }
+
+        //Validate Card Unbreakable Defense order
+        for (OrderEntity order : orderEntityList) {
+            if (order.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE)) {
+                cardUnbreakableDefenseOrder.validateAndExecuteLocally(order, game);
             }
         }
 
