@@ -66,6 +66,11 @@ public class TerritoryEntity {
     @JsonManagedReference
     private List<UnitEntity> units = new ArrayList<>();
 
+    @OneToMany(mappedBy = "toDisplay", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<TerritoryViewEntity> territoryViews = new ArrayList<>();
+
+
     /**
      * Adds a UnitEntity object to the collection of units.
      * @param unit the UnitEntity object to be added

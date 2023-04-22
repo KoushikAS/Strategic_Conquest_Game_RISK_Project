@@ -56,6 +56,9 @@ public class RoundServiceImpl implements RoundService {
     @Autowired
     private final GameService gameService;
 
+    @Autowired
+    private final TerritoryViewService territoryViewService;
+
     private void executePlayersOrders(GameEntity game) {
         for (PlayerEntity player : game.getPlayers()) {
             List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
@@ -158,6 +161,18 @@ public class RoundServiceImpl implements RoundService {
         }
     }
 
+    /**
+     * update territoryViews for each territory after each round
+     * @param territoryEntities list of all territories in the map
+     */
+    private void updateTerritoryViewForTerritories(List<TerritoryEntity> territoryEntities){
+        for(TerritoryEntity territory: territoryEntities){
+            for(TerritoryViewEntity territoryView: territory.getTerritoryViews()){
+                territoryViewService.updateTerritoryView(territoryView);
+            }
+        }
+    }
+
     @Override
     @Async
     @EventListener
@@ -171,6 +186,7 @@ public class RoundServiceImpl implements RoundService {
             updateResourceForPlayers(game.getPlayers());
             addUnitForPlayers(game.getPlayers());
             updatePlayerStatus(game);
+            updateTerritoryViewForTerritories(game.getMap().getTerritories());
         }
 
         clearOrders(game);
