@@ -51,6 +51,9 @@ public class RoundServiceImpl implements RoundService {
     private final TechResearchOrderService techResearchOrder;
 
     @Autowired
+    private final CloakResearchService researchCloakOrder;
+
+    @Autowired
     private final CardUnbreakableDefenseService cardUnbreakableDefenseService;
 
     @Autowired
@@ -97,6 +100,10 @@ public class RoundServiceImpl implements RoundService {
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.CREATE_SPY))
                     .forEach(order -> createSpyOrder.executeOnGame(order, game));
+
+            orders.stream()
+                    .filter(order -> order.getOrderType().equals(OrderMappingEnum.CLOAK_RESEARCH))
+                    .forEach(order -> researchCloakOrder.executeOnGame(order, game));
         }
     }
 

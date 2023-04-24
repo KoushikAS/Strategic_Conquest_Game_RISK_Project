@@ -79,6 +79,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private final ApplicationEventPublisher eventPublisher;
 
+    @Autowired
+    private final CloakResearchService researchCloak;
+
 
     @Override
     public List<OrderEntity> getOrdersByPlayer(PlayerEntity playerEntity) {
@@ -109,17 +112,17 @@ public class OrderServiceImpl implements OrderService {
             orderEntity.setPlayer(player);
             orderEntity.setOrderType(OrderMappingEnum.findByValue(orderDTO.getOrderType()));
 
-            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
+            if (!(orderDTO.getOrderType().equals(CLOAK_RESEARCH.getValue()) || orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
                 TerritoryEntity source = game.getMap().getTerritoryEntityById(orderDTO.getSourceTerritoryId());
                 orderEntity.setSource(source);
             }
 
-            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(UNIT_UPGRADE.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
+            if (!(orderDTO.getOrderType().equals(CLOAK_RESEARCH.getValue()) || orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(UNIT_UPGRADE.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
                 TerritoryEntity destination = game.getMap().getTerritoryEntityById(orderDTO.getDestinationTerritoryId());
                 orderEntity.setDestination(destination);
             }
 
-            if (!(orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
+            if (!(orderDTO.getOrderType().equals(CLOAK_RESEARCH.getValue()) || orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
                 orderEntity.setUnitNum(orderDTO.getUnitNum());
                 orderEntity.setUnitType(UnitMappingEnum.findByValue(orderDTO.getUnitType()));
             }
@@ -208,6 +211,11 @@ public class OrderServiceImpl implements OrderService {
         for (OrderEntity order : orderEntityList) {
             if(order.getOrderType().equals(CREATE_SPY)){
                 createSpyOrder.validateAndExecuteLocally(order, game);
+                
+        //Validate Research Cloak order
+        for(OrderEntity order: orderEntityList){
+            if(order.getOrderType().equals(CLOAK_RESEARCH)){
+                researchCloak.validateAndExecuteLocally(order, game);
             }
         }
 
