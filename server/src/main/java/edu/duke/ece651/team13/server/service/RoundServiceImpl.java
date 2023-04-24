@@ -16,6 +16,7 @@ import edu.duke.ece651.team13.server.service.order.CreateSpyOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
 import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
+import edu.duke.ece651.team13.server.service.order.CloakResearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

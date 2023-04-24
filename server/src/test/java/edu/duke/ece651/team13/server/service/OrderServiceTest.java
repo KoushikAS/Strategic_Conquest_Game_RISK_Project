@@ -16,6 +16,7 @@ import edu.duke.ece651.team13.server.service.order.CreateSpyOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
 import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
+import edu.duke.ece651.team13.server.service.order.CloakResearchService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

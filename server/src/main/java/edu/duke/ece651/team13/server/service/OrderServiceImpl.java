@@ -11,6 +11,7 @@ import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
 import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import edu.duke.ece651.team13.server.service.order.CardUnbreakableDefenseService;
+import edu.duke.ece651.team13.server.service.order.CloakResearchService;
 import edu.duke.ece651.team13.server.service.order.CreateSpyOrderService;
 import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
@@ -33,6 +34,7 @@ import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_CONQUERI
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_FAMINE;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_NO_LUCK;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_UNBREAKABLE_DEFENCE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CLOAK_RESEARCH;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CREATE_SPY;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.DONE;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
@@ -209,8 +211,10 @@ public class OrderServiceImpl implements OrderService {
 
         //Validate Create Spy order
         for (OrderEntity order : orderEntityList) {
-            if(order.getOrderType().equals(CREATE_SPY)){
+            if (order.getOrderType().equals(CREATE_SPY)) {
                 createSpyOrder.validateAndExecuteLocally(order, game);
+            }
+        }
                 
         //Validate Research Cloak order
         for(OrderEntity order: orderEntityList){
