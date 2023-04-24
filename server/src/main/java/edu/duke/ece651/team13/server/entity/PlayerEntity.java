@@ -59,6 +59,9 @@ public class PlayerEntity {
     @Column(name = "MAX_TECH_LEVEL")
     private int maxTechLevel; //tech level of this player
 
+    @Column(name = "CLOAK_RESEARCHED")
+    private boolean cloakResearched; //indicate whether the player has researched the cloak order
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     @JsonIgnore
@@ -71,6 +74,7 @@ public class PlayerEntity {
         this.name = name;
         this.status = PlayerStatusEnum.PLAYING;
         this.maxTechLevel = 1;
+        this.cloakResearched =false;
     }
 
     @Override

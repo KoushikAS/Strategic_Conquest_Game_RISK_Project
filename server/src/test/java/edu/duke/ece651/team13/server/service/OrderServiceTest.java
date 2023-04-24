@@ -66,10 +66,13 @@ public class OrderServiceTest {
     @Mock
     private ApplicationEventPublisher eventPublisher;
 
+    @Mock
+    private CloakResearchService cloakResearchOrder;
+
 
     @BeforeEach
     void setUp() {
-        service = new OrderServiceImpl(entityManager, repository, gameService, playerService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, cardUnbreakableDefenseOrder, eventPublisher);
+        service = new OrderServiceImpl(entityManager, repository, gameService, playerService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, cardUnbreakableDefenseOrder, eventPublisher, cloakResearchOrder);
     }
 
     @Test
