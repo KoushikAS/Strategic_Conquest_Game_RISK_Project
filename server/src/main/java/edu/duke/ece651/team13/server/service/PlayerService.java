@@ -34,4 +34,6 @@ public interface PlayerService {
 
     PlayerEntity getPlayerByUserAndGame(UserEntity user, GameEntity game);
 
+    PlayerEntity updatePlayerCloakResearched(PlayerEntity player);
+
 }

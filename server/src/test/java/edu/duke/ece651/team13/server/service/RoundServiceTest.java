@@ -47,6 +47,9 @@ public class RoundServiceTest {
     private TechResearchOrderService techResearchOrder;
 
     @Mock
+    private CloakResearchService cloakResearchOrder;
+
+    @Mock
     private CardUnbreakableDefenseService cardUnbreakableDefenseService;
 
     @Mock
@@ -69,7 +72,7 @@ public class RoundServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, cardUnbreakableDefenseService, combatResolutionService, territoryService, unitService, playerService, gameService, territoryViewService);
+        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, cloakResearchOrder, cardUnbreakableDefenseService, combatResolutionService, territoryService, unitService, playerService, gameService, territoryViewService);
     }
 
 

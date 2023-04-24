@@ -84,4 +84,10 @@ public class PlayerServiceImpl implements PlayerService {
         player.setMaxTechLevel(techLevel);
         return repository.save(player);
     }
+
+    @Override
+    public PlayerEntity updatePlayerCloakResearched(PlayerEntity player){
+        player.setCloakResearched(true);
+        return repository.save(player);
+    }
 }
