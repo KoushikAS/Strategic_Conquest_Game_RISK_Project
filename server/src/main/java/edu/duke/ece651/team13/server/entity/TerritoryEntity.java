@@ -66,6 +66,10 @@ public class TerritoryEntity {
     @JsonManagedReference
     private List<UnitEntity> units = new ArrayList<>();
 
+    @OneToMany(mappedBy = "territory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<SpyUnitEntity> spyUnits = new ArrayList<>();
+
     @OneToMany(mappedBy = "toDisplay", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<TerritoryViewEntity> territoryViews = new ArrayList<>();
@@ -89,6 +93,21 @@ public class TerritoryEntity {
         return this.units.
                 stream()
                 .filter(t -> t.getUnitType().equals(unitType))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
+    }
+
+    /**
+     * This is a helper function that gets the UnitEntity with the spy unit entity in the
+     * territory with the specified owner
+     *
+     * @param player the owner of the unit entity
+     * @return the UnitEntity with the specified owner
+     */
+    public SpyUnitEntity getSpyForPlayer(PlayerEntity player){
+        return this.spyUnits.
+                stream()
+                .filter(t -> t.getOwner().getId().equals(player.getId()))
                 .findFirst()
                 .orElseThrow(NoSuchElementException::new);
     }

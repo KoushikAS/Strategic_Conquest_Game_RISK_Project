@@ -1,11 +1,22 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryViewEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
-import edu.duke.ece651.team13.server.service.order.*;
+import edu.duke.ece651.team13.server.service.order.AttackOrderService;
+import edu.duke.ece651.team13.server.service.order.CardUnbreakableDefenseService;
+import edu.duke.ece651.team13.server.service.order.CreateSpyOrderService;
+import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
+import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
+import edu.duke.ece651.team13.server.service.order.CloakResearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +26,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.*;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_CONQUERING_WARRIORS;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_FAMINE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_UNBREAKABLE_DEFENCE;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
 @Service
@@ -62,6 +75,9 @@ public class RoundServiceImpl implements RoundService {
     @Autowired
     private final TerritoryViewService territoryViewService;
 
+    @Autowired
+    private final CreateSpyOrderService createSpyOrder;
+
     private void executePlayersOrders(GameEntity game) {
         for (PlayerEntity player : game.getPlayers()) {
             List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
@@ -81,6 +97,10 @@ public class RoundServiceImpl implements RoundService {
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.TECH_RESEARCH))
                     .forEach(order -> techResearchOrder.executeOnGame(order, game));
+
+            orders.stream()
+                    .filter(order -> order.getOrderType().equals(OrderMappingEnum.CREATE_SPY))
+                    .forEach(order -> createSpyOrder.executeOnGame(order, game));
 
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.CLOAK_RESEARCH))

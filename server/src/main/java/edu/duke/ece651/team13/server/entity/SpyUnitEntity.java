@@ -1,7 +1,6 @@
 package edu.duke.ece651.team13.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,43 +8,44 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ * SPY Unit
+ */
 @Entity
-@Table(name = "UNIT_VIEW")
+@Table(name = "SPY")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UnitViewEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "unitViewSeq")
-    @SequenceGenerator(name = "unitViewSeq")
+public class SpyUnitEntity {
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "unitSeq")
+    @SequenceGenerator(name = "spySeq")
     private Long Id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TERRITORY_VIEW_ID")
+    @JoinColumn(name = "TERRITORY_ID")
     @JsonBackReference
-    private TerritoryViewEntity territoryView;
+    private TerritoryEntity territory;
+
+    @Column(name = "SPY_NUM")
+    private Integer unitNum;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UNIT_ID")
+    @JoinColumn(name = "PLAYER_ID")
     @JsonBackReference
-    private UnitEntity toDisplay;
+    private PlayerEntity owner;
 
-    @Column(name = "UNIT_TYPE")
-    @Enumerated(EnumType.STRING)
-    private UnitMappingEnum unitType;
-
-    @Column(name = "UNIT_NUM")
-    private Integer unitNum;
+    public SpyUnitEntity(Integer unitNum, PlayerEntity player){
+        this.unitNum = unitNum;
+        this.owner = player;
+    }
 }

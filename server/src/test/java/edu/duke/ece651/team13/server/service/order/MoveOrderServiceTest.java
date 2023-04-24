@@ -1,10 +1,15 @@
 package edu.duke.ece651.team13.server.service.order;
 
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.SpyUnitEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.PlayerService;
 import edu.duke.ece651.team13.server.service.UnitService;
-import edu.duke.ece651.team13.server.service.order.MoveOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,13 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.MockDataUtil.getGameEntity;
-import static edu.duke.ece651.team13.server.MockDataUtil.getUnitEntity;
 import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(MockitoExtension.class)
 class MoveOrderServiceTest {
@@ -221,6 +222,64 @@ class MoveOrderServiceTest {
         assertEquals(5, game.getMap().getTerritories().get(0).getUnits().get(0).getUnitNum());
         assertEquals(15, game.getMap().getTerritories().get(1).getUnits().get(0).getUnitNum());
 
+    }
+
+    @Test
+    void test_moveSpyUnits_insufficientUnits(){
+        GameEntity game = getGameEntity();
+        PlayerEntity player1 = new PlayerEntity();
+        player1.setId(1L);
+        PlayerEntity player2 = new PlayerEntity();
+        player1.setId(2L);
+        game.getPlayers().add(player1);
+        TerritoryEntity source = game.getMap().getTerritories().get(0);
+        source.getSpyUnits().add(new SpyUnitEntity(1, player1));
+        TerritoryEntity destination = game.getMap().getTerritories().get(1);
+        source.setOwner(player2);
+        destination.setOwner(player2);
+
+        List<TerritoryConnectionEntity> connections = new ArrayList<>();
+        connections.add(new TerritoryConnectionEntity(source, destination, 5));
+        source.setConnections(connections);
+
+        OrderEntity order = new OrderEntity();
+        order.setSource(source);
+        order.setDestination(destination);
+        order.setOrderType(MOVE);
+        order.setUnitType(UnitMappingEnum.SPY);
+        order.setUnitNum(2);
+        order.setPlayer(player1);
+
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
+    }
+
+    @Test
+    void test_moveSpyUnits_success(){
+        GameEntity game = getGameEntity();
+        PlayerEntity player1 = new PlayerEntity();
+        player1.setId(1L);
+        PlayerEntity player2 = new PlayerEntity();
+        player1.setId(2L);
+        game.getPlayers().add(player1);
+        TerritoryEntity source = game.getMap().getTerritories().get(0);
+        source.getSpyUnits().add(new SpyUnitEntity(1, player1));
+        TerritoryEntity destination = game.getMap().getTerritories().get(1);
+        source.setOwner(player2);
+        destination.setOwner(player2);
+
+        List<TerritoryConnectionEntity> connections = new ArrayList<>();
+        connections.add(new TerritoryConnectionEntity(source, destination, 5));
+        source.setConnections(connections);
+
+        OrderEntity order = new OrderEntity();
+        order.setSource(source);
+        order.setDestination(destination);
+        order.setOrderType(MOVE);
+        order.setUnitType(UnitMappingEnum.SPY);
+        order.setUnitNum(1);
+        order.setPlayer(player1);
+
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
     }
 
 

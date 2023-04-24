@@ -17,6 +17,9 @@ public class AttackUnitNumChecker extends RuleChecker {
     @Override
     protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
         UnitMappingEnum unitType = order.getUnitType();
+        if(unitType.equals(UnitMappingEnum.SPY)){
+             throw new IllegalArgumentException("Invalid attack order: Spy units cannot participate in combats.");
+        }
         int sourceUnitNum = order.getSource().getUnitForType(unitType).getUnitNum();
         int attackUnitNum = order.getUnitNum();
         if (sourceUnitNum < attackUnitNum) {

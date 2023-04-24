@@ -2,10 +2,8 @@ package edu.duke.ece651.team13.server.rulechecker;
 
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
-import lombok.extern.slf4j.Slf4j;
 
 import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.getNextLevel;
-import static edu.duke.ece651.team13.server.util.GraphUtil.findMinCost;
 
 /**
  * Check if the player's tech resource totals is enough for the unit upgrade

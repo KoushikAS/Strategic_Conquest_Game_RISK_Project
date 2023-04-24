@@ -10,7 +10,13 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
-import edu.duke.ece651.team13.server.service.order.*;
+import edu.duke.ece651.team13.server.service.order.AttackOrderService;
+import edu.duke.ece651.team13.server.service.order.CardUnbreakableDefenseService;
+import edu.duke.ece651.team13.server.service.order.CreateSpyOrderService;
+import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
+import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
+import edu.duke.ece651.team13.server.service.order.CloakResearchService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,12 +30,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.*;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.TECH_RESEARCH;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.UNIT_UPGRADE;
 import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL0;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -64,6 +76,9 @@ public class OrderServiceTest {
     private CardUnbreakableDefenseService cardUnbreakableDefenseOrder;
 
     @Mock
+    private CreateSpyOrderService createSpyOrder;
+
+    @Mock
     private ApplicationEventPublisher eventPublisher;
 
     @Mock
@@ -72,7 +87,7 @@ public class OrderServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new OrderServiceImpl(entityManager, repository, gameService, playerService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, cardUnbreakableDefenseOrder, eventPublisher, cloakResearchOrder);
+        service = new OrderServiceImpl(entityManager, repository, gameService, playerService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, cardUnbreakableDefenseOrder, createSpyOrder, eventPublisher, cloakResearchOrder);
     }
 
     @Test

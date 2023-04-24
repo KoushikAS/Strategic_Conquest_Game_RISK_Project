@@ -15,7 +15,8 @@ public enum UnitMappingEnum {
     LEVEL3(3, 5, 30, "Artillery"),
     LEVEL4(4, 8, 55, "Army Aviation"),
     LEVEL5(5, 11, 90, "Special Forces"),
-    LEVEL6(6, 15, 140, "Combat Engineer");
+    LEVEL6(6, 15, 140, "Combat Engineer"),
+    SPY(1, 0, 100, "SPY");
 
     private final int level;
     private final int bonus;

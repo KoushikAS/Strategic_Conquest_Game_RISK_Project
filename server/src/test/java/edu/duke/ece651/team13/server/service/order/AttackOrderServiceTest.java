@@ -9,7 +9,6 @@ import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.AttackerService;
 import edu.duke.ece651.team13.server.service.PlayerService;
 import edu.duke.ece651.team13.server.service.UnitService;
-import edu.duke.ece651.team13.server.service.order.AttackOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
