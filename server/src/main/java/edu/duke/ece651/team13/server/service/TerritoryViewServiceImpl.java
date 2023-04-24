@@ -1,6 +1,10 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryConnectionEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryViewEntity;
+import edu.duke.ece651.team13.server.entity.UnitViewEntity;
 import edu.duke.ece651.team13.server.repository.TerritoryViewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import static edu.duke.ece651.team13.server.enums.TerritoryDisplayEnum.*;
+import static edu.duke.ece651.team13.server.enums.TerritoryDisplayEnum.INVISIBLE;
+import static edu.duke.ece651.team13.server.enums.TerritoryDisplayEnum.VISIBLE_NEW;
+import static edu.duke.ece651.team13.server.enums.TerritoryDisplayEnum.VISIBLE_OLD;
 
 @Service
 @RequiredArgsConstructor
@@ -63,6 +69,7 @@ public class TerritoryViewServiceImpl implements TerritoryViewService{
      */
     private boolean isVisible(TerritoryEntity territory, PlayerEntity viewer){
         if(territory.getOwner().equals(viewer)) return true;
+        if(territory.getSpyForPlayer(viewer).getUnitNum() > 0) return true;
         for(TerritoryConnectionEntity t: territory.getConnections()){
             if(t.getDestinationTerritory().getOwner().equals(viewer)) return true;
         }

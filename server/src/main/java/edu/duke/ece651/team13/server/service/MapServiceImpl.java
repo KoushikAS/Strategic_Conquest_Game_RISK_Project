@@ -1,6 +1,12 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.MapEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.SpyUnitEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryViewEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.MapRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +36,9 @@ public class MapServiceImpl implements MapService {
 
     @Autowired
     private final UnitViewService unitViewService;
+
+    @Autowired
+    private final SpyUnitService spyUnitService;
 
     @Override
     public MapEntity getMap(Long mapId) {
@@ -154,9 +163,7 @@ public class MapServiceImpl implements MapService {
         territoryService.addNeighbour(labrador, dalmatian, 7);
         territoryService.addNeighbour(boxer, collie, 7);
 
-        initUnitForMap(mapEntity, initialUnitNum);
-        initResourceForPlayers(players);
-        initTerritoryViewForTerritories(mapEntity, players);
+        initializeMap(mapEntity, players, initialUnitNum);
     }
 
     private void createMapFor3players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum) {
@@ -225,9 +232,7 @@ public class MapServiceImpl implements MapService {
         territoryService.addNeighbour(vizsla, sheepdog, 7);
         territoryService.addNeighbour(sheepdog, maltese, 7);
 
-        initUnitForMap(mapEntity, initialUnitNum);
-        initResourceForPlayers(players);
-        initTerritoryViewForTerritories(mapEntity, players);
+        initializeMap(mapEntity, players, initialUnitNum);
     }
 
     private void createMapFor2players(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum) {
@@ -271,9 +276,14 @@ public class MapServiceImpl implements MapService {
         territoryService.addNeighbour(poodle, spaniel, 7);
         territoryService.addNeighbour(bulldog, spaniel, 7);
 
+        initializeMap(mapEntity, players, initialUnitNum);
+    }
+
+    private void initializeMap(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum) {
         initUnitForMap(mapEntity, initialUnitNum);
         initResourceForPlayers(players);
         initTerritoryViewForTerritories(mapEntity, players);
+        initSpyUnitForMap(mapEntity, players);
     }
 
     /**
@@ -318,6 +328,18 @@ public class MapServiceImpl implements MapService {
                 for(UnitEntity unitToDisplay: territoryToDisplay.getUnits()){
                     unitViewService.initUnitView(territoryView, unitToDisplay);
                 }
+            }
+        }
+    }
+
+    /**
+     * Each territory has (playersNum) SpyUnitEntities for different players respectively
+     */
+    private void initSpyUnitForMap(MapEntity map, List<PlayerEntity> players){
+        for(TerritoryEntity territory: map.getTerritories()){
+            for(PlayerEntity player: players){
+                SpyUnitEntity spyUnit = spyUnitService.createSpyUnit(territory, 0, player);
+                territory.getSpyUnits().add(spyUnit);
             }
         }
     }

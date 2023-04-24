@@ -4,10 +4,8 @@ import edu.duke.ece651.team13.server.entity.MapEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
 import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.entity.UnitEntity;
-import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TerritoryService {
 

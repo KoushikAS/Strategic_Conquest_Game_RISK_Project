@@ -9,7 +9,12 @@ import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
-import edu.duke.ece651.team13.server.service.order.*;
+import edu.duke.ece651.team13.server.service.order.AttackOrderService;
+import edu.duke.ece651.team13.server.service.order.CardUnbreakableDefenseService;
+import edu.duke.ece651.team13.server.service.order.CreateSpyOrderService;
+import edu.duke.ece651.team13.server.service.order.MoveOrderService;
+import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
+import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -67,9 +72,12 @@ public class RoundServiceTest {
     @Mock
     private TerritoryViewService territoryViewService;
 
+    @Mock
+    private CreateSpyOrderService createSpyOrder;
+
     @BeforeEach
     void setUp() {
-        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, cardUnbreakableDefenseService, combatResolutionService, territoryService, unitService, playerService, gameService, territoryViewService);
+        service = new RoundServiceImpl(orderService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, cardUnbreakableDefenseService, combatResolutionService, territoryService, unitService, playerService, gameService, territoryViewService, createSpyOrder);
     }
 
 

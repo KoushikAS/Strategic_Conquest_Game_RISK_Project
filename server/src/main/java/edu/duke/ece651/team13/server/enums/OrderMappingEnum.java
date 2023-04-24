@@ -18,7 +18,8 @@ public enum OrderMappingEnum {
     CARD_FAMINE("CARD_FAMINE"),
     CARD_UNBREAKABLE_DEFENCE("CARD_UNBREAKABLE_DEFENCE"),
     CARD_NO_LUCK("CARD_NO_LUCK"),
-    DONE("DONE");
+    DONE("DONE"),
+    CREATE_SPY("CREATE_SPY");
 
     private final String value;
 
