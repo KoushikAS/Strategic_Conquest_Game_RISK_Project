@@ -20,6 +20,7 @@ public enum OrderMappingEnum {
     CARD_NO_LUCK("CARD_NO_LUCK"),
     CREATE_SPY("CREATE_SPY"),
     CLOAK_RESEARCH("CLOAK_RESEARCH"),
+    CLOAK("CLOAK"),
     DONE("DONE");
 
     private final String value;

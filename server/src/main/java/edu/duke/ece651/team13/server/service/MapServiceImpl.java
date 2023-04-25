@@ -282,8 +282,8 @@ public class MapServiceImpl implements MapService {
     private void initializeMap(MapEntity mapEntity, List<PlayerEntity> players, int initialUnitNum) {
         initUnitForMap(mapEntity, initialUnitNum);
         initResourceForPlayers(players);
-        initTerritoryViewForTerritories(mapEntity, players);
         initSpyUnitForMap(mapEntity, players);
+        initTerritoryViewForTerritories(mapEntity, players);
     }
 
     /**

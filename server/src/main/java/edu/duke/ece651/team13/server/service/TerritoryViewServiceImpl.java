@@ -61,8 +61,9 @@ public class TerritoryViewServiceImpl implements TerritoryViewService{
     }
 
     /**
-     * check whether the territory is visible to the viewer
-     * -> whether territory belongs to viewer or is an immediately adjacent enemy territory to viewer
+     * check whether the territory is visible to the viewer:
+     * -> whether territory belongs to the viewer or contains spy from viewer
+     * -> or is an immediately adjacent enemy territory to viewer
      * @param territory territory
      * @param viewer viewer
      * @return true if it is, otherwise false

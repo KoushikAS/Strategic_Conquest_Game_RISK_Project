@@ -3,30 +3,36 @@ package edu.duke.ece651.team13.server.service.order;
 import edu.duke.ece651.team13.server.entity.GameEntity;
 import edu.duke.ece651.team13.server.entity.OrderEntity;
 import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.rulechecker.*;
 import edu.duke.ece651.team13.server.service.PlayerService;
+import edu.duke.ece651.team13.server.service.TerritoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Cloak research order
+ * Cloak order
  */
 @Service
 @RequiredArgsConstructor
-public class CloakResearchService implements OrderFactory {
+public class CloakService implements OrderFactory {
 
     @Autowired
     private final PlayerService playerService;
 
+    @Autowired
+    private final TerritoryService territoryService;
+
     /**
      * Get the default rule checker chain
-     * CloakResearchIsResearchedChecker -> CloakResearchTechLevelChecker -> CloakResearchTechResourceChecker
+     * CloakIsResearchedChecker -> CloakIsCloakedChecker -> CloakOwnershipChecker -> CloakTechResourceChecker
      */
     private static RuleChecker getDefaultRuleChecker(){
-        RuleChecker resourceChecker = new CloakResearchTechResourceChecker(null);
-        RuleChecker techLevelChecker = new CloakResearchTechLevelChecker(resourceChecker);
-        return new CloakResearchIsResearchedChecker(techLevelChecker);
+        RuleChecker resourceChecker = new CloakTechResourceChecker(null);
+        RuleChecker ownershipChecker = new CloakOwnershipChecker(resourceChecker);
+        RuleChecker isCloakedChecker = new CloakIsCloakedChecker(ownershipChecker);
+        return new CloakIsResearchedChecker(isCloakedChecker);
     }
 
     /**
@@ -37,15 +43,15 @@ public class CloakResearchService implements OrderFactory {
         RuleChecker ruleChecker = getDefaultRuleChecker();
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
         ruleChecker.checkOrder(order, player);
-        executeLocally(player, CloakResearchTechResourceChecker.getTechCost());
+        executeLocally(order.getSource(), player, CloakTechResourceChecker.getTechCost());
     }
 
     /**
      * Executes the given order on the game locally, updating the necessary game entities.
      */
-    private void executeLocally(PlayerEntity player, int techCost){
+    private void executeLocally(TerritoryEntity territory, PlayerEntity player, int techCost){
         player.setTechResource(player.getTechResource() - techCost);
-        player.setCloakResearched(true);
+        territory.setRemainingCloak(3);
     }
 
     /**
@@ -54,8 +60,10 @@ public class CloakResearchService implements OrderFactory {
     @Override
     public void executeOnGame(OrderEntity order, GameEntity game) {
         PlayerEntity player = game.getPlayerEntityById(order.getPlayer().getId());
-        executeLocally(player, CloakResearchTechResourceChecker.getTechCost());
+        executeLocally(order.getSource(), player, CloakResearchTechResourceChecker.getTechCost());
         playerService.updatePlayerTechResource(player, player.getTechResource());
-        playerService.updatePlayerCloakResearched(player);
+        //hide target territory for 3 turns from view
+        //why 4 here: decrease remainingCloak (>0) by 1 each turn and take effect in next turn
+        territoryService.updateTerritoryRemainingCloak(order.getSource(), 4);
     }
 }
