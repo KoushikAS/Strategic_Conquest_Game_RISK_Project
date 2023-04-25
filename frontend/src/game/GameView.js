@@ -44,7 +44,7 @@ const GameView = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [gameId, user.accessToken, user.userId, setHasDone]);
+  }, [gameId, user.accessToken, user.userId, setHasDone, setHasCloakResearched]);
 
   useEffect(() => {
     fetchGame();

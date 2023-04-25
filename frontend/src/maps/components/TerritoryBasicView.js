@@ -25,7 +25,7 @@ const TerritoryBasicView = (props) => {
     props.handleSourceOrTarget(e.target.innerText);
   };
 
-  if (view.displayType === "INVISIBLE") return;
+  if (view.displayType === "INVISIBLE" || territory.remainingCloak > 0) return;
 
   return (
     <div style={{ fontSize: "12px" }}>
