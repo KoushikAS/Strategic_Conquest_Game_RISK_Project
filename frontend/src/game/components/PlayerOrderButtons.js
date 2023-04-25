@@ -8,7 +8,7 @@ import axios from "axios";
 
 const PlayerOrderButtons = (props) => {
   const navigate = useNavigate();
-  const { hasResearched, setHasDone } = useContext(PlayerContext);
+  const { hasResearched, setHasDone, hasCloakResearched } = useContext(PlayerContext);
   const { orders, removeAllOrders } = useContext(OrderContext);
   const { user } = useContext(AuthContext);
 
@@ -45,7 +45,11 @@ const PlayerOrderButtons = (props) => {
   }
 
   const handleCloak = () => {
+    if (hasCloakResearched) {
     navigate("/cloak", { state: { gameId: props.gameId } });
+    } else {
+      navigate("/researchCloak", { state: { gameId: props.gameId } });
+    }
   }
 
   const handleDraw = () => {

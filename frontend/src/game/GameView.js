@@ -5,7 +5,7 @@ import PlayerInfoCard from "./components/info_cards/PlayerInfoCard";
 import PlayerOrderButtons from "./components/PlayerOrderButtons";
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import axios from "axios";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../auth/AuthProvider";
 import { OrderContext } from "./context/OrderProvider";
@@ -16,7 +16,8 @@ import WinInfoCard from "./components/info_cards/WinInfoCard";
 const GameView = () => {
   const { user } = useContext(AuthContext);
   const { orders, removeAllOrders } = useContext(OrderContext);
-  const { hasDone, setHasDone, setHasResearched } = useContext(PlayerContext);
+  const { hasDone, setHasDone, setHasResearched, setHasCloakResearched } =
+    useContext(PlayerContext);
   console.log("orders in GameView: ", orders);
   const [game, setGame] = useState();
   const [player, setPlayer] = useState();
@@ -24,23 +25,26 @@ const GameView = () => {
   const location = useLocation();
   const gameId = location.state.gameId;
 
-
   const fetchGame = useCallback(async () => {
     try {
       const config = {
-        headers: { Authorization: `Bearer ${user.accessToken}` }
-      }
-      const response = await axios.get(`getGameForUser/${gameId}?userId=${user.userId}`, config);
+        headers: { Authorization: `Bearer ${user.accessToken}` },
+      };
+      const response = await axios.get(
+        `getGameForUser/${gameId}?userId=${user.userId}`,
+        config
+      );
       console.log(`Current game: ${response.data.game}`);
       console.log(`Current player: ${response.data.player}`);
       setGame(response.data.game);
-      setPlayer(response.data.player)
+      setPlayer(response.data.player);
       setHasDone(response.data.playerDone);
+      setHasCloakResearched(response.data.player.cloakResearched);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [gameId, user.accessToken, user.userId, setHasDone])
+  }, [gameId, user.accessToken, user.userId, setHasDone]);
 
   useEffect(() => {
     fetchGame();
@@ -53,10 +57,13 @@ const GameView = () => {
   const handleRefresh = async () => {
     try {
       const config = {
-        headers: { Authorization: `Bearer ${user.accessToken}` }
-      }
-      const response = await axios.get(`getGameForUser/${gameId}?userId=${user.userId}`, config);
-      console.log(response.data)
+        headers: { Authorization: `Bearer ${user.accessToken}` },
+      };
+      const response = await axios.get(
+        `getGameForUser/${gameId}?userId=${user.userId}`,
+        config
+      );
+      console.log(response.data);
       if (!response.data.playerDone) {
         setHasDone(false);
         setHasResearched(false);
@@ -66,14 +73,16 @@ const GameView = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   if (hasDone) {
     return (
       <Container className="vh-100 d-flex align-items-center justify-content-center">
         <Card style={cardStyles}>
           <Card.Body>
-            <Card.Title style={titleStyles}>Waiting for other players to complete their round...</Card.Title>
+            <Card.Title style={titleStyles}>
+              Waiting for other players to complete their round...
+            </Card.Title>
             <Row className="text-center" style={{ marginTop: "30%" }}>
               <Col>
                 <Button
@@ -88,8 +97,8 @@ const GameView = () => {
             </Row>
           </Card.Body>
         </Card>
-      </Container >
-    )
+      </Container>
+    );
   }
 
   return (
@@ -102,9 +111,19 @@ const GameView = () => {
         <Col md={3}>
           <PlayerInfoCard player={player} game={game} />
           <br />
-          {player.status === "PLAYING" && game.status !== "ENDED" && <PlayerOrderButtons player={player} gameId={gameId} />}
-          {player.status === "LOSE" && <LostInfoCard player={player} gameId={gameId} handleRefresh={handleRefresh} />}
-          {game.status === "ENDED" && player.status === "PLAYING" && <WinInfoCard player={player} />}
+          {player.status === "PLAYING" && game.status !== "ENDED" && (
+            <PlayerOrderButtons player={player} gameId={gameId} />
+          )}
+          {player.status === "LOSE" && (
+            <LostInfoCard
+              player={player}
+              gameId={gameId}
+              handleRefresh={handleRefresh}
+            />
+          )}
+          {game.status === "ENDED" && player.status === "PLAYING" && (
+            <WinInfoCard player={player} />
+          )}
         </Col>
       </Row>
     </Container>
@@ -127,7 +146,7 @@ const buttonStyles = {
   outline: "none",
   border: "none",
   borderRadius: "40px",
-  width: "8rem"
-}
+  width: "8rem",
+};
 
 export default GameView;
