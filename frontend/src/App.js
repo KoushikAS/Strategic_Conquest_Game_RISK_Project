@@ -15,6 +15,7 @@ import RegisterView from "./auth/RegisterView";
 import ResearchView from "./game/ResearchView";
 import UpgradeView from "./game/UpgradeView";
 import CloakView from "./game/CloakView";
+import ResearchCloakView from "./game/ResearchCloakView";
 
 function App() {
   return (
@@ -74,6 +75,15 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <UpgradeView />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                exact
+                path="/researchCloak"
+                element={
+                  <ProtectedRoute>
+                    <ResearchCloakView />
                   </ProtectedRoute>
                 }
               />
