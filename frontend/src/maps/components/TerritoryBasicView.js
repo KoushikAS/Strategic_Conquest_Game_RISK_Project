@@ -25,11 +25,7 @@ const TerritoryBasicView = (props) => {
     props.handleSourceOrTarget(e.target.innerText);
   };
   const isOwner = territory.owner.name === player.name;
-  if (
-    view.displayType === "INVISIBLE" ||
-    (territory.remainingCloak > 0 && !isOwner)
-  )
-    return;
+  if (view.displayType === "INVISIBLE") return;
 
   return (
     <div style={{ fontSize: "12px" }}>

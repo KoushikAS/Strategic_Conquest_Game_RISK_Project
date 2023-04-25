@@ -40,6 +40,7 @@ public class TerritoryViewServiceImpl implements TerritoryViewService{
 
     /**
      * INVISIBLE to VISIBLE_NEW; VISIBLE_NEW to VISIBLE_OLD; VISIBLE_OLD to VISIBLE_NEW
+     * VISIBLE_NEW to INVISIBLE; VISIBLE_OLD to INVISIBLE
      * @param territoryView territoryView to be updated
      * @return update-to-update territoryView
      */
@@ -49,20 +50,27 @@ public class TerritoryViewServiceImpl implements TerritoryViewService{
         // from any type of territoryDisplayEnum to VISIBLE_NEW
         if(isVisible(territoryView.getToDisplay(), territoryView.getViewer())){
             territoryView.setDisplayType(VISIBLE_NEW);
+            territoryView.setVisibleBefore(true);
             territoryView.setOwnerDisplay(territoryView.getToDisplay().getOwner());
             for(int i=0; i<territoryView.getUnitsDisplay().size(); i++){
                 UnitViewEntity unitView = territoryView.getUnitsDisplay().get(i);
                 unitViewService.updateUnitView(unitView);
             }
         }
-        // from VISIBLE_NEW to VISIBLE_OLD
-        else if(territoryView.getDisplayType().equals(VISIBLE_NEW)) territoryView.setDisplayType(VISIBLE_OLD);
+        else{
+            // from any type of territoryDisplayEnum to INVISIBLE
+            if(territoryView.getToDisplay().getRemainingCloak()>0 || !territoryView.isVisibleBefore()){
+                territoryView.setDisplayType(INVISIBLE);
+            }
+            // from any type of territoryDisplayEnum to VISIBLE_OLD (territory should be seen before)
+            else territoryView.setDisplayType(VISIBLE_OLD);
+        }
         return repository.save(territoryView);
     }
 
     /**
      * check whether the territory is visible to the viewer:
-     * -> whether territory belongs to the viewer or contains spy from viewer
+     * -> whether territory belongs to the viewer or contains spy from viewer or is cloaked
      * -> or is an immediately adjacent enemy territory to viewer
      * @param territory territory
      * @param viewer viewer
@@ -71,6 +79,7 @@ public class TerritoryViewServiceImpl implements TerritoryViewService{
     private boolean isVisible(TerritoryEntity territory, PlayerEntity viewer){
         if(territory.getOwner().equals(viewer)) return true;
         if(territory.getSpyForPlayer(viewer).getUnitNum() > 0) return true;
+        if(territory.getRemainingCloak()>0) return false;
         for(TerritoryConnectionEntity t: territory.getConnections()){
             if(t.getDestinationTerritory().getOwner().equals(viewer)) return true;
         }

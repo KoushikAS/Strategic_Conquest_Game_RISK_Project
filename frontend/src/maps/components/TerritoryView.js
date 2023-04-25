@@ -17,11 +17,7 @@ const TerritoryView = (props) => {
       cursor: "pointer",
     };
     const displayType = findView().displayType;
-    // either the territory is invisible by adjacency or it is cloaked
-    if (
-      displayType === "INVISIBLE" ||
-      (territory.remainingCloak > 0 && !isOwner)
-    ) {
+    if (displayType === "INVISIBLE") {
       styles.backgroundColor = "#77A6F7";
       styles.pointerEvents = "none";
     } else if (displayType === "VISIBLE_OLD") {
