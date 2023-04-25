@@ -10,13 +10,7 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
-import edu.duke.ece651.team13.server.service.order.AttackOrderService;
-import edu.duke.ece651.team13.server.service.order.CardUnbreakableDefenseService;
-import edu.duke.ece651.team13.server.service.order.CloakResearchService;
-import edu.duke.ece651.team13.server.service.order.CreateSpyOrderService;
-import edu.duke.ece651.team13.server.service.order.MoveOrderService;
-import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
-import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
+import edu.duke.ece651.team13.server.service.order.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -84,10 +78,13 @@ public class OrderServiceTest {
     @Mock
     private CloakResearchService cloakResearchOrder;
 
+    @Mock
+    private CloakService cloakOrder;
+
 
     @BeforeEach
     void setUp() {
-        service = new OrderServiceImpl(entityManager, repository, gameService, playerService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, cardUnbreakableDefenseOrder, createSpyOrder, eventPublisher, cloakResearchOrder);
+        service = new OrderServiceImpl(entityManager, repository, gameService, playerService, moveOrder, attackOrder, unitUpgradeOrder, techResearchOrder, cardUnbreakableDefenseOrder, createSpyOrder, eventPublisher, cloakResearchOrder, cloakOrder);
     }
 
     @Test

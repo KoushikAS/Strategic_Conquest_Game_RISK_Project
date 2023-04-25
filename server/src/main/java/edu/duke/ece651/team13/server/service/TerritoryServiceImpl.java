@@ -81,4 +81,19 @@ public class TerritoryServiceImpl implements TerritoryService {
         territory.setUnits(units);
         return repository.save(territory);
     }
+
+    /**
+     * update territory's remaining number of turns for which the territory should be cloaked
+     * two cases:
+     * 1. for territory which is cloaked, decrease "remainCloak" by 1 each round
+     * 2. for territory need to be cloaked, set "remainCloak"
+     * @param territory to be updated
+     * @return territory with up-to-date RemainingCloak
+     */
+    @Override
+    @Transactional
+    public TerritoryEntity updateTerritoryRemainingCloak(TerritoryEntity territory, int remainingCloak){
+        territory.setRemainingCloak(remainingCloak);
+        return repository.save(territory);
+    }
 }

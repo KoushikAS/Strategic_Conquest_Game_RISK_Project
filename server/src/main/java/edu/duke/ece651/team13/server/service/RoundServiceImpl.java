@@ -10,13 +10,7 @@ import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
-import edu.duke.ece651.team13.server.service.order.AttackOrderService;
-import edu.duke.ece651.team13.server.service.order.CardUnbreakableDefenseService;
-import edu.duke.ece651.team13.server.service.order.CloakResearchService;
-import edu.duke.ece651.team13.server.service.order.CreateSpyOrderService;
-import edu.duke.ece651.team13.server.service.order.MoveOrderService;
-import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
-import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
+import edu.duke.ece651.team13.server.service.order.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +46,10 @@ public class RoundServiceImpl implements RoundService {
     private final TechResearchOrderService techResearchOrder;
 
     @Autowired
-    private final CloakResearchService researchCloakOrder;
+    private final CloakResearchService cloakResearchOrder;
+
+    @Autowired
+    private final CloakService cloakOrder;
 
     @Autowired
     private final CardUnbreakableDefenseService cardUnbreakableDefenseService;
@@ -104,7 +101,11 @@ public class RoundServiceImpl implements RoundService {
 
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.CLOAK_RESEARCH))
-                    .forEach(order -> researchCloakOrder.executeOnGame(order, game));
+                    .forEach(order -> cloakResearchOrder.executeOnGame(order, game));
+
+            orders.stream()
+                    .filter(order -> order.getOrderType().equals(OrderMappingEnum.CLOAK))
+                    .forEach(order -> cloakOrder.executeOnGame(order, game));
         }
     }
 
@@ -200,6 +201,18 @@ public class RoundServiceImpl implements RoundService {
         }
     }
 
+    /**
+     * decrease "remainCloak" by 1 if the territory is cloaked
+     * @param territoryEntities list of all territories in the map
+     */
+    private void updateTerritoryRemainingCloak(List<TerritoryEntity> territoryEntities){
+        for(TerritoryEntity territory: territoryEntities){
+            if(territory.getRemainingCloak()>0){
+                territoryService.updateTerritoryRemainingCloak(territory, territory.getRemainingCloak()-1);
+            }
+        }
+    }
+
     @Override
     @Async
     @EventListener
@@ -214,6 +227,7 @@ public class RoundServiceImpl implements RoundService {
             addUnitForPlayers(game.getPlayers());
             updatePlayerStatus(game);
             updateTerritoryViewForTerritories(game.getMap().getTerritories());
+            updateTerritoryRemainingCloak(game.getMap().getTerritories());
         }
 
         clearOrders(game);

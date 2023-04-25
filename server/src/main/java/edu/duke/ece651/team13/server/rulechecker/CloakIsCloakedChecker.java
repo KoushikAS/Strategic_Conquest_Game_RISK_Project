@@ -5,17 +5,17 @@ import edu.duke.ece651.team13.server.entity.PlayerEntity;
 
 
 /**
- * Check if the player has researched the cloak
+ * Check if the territory is cloaked
  */
-public class CloakResearchIsResearchedChecker extends RuleChecker {
-    public CloakResearchIsResearchedChecker(RuleChecker next) {
+public class CloakIsCloakedChecker extends RuleChecker {
+    public CloakIsCloakedChecker(RuleChecker next) {
         super(next);
     }
 
     @Override
     protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
-        if(player.isCloakResearched()){
-            throw new IllegalArgumentException("Invalid cloak research order: Player has researched the cloak.");
+        if(order.getSource().getRemainingCloak()>0){
+            throw new IllegalArgumentException("Invalid cloak order: The territory is cloaked.");
         }
     }
 

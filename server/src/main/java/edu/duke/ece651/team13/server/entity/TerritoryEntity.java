@@ -62,6 +62,9 @@ public class TerritoryEntity {
     @Column(name = "TECH_PRODUCTION")
     private int techProduction; //tech resource production this territory generate each round
 
+    @Column(name = "REMAINING_CLOAK")
+    private int remainingCloak; //remaining number of turns for which this territory should be hidden from view
+
     @OneToMany(mappedBy = "territory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<UnitEntity> units = new ArrayList<>();
@@ -72,7 +75,7 @@ public class TerritoryEntity {
 
     @OneToMany(mappedBy = "toDisplay", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<TerritoryViewEntity> territoryViews = new ArrayList<>();
+    private List<TerritoryViewEntity> territoryViews = new ArrayList<>(); //size = number of players; indicate this territory's different display to different players
 
 
     /**
