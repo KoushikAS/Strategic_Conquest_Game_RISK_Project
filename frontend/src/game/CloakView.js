@@ -49,7 +49,7 @@ const CloakView = () => {
                 <Row>
                     <Col md={9}>
                         <GameBanner view="cloak" />
-                        <Map game={game} handleSourceOrTarget={setSourceTerritory} />
+                        <Map game={game} player={player} handleSourceOrTarget={setSourceTerritory} />
                     </Col>
                     <Col md={3}>
                         <PlayerInfoCard player={player} game={game} />
