@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 
 const Map2Players = (props) => {
   const { territories } = props;
+  // get the territory to display
   const getTerritory = (name) => {
     return territories.find((territory) => territory.name === name);
   };

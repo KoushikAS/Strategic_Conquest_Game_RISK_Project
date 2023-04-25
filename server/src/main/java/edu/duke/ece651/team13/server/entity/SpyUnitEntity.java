@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * SPY Unit
  */
@@ -32,6 +34,7 @@ public class SpyUnitEntity {
 
     @ManyToOne
     @JoinColumn(name = "TERRITORY_ID", nullable = false)
+    @JsonBackReference
     private TerritoryEntity territory;
 
     @Column(name = "SPY_NUM")
@@ -39,6 +42,7 @@ public class SpyUnitEntity {
 
     @ManyToOne
     @JoinColumn(name = "OWNER_PLAYER_ID", nullable = false)
+    @JsonBackReference
     private PlayerEntity owner;
 
     public SpyUnitEntity(Integer unitNum, PlayerEntity player){
