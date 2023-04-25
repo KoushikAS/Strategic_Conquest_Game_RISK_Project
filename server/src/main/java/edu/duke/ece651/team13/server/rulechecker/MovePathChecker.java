@@ -7,7 +7,6 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.util.GraphUtil;
 
-import java.util.Iterator;
 import java.util.stream.Collectors;
 
 /**
