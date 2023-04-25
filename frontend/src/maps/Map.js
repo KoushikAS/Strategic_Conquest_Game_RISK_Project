@@ -47,6 +47,7 @@ const Map = (props) => {
     return (
         <div style={backgroundStyles}>
           <Map2Players
+              player={props.player}
               territories={territories}
               handleSourceOrTarget={props.handleSourceOrTarget}
           />
@@ -56,6 +57,7 @@ const Map = (props) => {
     return (
         <div style={{...backgroundStyles, ...map3PlayersStyles}}>
           <Map3Players
+              player={props.player}
               territories={territories}
               handleSourceOrTarget={props.handleSourceOrTarget}
           />
@@ -65,6 +67,7 @@ const Map = (props) => {
   return (
       <div style={{...backgroundStyles, ...map4PlayersStyles}}>
         <Map4Players
+            player={props.player}
             territories={territories}
             handleSourceOrTarget={props.handleSourceOrTarget}
         />

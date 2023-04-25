@@ -5,16 +5,34 @@ import Container from "react-bootstrap/Container";
 import Modal from "react-bootstrap/Modal";
 
 const TerritoryView = (props) => {
+  const { player, territory } = props;
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const territory = props.territory;
-  const styles = {
-    backgroundColor: getTerritoryColor(territory.owner.name, false),
-    cursor: "pointer",
+  const getStyles = () => {
+    const styles = {
+      backgroundColor: getTerritoryColor(territory.owner.name),
+      cursor: "pointer",
+    };
+    const displayType = findView().displayType;
+    if (displayType === "INVISIBLE") {
+      styles.backgroundColor = "#77A6F7";
+      styles.pointerEvents = "none";
+    } else if (displayType === "VISIBLE_OLD") {
+      styles.filter = "grayscale(50%)";
+    }
+    return styles;
   };
+
+  const findView = () => {
+    return territory.territoryViews.find(
+      (view) => view.viewer.name === player.name
+    );
+  };
+
+  const isOwner = territory.owner.name === player.name;
 
   return (
     <>
@@ -22,13 +40,14 @@ const TerritoryView = (props) => {
         key={territory.name}
         onClick={handleShow}
         className="territory"
-        style={styles}
+        style={getStyles()}
       >
         <Container>
           <TerritoryBasicView
             handleSourceOrTarget={props.handleSourceOrTarget}
             handleClose={handleClose}
             territory={territory}
+            view={findView()}
           />
         </Container>
       </div>
@@ -36,38 +55,32 @@ const TerritoryView = (props) => {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
-            {territory.name} owned by {territory.owner.name}
+            {territory.name} owned by{" "}
+            {isOwner ? territory.owner.name : findView().ownerDisplay.name}
+            {findView().displayType === "VISIBLE_OLD" ? " (OLD INFO!)" : ""}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <TerritoryDetailView territory={territory} />
+          <TerritoryDetailView view={findView()} />
         </Modal.Body>
       </Modal>
     </>
   );
 };
 
-const getTerritoryColor = (owner, highlight) => {
+const getTerritoryColor = (owner) => {
   switch (owner) {
     case "Red":
-      return highlight ? "#D33431" : "#FFCCCB";
+      return "#FFCCCB";
     case "Blue":
-      return highlight ? "#379EBF" : "#ADD8E6";
+      return "#ADD8E6";
     case "Green":
-      return highlight ? "#26BC26" : "#90EE90";
+      return "#90EE90";
     case "Yellow":
-      return highlight ? "#CCCC48" : "#FFFFE0";
+      return "#FFFFE0";
     default:
-      return highlight ? "#D3D3D3" : "#F5F5F5";
+      return "#F5F5F5";
   }
 };
-
-const oldTerritoryInfoStyles = {
-  filter: "grayscale(50%)",
-};
-
-const unknownTerritoryStyles = {
-  backgroundColor: "#77A6F7",
-}
 
 export default TerritoryView;

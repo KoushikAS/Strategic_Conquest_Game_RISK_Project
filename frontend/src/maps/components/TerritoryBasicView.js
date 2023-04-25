@@ -5,10 +5,10 @@ import { GiSwordman } from "react-icons/gi";
 import { Col, Row } from "react-bootstrap";
 
 const TerritoryBasicView = (props) => {
-  const territory = props.territory;
+  const { territory, view } = props;
   const getTotalUnits = () => {
     let totalUnits = 0;
-    territory.units.forEach(unit => {
+    view.unitsDisplay.forEach(unit => {
       totalUnits += unit.unitNum;
     });
     return totalUnits;
@@ -24,6 +24,8 @@ const TerritoryBasicView = (props) => {
     console.log(e.target.innerText);
     props.handleSourceOrTarget(e.target.innerText);
   };
+
+  if (view.displayType === "INVISIBLE") return;
 
   return (
     <div style={{ fontSize: "12px" }}>
