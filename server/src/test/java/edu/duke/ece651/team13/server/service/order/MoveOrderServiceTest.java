@@ -9,6 +9,7 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.service.PlayerService;
+import edu.duke.ece651.team13.server.service.SpyUnitService;
 import edu.duke.ece651.team13.server.service.UnitService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,9 +36,12 @@ class MoveOrderServiceTest {
     @Mock
     private PlayerService playerService;
 
+    @Mock
+    private SpyUnitService spyUnitService;
+
     @BeforeEach
     void setUp() {
-        service = new MoveOrderService(unitService, playerService);
+        service = new MoveOrderService(unitService, playerService, spyUnitService);
     }
 
 

@@ -66,6 +66,6 @@ public class GameEntity {
     public PlayerEntity getPlayerEntityById(Long Id) {
         return players.stream().filter(playerEntity -> Objects.equals(playerEntity.getId(), Id))
                 .findFirst()
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchElementException("Cannot find player entity with id " + Id));
     }
 }
