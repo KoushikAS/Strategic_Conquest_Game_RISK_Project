@@ -7,7 +7,6 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.util.GraphUtil;
 
-import java.util.Iterator;
 import java.util.stream.Collectors;
 
 /**
@@ -27,7 +26,7 @@ public class MovePathChecker extends RuleChecker {
                 throw new IllegalArgumentException("Invalid move of spy: In enemy territories, can only move to adjacent territories.");
             }
         }
-        if (!GraphUtil.hasPath(order.getSource(), order.getDestination())) {
+        else if (!GraphUtil.hasPath(order.getSource(), order.getDestination())) {
             throw new IllegalArgumentException("Invalid move order: There is not a valid path between the src and dst.");
         }
     }
