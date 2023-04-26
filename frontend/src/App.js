@@ -16,6 +16,8 @@ import ResearchView from "./game/ResearchView";
 import UpgradeView from "./game/UpgradeView";
 import CloakView from "./game/CloakView";
 import ResearchCloakView from "./game/ResearchCloakView";
+import CardView from "./game/CardView";
+import ProtectCardView from "./game/ProtectCardView";
 
 function App() {
   return (
@@ -93,6 +95,24 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <CloakView />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                exact
+                path="/card"
+                element={
+                  <ProtectedRoute>
+                    <CardView />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                exact
+                path="/protectCard"
+                element={
+                  <ProtectedRoute>
+                    <ProtectCardView />
                   </ProtectedRoute>
                 }
               />

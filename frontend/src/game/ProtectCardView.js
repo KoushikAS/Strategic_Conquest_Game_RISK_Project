@@ -4,13 +4,13 @@ import GameBanner from "./components/GameBanner";
 import PlayerInfoCard from "./components/info_cards/PlayerInfoCard";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import CloakInfoCard from "./components/info_cards/CloakInfoCard";
+import ProtectCardInfoCard from "./components/info_cards/ProtectCardInfoCard";
 import { AuthContext } from "../auth/AuthProvider";
 import { useLocation } from "react-router-dom";
 import LoadingView from "./components/LoadingView";
-import CloakModal from "./components/CloakModal";
+import ProtectCardModal from "./components/ProtectCardModal";
 
-const CloakView = () => {
+const ProtectCardView = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const gameId = location.state.gameId;
@@ -51,7 +51,7 @@ const CloakView = () => {
       <Container>
         <Row>
           <Col md={9}>
-            <GameBanner view="cloak" />
+            <GameBanner view="protect-card" />
             <Map
               game={game}
               player={player}
@@ -61,19 +61,19 @@ const CloakView = () => {
           <Col md={3}>
             <PlayerInfoCard player={player} game={game} />
             <br />
-            <CloakInfoCard player={player} source={sourceTerritory} />
+            <ProtectCardInfoCard player={player} source={sourceTerritory} />
           </Col>
         </Row>
       </Container>
-      <CloakModal
+      <ProtectCardModal
         player={player}
         gameId={gameId}
         source={sourceTerritory}
         territories={game.map.territories}
-        orderType="CLOAK"
+        orderType="CARD_UNBREAKABLE_DEFENCE"
       />
     </>
   );
 };
 
-export default CloakView;
+export default ProtectCardView;
