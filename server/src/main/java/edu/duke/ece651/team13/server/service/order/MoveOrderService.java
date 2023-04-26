@@ -113,7 +113,7 @@ public class MoveOrderService implements OrderFactory {
             executeLocally(sourceUnit, destUnit, order.getUnitNum(), player, getFoodCost(order));
 
             spyUnitService.updateSpyUnit(sourceUnit, sourceUnit.getUnitNum());
-            spyUnitService.updateSpyUnit(destUnit, sourceUnit.getUnitNum());
+            spyUnitService.updateSpyUnit(destUnit, destUnit.getUnitNum());
         }
         else{
             UnitEntity sourceUnit = source.getUnitForType( order.getUnitType());
