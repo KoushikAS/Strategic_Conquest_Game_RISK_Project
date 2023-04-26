@@ -59,7 +59,7 @@ public class MapEntity {
     public TerritoryEntity getTerritoryEntityById(Long Id) {
         return territories.stream().filter(territoryEntity -> Objects.equals(territoryEntity.getId(), Id))
                 .findFirst()
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchElementException("Cannot find territory of id " + Id));
     }
 
 }
