@@ -53,8 +53,7 @@ const PlayerOrderButtons = (props) => {
   }
 
   const handleDraw = () => {
-    // TODO: implement draw card operation
-    console.log("You have drawn a card!")
+    navigate("/card", { state: { gameId: props.gameId } });
   }
 
   const handleBack = () => {

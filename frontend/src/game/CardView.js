@@ -4,20 +4,18 @@ import GameBanner from "./components/GameBanner";
 import PlayerInfoCard from "./components/info_cards/PlayerInfoCard";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import CloakInfoCard from "./components/info_cards/CloakInfoCard";
+import CardInfoCard from "./components/info_cards/CardInfoCard";
 import { AuthContext } from "../auth/AuthProvider";
 import { useLocation } from "react-router-dom";
 import LoadingView from "./components/LoadingView";
-import CloakModal from "./components/CloakModal";
 
-const CloakView = () => {
+const CardView = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const gameId = location.state.gameId;
   const [game, setGame] = useState();
-  const [player, setPlayer] = React.useState();
+  const [player, setPlayer] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [sourceTerritory, setSourceTerritory] = useState();
 
   const fetchGame = useCallback(async () => {
     try {
@@ -51,29 +49,22 @@ const CloakView = () => {
       <Container>
         <Row>
           <Col md={9}>
-            <GameBanner view="cloak" />
-            <Map
-              game={game}
-              player={player}
-              handleSourceOrTarget={setSourceTerritory}
-            />
+            <GameBanner view="card" />
+            <Map game={game} player={player} />
           </Col>
           <Col md={3}>
             <PlayerInfoCard player={player} game={game} />
             <br />
-            <CloakInfoCard player={player} source={sourceTerritory} />
+            <CardInfoCard
+              player={player}
+              gameId={gameId}
+              territories={game.map.territories}
+            />
           </Col>
         </Row>
       </Container>
-      <CloakModal
-        player={player}
-        gameId={gameId}
-        source={sourceTerritory}
-        territories={game.map.territories}
-        orderType="CLOAK"
-      />
     </>
   );
 };
 
-export default CloakView;
+export default CardView;
