@@ -119,7 +119,7 @@ public class OrderServiceImpl implements OrderService {
                 orderEntity.setSource(source);
             }
 
-            if (!(orderDTO.getOrderType().equals(CLOAK_RESEARCH.getValue()) || orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(UNIT_UPGRADE.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
+            if (!(orderDTO.getOrderType().equals(CLOAK_RESEARCH.getValue()) || orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(UNIT_UPGRADE.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue())) || (orderDTO.getOrderType().equals(CREATE_SPY.getValue()))) {
                 TerritoryEntity destination = game.getMap().getTerritoryEntityById(orderDTO.getDestinationTerritoryId());
                 orderEntity.setDestination(destination);
             }
