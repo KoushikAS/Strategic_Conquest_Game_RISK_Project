@@ -94,7 +94,7 @@ public class TerritoryEntity {
                 stream()
                 .filter(t -> t.getUnitType().equals(unitType))
                 .findFirst()
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchElementException("Cannot find unit in territory " + this.Id + "of type " + unitType.getType()));
     }
 
     /**
@@ -109,6 +109,6 @@ public class TerritoryEntity {
                 stream()
                 .filter(t -> t.getOwner().getId().equals(player.getId()))
                 .findFirst()
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchElementException("Cannot find spy in territory " + this.Id + " for player " + player.getId()));
     }
 }
