@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Card, Row, Button, Col } from "react-bootstrap";
-import { OrderContext } from "../../context/OrderProvider";
+import { PlayerContext } from "../../context/PlayerProvider";
 import { useNavigate } from "react-router-dom";
 import CardModal from "../CardModal";
 
 const CardInfoCard = (props) => {
   const navigate = useNavigate();
-  const { addOneOrder } = useContext(OrderContext);
+  const { cardsNum, setCardsNum } = useContext(PlayerContext);
   const { player, gameId, territories } = props;
   const [orderType, setOrderType] = useState();
 
@@ -19,10 +19,10 @@ const CardInfoCard = (props) => {
 
   const drawCard = () => {
     const cardOrderTypes = [
-      { type: "CARD_CONQUERING_WARRIORS", weight: 0.2 },
-      { type: "CARD_FAMINE", weight: 0.2 },
+      { type: "CARD_CONQUERING_WARRIORS", weight: 0.1 },
+      { type: "CARD_FAMINE", weight: 0.1 },
       { type: "CARD_UNBREAKABLE_DEFENCE", weight: 0.1 },
-      { type: "CARD_NO_LUCK", weight: 0.5 },
+      { type: "CARD_NO_LUCK", weight: 0.7 },
     ];
     // select a random card type based on the weights
     const weightedRandomSelect = () => {
@@ -35,6 +35,7 @@ const CardInfoCard = (props) => {
     const randomCardOrderType = weightedRandomSelect(cardOrderTypes);
     console.log(randomCardOrderType);
     setOrderType(randomCardOrderType);
+    setCardsNum(cardsNum + 1);
   };
 
   const getCardColor = (owner) => {
@@ -63,7 +64,8 @@ const CardInfoCard = (props) => {
         <Card.Body style={cardStyles}>
           <Card.Text>
             You are about to draw a random card that can have some effects on
-            your game. The effects may either be positive or negative.
+            your game. The effects may either be positive or negative. You can
+            only draw 3 cards per round.
           </Card.Text>
         </Card.Body>
       </Card>

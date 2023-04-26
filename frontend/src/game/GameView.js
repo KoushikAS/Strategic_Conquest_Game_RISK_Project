@@ -16,7 +16,7 @@ import WinInfoCard from "./components/info_cards/WinInfoCard";
 const GameView = () => {
   const { user } = useContext(AuthContext);
   const { orders, removeAllOrders } = useContext(OrderContext);
-  const { hasDone, setHasDone, setHasResearched, setHasCloakResearched } =
+  const { hasDone, setHasDone, setHasResearched, setHasCloakResearched, setCardsNum } =
     useContext(PlayerContext);
   console.log("orders in GameView: ", orders);
   const [game, setGame] = useState();
@@ -67,6 +67,7 @@ const GameView = () => {
       if (!response.data.playerDone) {
         setHasDone(false);
         setHasResearched(false);
+        setCardsNum(0);
         removeAllOrders();
         await fetchGame();
       }

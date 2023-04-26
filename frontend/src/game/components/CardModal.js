@@ -12,10 +12,6 @@ const CardModal = (props) => {
 
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(true);
-  const closeModal = () => {
-    setShowModal(false);
-    navigate("/", { state: { gameId } });
-  };
 
   const handleConfirmOrder = (e) => {
     e.preventDefault();
@@ -75,11 +71,6 @@ const confirmButtonStyles = {
   backgroundColor: "#26BC26",
   marginRight: "50px",
   border: "none",
-};
-
-const cancelButtonStyles = {
-  ...confirmButtonStyles,
-  backgroundColor: "#D33431",
 };
 
 export default CardModal;
