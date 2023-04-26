@@ -5,10 +5,10 @@ import edu.duke.ece651.team13.server.entity.PlayerEntity;
 
 
 /**
- * Check if the player's tech resource totals is enough for the cloak research order
+ * Check if the player's tech resource totals is enough for the cloak order
  */
-public class CloakResearchTechResourceChecker extends RuleChecker {
-    public CloakResearchTechResourceChecker(RuleChecker next) {
+public class CloakTechResourceChecker extends RuleChecker {
+    public CloakTechResourceChecker(RuleChecker next) {
         super(next);
     }
 
@@ -17,11 +17,11 @@ public class CloakResearchTechResourceChecker extends RuleChecker {
         int techResource = player.getTechResource();
         int cost = getTechCost();
         if (techResource < cost) {
-            throw new IllegalArgumentException("Invalid cloak research order: Player doesn't have sufficient tech resource.");
+            throw new IllegalArgumentException("Invalid cloak order: Player doesn't have sufficient tech resource.");
         }
     }
 
     public static int getTechCost() {
-        return 200;
+        return 100;
     }
 }

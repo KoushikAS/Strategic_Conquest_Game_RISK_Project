@@ -47,7 +47,7 @@ const ResearchView = () => {
                 <Row>
                     <Col md={9}>
                         <GameBanner view="research" />
-                        <Map game={game} />
+                        <Map game={game} player={player} />
                     </Col>
                     <Col md={3}>
                         <PlayerInfoCard player={player} game={game} />

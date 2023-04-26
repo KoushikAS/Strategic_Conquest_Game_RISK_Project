@@ -54,7 +54,7 @@ const MoveView = () => {
                 <Row>
                     <Col md={9}>
                         <GameBanner view={currentView} />
-                        <Map game={game} handleSourceOrTarget={setSourceOrTarget} />
+                        <Map game={game} player={player} handleSourceOrTarget={setSourceOrTarget} />
                     </Col>
                     <Col md={3}>
                         <PlayerInfoCard player={player} game={game} />

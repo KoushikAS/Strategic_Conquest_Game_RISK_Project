@@ -5,10 +5,10 @@ import { GiSwordman } from "react-icons/gi";
 import { Col, Row } from "react-bootstrap";
 
 const TerritoryBasicView = (props) => {
-  const territory = props.territory;
+  const { territory, view, player } = props;
   const getTotalUnits = () => {
     let totalUnits = 0;
-    territory.units.forEach(unit => {
+    view.unitsDisplay.forEach((unit) => {
       totalUnits += unit.unitNum;
     });
     return totalUnits;
@@ -24,6 +24,8 @@ const TerritoryBasicView = (props) => {
     console.log(e.target.innerText);
     props.handleSourceOrTarget(e.target.innerText);
   };
+  const isOwner = territory.owner.name === player.name;
+  if (view.displayType === "INVISIBLE") return;
 
   return (
     <div style={{ fontSize: "12px" }}>
@@ -47,15 +49,21 @@ const TerritoryBasicView = (props) => {
         </Col>
       </Row>
       <Row className="text-center">
-        <Col md={4}><p style={resourceNumStyles}>{getTotalUnits()}</p></Col>
-        <Col md={4}><p style={resourceNumStyles}>+{territory.foodProduction}</p></Col>
-        <Col md={4}><p style={resourceNumStyles}>+{territory.techProduction}</p></Col>
+        <Col md={4}>
+          <p style={resourceNumStyles}>{getTotalUnits()}</p>
+        </Col>
+        <Col md={4}>
+          <p style={resourceNumStyles}>+{territory.foodProduction}</p>
+        </Col>
+        <Col md={4}>
+          <p style={resourceNumStyles}>+{territory.techProduction}</p>
+        </Col>
       </Row>
     </div>
   );
 };
 
 const resourceNumStyles = {
-  fontSize: "9px"
-}
+  fontSize: "9px",
+};
 export default TerritoryBasicView;

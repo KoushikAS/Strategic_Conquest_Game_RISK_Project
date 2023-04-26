@@ -9,13 +9,7 @@ import edu.duke.ece651.team13.server.entity.TerritoryEntity;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
 import edu.duke.ece651.team13.server.repository.OrderRepository;
-import edu.duke.ece651.team13.server.service.order.AttackOrderService;
-import edu.duke.ece651.team13.server.service.order.CardUnbreakableDefenseService;
-import edu.duke.ece651.team13.server.service.order.CloakResearchService;
-import edu.duke.ece651.team13.server.service.order.CreateSpyOrderService;
-import edu.duke.ece651.team13.server.service.order.MoveOrderService;
-import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
-import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
+import edu.duke.ece651.team13.server.service.order.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static edu.duke.ece651.team13.server.enums.GameStatusEnum.ENDED;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.ATTACK;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_CONQUERING_WARRIORS;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_FAMINE;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_NO_LUCK;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_UNBREAKABLE_DEFENCE;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CLOAK_RESEARCH;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CREATE_SPY;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.DONE;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.MOVE;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.TECH_RESEARCH;
-import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.UNIT_UPGRADE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.*;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.LOSE;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
@@ -82,7 +66,10 @@ public class OrderServiceImpl implements OrderService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    private final CloakResearchService researchCloak;
+    private final CloakResearchService researchCloakOrder;
+
+    @Autowired
+    private final CloakService cloakOrder;
 
 
     @Override
@@ -119,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
                 orderEntity.setSource(source);
             }
 
-            if (!(orderDTO.getOrderType().equals(CLOAK_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CREATE_SPY.getValue())
+            if (!(orderDTO.getOrderType().equals(CLOAK_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CLOAK.getValue()) || orderDTO.getOrderType().equals(CREATE_SPY.getValue())
                     || orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue())
                     || orderDTO.getOrderType().equals(UNIT_UPGRADE.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue())
                     || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE.getValue())
@@ -128,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
                 orderEntity.setDestination(destination);
             }
 
-            if (!(orderDTO.getOrderType().equals(CLOAK_RESEARCH.getValue()) || orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
+            if (!(orderDTO.getOrderType().equals(CLOAK_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CLOAK.getValue()) || orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
                 orderEntity.setUnitNum(orderDTO.getUnitNum());
                 orderEntity.setUnitType(UnitMappingEnum.findByValue(orderDTO.getUnitType()));
             }
@@ -220,10 +207,17 @@ public class OrderServiceImpl implements OrderService {
             }
         }
                 
-        //Validate Research Cloak order
+        //Validate Cloak Research order
         for(OrderEntity order: orderEntityList){
             if(order.getOrderType().equals(CLOAK_RESEARCH)){
-                researchCloak.validateAndExecuteLocally(order, game);
+                researchCloakOrder.validateAndExecuteLocally(order, game);
+            }
+        }
+
+        //Validate Cloak order
+        for(OrderEntity order: orderEntityList){
+            if(order.getOrderType().equals(CLOAK)){
+                cloakOrder.validateAndExecuteLocally(order, game);
             }
         }
 

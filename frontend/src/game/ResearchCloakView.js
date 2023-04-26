@@ -4,20 +4,18 @@ import GameBanner from "./components/GameBanner";
 import PlayerInfoCard from "./components/info_cards/PlayerInfoCard";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import CloakInfoCard from "./components/info_cards/CloakInfoCard";
+import ResearchCloakInfoCard from "./components/info_cards/ResearchCloakInfoCard";
 import { AuthContext } from "../auth/AuthProvider";
 import { useLocation } from "react-router-dom";
 import LoadingView from "./components/LoadingView";
-import CloakModal from "./components/CloakModal";
 
-const CloakView = () => {
+const ResearchCloakView = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const gameId = location.state.gameId;
   const [game, setGame] = useState();
   const [player, setPlayer] = React.useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [sourceTerritory, setSourceTerritory] = useState();
 
   const fetchGame = useCallback(async () => {
     try {
@@ -51,29 +49,18 @@ const CloakView = () => {
       <Container>
         <Row>
           <Col md={9}>
-            <GameBanner view="cloak" />
-            <Map
-              game={game}
-              player={player}
-              handleSourceOrTarget={setSourceTerritory}
-            />
+            <GameBanner view="research-cloak" />
+            <Map game={game} player={player} />
           </Col>
           <Col md={3}>
             <PlayerInfoCard player={player} game={game} />
             <br />
-            <CloakInfoCard player={player} source={sourceTerritory} />
+            <ResearchCloakInfoCard player={player} gameId={gameId} />
           </Col>
         </Row>
       </Container>
-      <CloakModal
-        player={player}
-        gameId={gameId}
-        source={sourceTerritory}
-        territories={game.map.territories}
-        orderType="CLOAK"
-      />
     </>
   );
 };
 
-export default CloakView;
+export default ResearchCloakView;

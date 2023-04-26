@@ -1,11 +1,9 @@
 import React from "react";
 import { Card, Row, Col, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
 const LostInfoCard = (props) => {
 
     const { player } = props;
-    const navigate = useNavigate();
 
     const getCardColor = (owner) => {
         switch (owner) {
@@ -27,10 +25,6 @@ const LostInfoCard = (props) => {
         textAlign: "left",
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
     };
-
-    // const handleRefresh = () => {
-    //     navigate("/", { state: { gameId: props.gameId } });
-    // };
 
     return (
         <><Card>

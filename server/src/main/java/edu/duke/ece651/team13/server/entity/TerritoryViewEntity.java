@@ -56,6 +56,9 @@ public class TerritoryViewEntity {
     @Enumerated(EnumType.STRING)
     private TerritoryDisplayEnum displayType;
 
+    @Column(name = "VISIBLE_BEFORE")
+    private boolean visibleBefore; //indicate whether this territory has been seen before by the viewer
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OWNER_DISPLAY_ID")
     @JsonManagedReference

@@ -3,7 +3,8 @@ import { GiSwordman, GiSwordwoman, GiBowman, GiCaveman, GiPikeman, GiStrongMan, 
 import { Col, Row } from "react-bootstrap";
 
 const TerritoryDetailView = (props) => {
-  const units = props.territory.units;
+  const { view } = props;
+  const units = view.unitsDisplay;
   const iconSize = 35;
   const rowStyles = {
     height: "3rem",

@@ -32,4 +32,6 @@ public interface TerritoryService {
 
     TerritoryEntity updateTerritoryUnits(TerritoryEntity territory, List<UnitEntity> units);
 
+    TerritoryEntity updateTerritoryRemainingCloak(TerritoryEntity territory, int remainingCloak);
+
 }

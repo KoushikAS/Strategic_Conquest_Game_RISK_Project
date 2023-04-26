@@ -17,9 +17,11 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MapServiceImpl implements MapService {
 
     @Autowired
@@ -323,9 +325,9 @@ public class MapServiceImpl implements MapService {
      */
     private void initTerritoryViewForTerritories(MapEntity map, List<PlayerEntity> players){
         for(TerritoryEntity territoryToDisplay: map.getTerritories()){
-            for(PlayerEntity viewer: players){
+            for (PlayerEntity viewer : players) {
                 TerritoryViewEntity territoryView = territoryViewService.initTerritoryView(territoryToDisplay, viewer);
-                for(UnitEntity unitToDisplay: territoryToDisplay.getUnits()){
+                for (UnitEntity unitToDisplay : territoryToDisplay.getUnits()) {
                     unitViewService.initUnitView(territoryView, unitToDisplay);
                 }
             }
@@ -337,7 +339,7 @@ public class MapServiceImpl implements MapService {
      */
     private void initSpyUnitForMap(MapEntity map, List<PlayerEntity> players){
         for(TerritoryEntity territory: map.getTerritories()){
-            for(PlayerEntity player: players){
+            for (PlayerEntity player : players) {
                 SpyUnitEntity spyUnit = spyUnitService.createSpyUnit(territory, 0, player);
                 territory.getSpyUnits().add(spyUnit);
             }

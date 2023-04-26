@@ -1,5 +1,4 @@
 import Modal from "react-bootstrap/Modal";
-import UnitNumSlider from "./UnitNumSlider";
 import { Button } from "react-bootstrap";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +23,6 @@ const CloakModal = (props) => {
 
     const handleConfirmOrder = (e) => {
         e.preventDefault();
-        // TODO: order JSON may change here
         addOneOrder({
             sourceTerritoryId: getTerritory(sourceName).id,
             orderType: props.orderType

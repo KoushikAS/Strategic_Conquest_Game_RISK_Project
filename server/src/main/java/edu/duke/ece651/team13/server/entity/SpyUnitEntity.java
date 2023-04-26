@@ -9,13 +9,15 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * SPY Unit
@@ -27,22 +29,22 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SpyUnitEntity {
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "unitSeq")
     @SequenceGenerator(name = "spySeq")
     private Long Id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TERRITORY_ID")
+    @ManyToOne
+    @JoinColumn(name = "TERRITORY_ID", nullable = false)
     @JsonBackReference
     private TerritoryEntity territory;
 
     @Column(name = "SPY_NUM")
     private Integer unitNum;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PLAYER_ID")
-    @JsonManagedReference
+    @ManyToOne
+    @JoinColumn(name = "OWNER_PLAYER_ID", nullable = false)
+    @JsonBackReference
     private PlayerEntity owner;
 
     public SpyUnitEntity(Integer unitNum, PlayerEntity player){
