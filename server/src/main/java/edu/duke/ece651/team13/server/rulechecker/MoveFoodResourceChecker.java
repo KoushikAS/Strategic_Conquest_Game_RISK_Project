@@ -28,7 +28,7 @@ public class MoveFoodResourceChecker extends RuleChecker {
      */
     public static int getFoodCost(OrderEntity order) {
         if (order.getUnitType().equals(UnitMappingEnum.SPY)){
-            return 2 * findMinCostForSpy(order.getSource(), order.getDestination()) * order.getUnitNum();
+            return 2 * findMinCostForSpy(order.getSource(), order.getDestination(), order.getPlayer()) * order.getUnitNum();
         }
         return 2 * findMinCost(order.getSource(), order.getDestination()) * order.getUnitNum();
     }
