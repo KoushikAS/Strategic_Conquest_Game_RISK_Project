@@ -30,7 +30,7 @@ const TerritoryBasicView = (props) => {
       <div
           className="text-center territory-name"
           onClick={handleClick}
-          style={{ margin: "0.8rem", fontSize: "18px" }}
+          style={{ margin: "0.8rem", fontSize: "18px", color: "#379EBF"}}
       >
         Invisible
       </div>
