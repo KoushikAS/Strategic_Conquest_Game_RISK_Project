@@ -86,6 +86,8 @@ public class TerritoryEntity {
         units.add(unit);
     }
 
+    public void addSpyUnit(SpyUnitEntity spyUnit) { spyUnits.add(spyUnit); }
+
     /**
      * This is a helper function that gets the UnitEntity with the specified unit type in the
      * specified territory
