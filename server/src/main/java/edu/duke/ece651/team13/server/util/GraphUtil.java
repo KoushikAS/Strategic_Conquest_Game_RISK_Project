@@ -89,10 +89,6 @@ public class GraphUtil {
                                       PlayerEntity owner,
                                       boolean hasVisitedEnemy) {
         // Base case: already reached destination, cost is 0
-        if (!owner.equals(source.getOwner())){
-            if(hasVisitedEnemy) return Integer.MAX_VALUE;
-            else hasVisitedEnemy = true;
-        }
         if (source.equals(destination)) return 0;
 
         // Mark the current node as visited
@@ -103,6 +99,10 @@ public class GraphUtil {
         for (TerritoryConnectionEntity connection : connections) {
             TerritoryEntity neighbor = connection.getDestinationTerritory();
             if (!visited.contains(neighbor)) {
+                if (!owner.equals(neighbor.getOwner())){
+                    if(hasVisitedEnemy) return Integer.MAX_VALUE;
+                    else hasVisitedEnemy = true;
+                }
                 visited.add(neighbor);
                 int neighborCost = minimumCostPathForSpy(neighbor, destination, visited, owner, hasVisitedEnemy);
 
@@ -136,8 +136,9 @@ public class GraphUtil {
      * @return the minimum cost if a path exists
      * Integer.MAX_VALUE if no valid path exists
      */
-    public static int findMinCostForSpy(TerritoryEntity source, TerritoryEntity destination) {
+    public static int findMinCostForSpy(TerritoryEntity source, TerritoryEntity destination, PlayerEntity player) {
         HashSet<TerritoryEntity> visited = new HashSet<>();
-        return minimumCostPathForSpy(source, destination, visited, source.getOwner(), false);
+        int minCost = minimumCostPathForSpy(source, destination, visited, player, false);
+        return minCost;
     }
 }
