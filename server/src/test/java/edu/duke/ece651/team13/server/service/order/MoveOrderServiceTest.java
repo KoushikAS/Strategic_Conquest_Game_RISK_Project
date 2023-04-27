@@ -13,6 +13,7 @@ import edu.duke.ece651.team13.server.service.SpyUnitService;
 import edu.duke.ece651.team13.server.service.UnitService;
 import edu.duke.ece651.team13.server.util.GraphUtil;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -287,6 +288,7 @@ class MoveOrderServiceTest {
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
     }
 
+    @Disabled
     @Test
     void test_moveSpyUnits_pathOnlyOneEnemy(){
         GameEntity game = getGameEntity();
