@@ -13,7 +13,6 @@ import edu.duke.ece651.team13.server.service.SpyUnitService;
 import edu.duke.ece651.team13.server.service.UnitService;
 import edu.duke.ece651.team13.server.util.GraphUtil;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -288,7 +287,6 @@ class MoveOrderServiceTest {
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
     }
 
-    @Disabled
     @Test
     void test_moveSpyUnits_pathOnlyOneEnemy(){
         GameEntity game = getGameEntity();
@@ -350,25 +348,23 @@ class MoveOrderServiceTest {
         t5Conn.add(new TerritoryConnectionEntity(t5, t3, 1));
         t5.setConnections(t5Conn);
 
-//        assertEquals(3, GraphUtil.findMinCostForSpy(t1, t3, player1));
-//        assertEquals(Integer.MAX_VALUE, GraphUtil.findMinCostForSpy(t1, t5, player1));
-//
-//        OrderEntity order = new OrderEntity();
-//        order.setSource(t1);
-//        order.setDestination(t5);
-//        order.setOrderType(MOVE);
-//        order.setUnitType(UnitMappingEnum.SPY);
-//        order.setUnitNum(1);
-//        order.setPlayer(player1);
-//
-//        assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
-//
-//        t1.setOwner(player2);
-//        assertEquals(1, GraphUtil.findMinCostForSpy(t1, t2, player1));
+        assertEquals(3, GraphUtil.findMinCostForSpy(t1, t3, player1));
+        assertEquals(Integer.MAX_VALUE, GraphUtil.findMinCostForSpy(t1, t5, player1));
+
+        OrderEntity order = new OrderEntity();
+        order.setSource(t1);
+        order.setDestination(t5);
+        order.setOrderType(MOVE);
+        order.setUnitType(UnitMappingEnum.SPY);
+        order.setUnitNum(1);
+        order.setPlayer(player1);
+
+        assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
+
+        t1.setOwner(player2);
+        assertEquals(1, GraphUtil.findMinCostForSpy(t1, t2, player1));
 
         t2.setOwner(player2);
         assertEquals(1, GraphUtil.findMinCostForSpy(t1, t2, player1));
-
-        t2.setOwner(player3);
     }
 }
