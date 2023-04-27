@@ -100,7 +100,7 @@ public class GraphUtil {
             TerritoryEntity neighbor = connection.getDestinationTerritory();
             if (!visited.contains(neighbor)) {
                 if (!owner.equals(neighbor.getOwner())){
-                    if(hasVisitedEnemy) return Integer.MAX_VALUE;
+                    if(hasVisitedEnemy) return cost;
                     else hasVisitedEnemy = true;
                 }
                 visited.add(neighbor);
@@ -138,7 +138,6 @@ public class GraphUtil {
      */
     public static int findMinCostForSpy(TerritoryEntity source, TerritoryEntity destination, PlayerEntity player) {
         HashSet<TerritoryEntity> visited = new HashSet<>();
-        int minCost = minimumCostPathForSpy(source, destination, visited, player, false);
-        return minCost;
+        return minimumCostPathForSpy(source, destination, visited, player, false);
     }
 }
