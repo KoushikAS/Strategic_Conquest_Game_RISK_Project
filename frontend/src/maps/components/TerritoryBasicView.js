@@ -22,10 +22,19 @@ const TerritoryBasicView = (props) => {
       return;
     }
     console.log(e.target.innerText);
-    props.handleSourceOrTarget(e.target.innerText);
+    if(e.target.innerText === "Invisible") props.handleSourceOrTarget(territory.name)
+    else props.handleSourceOrTarget(e.target.innerText);
   };
   const isOwner = territory.owner.name === player.name;
-  if (view.displayType === "INVISIBLE") return;
+  if (view.displayType === "INVISIBLE") return (
+      <div
+          className="text-center territory-name"
+          onClick={handleClick}
+          style={{ margin: "0.8rem", fontSize: "18px", color: "#379EBF"}}
+      >
+        Invisible
+      </div>
+  );
 
   return (
     <div style={{ fontSize: "12px" }}>

@@ -18,6 +18,7 @@ import CloakView from "./game/CloakView";
 import ResearchCloakView from "./game/ResearchCloakView";
 import CardView from "./game/CardView";
 import ProtectCardView from "./game/ProtectCardView";
+import SpyView from "./game/SpyView";
 
 function App() {
   return (
@@ -80,6 +81,15 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+                <Route
+                    exact
+                    path="/spy"
+                    element={
+                        <ProtectedRoute>
+                            <SpyView />
+                        </ProtectedRoute>
+                    }
+                />
               <Route
                 exact
                 path="/researchCloak"

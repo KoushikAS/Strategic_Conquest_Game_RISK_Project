@@ -41,8 +41,7 @@ const PlayerOrderButtons = (props) => {
   };
 
   const handleSpy = () => {
-    // TODO: implement spy operation
-    console.log("Doing spy operation!");
+    navigate("/spy", {state: { gameId: props.gameId}});
   };
 
   const handleCloak = () => {

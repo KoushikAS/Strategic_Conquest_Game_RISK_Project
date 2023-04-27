@@ -56,7 +56,7 @@ public class MoveOrderService implements OrderFactory {
     @Override
     public void validateAndExecuteLocally(OrderEntity order, GameEntity game) throws IllegalArgumentException {
         log.info("Locally validating order " + order.getId() + ": " + order.getOrderType().getValue() + " from " +
-        order.getSource().getName() + " to " + order.getDestination().getName() + " with " + order.getUnitNum()
+                order.getSource().getName() + " to " + order.getDestination().getName() + " with " + order.getUnitNum()
                 + " units on game " + game.getId());
 
         RuleChecker ruleChecker = getDefaultRuleChecker();
@@ -128,3 +128,5 @@ public class MoveOrderService implements OrderFactory {
     }
 
 }
+
+
