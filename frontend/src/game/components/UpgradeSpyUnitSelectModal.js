@@ -6,13 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { OrderContext } from "../context/OrderProvider";
 
-const UnitSelectModal = (props) => {
+const UpgradeSpyUnitSelectModal = (props) => {
     const { addManyOrders } = useContext(OrderContext);
 
     const territories = props.territories;
     const sourceName = props.source;
-    const targetName = props.target;
-    const orderType = props.orderType;
 
     const getTerritory = (name) => {
         return territories.find((territory) => territory.name === name);
@@ -25,7 +23,6 @@ const UnitSelectModal = (props) => {
     const [sliderValue4, setSliderValue4] = useState(0);
     const [sliderValue5, setSliderValue5] = useState(0);
     const [sliderValue6, setSliderValue6] = useState(0);
-    const [sliderValue7, setSliderValue7] = useState(0);
 
     const handleSlider0Change = (event) => {
         setSliderValue0(event.target.value);
@@ -48,9 +45,6 @@ const UnitSelectModal = (props) => {
     const handleSlider6Change = (event) => {
         setSliderValue6(event.target.value);
     };
-    const handleSlider7Change = (event) => {
-        setSliderValue7(event.target.value);
-    };
 
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(true);
@@ -64,7 +58,6 @@ const UnitSelectModal = (props) => {
         if (sliderValue !== 0) {
             const data = {
                 sourceTerritoryId: getTerritory(sourceName).id,
-                destinationTerritoryId: getTerritory(targetName).id,
                 unitNum: sliderValue,
                 unitType: unitType,
                 orderType: props.orderType
@@ -82,8 +75,6 @@ const UnitSelectModal = (props) => {
         packageData(sliderValue4, "Army Aviation");
         packageData(sliderValue5, "Special Forces");
         packageData(sliderValue6, "Combat Engineer");
-        if(orderType==="MOVE") packageData(sliderValue7, "SPY");
-
         console.log("orderArray: ", orderArray);
         // store the order in context
         addManyOrders(orderArray);
@@ -105,25 +96,18 @@ const UnitSelectModal = (props) => {
             if (territory.owner.name === props.player.name) {
                 totalUnits += getTotalUnitsOnTerritory(territory);
             }
-            if(orderType==="MOVE"){
-                territory.spyUnits.forEach(spyUnit => {
-                    if(spyUnit.owner.name === props.player.name) {
-                        totalUnits += spyUnit.unitNum;
-                    }
-                })
-            }
         });
         return totalUnits;
     }
 
-    if (!sourceName || !targetName) return;
+    if (!sourceName) return;
 
     return (
         <>
             <Modal show={showModal}>
                 <Modal.Header>
                     <Modal.Title>
-                        Select units to {props.orderType} from {sourceName} to {targetName}
+                        Select units to {props.orderType} in {sourceName}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -135,7 +119,6 @@ const UnitSelectModal = (props) => {
                         <UnitNumSlider unitType="Army Aviation" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue4} handleSliderChange={handleSlider4Change} />
                         <UnitNumSlider unitType="Special Forces" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue5} handleSliderChange={handleSlider5Change} />
                         <UnitNumSlider unitType="Combat Engineer" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue6} handleSliderChange={handleSlider6Change} />
-                        {orderType == "MOVE" && (<UnitNumSlider unitType="SPY" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue7} handleSliderChange={handleSlider7Change} />)}
                         <br />
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <Button onClick={handleConfirmOrder} style={confirmButtonStyles} size="lg">Confirm</Button>
@@ -157,4 +140,4 @@ const cancelButtonStyles = {
     backgroundColor: "#D33431"
 }
 
-export default UnitSelectModal;
+export default UpgradeSpyUnitSelectModal;

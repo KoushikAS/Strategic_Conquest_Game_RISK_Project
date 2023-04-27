@@ -21,11 +21,13 @@ const GameBanner = (props) => {
       case "research-cloak":
         return "Click the Confirm button to place your research cloak order.";
       case "cloak":
-        return "Click the name of one of your territories to cloak it."
+        return "Click the name of one of your territories to cloak it.";
       case "card":
-        return "Click the Confirm button to draw a card."
+        return "Click the Confirm button to draw a card.";
       case "protect-card":
-        return "Click the name of one of your territories to protect it."
+        return "Click the name of one of your territories to protect it.";
+      case "spy":
+        return "Click the name of one of your territories to upgrade some units to Spy.";
       default:
         return "Welcome to Really Interesting Strategic Conquest (RISC)!";
     }

@@ -1,5 +1,7 @@
 package edu.duke.ece651.team13.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +44,6 @@ public class SpyUnitEntity {
 
     @ManyToOne
     @JoinColumn(name = "OWNER_PLAYER_ID", nullable = false)
-    @JsonBackReference
     private PlayerEntity owner;
 
     public SpyUnitEntity(Integer unitNum, PlayerEntity player){

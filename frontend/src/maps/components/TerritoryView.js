@@ -19,9 +19,9 @@ const TerritoryView = (props) => {
     const displayType = findView().displayType;
     if (displayType === "INVISIBLE") {
       styles.backgroundColor = "#77A6F7";
-      styles.pointerEvents = "none";
+      //styles.pointerEvents = "none";
     } else if (displayType === "VISIBLE_OLD") {
-      styles.filter = "grayscale(50%)";
+      styles.filter = "grayscale(70%)";
     }
     return styles;
   };
@@ -32,13 +32,19 @@ const TerritoryView = (props) => {
     );
   };
 
+  const findSpyUnit = () => {
+    return territory.spyUnits.find(
+        (spyUnit) => spyUnit.owner.name === player.name
+    );
+  };
+
   const isOwner = territory.owner.name === player.name;
 
   return (
     <>
       <div
         key={territory.name}
-        onClick={handleShow}
+        onClick={findView().displayType === "INVISIBLE"? null: handleShow}
         className="territory"
         style={getStyles()}
       >
@@ -62,7 +68,7 @@ const TerritoryView = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <TerritoryDetailView view={findView()} />
+          <TerritoryDetailView view={findView()} spyUnit={findSpyUnit()}/>
         </Modal.Body>
       </Modal>
     </>
