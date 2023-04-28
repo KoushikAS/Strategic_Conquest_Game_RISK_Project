@@ -11,10 +11,6 @@ const ResearchInfoCard = (props) => {
     const { player } = props;
     const handleConfirm = () => {
         const order = {
-            // sourceTerritoryId: null,
-            // destinationTerritoryId: null,
-            // unitNum: null,
-            // unitType: null,
             orderType: "TECH_RESEARCH"
         }
         addOneOrder(order);

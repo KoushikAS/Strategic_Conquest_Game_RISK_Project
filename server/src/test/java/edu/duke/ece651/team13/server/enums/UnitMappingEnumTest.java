@@ -2,7 +2,15 @@ package edu.duke.ece651.team13.server.enums;
 
 import org.junit.jupiter.api.Test;
 
-import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.*;
+import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL0;
+import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL1;
+import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL2;
+import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL3;
+import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL4;
+import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL5;
+import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.LEVEL6;
+import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.findByValue;
+import static edu.duke.ece651.team13.server.enums.UnitMappingEnum.getNextLevel;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -1,14 +1,16 @@
 package edu.duke.ece651.team13.server.service;
 
-import edu.duke.ece651.team13.server.entity.*;
+import edu.duke.ece651.team13.server.entity.GameEntity;
+import edu.duke.ece651.team13.server.entity.OrderEntity;
+import edu.duke.ece651.team13.server.entity.PlayerEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryEntity;
+import edu.duke.ece651.team13.server.entity.TerritoryViewEntity;
+import edu.duke.ece651.team13.server.entity.UnitEntity;
 import edu.duke.ece651.team13.server.enums.GameStatusEnum;
 import edu.duke.ece651.team13.server.enums.OrderMappingEnum;
 import edu.duke.ece651.team13.server.enums.PlayerStatusEnum;
 import edu.duke.ece651.team13.server.enums.UnitMappingEnum;
-import edu.duke.ece651.team13.server.service.order.AttackOrderService;
-import edu.duke.ece651.team13.server.service.order.MoveOrderService;
-import edu.duke.ece651.team13.server.service.order.TechResearchOrderService;
-import edu.duke.ece651.team13.server.service.order.UnitUpgradeOrderService;
+import edu.duke.ece651.team13.server.service.order.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_CONQUERING_WARRIORS;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_FAMINE;
+import static edu.duke.ece651.team13.server.enums.OrderMappingEnum.CARD_UNBREAKABLE_DEFENCE;
 import static edu.duke.ece651.team13.server.enums.PlayerStatusEnum.PLAYING;
 
 @Service
@@ -41,6 +46,15 @@ public class RoundServiceImpl implements RoundService {
     private final TechResearchOrderService techResearchOrder;
 
     @Autowired
+    private final CloakResearchService cloakResearchOrder;
+
+    @Autowired
+    private final CloakService cloakOrder;
+
+    @Autowired
+    private final CardUnbreakableDefenseService cardUnbreakableDefenseService;
+
+    @Autowired
     private final CombatResolutionService combatResolutionService;
 
     @Autowired
@@ -54,6 +68,12 @@ public class RoundServiceImpl implements RoundService {
 
     @Autowired
     private final GameService gameService;
+
+    @Autowired
+    private final TerritoryViewService territoryViewService;
+
+    @Autowired
+    private final CreateSpyOrderService createSpyOrder;
 
     private void executePlayersOrders(GameEntity game) {
         for (PlayerEntity player : game.getPlayers()) {
@@ -74,10 +94,33 @@ public class RoundServiceImpl implements RoundService {
             orders.stream()
                     .filter(order -> order.getOrderType().equals(OrderMappingEnum.TECH_RESEARCH))
                     .forEach(order -> techResearchOrder.executeOnGame(order, game));
+
+            orders.stream()
+                    .filter(order -> order.getOrderType().equals(OrderMappingEnum.CREATE_SPY))
+                    .forEach(order -> createSpyOrder.executeOnGame(order, game));
+
+            orders.stream()
+                    .filter(order -> order.getOrderType().equals(OrderMappingEnum.CLOAK_RESEARCH))
+                    .forEach(order -> cloakResearchOrder.executeOnGame(order, game));
+
+            orders.stream()
+                    .filter(order -> order.getOrderType().equals(OrderMappingEnum.CLOAK))
+                    .forEach(order -> cloakOrder.executeOnGame(order, game));
+        }
+    }
+
+    private void executeUnbreakableDefense(GameEntity game){
+        for (PlayerEntity player : game.getPlayers()) {
+            List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
+
+            orders.stream()
+                    .filter(order -> order.getOrderType().equals(CARD_UNBREAKABLE_DEFENCE))
+                    .forEach(order -> cardUnbreakableDefenseService.executeOnGame(order, game));
         }
     }
 
     private void resolveCombatForGame(GameEntity game) {
+        executeUnbreakableDefense(game);
         game.getMap().getTerritories().forEach(combatResolutionService::resolveCombot);
     }
 
@@ -100,15 +143,19 @@ public class RoundServiceImpl implements RoundService {
 
     private void updateResourceForPlayers(List<PlayerEntity> players) {
         for (PlayerEntity player : players) {
-            List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
-            int foodProduction = 0;
-            int techProduction = 0;
-            for (TerritoryEntity territory : territoryEntities) {
-                foodProduction += territory.getFoodProduction();
-                techProduction += territory.getTechProduction();
+            List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
+            //Adding units only if there is no Famine
+            if (orders.stream().noneMatch(order -> order.getOrderType().equals(CARD_FAMINE))) {
+                List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
+                int foodProduction = 0;
+                int techProduction = 0;
+                for (TerritoryEntity territory : territoryEntities) {
+                    foodProduction += territory.getFoodProduction();
+                    techProduction += territory.getTechProduction();
+                }
+                playerService.updatePlayerFoodResource(player, player.getFoodResource() + foodProduction);
+                playerService.updatePlayerTechResource(player, player.getTechResource() + techProduction);
             }
-            playerService.updatePlayerFoodResource(player, player.getFoodResource() + foodProduction);
-            playerService.updatePlayerTechResource(player, player.getTechResource() + techProduction);
         }
     }
 
@@ -118,10 +165,20 @@ public class RoundServiceImpl implements RoundService {
      */
     private void addUnitForPlayers(List<PlayerEntity> players){
         for (PlayerEntity player : players) {
+            //Checking for Level 6  bonus upgrade
+            List<OrderEntity> orders = orderService.getOrdersByPlayer(player);
+            boolean conqueringWarriorsUpdate = orders.stream().anyMatch(order -> order.getOrderType().equals(CARD_CONQUERING_WARRIORS));
+
             List<TerritoryEntity> territoryEntities = territoryService.getTerritoriesByPlayer(player);
             for (TerritoryEntity territory : territoryEntities){
                 UnitEntity basicUnitEntity = territory.getUnitForType( UnitMappingEnum.LEVEL0);
                 unitService.updateUnit(basicUnitEntity, basicUnitEntity.getUnitNum() + 1);
+
+                //adding Level 6 for the conquering Warriors update
+                if(conqueringWarriorsUpdate){
+                    UnitEntity conqueringWarriorsUnitEntity = territory.getUnitForType( UnitMappingEnum.LEVEL6);
+                    unitService.updateUnit(conqueringWarriorsUnitEntity, conqueringWarriorsUnitEntity.getUnitNum() + 1);
+                }
             }
         }
     }
@@ -129,6 +186,30 @@ public class RoundServiceImpl implements RoundService {
     private void clearOrders(GameEntity game){
         for(PlayerEntity player:game.getPlayers()){
             orderService.deleteOrdersByPlayer(player);
+        }
+    }
+
+    /**
+     * update territoryViews for each territory after each round
+     * @param territoryEntities list of all territories in the map
+     */
+    private void updateTerritoryViewForTerritories(List<TerritoryEntity> territoryEntities){
+        for(TerritoryEntity territory: territoryEntities){
+            for(TerritoryViewEntity territoryView: territory.getTerritoryViews()){
+                territoryViewService.updateTerritoryView(territoryView);
+            }
+        }
+    }
+
+    /**
+     * decrease "remainCloak" by 1 if the territory is cloaked
+     * @param territoryEntities list of all territories in the map
+     */
+    private void updateTerritoryRemainingCloak(List<TerritoryEntity> territoryEntities){
+        for(TerritoryEntity territory: territoryEntities){
+            if(territory.getRemainingCloak()>0){
+                territoryService.updateTerritoryRemainingCloak(territory, territory.getRemainingCloak()-1);
+            }
         }
     }
 
@@ -142,10 +223,11 @@ public class RoundServiceImpl implements RoundService {
 
         if (game.getRoundNo() >= 1) {
             resolveCombatForGame(game);
-            //TODO Update Resources  like Units, Technology and Food
             updateResourceForPlayers(game.getPlayers());
             addUnitForPlayers(game.getPlayers());
             updatePlayerStatus(game);
+            updateTerritoryViewForTerritories(game.getMap().getTerritories());
+            updateTerritoryRemainingCloak(game.getMap().getTerritories());
         }
 
         clearOrders(game);

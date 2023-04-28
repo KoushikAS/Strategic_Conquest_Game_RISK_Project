@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 
 const Map3Players = (props) => {
-  const { territories } = props;
+  const { territories, player } = props;
   const getTerritory = (name) => {
     return territories.find((territory) => territory.name === name);
   };
@@ -20,6 +20,7 @@ const Map3Players = (props) => {
             key="Labrador"
             territory={getTerritory("Labrador")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col></Col>
@@ -28,6 +29,7 @@ const Map3Players = (props) => {
             key="Bulldog"
             territory={getTerritory("Bulldog")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col></Col>
@@ -42,6 +44,7 @@ const Map3Players = (props) => {
             key="Rottweiler"
             territory={getTerritory("Rottweiler")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col md={1}> </Col>
@@ -50,6 +53,7 @@ const Map3Players = (props) => {
             key="Dachshund"
             territory={getTerritory("Dachshund")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col md={1}> </Col>
@@ -58,6 +62,7 @@ const Map3Players = (props) => {
             key="Beagle"
             territory={getTerritory("Beagle")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col></Col>
@@ -70,6 +75,7 @@ const Map3Players = (props) => {
             key="Boxer"
             territory={getTerritory("Boxer")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col></Col>
@@ -78,6 +84,7 @@ const Map3Players = (props) => {
             key="Spaniel"
             territory={getTerritory("Spaniel")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col> </Col>
@@ -86,6 +93,7 @@ const Map3Players = (props) => {
             key="Poodle"
             territory={getTerritory("Poodle")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col> </Col>
@@ -95,6 +103,7 @@ const Map3Players = (props) => {
             key="Pug"
             territory={getTerritory("Pug")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col> </Col>
@@ -103,6 +112,7 @@ const Map3Players = (props) => {
             key="Mastiff"
             territory={getTerritory("Mastiff")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
       </Row>
@@ -115,6 +125,7 @@ const Map3Players = (props) => {
             key="Brittany"
             territory={getTerritory("Brittany")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col> </Col>
@@ -123,6 +134,7 @@ const Map3Players = (props) => {
             key="Havanese"
             territory={getTerritory("Havanese")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col> </Col>
@@ -131,6 +143,7 @@ const Map3Players = (props) => {
             key="Vizsla"
             territory={getTerritory("Vizsla")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col> </Col>
@@ -139,6 +152,7 @@ const Map3Players = (props) => {
             key="Chihuahua"
             territory={getTerritory("Chihuahua")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col></Col>
@@ -150,6 +164,7 @@ const Map3Players = (props) => {
             key="Akita"
             territory={getTerritory("Akita")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col md={1}> </Col>
@@ -158,6 +173,7 @@ const Map3Players = (props) => {
             key="Sheepdog"
             territory={getTerritory("Sheepdog")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col md={3}> </Col>
@@ -166,6 +182,7 @@ const Map3Players = (props) => {
             key="Maltese"
             territory={getTerritory("Maltese")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
         <Col md={1}> </Col>
@@ -174,6 +191,7 @@ const Map3Players = (props) => {
             key="Collie"
             territory={getTerritory("Collie")}
             handleSourceOrTarget={props.handleSourceOrTarget}
+            player={player}
           />
         </Col>
       </Row>

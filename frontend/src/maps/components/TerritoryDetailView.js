@@ -3,7 +3,8 @@ import { GiSwordman, GiSwordwoman, GiBowman, GiCaveman, GiPikeman, GiStrongMan, 
 import { Col, Row } from "react-bootstrap";
 
 const TerritoryDetailView = (props) => {
-  const units = props.territory.units;
+  const { view, spyUnit} = props;
+  const units = view.unitsDisplay;
   const iconSize = 35;
   const rowStyles = {
     height: "3rem",
@@ -61,6 +62,13 @@ const TerritoryDetailView = (props) => {
           </Row>
         )
       })}
+      <Row key={"SPY"} className="text-center" style={rowStyles}>
+        <Col md={4}>
+          {getUnitIcon("SPY")}
+        </Col>
+        <Col md={4}>{"SPY"}</Col>
+        <Col md={4}>{spyUnit.unitNum}</Col>
+      </Row>
     </div>
   );
 };

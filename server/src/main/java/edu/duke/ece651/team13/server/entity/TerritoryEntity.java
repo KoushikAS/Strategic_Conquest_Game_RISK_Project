@@ -62,9 +62,21 @@ public class TerritoryEntity {
     @Column(name = "TECH_PRODUCTION")
     private int techProduction; //tech resource production this territory generate each round
 
+    @Column(name = "REMAINING_CLOAK")
+    private int remainingCloak; //remaining number of turns for which this territory should be hidden from view
+
     @OneToMany(mappedBy = "territory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<UnitEntity> units = new ArrayList<>();
+
+    @OneToMany(mappedBy = "territory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<SpyUnitEntity> spyUnits = new ArrayList<>();
+
+    @OneToMany(mappedBy = "toDisplay", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<TerritoryViewEntity> territoryViews = new ArrayList<>(); //size = number of players; indicate this territory's different display to different players
+
 
     /**
      * Adds a UnitEntity object to the collection of units.
@@ -73,6 +85,8 @@ public class TerritoryEntity {
     public void addUnit(UnitEntity unit) {
         units.add(unit);
     }
+
+    public void addSpyUnit(SpyUnitEntity spyUnit) { spyUnits.add(spyUnit); }
 
     /**
      * This is a helper function that gets the UnitEntity with the specified unit type in the
@@ -85,6 +99,21 @@ public class TerritoryEntity {
                 stream()
                 .filter(t -> t.getUnitType().equals(unitType))
                 .findFirst()
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchElementException("Cannot find unit in territory " + this.Id + "of type " + unitType.getType()));
+    }
+
+    /**
+     * This is a helper function that gets the UnitEntity with the spy unit entity in the
+     * territory with the specified owner
+     *
+     * @param player the owner of the unit entity
+     * @return the UnitEntity with the specified owner
+     */
+    public SpyUnitEntity getSpyForPlayer(PlayerEntity player){
+        return this.spyUnits.
+                stream()
+                .filter(t -> t.getOwner().getId().equals(player.getId()))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Cannot find spy in territory " + this.Id + " for player " + player.getId()));
     }
 }

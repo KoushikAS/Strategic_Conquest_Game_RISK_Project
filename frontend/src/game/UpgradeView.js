@@ -49,7 +49,7 @@ const UpgradeView = () => {
                 <Row>
                     <Col md={9}>
                         <GameBanner view="upgrade" />
-                        <Map game={game} handleSourceOrTarget={setSourceTerritory} />
+                        <Map game={game} player={player} handleSourceOrTarget={setSourceTerritory} />
                     </Col>
                     <Col md={3}>
                         <PlayerInfoCard player={player} game={game} />
@@ -58,7 +58,7 @@ const UpgradeView = () => {
                     </Col>
                 </Row>
             </Container>
-            <UpgradeUnitSelectModal gameId={gameId} source={sourceTerritory} territories={game.map.territories} orderType="UNIT_UPGRADE" />
+            <UpgradeUnitSelectModal player={player} gameId={gameId} source={sourceTerritory} territories={game.map.territories} orderType="UNIT_UPGRADE" />
         </>
     );
 };

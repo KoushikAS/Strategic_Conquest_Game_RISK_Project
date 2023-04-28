@@ -68,9 +68,9 @@ public class TerritoryServiceImpl implements TerritoryService {
     @Override
     @Transactional
     public void addNeighbour(TerritoryEntity territory1, TerritoryEntity territory2, Integer distance) {
-        TerritoryConnectionEntity connection1 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory2, territory1, distance));
+        TerritoryConnectionEntity connection1 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory1, territory2, distance));
         territory1.getConnections().add(connection1);
-        TerritoryConnectionEntity connection2 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory1, territory2, distance));
+        TerritoryConnectionEntity connection2 = territoryConnectionRepository.save(new TerritoryConnectionEntity(territory2, territory1, distance));
         territory2.getConnections().add(connection2);
     }
 
@@ -79,6 +79,21 @@ public class TerritoryServiceImpl implements TerritoryService {
     public TerritoryEntity updateTerritoryUnits(TerritoryEntity territory, List<UnitEntity> units) {
         log.info("Updating territory " + territory.getId() + " units.");
         territory.setUnits(units);
+        return repository.save(territory);
+    }
+
+    /**
+     * update territory's remaining number of turns for which the territory should be cloaked
+     * two cases:
+     * 1. for territory which is cloaked, decrease "remainCloak" by 1 each round
+     * 2. for territory need to be cloaked, set "remainCloak"
+     * @param territory to be updated
+     * @return territory with up-to-date RemainingCloak
+     */
+    @Override
+    @Transactional
+    public TerritoryEntity updateTerritoryRemainingCloak(TerritoryEntity territory, int remainingCloak){
+        territory.setRemainingCloak(remainingCloak);
         return repository.save(territory);
     }
 }

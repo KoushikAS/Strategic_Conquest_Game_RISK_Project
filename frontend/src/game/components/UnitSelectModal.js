@@ -12,12 +12,10 @@ const UnitSelectModal = (props) => {
     const territories = props.territories;
     const sourceName = props.source;
     const targetName = props.target;
+    const orderType = props.orderType;
 
     const getTerritory = (name) => {
         return territories.find((territory) => territory.name === name);
-    };
-    const getUnit = (unitType, territoryName) => {
-        return getTerritory(territoryName).units.find((unit) => unit.unitType === unitType);
     };
 
     const [sliderValue0, setSliderValue0] = useState(0);
@@ -27,6 +25,7 @@ const UnitSelectModal = (props) => {
     const [sliderValue4, setSliderValue4] = useState(0);
     const [sliderValue5, setSliderValue5] = useState(0);
     const [sliderValue6, setSliderValue6] = useState(0);
+    const [sliderValue7, setSliderValue7] = useState(0);
 
     const handleSlider0Change = (event) => {
         setSliderValue0(event.target.value);
@@ -48,6 +47,9 @@ const UnitSelectModal = (props) => {
     };
     const handleSlider6Change = (event) => {
         setSliderValue6(event.target.value);
+    };
+    const handleSlider7Change = (event) => {
+        setSliderValue7(event.target.value);
     };
 
     const navigate = useNavigate();
@@ -80,6 +82,8 @@ const UnitSelectModal = (props) => {
         packageData(sliderValue4, "Army Aviation");
         packageData(sliderValue5, "Special Forces");
         packageData(sliderValue6, "Combat Engineer");
+        if(orderType==="MOVE") packageData(sliderValue7, "SPY");
+
         console.log("orderArray: ", orderArray);
         // store the order in context
         addManyOrders(orderArray);
@@ -100,6 +104,13 @@ const UnitSelectModal = (props) => {
         territories.forEach(territory => {
             if (territory.owner.name === props.player.name) {
                 totalUnits += getTotalUnitsOnTerritory(territory);
+            }
+            if(orderType==="MOVE"){
+                territory.spyUnits.forEach(spyUnit => {
+                    if(spyUnit.owner.name === props.player.name) {
+                        totalUnits += spyUnit.unitNum;
+                    }
+                })
             }
         });
         return totalUnits;
@@ -124,6 +135,7 @@ const UnitSelectModal = (props) => {
                         <UnitNumSlider unitType="Army Aviation" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue4} handleSliderChange={handleSlider4Change} />
                         <UnitNumSlider unitType="Special Forces" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue5} handleSliderChange={handleSlider5Change} />
                         <UnitNumSlider unitType="Combat Engineer" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue6} handleSliderChange={handleSlider6Change} />
+                        {orderType == "MOVE" && (<UnitNumSlider unitType="SPY" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue7} handleSliderChange={handleSlider7Change} />)}
                         <br />
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <Button onClick={handleConfirmOrder} style={confirmButtonStyles} size="lg">Confirm</Button>

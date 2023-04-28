@@ -18,7 +18,7 @@ public class UnitUpgradeMaxLevelChecker extends RuleChecker {
     protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
         UnitMappingEnum unitType = order.getUnitType();
         if (unitType.equals(LEVEL6)) {
-            throw new IllegalArgumentException("You cannot further update Level 6 units.");
+            throw new IllegalArgumentException("Invalid upgrade order: You cannot further update Level 6 units.");
         }
     }
 }

@@ -15,9 +15,6 @@ const UpgradeUnitSelectModal = (props) => {
     const getTerritory = (name) => {
         return territories.find((territory) => territory.name === name);
     };
-    const getUnit = (unitType, territoryName) => {
-        return getTerritory(territoryName).units.find((unit) => unit.unitType === unitType);
-    };
 
     const [sliderValue0, setSliderValue0] = useState(0);
     const [sliderValue1, setSliderValue1] = useState(0);
@@ -85,6 +82,24 @@ const UpgradeUnitSelectModal = (props) => {
         navigate("/", { state: { gameId: props.gameId } });
     }
 
+    const getTotalUnitsOnTerritory = (territory) => {
+        let totalUnits = 0;
+        territory.units.forEach(unit => {
+            totalUnits += unit.unitNum;
+        });
+        return totalUnits;
+    };
+
+    const getTotalUnitsOnPlayer = () => {
+        let totalUnits = 0;
+        territories.forEach(territory => {
+            if (territory.owner.name === props.player.name) {
+                totalUnits += getTotalUnitsOnTerritory(territory);
+            }
+        });
+        return totalUnits;
+    }
+
     if (!sourceName) return;
 
     return (
@@ -97,13 +112,13 @@ const UpgradeUnitSelectModal = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        <UnitNumSlider unitType="Basic" unitNum={getUnit("LEVEL0", sourceName).unitNum} sliderValue={sliderValue0} handleSliderChange={handleSlider0Change} />
-                        <UnitNumSlider unitType="Infantry" unitNum={getUnit("LEVEL1", sourceName).unitNum} sliderValue={sliderValue1} handleSliderChange={handleSlider1Change} />
-                        <UnitNumSlider unitType="Cavalry" unitNum={getUnit("LEVEL2", sourceName).unitNum} sliderValue={sliderValue2} handleSliderChange={handleSlider2Change} />
-                        <UnitNumSlider unitType="Artillery" unitNum={getUnit("LEVEL3", sourceName).unitNum} sliderValue={sliderValue3} handleSliderChange={handleSlider3Change} />
-                        <UnitNumSlider unitType="Army Aviation" unitNum={getUnit("LEVEL4", sourceName).unitNum} sliderValue={sliderValue4} handleSliderChange={handleSlider4Change} />
-                        <UnitNumSlider unitType="Special Forces" unitNum={getUnit("LEVEL5", sourceName).unitNum} sliderValue={sliderValue5} handleSliderChange={handleSlider5Change} />
-                        <UnitNumSlider unitType="Combat Engineer" unitNum={getUnit("LEVEL6", sourceName).unitNum} sliderValue={sliderValue6} handleSliderChange={handleSlider6Change} />
+                        <UnitNumSlider unitType="Basic" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue0} handleSliderChange={handleSlider0Change} />
+                        <UnitNumSlider unitType="Infantry" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue1} handleSliderChange={handleSlider1Change} />
+                        <UnitNumSlider unitType="Cavalry" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue2} handleSliderChange={handleSlider2Change} />
+                        <UnitNumSlider unitType="Artillery" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue3} handleSliderChange={handleSlider3Change} />
+                        <UnitNumSlider unitType="Army Aviation" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue4} handleSliderChange={handleSlider4Change} />
+                        <UnitNumSlider unitType="Special Forces" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue5} handleSliderChange={handleSlider5Change} />
+                        <UnitNumSlider unitType="Combat Engineer" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue6} handleSliderChange={handleSlider6Change} />
                         <br />
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <Button onClick={handleConfirmOrder} style={confirmButtonStyles} size="lg">Confirm</Button>

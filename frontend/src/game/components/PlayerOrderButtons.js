@@ -8,7 +8,8 @@ import axios from "axios";
 
 const PlayerOrderButtons = (props) => {
   const navigate = useNavigate();
-  const { hasResearched, setHasDone } = useContext(PlayerContext);
+  const { hasResearched, setHasDone, hasCloakResearched, cardsNum } =
+    useContext(PlayerContext);
   const { orders, removeAllOrders } = useContext(OrderContext);
   const { user } = useContext(AuthContext);
 
@@ -29,29 +30,48 @@ const PlayerOrderButtons = (props) => {
 
   const handleMove = () => {
     navigate("/move", { state: { gameId: props.gameId } });
-  }
+  };
 
   const handleResearch = () => {
     navigate("/research", { state: { gameId: props.gameId } });
-  }
+  };
 
   const handleUpgrade = () => {
     navigate("/upgrade", { state: { gameId: props.gameId } });
-  }
+  };
+
+  const handleSpy = () => {
+    navigate("/spy", {state: { gameId: props.gameId}});
+  };
+
+  const handleCloak = () => {
+    if (hasCloakResearched) {
+      navigate("/cloak", { state: { gameId: props.gameId } });
+    } else {
+      navigate("/researchCloak", { state: { gameId: props.gameId } });
+    }
+  };
+
+  const handleDraw = () => {
+    navigate("/card", { state: { gameId: props.gameId } });
+  };
 
   const handleBack = () => {
     navigate("/gameList");
-  }
+  };
 
   const handleDone = useCallback(async () => {
     try {
       const config = {
-        headers: { Authorization: `Bearer ${user.accessToken}` }
-      }
-      const response = await axios.post(`submitOrder/?playerId=${props.player.id}`,
+        headers: { Authorization: `Bearer ${user.accessToken}` },
+      };
+      const response = await axios.post(
+        `submitOrder/?playerId=${props.player.id}`,
         {
-          orders: orders.length === 0 ? [{ "orderType": "DONE" }] : orders
-        }, config);
+          orders: orders.length === 0 ? [{ orderType: "DONE" }] : orders,
+        },
+        config
+      );
       console.log(`Done response: ${response.data}`);
       setHasDone(true);
       handleShowSuccess();
@@ -61,7 +81,7 @@ const PlayerOrderButtons = (props) => {
       handleShowFailure();
       removeAllOrders();
     }
-  }, [props.player.id, user.accessToken, orders, setHasDone, removeAllOrders])
+  }, [props.player.id, user.accessToken, orders, setHasDone, removeAllOrders]);
 
   return (
     <>
@@ -70,46 +90,92 @@ const PlayerOrderButtons = (props) => {
           <Button
             onClick={handleMove}
             className="rounded-circle"
-            style={moveButtonStyles}
+            style={basicOrderButtonStyles}
             size="lg"
           >
             Move
           </Button>
         </Col>
         <Col md={6}>
+          {cardsNum < 3 && (
+            <Button
+              onClick={handleDraw}
+              className="rounded-circle"
+              style={advancedOrderButtonStyles}
+              size="lg"
+            >
+              Card
+            </Button>
+          )}
+        </Col>
+      </Row>
+
+      <br />
+      <Row className="text-center">
+        <Col md={6}>
           <Button
             onClick={handleAttack}
             className="rounded-circle"
-            style={moveButtonStyles}
+            style={basicOrderButtonStyles}
             size="lg"
           >
             Attack
           </Button>
         </Col>
+        <Col md={6}>
+          <Button
+            onClick={handleSpy}
+            className="rounded-circle"
+            style={advancedOrderButtonStyles}
+            size="lg"
+          >
+            Spy
+          </Button>
+        </Col>
       </Row>
+
       <br />
       <Row className="text-center">
         <Col md={6}>
-          {!hasResearched && <Button
-            onClick={handleResearch}
-            className="rounded-circle"
-            style={researchButtonStyles}
-            size="lg"
-          >
-            Research
-          </Button>}
+          {!hasResearched && (
+            <Button
+              onClick={handleResearch}
+              className="rounded-circle"
+              style={basicOrderButtonStyles}
+              size="lg"
+            >
+              Research
+            </Button>
+          )}
         </Col>
+        {props.player.maxTechLevel >= 3 && (
+          <Col md={6}>
+            <Button
+              onClick={handleCloak}
+              className="rounded-circle"
+              style={advancedOrderButtonStyles}
+              size="lg"
+            >
+              Cloak
+            </Button>
+          </Col>
+        )}
+      </Row>
+
+      <br />
+      <Row className="text-center">
         <Col md={6}>
           <Button
             onClick={handleUpgrade}
             className="rounded-circle"
-            style={upgradeButtonStyles}
+            style={basicOrderButtonStyles}
             size="lg"
           >
             Upgrade
           </Button>
         </Col>
       </Row>
+
       <Row className="text-center" style={{ marginTop: "80%" }}>
         <Col>
           <Button
@@ -135,24 +201,19 @@ const PlayerOrderButtons = (props) => {
 
       <Modal show={showSuccess} onHide={handleCloseSuccess}>
         <Modal.Header closeButton>
-          <Modal.Title style={{ color: "green" }}>
-            Success!
-          </Modal.Title>
+          <Modal.Title style={{ color: "green" }}>Success!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Your orders have been placed. Please wait for others to complete their orders...
+          Your orders have been placed. Please wait for others to complete their
+          orders...
         </Modal.Body>
       </Modal>
 
       <Modal show={showFailure} onHide={handleCloseFailure}>
         <Modal.Header closeButton>
-          <Modal.Title style={{ color: "red" }}>
-            Oops!
-          </Modal.Title>
+          <Modal.Title style={{ color: "red" }}>Oops!</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          The error is: {errorMessage}
-        </Modal.Body>
+        <Modal.Body>The error is: {errorMessage}</Modal.Body>
       </Modal>
     </>
   );
@@ -168,12 +229,12 @@ const orderButtonStyles = {
   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
 };
 
-const moveButtonStyles = {
+const basicOrderButtonStyles = {
   ...orderButtonStyles,
   backgroundColor: "#17A2B8",
 };
 
-const researchButtonStyles = {
+const advancedOrderButtonStyles = {
   ...orderButtonStyles,
   backgroundColor: "#FFC107",
 };

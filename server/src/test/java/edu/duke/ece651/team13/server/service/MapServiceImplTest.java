@@ -38,9 +38,18 @@ class MapServiceImplTest {
     @Mock
     private UnitService unitService;
 
+    @Mock
+    private TerritoryViewService territoryViewService;
+
+    @Mock
+    private UnitViewService unitViewService;
+
+    @Mock
+    private SpyUnitService spyUnitService;
+
     @BeforeEach
     void setUp() {
-        service = new MapServiceImpl(repository, territoryService, unitService);
+        service = new MapServiceImpl(repository, territoryService, unitService, territoryViewService, unitViewService, spyUnitService);
     }
 
     @Test
