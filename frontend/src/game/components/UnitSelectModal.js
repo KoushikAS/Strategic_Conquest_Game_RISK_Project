@@ -135,7 +135,7 @@ const UnitSelectModal = (props) => {
                         <UnitNumSlider unitType="Army Aviation" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue4} handleSliderChange={handleSlider4Change} />
                         <UnitNumSlider unitType="Special Forces" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue5} handleSliderChange={handleSlider5Change} />
                         <UnitNumSlider unitType="Combat Engineer" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue6} handleSliderChange={handleSlider6Change} />
-                        {orderType == "MOVE" && (<UnitNumSlider unitType="SPY" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue7} handleSliderChange={handleSlider7Change} />)}
+                        {orderType === "MOVE" && (<UnitNumSlider unitType="SPY" unitNum={getTotalUnitsOnPlayer()} sliderValue={sliderValue7} handleSliderChange={handleSlider7Change} />)}
                         <br />
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <Button onClick={handleConfirmOrder} style={confirmButtonStyles} size="lg">Confirm</Button>
