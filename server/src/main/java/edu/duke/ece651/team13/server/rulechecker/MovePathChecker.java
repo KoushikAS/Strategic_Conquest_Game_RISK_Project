@@ -25,7 +25,7 @@ public class MovePathChecker extends RuleChecker {
     @Override
     protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
         if (order.getUnitType().equals(UnitMappingEnum.SPY)) {
-            if(!order.getDestination().getOwner().equals(player)){
+            if(!order.getSource().getOwner().equals(player)){
                 if(!isAdjacentToTerritory(order.getSource(), order.getDestination())){
                     throw new IllegalArgumentException("Invalid move order: There is not a valid path between the src and dst.");
                 }
