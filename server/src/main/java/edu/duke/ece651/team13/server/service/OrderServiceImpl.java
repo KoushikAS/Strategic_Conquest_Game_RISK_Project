@@ -101,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
             orderEntity.setPlayer(player);
             orderEntity.setOrderType(OrderMappingEnum.findByValue(orderDTO.getOrderType()));
 
-            if (!(orderDTO.getOrderType().equals(CLOAK_RESEARCH.getValue()) || (orderDTO.getOrderType().equals(CREATE_SPY.getValue())) || orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
+            if (!(orderDTO.getOrderType().equals(CLOAK_RESEARCH.getValue()) || orderDTO.getOrderType().equals(DONE.getValue()) || orderDTO.getOrderType().equals(TECH_RESEARCH.getValue()) || orderDTO.getOrderType().equals(CARD_CONQUERING_WARRIORS.getValue()) || orderDTO.getOrderType().equals(CARD_FAMINE.getValue()) || orderDTO.getOrderType().equals(CARD_NO_LUCK.getValue()))) {
                 TerritoryEntity source = game.getMap().getTerritoryEntityById(orderDTO.getSourceTerritoryId());
                 orderEntity.setSource(source);
             }
