@@ -13,7 +13,8 @@ const TerritoryView = (props) => {
 
   const getStyles = () => {
     const styles = {
-      backgroundColor: getTerritoryColor(territory.owner.name),
+      //backgroundColor: getTerritoryColor(territory.owner.name),
+      backgroundColor: getTerritoryColor(findView().ownerDisplay.name),
       cursor: "pointer",
     };
     const displayType = findView().displayType;
