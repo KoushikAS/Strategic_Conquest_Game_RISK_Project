@@ -83,11 +83,16 @@ public class GraphUtil {
      * @return the minimum cost if a path exists
      * Integer.MAX_VALUE if no valid path exists
      */
-    public static int minimumCostPathForSpy(TerritoryEntity source,
-                                      TerritoryEntity destination,
-                                      HashSet<TerritoryEntity> visited,
-                                      PlayerEntity owner,
-                                      boolean hasVisitedEnemy) {
+    public static int minimumCostPathForSpy_StartFromSelf(TerritoryEntity source,
+                                                          TerritoryEntity destination,
+                                                          HashSet<TerritoryEntity> visited,
+                                                          PlayerEntity owner,
+                                                          boolean hasVisitedEnemy) {
+        if (!owner.equals(source.getOwner())){
+            if(hasVisitedEnemy) return Integer.MAX_VALUE;
+            else hasVisitedEnemy = true;
+        }
+
         // Base case: already reached destination, cost is 0
         if (source.equals(destination)) return 0;
 
@@ -99,12 +104,8 @@ public class GraphUtil {
         for (TerritoryConnectionEntity connection : connections) {
             TerritoryEntity neighbor = connection.getDestinationTerritory();
             if (!visited.contains(neighbor)) {
-                if (!owner.equals(neighbor.getOwner())){
-                    if(hasVisitedEnemy) return cost;
-                    else hasVisitedEnemy = true;
-                }
                 visited.add(neighbor);
-                int neighborCost = minimumCostPathForSpy(neighbor, destination, visited, owner, hasVisitedEnemy);
+                int neighborCost = minimumCostPathForSpy_StartFromSelf(neighbor, destination, visited, owner, hasVisitedEnemy);
 
                 // Check if we have reached the destination
                 if (neighborCost < Integer.MAX_VALUE) {
@@ -130,6 +131,14 @@ public class GraphUtil {
         return minimumCostPath(source, destination, visited, source.getOwner());
     }
 
+    public static int getDistance(TerritoryEntity source, TerritoryEntity destination){
+        List<TerritoryConnectionEntity> connections = source.getConnections();
+        for (TerritoryConnectionEntity connection : connections){
+            if(connection.getDestinationTerritory().equals(destination)) return connection.getDistance();
+        }
+        return Integer.MAX_VALUE;
+    }
+
     /**
      * Find the minimum cost valid path between source and destination territory for spy unit
      *
@@ -138,6 +147,7 @@ public class GraphUtil {
      */
     public static int findMinCostForSpy(TerritoryEntity source, TerritoryEntity destination, PlayerEntity player) {
         HashSet<TerritoryEntity> visited = new HashSet<>();
-        return minimumCostPathForSpy(source, destination, visited, player, false);
+        if(source.getOwner().equals(player)) return minimumCostPathForSpy_StartFromSelf(source, destination, visited, player, false);
+        else return getDistance(source, destination);
     }
 }

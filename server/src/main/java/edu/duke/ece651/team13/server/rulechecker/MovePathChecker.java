@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 
 import static edu.duke.ece651.team13.server.util.GraphUtil.findMinCostForSpy;
 
-@Slf4j
 /**
  * Checks if there is a valid path between the source and
  * destination territories in a move order.
  */
+@Slf4j
 public class MovePathChecker extends RuleChecker {
     public MovePathChecker(RuleChecker next) {
         super(next);
@@ -25,10 +25,18 @@ public class MovePathChecker extends RuleChecker {
     @Override
     protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
         if (order.getUnitType().equals(UnitMappingEnum.SPY)) {
-            log.info("Min distance for spy is: " + GraphUtil.findMinCostForSpy(order.getSource(), order.getDestination(), order.getPlayer()));
-            // Spy units have special move rules: in enemy territories, can only move to one adjacent territory at a time
-            if (findMinCostForSpy(order.getSource(), order.getDestination(), order.getPlayer()) == Integer.MAX_VALUE) {
-                throw new IllegalArgumentException("Invalid move order: There is not a valid path between the src and dst.");
+            if(!order.getSource().getOwner().equals(player)){
+                if(!isAdjacentToTerritory(order.getSource(), order.getDestination())){
+                    throw new IllegalArgumentException("Invalid move order: There is not a valid path between the src and dst.");
+                }
+            }
+            else{
+                int minDistance = findMinCostForSpy(order.getSource(), order.getDestination(), order.getPlayer());
+                log.info("Min distance for spy is: " + minDistance);
+                // Spy units have special move rules: in enemy territories, can only move to one adjacent territory at a time
+                if (minDistance == Integer.MAX_VALUE) {
+                    throw new IllegalArgumentException("Invalid move order: There is not a valid path between the src and dst.");
+                }
             }
         } else if (!GraphUtil.hasPath(order.getSource(), order.getDestination())) {
             throw new IllegalArgumentException("Invalid move order: There is not a valid path between the src and dst.");

@@ -63,7 +63,6 @@ public class CloakService implements OrderFactory {
         executeLocally(order.getSource(), player, CloakResearchTechResourceChecker.getTechCost());
         playerService.updatePlayerTechResource(player, player.getTechResource());
         //hide target territory for 3 turns from view
-        //why 4 here: decrease remainingCloak (>0) by 1 each turn and take effect in next turn
-        territoryService.updateTerritoryRemainingCloak(order.getSource(), 4);
+        territoryService.updateTerritoryRemainingCloak(order.getSource(), 3);
     }
 }
