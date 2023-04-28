@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Collectors;
 
+import static edu.duke.ece651.team13.server.util.GraphUtil.findMinCostForSpy;
+
 @Slf4j
 /**
  * Checks if there is a valid path between the source and
@@ -23,9 +25,9 @@ public class MovePathChecker extends RuleChecker {
     @Override
     protected void checkMyRule(OrderEntity order, PlayerEntity player) throws IllegalArgumentException {
         if (order.getUnitType().equals(UnitMappingEnum.SPY)) {
-            log.info("Min distance for spy is: " + GraphUtil.findMinCostForSpy(order.getSource(), order.getDestination()));
+            log.info("Min distance for spy is: " + GraphUtil.findMinCostForSpy(order.getSource(), order.getDestination(), order.getPlayer()));
             // Spy units have special move rules: in enemy territories, can only move to one adjacent territory at a time
-            if (GraphUtil.findMinCostForSpy(order.getSource(), order.getDestination()) == Integer.MAX_VALUE) {
+            if (findMinCostForSpy(order.getSource(), order.getDestination(), order.getPlayer()) == Integer.MAX_VALUE) {
                 throw new IllegalArgumentException("Invalid move order: There is not a valid path between the src and dst.");
             }
         } else if (!GraphUtil.hasPath(order.getSource(), order.getDestination())) {

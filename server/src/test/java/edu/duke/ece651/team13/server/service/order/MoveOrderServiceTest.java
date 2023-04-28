@@ -290,7 +290,7 @@ class MoveOrderServiceTest {
     @Test
     void test_moveSpyUnits_pathOnlyOneEnemy(){
         GameEntity game = getGameEntity();
-        // t1 -(1)- t2 -(2)--- t3 --(1)-- t5
+        // t1 -(1)- t2 --(2)-- t3 --(1)-- t5
         //   \-(1)- t4 --(1)---/
         PlayerEntity player1 = new PlayerEntity();
         player1.setId(1L);
@@ -348,8 +348,8 @@ class MoveOrderServiceTest {
         t5Conn.add(new TerritoryConnectionEntity(t5, t3, 1));
         t5.setConnections(t5Conn);
 
-        assertEquals(3, GraphUtil.findMinCostForSpy(t1, t3));
-        assertEquals(Integer.MAX_VALUE, GraphUtil.findMinCostForSpy(t1, t5));
+        assertEquals(3, GraphUtil.findMinCostForSpy(t1, t3, player1));
+        assertEquals(Integer.MAX_VALUE, GraphUtil.findMinCostForSpy(t1, t5, player1));
 
         OrderEntity order = new OrderEntity();
         order.setSource(t1);
@@ -360,5 +360,11 @@ class MoveOrderServiceTest {
         order.setPlayer(player1);
 
         assertThrows(IllegalArgumentException.class, () -> service.validateAndExecuteLocally(order, game));
+
+        t1.setOwner(player2);
+        assertEquals(1, GraphUtil.findMinCostForSpy(t1, t2, player1));
+
+        t2.setOwner(player2);
+        assertEquals(1, GraphUtil.findMinCostForSpy(t1, t2, player1));
     }
 }
