@@ -407,7 +407,7 @@ class MoveOrderServiceTest {
         TerritoryEntity t5 = new TerritoryEntity();
         t5.setOwner(player2);
 
-        game.getMap().setTerritories(Arrays.asList(t1, t2, t3, t4, t5));
+        game.getMap().setTerritories(Arrays.asList(t1, t2));
 
         List<TerritoryConnectionEntity> t1Conn = new ArrayList<>();
         t1Conn.add(new TerritoryConnectionEntity(t1, t2, 1));
@@ -434,7 +434,6 @@ class MoveOrderServiceTest {
         t5Conn.add(new TerritoryConnectionEntity(t5, t3, 1));
         t5.setConnections(t5Conn);
 
-        assertEquals(1, GraphUtil.findMinCostForSpy(t1, t2, player1));
         assertEquals(1, GraphUtil.findMinCostForSpy(t1, t2, player1));
 
         SpyUnitEntity spyUnit2 = new SpyUnitEntity();
