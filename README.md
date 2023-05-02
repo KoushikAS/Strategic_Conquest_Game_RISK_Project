@@ -22,3 +22,6 @@ Here is an intial draft of the UML diagram for the project: [UML Diagram](https:
 - Koushik Annareddy Sreenath (ka266)
 - Aimin Yang (ay135)
 - Yushun Chen (yc557)
+
+## Project 3 Extra Features
+[Google Doc](https://docs.google.com/document/d/1f9_m_dXfHedhH2S-4DEhe2ChYVwtS5FrEL7EC_JxZHw/edit)
