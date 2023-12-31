@@ -82,7 +82,7 @@ For easier view of DB I have enabled PG Admin to connect and view DB.
 
 ## Contributions
 
-This project was developed as part of an academic assignment. Contributions were made solely by Koushik Annareddy Sreenath, Wenting Yang, Aimin Yang, Yushun Chen, adhering to the project guidelines and requirements set by the course ECE-651 Software Engineering.
+This project was developed as part of an academic assignment in 3 different evolution as provided in requiremnets folder. Contributions were made solely by Koushik Annareddy Sreenath, Wenting Yang, Aimin Yang, Yushun Chen, adhering to the project guidelines and requirements set by the course ECE-651 Software Engineering.
 
 ## License
 
